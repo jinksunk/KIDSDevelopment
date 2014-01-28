@@ -1,0 +1,1745 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="file:/Users/chrisstrasburg/copy-master-test.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="file:/Users/chrisstrasburg/copy-master-test.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A signal oriented ontology to support KIDS (Knowledge-based IDS).
+This is the &quot;master&quot; version; the definition of the classes and relations between them, but with no individuals.</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#ApplicationDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CodeRedWormPropagationEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ComponentFailureEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ContextFreeGrammar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ContextSensitiveGrammar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Detector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Event"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EventFingerprint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EventSyntacticForm"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPPacketContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPAddressFeature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPDestinationAddressSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPDestinationAddressSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketDataSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolNumberFeature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolNumberSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSourceAddressSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSourceAddressSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerInequality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PacketDataSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RealInequality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RealRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RegularGrammar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Resource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Response"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Signal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalLanguage"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SubstringMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacketContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPPacketContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDetector"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasResponse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSyntacticForm"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAffectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isComponentOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDetectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifiedBySignature"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProvidedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRepresentationLanguageOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isSyntacticFormOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#canonicalSignalValue"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#eventSyntacticFormGeneratorImplementation"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#signalCanonicalRepresentationImplementation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ByteMatchRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPDestinationAddress"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPNetmaskMatchRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPProtocolNumber"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#RegularLanguageRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SnortIDS_strasnet"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SubstringMatchRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#snortCompatibleRule"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#testEvent"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#ApplicationIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#ApplicationDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ApplicationIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#ApplicationResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DNSIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#UDPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#DNSProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DNSIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#UDPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#DNSProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TCPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#HTTPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TCPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#HTTPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HostIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#HostDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HostIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#HostResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ICMPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#ICMPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ICMPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#ICMPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#IPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#IPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#NetworkDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#NetworkResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkResponse"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Response"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasRequiredInputResource"/>
+                <Class IRI="#NetworkResource"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#TCPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#TCPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UDPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#UDPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UDPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#UDPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#ApplicationDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CodeRedWormPropagationEvent"/>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ComponentFailureEvent"/>
+        <Class IRI="#Event"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ContextFreeGrammar"/>
+        <Class IRI="#ContextSensitiveGrammar"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ContextSensitiveGrammar"/>
+        <Class IRI="#SignalLanguage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSProtocolResponse"/>
+        <Class IRI="#UDPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSResource"/>
+        <Class IRI="#UDPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSSignalDomainContext"/>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPPacketContext"/>
+        <Class IRI="#HTTPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPProtocolResponse"/>
+        <Class IRI="#TCPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPResource"/>
+        <Class IRI="#TCPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPSignalDomainContext"/>
+        <Class IRI="#TCPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPAddressFeature"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPDestinationAddressSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPDestinationAddressSignalDomain"/>
+        <Class IRI="#IPAddressFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPPacketContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPPacketDataSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPProtocolNumberFeature"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPProtocolNumberSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPProtocolResponse"/>
+        <Class IRI="#NetworkResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPResource"/>
+        <Class IRI="#NetworkResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSignalDomainContext"/>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSourceAddressSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSourceAddressSignalDomain"/>
+        <Class IRI="#IPAddressFeature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IntegerInequality"/>
+        <Class IRI="#SignalLanguage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IntegerRangeSet"/>
+        <Class IRI="#SignalLanguage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MaliciousActivityEvent"/>
+        <Class IRI="#Event"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PacketDataSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RealInequality"/>
+        <Class IRI="#SignalLanguage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RealRangeSet"/>
+        <Class IRI="#SignalLanguage"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RegularGrammar"/>
+        <Class IRI="#ContextFreeGrammar"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDomain"/>
+        <Class abbreviatedIRI=":Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDomainContext"/>
+        <Class abbreviatedIRI=":Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SubstringMatch"/>
+        <Class IRI="#RegularGrammar"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPPacketContext"/>
+        <Class IRI="#TCPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPPacketContext"/>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPProtocolDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#ApplicationIDS"/>
+        <Class IRI="#HostIDS"/>
+        <Class IRI="#NetworkIDS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationIRS"/>
+        <Class IRI="#HostIRS"/>
+        <Class IRI="#NetworkIRS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationResource"/>
+        <Class IRI="#HostResource"/>
+        <Class IRI="#NetworkResource"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+        <Class IRI="#HostSignalDomainContext"/>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ComponentFailureEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Detector"/>
+        <Class IRI="#Event"/>
+        <Class IRI="#EventFingerprint"/>
+        <Class IRI="#IDS"/>
+        <Class IRI="#IRS"/>
+        <Class IRI="#Resource"/>
+        <Class IRI="#Response"/>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <Class IRI="#SignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+        <Class IRI="#SignalLanguage"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Detector"/>
+        <Class IRI="#EventFingerprint"/>
+        <Class IRI="#IDS"/>
+        <Class IRI="#IRS"/>
+        <Class IRI="#Resource"/>
+        <Class IRI="#Response"/>
+        <Class IRI="#Signal"/>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <Class IRI="#SignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+        <Class IRI="#SignalLanguage"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPIDS"/>
+        <Class IRI="#TCPIDS"/>
+        <Class IRI="#UDPIDS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPIRS"/>
+        <Class IRI="#TCPIRS"/>
+        <Class IRI="#UDPIRS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPProtocolDetector"/>
+        <Class IRI="#TCPProtocolDetector"/>
+        <Class IRI="#UDPProtocolDetector"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPProtocolResponse"/>
+        <Class IRI="#TCPProtocolResponse"/>
+        <Class IRI="#UDPProtocolResponse"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPResource"/>
+        <Class IRI="#TCPResource"/>
+        <Class IRI="#UDPResource"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPSignalDomainContext"/>
+        <Class IRI="#TCPSignalDomainContext"/>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <NamedIndividual IRI="#ByteMatchRepresentation"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#IPDestinationAddressSignalDomain"/>
+        <NamedIndividual IRI="#IPDestinationAddress"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <NamedIndividual IRI="#IPNetmaskMatchRepresentation"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalDomain"/>
+        <NamedIndividual IRI="#IPProtocolNumber"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#IPProtocolNumberSignal"/>
+        <NamedIndividual IRI="#IPProtocolNumberSignal_6"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <NamedIndividual IRI="#RegularLanguageRepresentation"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#NetworkIDS"/>
+        <NamedIndividual IRI="#SnortIDS_strasnet"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+        <NamedIndividual IRI="#SubstringMatchRepresentation"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSyntacticForm"/>
+        <NamedIndividual IRI="#snortCompatibleRule"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#testEvent"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#teste1234"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#IPProtocolNumber"/>
+        <NamedIndividual IRI="#testEvent"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+        <NamedIndividual IRI="#IPProtocolNumberSignal_6"/>
+        <NamedIndividual IRI="#ByteMatchRepresentation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <NamedIndividual IRI="#IPProtocolNumberSignal_6"/>
+        <NamedIndividual IRI="#testEvent"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <NamedIndividual IRI="#IPProtocolNumberSignal_6"/>
+        <NamedIndividual IRI="#teste1234"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSyntacticForm"/>
+        <NamedIndividual IRI="#SnortIDS_strasnet"/>
+        <NamedIndividual IRI="#snortCompatibleRule"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#signalCanonicalRepresentationImplementation"/>
+        <NamedIndividual IRI="#ByteMatchRepresentation"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#canonicalSignalValue"/>
+        <NamedIndividual IRI="#IPProtocolNumberSignal_6"/>
+        <Literal datatypeIRI="&xsd;string">6</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#eventSyntacticFormGeneratorImplementation"/>
+        <NamedIndividual IRI="#snortCompatibleRule"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.snort.KIDSSnortRuleGenerator</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI=":topDataProperty"/>
+        <AnonymousIndividual nodeID="_:https://solomon.cs.iastate.edu/ontologies/KIDS.owl#genid1310921093935576000"/>
+        <Literal datatypeIRI="&rdfs;Literal">&quot;*.ida&quot;</Literal>
+    </DataPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+        <ObjectProperty abbreviatedIRI=":topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isSyntacticFormOf"/>
+        <ObjectProperty abbreviatedIRI=":topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isRepresentationLanguageOf"/>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <ObjectProperty IRI="#hasDetector"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasResponse"/>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <ObjectProperty IRI="#isComponentOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isSyntacticFormOf"/>
+        <ObjectProperty IRI="#hasSyntacticForm"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+        <ObjectProperty IRI="#isIdentifiedBySignature"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </FunctionalObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasDetector"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasResponse"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDetectedBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </AsymmetricObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </TransitiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasDetector"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasResponse"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasDetector"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasResponse"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSyntacticForm"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isComponentOf"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+        <Class IRI="#EventFingerprint"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isResponseFor"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCanonicalRepresentation"/>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasDetector"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasResponse"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSyntacticForm"/>
+        <Class IRI="#EventSyntacticForm"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isComponentOf"/>
+        <Class IRI="#EventFingerprint"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isResponseFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyRange>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasRequiredInputResource"/>
+            <ObjectProperty IRI="#isProvidedBy"/>
+            <ObjectProperty IRI="#isContextOfSignalDomain"/>
+            <ObjectProperty IRI="#isDomainOfSignal"/>
+            <ObjectProperty IRI="#isProducedBy"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isAffectedBy"/>
+            <ObjectProperty IRI="#isIncludedInIRS"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isEncapsulatedInContext"/>
+            <ObjectProperty IRI="#isProviderOfResource"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isIdentifiedBySignature"/>
+            <ObjectProperty IRI="#isIncludedInIDS"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+    </SubObjectPropertyOf>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#canonicalSignalValue"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#eventSyntacticFormGeneratorImplementation"/>
+    </FunctionalDataProperty>
+    <FunctionalDataProperty>
+        <DataProperty IRI="#signalCanonicalRepresentationImplementation"/>
+    </FunctionalDataProperty>
+    <DataPropertyDomain>
+        <DataProperty IRI="#canonicalSignalValue"/>
+        <Class IRI="#Signal"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#eventSyntacticFormGeneratorImplementation"/>
+        <Class IRI="#EventSyntacticForm"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#signalCanonicalRepresentationImplementation"/>
+        <Class IRI="#SignalCanonicalRepresentation"/>
+    </DataPropertyDomain>
+    <DataPropertyRange>
+        <DataProperty IRI="#canonicalSignalValue"/>
+        <Datatype abbreviatedIRI="xsd:string"/>
+    </DataPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ApplicationIDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An ApplicationIDS is any IDS which contains at least one &quot;Application&quot; level detector: a detector which relies on signals produced in an application context.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Detector</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A Detector is an implementation of a set of signals intended to identify an Event.  Examples include:
+* A Snort signature
+* A Bro policy
+* A Splunk alert condition</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An Event is any change in the security posture of a system (where a system is a collection of components which need to be monitored).  Events are observable if they produce at least one signal (e.g. a worm propagation attempt).  Otherwise, they are not observable (e.g. a shoulder surfing attack).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#EventFingerprint</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An EventFingerprint is a set of signals which is used to identify an Event.  A fingerprint should be a subset of the Event Footprint (the set of all signals produced by an Event), and may or may not be the Event Fingerprint (the minimal set of signals required to uniquely identify an Event).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#EventSyntacticForm</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Each syntactic form of event is a member of this class.  This includes, e.g.:
+* Snort rule
+* Splunk query
+* Bro policy
+* CVE entry
+etc...
+
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#HostIDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A HostIDS is any IDS which contains at least one &quot;Host&quot; level detector: a detector which relies on signals produced in a host context.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An Intrusion Detection System (IDS) is a collection of detectors.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#IRS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An intrusion response system (IRS) is a collection of responses.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#NetworkIDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A NetworkIDS is any IDS which contains at least one &quot;Network&quot; level detector: a detector which relies on signals produced in a network context.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Resource</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A resource is an input to a response which is associated with at least one context.  Examples include the source IP address in an IP Packet context, or the process ID in a host audit log.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Response</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A response is any action which can be taken in a system.  Typically, responses are intended to disrupt, mitigate the effects of, or recover from an Event.  Responses require Resources, pieces of information about the system, in order ot be effective.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Signal</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A signal is an observable byproduct of an event.  Examples include:
+* Destination port == 80
+* Source IP in range 10.0.0.0/8
+* Number of processes spawned &gt; 10
+* Day of week == Tuesday</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SignalDomain</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A signal domain is a feature, for instance, packet size.   This indicates the domain in which a signal (e.g. abnormally large packets) can be observed.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SignalDomainContext</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">The signal domain context is the context in which a signal domain is defined.  For instance, packet size is a signal domain which can only occur in the context of a network packet.  Another example is network session duration, which occurs in the context of a network session.
+
+The context determines which data sources can provide data for assessing a detector.   If network sessions are the context, we need session-based data, e.g. NetFlow.  If packets are, we need PCAPs.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SignalLanguage</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">The signal language describes the class of values a signal can represent.  Examples include integer inequality, real inequality, integer range set, real range set, regular grammar, context free grammar.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#canonicalSignalValue</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">The canonical signal value is the value of the signal given in the defined &quot;canonical&quot; form.  The form is defined by the representation language associated with the signal.  For instance, a regular-expression signal is represented as a list of edges with a defined start and final node.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasDetector</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">To support inference on the capabilities of an IDS based on the detectors it includes.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasEncapsulatedContext</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This transitive property allows inference on embedded contexts, allowing one to determine, e.g.  that a TCP packet over IP has a source and destination IP address.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasRequiredInputResource</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Represents the resource(s) required for a response to operate.  If all resource requirements are met, the response is considered viable given the observed signals.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasResponse</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Supports inference on the IRS coverage based on the responses it incorporates.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasSignalDomainContext</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Specifies the domain context in which the signal occurs.  The domain context provides the resources which enable responses.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isAffectedBy</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This relation is normally inferred, and maps events to the responses that can affect them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isContextOfSignalDomain</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Map from signals to context they are observed in.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDetectedBy</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Indicates that a signal is detected by a given detector.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDetectorFor</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Indicates that a detector can spot a given signal.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDomainOfSignal</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Maps a signal to the domain of possible signal values.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEncapsulatedInContext</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Supports transitive inference on contexts which include this one.  For instance, inferring that a TCP packet is also an IP packet.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEventIdentifierFor</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An inferred property indicated that an IDS is able to identify an event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEventResponderFor</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">An inferred property indicated that an IDS is able to identify an event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIdentifiedByIDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">The isIdentifiedByIDS property indicates that an IDS can identify a specific event instance.  This is in contrast to the &quot;isPotentiallyIdentifiedBy&quot;, which indicates that an IDS operates in the same scope as an Event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIncludedInIDS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Maps detectors to the IDS(s) that include them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIncludedInIRS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Maps responses to the IRS(s) that include them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isMitigatedByIRS</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This inferred property indicates that an event is mitigated by an IRS, based on the responses the IRS includes and their ability to affect the Event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProducedBy</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Relates signals to the events which generate them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProducerOf</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Relates events to the signals they produce.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProvidedBy</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Signal domain contexts provide additional resource which may not be a part of the signals of an event.  For instance, a CodeRed worm propagation attempt usually occurs in the context of an IP Packet, which provides resources such as source IP address and destination IP address.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProviderOfResource</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Maps signal contexts to the resources they provide.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isResponseFor</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This relation indicates that a response has a set of required resources which overlaps the set of indicated resources by the signals an Event produces.  </Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isSatisfierOfInputRequiredBy</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Maps resources to the responses they are able to satisfy requirements for.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isValueInSignalDomain</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Relates signals to the value domains they are a part of.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AbbreviatedIRI>:Thing</AbbreviatedIRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">Everything is a &quot;Thing&quot;</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+

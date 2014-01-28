@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="User Entered Import Resolution" name="http://cybox.mitre.org/Common_v1#" uri="testCyBoxConversion.xml"/>
+    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="file:/Users/chrisstrasburg/copy-master.owl" uri="copy-master-backups.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="file:/Users/chrisstrasburg/copy-master.owl" uri="copy-master-t1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="file:/Users/chrisstrasburg/copy-master-test.owl" uri="copy-master-test.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="copy-master-test2.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="copy-master.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="Ontology1274842323764/Ontology1274842323764.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="http://strasnet.dnsalias.net/ontologies/Undercoffer.owl" uri="Undercoffer/Undercoffer.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="http://www.pizza.com/ontologies/Ontology1275319588379.owl" uri="OntologyPizza/pizza.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="http://strasnet.dnsalias.net/ontologies/Strasburg.owl" uri="Strasburg/Strasburg.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids-20110630-broken.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids-20120125.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids-20120316.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids-20120324-master.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids-20120329-canonicalForms.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1341766402257" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS/kids.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1343592294778" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="cybox-import.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1344465025525" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testOntologies/testKIDSLibpcap.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1347461285376" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="experiment1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1351605137788" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testOntologies/experiment1-ss.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1357101004970" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testOntologies/experiment0-ss.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1360900388246" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testOntologies/testKIDSEIDMeasure-1.owl"/>
+    </group>
+</catalog>

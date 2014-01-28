@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog id="file:/home/cstras/ontologies/Strasburg/" prefer="public" xml:base="file:/home/cstras/ontologies/Strasburg/" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri name="http://strasnet.dnsalias.net/ontologies/Undercoffer.owl" uri="Strasburg.owl"/>
+    <uri name="http://strasnet.dnsalias.net/ontologies/Strasburg.owl" uri="Strasburg.owl"/>
+</catalog>

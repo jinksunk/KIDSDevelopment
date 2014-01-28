@@ -1,0 +1,720 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://strasnet.dnsalias.net/ontologies/Undercoffer.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://strasnet.dnsalias.net/ontologies/Undercoffer.owl">
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Declaration>
+        <Class IRI="#Application"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AtomicityError"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BoundaryCondition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BufferOverflow"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Consequence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DenialOfService"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ExceptionCondition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Host"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Input"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#InputValidationError"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Intrusion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Kernel"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Local"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Location"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LogicExploit"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LossOfConfidentiality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MalformedInput"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Means"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Module"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Network"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#OtherComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Probe"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Process"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProtocolStack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RaceCondition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Remote"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RemoteToLocal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Root"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SerializationError"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#State"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#System"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SystemComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPSocket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDP"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSocket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#User"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UserToRoot"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#causing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#currentState"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#directedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#effectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#resultingIn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#victimOf"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#Application"/>
+        <Class IRI="#SystemComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AtomicityError"/>
+        <Class IRI="#LogicExploit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BoundaryCondition"/>
+        <Class IRI="#InputValidationError"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BufferOverflow"/>
+        <Class IRI="#InputValidationError"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Consequence"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DenialOfService"/>
+        <Class IRI="#Consequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ExceptionCondition"/>
+        <Class IRI="#LogicExploit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Host"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Host"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#currentState"/>
+            <Class IRI="#State"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Host"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#victimOf"/>
+            <Class IRI="#Intrusion"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IP"/>
+        <Class IRI="#ProtocolStack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Input"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Input"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#causing"/>
+            <Class IRI="#Means"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Input"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#directedTo"/>
+            <Class IRI="#SystemComponent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Input"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#receivedFrom"/>
+            <Class IRI="#Location"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#InputValidationError"/>
+        <Class IRI="#Means"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Intrusion"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Intrusion"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#effectedBy"/>
+            <Class IRI="#Input"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Intrusion"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#resultingIn"/>
+            <Class IRI="#Consequence"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Kernel"/>
+        <Class IRI="#SystemComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Local"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Location"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LogicExploit"/>
+        <Class IRI="#Means"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LossOfConfidentiality"/>
+        <Class IRI="#Consequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MalformedInput"/>
+        <Class IRI="#InputValidationError"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Means"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Module"/>
+        <Class IRI="#Kernel"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Network"/>
+        <Class IRI="#State"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OS"/>
+        <Class IRI="#Kernel"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#OtherComponent"/>
+        <Class IRI="#SystemComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Probe"/>
+        <Class IRI="#Consequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Process"/>
+        <Class IRI="#State"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ProtocolStack"/>
+        <Class IRI="#SystemComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RaceCondition"/>
+        <Class IRI="#LogicExploit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Remote"/>
+        <Class IRI="#Location"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RemoteToLocal"/>
+        <Class IRI="#Consequence"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Root"/>
+        <Class IRI="#Application"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SerializationError"/>
+        <Class IRI="#LogicExploit"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#State"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#System"/>
+        <Class IRI="#State"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SystemComponent"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCP"/>
+        <Class IRI="#ProtocolStack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPIP"/>
+        <Class IRI="#Remote"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPSocket"/>
+        <Class IRI="#TCPIP"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDP"/>
+        <Class IRI="#ProtocolStack"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPSocket"/>
+        <Class IRI="#TCPIP"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#User"/>
+        <Class IRI="#Application"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UserToRoot"/>
+        <Class IRI="#Consequence"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#Application"/>
+        <Class IRI="#Kernel"/>
+        <Class IRI="#OtherComponent"/>
+        <Class IRI="#ProtocolStack"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AtomicityError"/>
+        <Class IRI="#ExceptionCondition"/>
+        <Class IRI="#RaceCondition"/>
+        <Class IRI="#SerializationError"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#BoundaryCondition"/>
+        <Class IRI="#BufferOverflow"/>
+        <Class IRI="#MalformedInput"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Consequence"/>
+        <Class IRI="#Host"/>
+        <Class IRI="#Input"/>
+        <Class IRI="#Intrusion"/>
+        <Class IRI="#Location"/>
+        <Class IRI="#Means"/>
+        <Class IRI="#State"/>
+        <Class IRI="#SystemComponent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#DenialOfService"/>
+        <Class IRI="#LossOfConfidentiality"/>
+        <Class IRI="#Probe"/>
+        <Class IRI="#RemoteToLocal"/>
+        <Class IRI="#UserToRoot"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#IP"/>
+        <Class IRI="#TCP"/>
+        <Class IRI="#UDP"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#InputValidationError"/>
+        <Class IRI="#LogicExploit"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Local"/>
+        <Class IRI="#Remote"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Module"/>
+        <Class IRI="#OS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Network"/>
+        <Class IRI="#Process"/>
+        <Class IRI="#System"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Root"/>
+        <Class IRI="#User"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#TCPSocket"/>
+        <Class IRI="#UDPSocket"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#causing"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#currentState"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#directedTo"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#effectedBy"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#receivedFrom"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#resultingIn"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#victimOf"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#currentState"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#currentState"/>
+        <Class IRI="#Host"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#currentState"/>
+        <Class IRI="#State"/>
+    </ObjectPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Application</IRI>
+        <Literal>Application</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#AtomicityError</IRI>
+        <Literal>AtomicityError</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#BoundaryCondition</IRI>
+        <Literal>BoundaryCondition</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#BufferOverflow</IRI>
+        <Literal>BufferOverflow</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Consequence</IRI>
+        <Literal>Consequence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#DenialOfService</IRI>
+        <Literal>DenialOfService</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#ExceptionCondition</IRI>
+        <Literal>ExceptionCondition</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Host</IRI>
+        <Literal>Host</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IP</IRI>
+        <Literal>IP</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Input</IRI>
+        <Literal>Input</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#InputValidationError</IRI>
+        <Literal>InputValidationError</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Intrusion</IRI>
+        <Literal>Intrusion</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Kernel</IRI>
+        <Literal>Kernel</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Local</IRI>
+        <Literal>Local</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Location</IRI>
+        <Literal>Location</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#LogicExploit</IRI>
+        <Literal>LogicExploit</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#LossOfConfidentiality</IRI>
+        <Literal>LossOfConfidentiality</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#MalformedInput</IRI>
+        <Literal>MalformedInput</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Means</IRI>
+        <Literal>Means</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Module</IRI>
+        <Literal>Module</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Network</IRI>
+        <Literal>Network</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#OS</IRI>
+        <Literal>OS</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#OtherComponent</IRI>
+        <Literal>OtherComponent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Probe</IRI>
+        <Literal>Probe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Process</IRI>
+        <Literal>Process</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#ProtocolStack</IRI>
+        <Literal>ProtocolStack</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#RaceCondition</IRI>
+        <Literal>RaceCondition</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Remote</IRI>
+        <Literal>Remote</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#RemoteToLocal</IRI>
+        <Literal>RemoteToLocal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Root</IRI>
+        <Literal>Root</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#SerializationError</IRI>
+        <Literal>SerializationError</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#State</IRI>
+        <Literal>State</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#System</IRI>
+        <Literal>System</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#SystemComponent</IRI>
+        <Literal>SystemComponent</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#TCP</IRI>
+        <Literal>TCP</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#TCPIP</IRI>
+        <Literal>TCPIP</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#TCPSocket</IRI>
+        <Literal>TCPSocket</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#UDP</IRI>
+        <Literal>UDP</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#UDPSocket</IRI>
+        <Literal>UDPSocket</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#User</IRI>
+        <Literal>User</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#UserToRoot</IRI>
+        <Literal>UserToRoot</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#causing</IRI>
+        <Literal>causing</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#currentState</IRI>
+        <Literal>currentState</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#directedTo</IRI>
+        <Literal>directedTo</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#effectedBy</IRI>
+        <Literal>effectedBy</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#resultingIn</IRI>
+        <Literal>resultingIn</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#victimOf</IRI>
+        <Literal>victimOf</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1451) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,253 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semantiknit.com/ontologies/2013/3/25/XML.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.semantiknit.com/ontologies/2013/3/25/XML.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#Attribute"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AttributeName"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Element"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ElementName"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ElementValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EmptyElement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Name"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NamePrefix"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NamespacePrefixDefinition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RootElement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SchemaLocationAttribute"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#XMLDocument"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAttribute"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAttributeName"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasChildElement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasElementName"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasElementValue"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasName"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasParentElement"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRootElement"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasNamespacePrefix"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasValueValue"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#Attribute"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasAttributeName"/>
+            <Class IRI="#AttributeName"/>
+        </ObjectExactCardinality>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#Element"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasElementName"/>
+            <Class IRI="#ElementName"/>
+        </ObjectExactCardinality>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#EmptyElement"/>
+        <ObjectIntersectionOf>
+            <ObjectExactCardinality cardinality="0">
+                <ObjectProperty IRI="#hasChildElement"/>
+                <Class IRI="#Element"/>
+            </ObjectExactCardinality>
+            <ObjectExactCardinality cardinality="0">
+                <ObjectProperty IRI="#hasElementValue"/>
+                <Class IRI="#ElementValue"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#RootElement"/>
+        <ObjectExactCardinality cardinality="0">
+            <ObjectProperty IRI="#hasParentElement"/>
+        </ObjectExactCardinality>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#AttributeName"/>
+        <Class IRI="#Name"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AttributeName"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasName"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AttributeName"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#hasNamespacePrefix"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ElementName"/>
+        <Class IRI="#Name"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ElementName"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasName"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ElementName"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="#hasNamespacePrefix"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EmptyElement"/>
+        <Class IRI="#Element"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NamespacePrefixDefinition"/>
+        <Class IRI="#Attribute"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#RootElement"/>
+        <Class IRI="#Element"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SchemaLocationAttribute"/>
+        <Class IRI="#Attribute"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#AttributeName"/>
+        <Class IRI="#ElementName"/>
+        <Class IRI="#ElementValue"/>
+        <Class IRI="#NamePrefix"/>
+        <Class IRI="#XMLDocument"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ElementValue"/>
+        <Class IRI="#Name"/>
+        <Class IRI="#NamePrefix"/>
+        <Class IRI="#XMLDocument"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#NamespacePrefixDefinition"/>
+        <Class IRI="#SchemaLocationAttribute"/>
+    </DisjointClasses>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasAttributeName"/>
+        <ObjectProperty abbreviatedIRI=":topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasElementName"/>
+        <ObjectProperty abbreviatedIRI=":topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasParentElement"/>
+        <ObjectProperty IRI="#hasChildElement"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasAttributeName"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasElementName"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasName"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#hasRootElement"/>
+    </FunctionalObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAttribute"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAttributeName"/>
+        <Class IRI="#Attribute"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasChildElement"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasElementName"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRootElement"/>
+        <Class IRI="#XMLDocument"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAttribute"/>
+        <Class IRI="#Attribute"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasChildElement"/>
+        <Class IRI="#Element"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRootElement"/>
+        <Class IRI="#RootElement"/>
+    </ObjectPropertyRange>
+    <DataPropertyDomain>
+        <DataProperty IRI="#hasNameValue"/>
+        <Class IRI="#Name"/>
+    </DataPropertyDomain>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.1.0.20069) http://owlapi.sourceforge.net -->
+

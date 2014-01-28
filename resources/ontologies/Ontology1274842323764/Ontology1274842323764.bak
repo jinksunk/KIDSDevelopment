@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE rdf:RDF [
+    <!ENTITY owl "http://www.w3.org/2002/07/owl#" >
+    <!ENTITY dc "http://purl.org/dc/elements/1.1/" >
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<rdf:RDF xmlns="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl"
+     xmlns:dc="http://purl.org/dc/elements/1.1/"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:owl="http://www.w3.org/2002/07/owl#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+    <owl:Ontology rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Annotation properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    <owl:AnnotationProperty rdf:about="&dc;type"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Object Properties
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Current_State -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Current_State">
+        <rdf:type rdf:resource="&owl;FunctionalProperty"/>
+        <dc:type rdf:resource="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State"/>
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Directed_To -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Directed_To">
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Received_From -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Received_From">
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Resulting_In -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Resulting_In">
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Victim_Of -->
+
+    <owl:ObjectProperty rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Victim_Of">
+        <rdfs:subPropertyOf rdf:resource="&owl;topObjectProperty"/>
+    </owl:ObjectProperty>
+    
+
+
+    <!-- http://www.w3.org/2002/07/owl#topObjectProperty -->
+
+    <owl:ObjectProperty rdf:about="&owl;topObjectProperty"/>
+    
+
+
+    <!-- 
+    ///////////////////////////////////////////////////////////////////////////////////////
+    //
+    // Classes
+    //
+    ///////////////////////////////////////////////////////////////////////////////////////
+     -->
+
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Consequence -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Consequence"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Host -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Host"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Intrusion -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Intrusion"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Network -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Network">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Process -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#Process">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State"/>
+    </owl:Class>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State"/>
+    
+
+
+    <!-- http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#System -->
+
+    <owl:Class rdf:about="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#System">
+        <rdfs:subClassOf rdf:resource="http://www.semanticweb.org/ontologies/2010/4/Ontology1274842323764.owl#State"/>
+    </owl:Class>
+</rdf:RDF>
+
+
+
+<!-- Generated by the OWL API (version 3.0.0.1451) http://owlapi.sourceforge.net -->
+

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<projectDescription>
+	<name>KIDS</name>
+	<comment></comment>
+	<projects>
+	</projects>
+	<buildSpec>
+		<buildCommand>
+			<name>org.eclipse.dltk.core.scriptbuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+		<buildCommand>
+			<name>org.eclipse.jdt.core.javabuilder</name>
+			<arguments>
+			</arguments>
+		</buildCommand>
+	</buildSpec>
+	<natures>
+		<nature>org.eclipse.jdt.core.javanature</nature>
+		<nature>org.deved.antlride.core.nature</nature>
+	</natures>
+	<linkedResources>
+		<link>
+			<name>relatedEfforts</name>
+			<type>2</type>
+			<location>/Users/chrisstrasburg/Documents/academic-research/projects/SignalBasedOntologies/relatedEfforts</location>
+		</link>
+		<link>
+			<name>weka.jar</name>
+			<type>1</type>
+			<locationURI>PARENT-5-PROJECT_LOC/Applications/weka-3-6-4.app/Contents/Resources/Java/weka.jar</locationURI>
+		</link>
+	</linkedResources>
+</projectDescription>

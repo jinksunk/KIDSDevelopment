@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<catalog id="file:/home/cstras/ontologies/OntologyPizza/" prefer="public" xml:base="file:/home/cstras/ontologies/OntologyPizza/" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri name="http://www.pizza.com/ontologies/Ontology1275319588379.owl" uri="pizza.owl"/>
+</catalog>

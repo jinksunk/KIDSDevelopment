@@ -1,0 +1,31 @@
+# Compiled source #
+###################
+**/*.class
+
+# Packages #
+############
+**/*.jar
+
+# OS generated files #
+######################
+/**/.DS_Store 
+**/._*
+**/.Spotlight-V100
+**/.Trashes
+**/Icon?
+**/ehthumbs.db
+**/Thumbs.db
+
+# Editor files #
+################
+**/*.swp
+
+# Auto-generated files #
+########################
+weka.jar
+
+# Project specific files to never include #
+###########################################
+/build/**
+/antlr-generated/**
+/lib-src/**

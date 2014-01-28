@@ -1,0 +1,3550 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="https://solomon.cs.iastate.edu/ontologies/KIDS.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="https://solomon.cs.iastate.edu/ontologies/KIDS.owl">
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A signal oriented ontology to support KIDS (Knowledge-based IDS).</Literal>
+    </Annotation>
+    <Declaration>
+        <Class IRI="#ApplicationDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationDetectorDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CodeRedWormPropagationEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ComponentFailureEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Detector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DetectorDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Event"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EventSignature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostDetectorDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkDetectorDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Resource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Response"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Signal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalAttackRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalCharacteristic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalCircumstantialAttackRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDetectionApplicationDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDetectionDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDetectionEnvironmentDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDetectionHostDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDetectionNetworkDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDuringRelativeTime"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalIntrinsicAttackRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalPostRelativeTime"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalPriorRelativeTime"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalRelativeTime"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueBinaryDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueCardinality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueContinuousCardinality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueDeterministicNature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueDiscreteCardinality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueNature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueNumericDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueStochasticNature"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValueStringMatchDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPProtocolDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDetector"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasResponse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAffectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isComponentOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDetectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifiedBySignature"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProvidedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#ApplicationDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Detector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#ApplicationSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ApplicationIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#ApplicationDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ApplicationIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#ApplicationResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DNSIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#UDPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#DNSProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DNSIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#UDPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#DNSProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DNSProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#UDPProtocolDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#DNSSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TCPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#HTTPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TCPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#HTTPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#TCPProtocolDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#HTTPSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPSignal"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isValueInSignalDomain"/>
+            <Class IRI="#HTTPSignalDomain"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPSignalDomain"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSignalDomainContext"/>
+            <Class IRI="#HTTPSignalDomainContext"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HTTPSignalDomain"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDomainOfSignal"/>
+            <Class IRI="#HTTPSignal"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HostDetector"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDetectorFor"/>
+            <Class IRI="#HostSignal"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HostIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#HostDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#HostIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#HostResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ICMPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#ICMPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ICMPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#ICMPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ICMPProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPProtocolDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#ICMPSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#IPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#IPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#IPSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#IPSignal"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#NetworkSignal"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isValueInSignalDomain"/>
+                <Class IRI="#IPSignalDomain"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Detector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#NetworkSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#NetworkDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#NetworkResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkResponse"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Response"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasRequiredInputResource"/>
+                <Class IRI="#NetworkResource"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkSignal"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Signal"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isValueInSignalDomain"/>
+                <Class IRI="#NetworkSignalDomain"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkSignalDomain"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#SignalDomain"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasSignalDomainContext"/>
+                <Class IRI="#NetworkSignalDomainContext"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkSignalDomain"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#SignalDomain"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDomainOfSignal"/>
+                <Class IRI="#NetworkSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NetworkSignalDomainContext"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#SignalDomainContext"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isContextOfSignalDomain"/>
+                <Class IRI="#NetworkSignalDomain"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#TCPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#TCPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPProtocolDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#TCPSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPSignal"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isValueInSignalDomain"/>
+            <Class IRI="#TCPSignalDomain"/>
+        </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UDPIDS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIDS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDetector"/>
+                <Class IRI="#UDPProtocolDetector"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UDPIRS"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPIRS"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasResponse"/>
+                <Class IRI="#UDPProtocolResponse"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UDPProtocolDetector"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#IPProtocolDetector"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDetectorFor"/>
+                <Class IRI="#UDPSignal"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#ApplicationDetectorDomain"/>
+        <Class IRI="#DetectorDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CodeRedWormPropagationEvent"/>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ComponentFailureEvent"/>
+        <Class IRI="#Event"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSProtocolResponse"/>
+        <Class IRI="#UDPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSResource"/>
+        <Class IRI="#UDPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSSignal"/>
+        <Class IRI="#UDPSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSSignalDomain"/>
+        <Class IRI="#UDPSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DNSSignalDomainContext"/>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPProtocolResponse"/>
+        <Class IRI="#TCPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPResource"/>
+        <Class IRI="#TCPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPSignal"/>
+        <Class IRI="#TCPSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPSignalDomain"/>
+        <Class IRI="#TCPSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPSignalDomainContext"/>
+        <Class IRI="#TCPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostDetector"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostDetectorDomain"/>
+        <Class IRI="#DetectorDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostSignal"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HostSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPSignal"/>
+        <Class IRI="#IPSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPSignalDomain"/>
+        <Class IRI="#IPSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ICMPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPProtocolResponse"/>
+        <Class IRI="#NetworkResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPResource"/>
+        <Class IRI="#NetworkResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSignal"/>
+        <Class IRI="#NetworkSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSignalDomain"/>
+        <Class IRI="#NetworkSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSignalDomainContext"/>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MaliciousActivityEvent"/>
+        <Class IRI="#Event"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkDetectorDomain"/>
+        <Class IRI="#DetectorDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkResource"/>
+        <Class IRI="#Resource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NetworkResponse"/>
+        <Class IRI="#Response"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalAttackRelation"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalCircumstantialAttackRelation"/>
+        <Class IRI="#SignalAttackRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDetectionApplicationDomain"/>
+        <Class IRI="#SignalDetectionDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDetectionDomain"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDetectionEnvironmentDomain"/>
+        <Class IRI="#SignalDetectionDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDetectionHostDomain"/>
+        <Class IRI="#SignalDetectionDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDetectionNetworkDomain"/>
+        <Class IRI="#SignalDetectionDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDomain"/>
+        <Class abbreviatedIRI=":Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDomainContext"/>
+        <Class abbreviatedIRI=":Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalDuringRelativeTime"/>
+        <Class IRI="#SignalRelativeTime"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalIntrinsicAttackRelation"/>
+        <Class IRI="#SignalAttackRelation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalPostRelativeTime"/>
+        <Class IRI="#SignalRelativeTime"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalPriorRelativeTime"/>
+        <Class IRI="#SignalRelativeTime"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalRelativeTime"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueBinaryDomain"/>
+        <Class IRI="#SignalValueDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueCardinality"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueContinuousCardinality"/>
+        <Class IRI="#SignalValueCardinality"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueDeterministicNature"/>
+        <Class IRI="#SignalValueNature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueDiscreteCardinality"/>
+        <Class IRI="#SignalValueCardinality"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueDomain"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueNature"/>
+        <Class IRI="#SignalCharacteristic"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueNumericDomain"/>
+        <Class IRI="#SignalValueDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueStochasticNature"/>
+        <Class IRI="#SignalValueNature"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SignalValueStringMatchDomain"/>
+        <Class IRI="#SignalValueDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPSignal"/>
+        <Class IRI="#IPSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPSignalDomain"/>
+        <Class IRI="#IPSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPProtocolResponse"/>
+        <Class IRI="#IPProtocolResponse"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPResource"/>
+        <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPSignal"/>
+        <Class IRI="#IPSignal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPSignalDomain"/>
+        <Class IRI="#IPSignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UDPSignalDomainContext"/>
+        <Class IRI="#IPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#ApplicationDetectorDomain"/>
+        <Class IRI="#HostDetectorDomain"/>
+        <Class IRI="#NetworkDetectorDomain"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationIDS"/>
+        <Class IRI="#HostIDS"/>
+        <Class IRI="#NetworkIDS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationIRS"/>
+        <Class IRI="#HostIRS"/>
+        <Class IRI="#NetworkIRS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationResource"/>
+        <Class IRI="#HostResource"/>
+        <Class IRI="#NetworkResource"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationSignal"/>
+        <Class IRI="#HostSignal"/>
+        <Class IRI="#NetworkSignal"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationSignalDomain"/>
+        <Class IRI="#HostSignalDomain"/>
+        <Class IRI="#NetworkSignalDomain"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ApplicationSignalDomainContext"/>
+        <Class IRI="#HostSignalDomainContext"/>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+        <Class IRI="#ManualAttackMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ComponentFailureEvent"/>
+        <Class IRI="#MaliciousActivityEvent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Detector"/>
+        <Class IRI="#DetectorDomain"/>
+        <Class IRI="#Event"/>
+        <Class IRI="#IDS"/>
+        <Class IRI="#IRS"/>
+        <Class IRI="#Resource"/>
+        <Class IRI="#Response"/>
+        <Class IRI="#Signal"/>
+        <Class IRI="#SignalCharacteristic"/>
+        <Class IRI="#SignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Detector"/>
+        <Class IRI="#DetectorDomain"/>
+        <Class IRI="#Event"/>
+        <Class IRI="#IDS"/>
+        <Class IRI="#IRS"/>
+        <Class IRI="#Response"/>
+        <Class IRI="#Signal"/>
+        <Class IRI="#SignalCharacteristic"/>
+        <Class IRI="#SignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPIDS"/>
+        <Class IRI="#TCPIDS"/>
+        <Class IRI="#UDPIDS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPIRS"/>
+        <Class IRI="#TCPIRS"/>
+        <Class IRI="#UDPIRS"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPProtocolDetector"/>
+        <Class IRI="#TCPProtocolDetector"/>
+        <Class IRI="#UDPProtocolDetector"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPProtocolResponse"/>
+        <Class IRI="#TCPProtocolResponse"/>
+        <Class IRI="#UDPProtocolResponse"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPResource"/>
+        <Class IRI="#TCPResource"/>
+        <Class IRI="#UDPResource"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPSignal"/>
+        <Class IRI="#TCPSignal"/>
+        <Class IRI="#UDPSignal"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPSignalDomain"/>
+        <Class IRI="#TCPSignalDomain"/>
+        <Class IRI="#UDPSignalDomain"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ICMPSignalDomainContext"/>
+        <Class IRI="#TCPSignalDomainContext"/>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#SignalAttackRelation"/>
+        <Class IRI="#SignalDetectionDomain"/>
+        <Class IRI="#SignalRelativeTime"/>
+        <Class IRI="#SignalValueCardinality"/>
+        <Class IRI="#SignalValueDomain"/>
+        <Class IRI="#SignalValueNature"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#VirusAttackMaliciousActivityEvent"/>
+        <Class IRI="#WormAttackMaliciousActivityEvent"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_-1497557871"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_1159538073"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_1180498870"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_2089919235"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_921357125"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Event"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#EventSignature"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_-1497557871"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_-1497557871"/>
+        <NamedIndividual IRI="#HTTPSig1406860207"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_-1497557871"/>
+        <NamedIndividual IRI="#HTTPSig680220284"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_-1497557871"/>
+        <NamedIndividual IRI="#HTTPSig1304545579"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#HTTPSig853527367"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#HTTPSig309910604"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#HTTPSig182510869"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#HTTPSig43695209"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1156557485"/>
+        <NamedIndividual IRI="#HTTPSig2093454036"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1159538073"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1159538073"/>
+        <NamedIndividual IRI="#HTTPSig278426007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1159538073"/>
+        <NamedIndividual IRI="#HTTPSig211225614"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1159538073"/>
+        <NamedIndividual IRI="#HTTPSig139032836"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#HTTPSig1657304731"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#HTTPSig520996438"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#HTTPSig1457712327"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#HTTPSig1096304647"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1165773415"/>
+        <NamedIndividual IRI="#HTTPSig1277634913"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1180498870"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1180498870"/>
+        <NamedIndividual IRI="#HTTPSig1836994030"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1180498870"/>
+        <NamedIndividual IRI="#HTTPSig1156207713"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_1180498870"/>
+        <NamedIndividual IRI="#HTTPSig2133752938"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_2089919235"/>
+        <NamedIndividual IRI="#HTTPSig962885593"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_2089919235"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_2089919235"/>
+        <NamedIndividual IRI="#HTTPSig118375245"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_2089919235"/>
+        <NamedIndividual IRI="#HTTPSig202783062"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#HTTPSig1277899933"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#HTTPSig942637334"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#HTTPSig1009611840"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#HTTPSig918808619"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_212788879"/>
+        <NamedIndividual IRI="#HTTPSig2009037603"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_921357125"/>
+        <NamedIndividual IRI="#HTTPSig433982302"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_921357125"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_921357125"/>
+        <NamedIndividual IRI="#HTTPSig1086084502"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_921357125"/>
+        <NamedIndividual IRI="#HTTPSig1950994335"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#HTTPSig799449511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#HTTPSig725455968"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#HTTPSig1690235745"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#HTTPSig1019677453"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_953813759"/>
+        <NamedIndividual IRI="#HTTPSig1473790157"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#HTTPSig314598317"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#HTTPSig115653436"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#HTTPSig645437545"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#HTTPSig349174905"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <NamedIndividual IRI="#Event_982500920"/>
+        <NamedIndividual IRI="#HTTPSig928917818"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig202783062"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig942637334"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig278426007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1457712327"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig349174905"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig115653436"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1277899933"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1009611840"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig433982302"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig928917818"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1156207713"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig853527367"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig43695209"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig211225614"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig645437545"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1019677453"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig680220284"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1277634913"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig182510869"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig309910604"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1304545579"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig139032836"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig725455968"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig2009037603"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig799449511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1950994335"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1473790157"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig2093454036"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig520996438"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig2133752938"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig918808619"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig314598317"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1690235745"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1836994030"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1096304647"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1086084502"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig118375245"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1406860207"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig962885593"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#HTTPPacketData"/>
+        <NamedIndividual IRI="#HTTPSig1657304731"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1009611840"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1019677453"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1086084502"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1096304647"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1156207713"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig115653436"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig118375245"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1277634913"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1277899933"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1304545579"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig139032836"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1406860207"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1457712327"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1473790157"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1657304731"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1690235745"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig182510869"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1836994030"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig1950994335"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig2009037603"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig202783062"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig2093454036"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig211225614"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig2133752938"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig278426007"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig309910604"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig314598317"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig349174905"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig433982302"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig43695209"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig520996438"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig645437545"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig680220284"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig725455968"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig799449511"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig853527367"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig918808619"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig928917818"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig942637334"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#HTTPSig962885593"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <NamedIndividual IRI="#IPProtocolValue"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+        <NamedIndividual IRI="#HTTPSig1156207713"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+        <NamedIndividual IRI="#HTTPSig2133752938"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+        <NamedIndividual IRI="#HTTPSig1836994030"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+        <NamedIndividual IRI="#HTTPSig433982302"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+        <NamedIndividual IRI="#HTTPSig1086084502"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+        <NamedIndividual IRI="#HTTPSig1950994335"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+        <NamedIndividual IRI="#HTTPSig278426007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+        <NamedIndividual IRI="#HTTPSig211225614"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+        <NamedIndividual IRI="#HTTPSig139032836"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+        <NamedIndividual IRI="#HTTPSig1304545579"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+        <NamedIndividual IRI="#HTTPSig680220284"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+        <NamedIndividual IRI="#HTTPSig1406860207"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+        <NamedIndividual IRI="#HTTPSig118375245"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+        <NamedIndividual IRI="#HTTPSig202783062"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+        <NamedIndividual IRI="#HTTPSig962885593"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#HTTPSig349174905"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#HTTPSig115653436"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#HTTPSig928917818"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#HTTPSig314598317"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#HTTPSig645437545"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#HTTPSig1096304647"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#HTTPSig1657304731"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#HTTPSig1457712327"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#HTTPSig520996438"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#HTTPSig1277634913"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#HTTPSig853527367"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#HTTPSig182510869"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#HTTPSig43695209"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#HTTPSig2093454036"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#HTTPSig309910604"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#HTTPSig799449511"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#HTTPSig1019677453"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#HTTPSig725455968"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#HTTPSig1690235745"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#HTTPSig1473790157"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#IPProtoSigtcp"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#HTTPSig1277899933"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#HTTPSig2009037603"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#HTTPSig1009611840"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#HTTPSig942637334"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#HTTPSig918808619"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+        <NamedIndividual IRI="#SnortIDS"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI=":topDataProperty"/>
+        <AnonymousIndividual nodeID="_:https://solomon.cs.iastate.edu/ontologies/KIDS.owl#genid1310921093935576000"/>
+        <Literal datatypeIRI="http://www.w3.org/2000/01/rdf-schema#Literal">&quot;*.ida&quot;</Literal>
+    </DataPropertyAssertion>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasDetector"/>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+        <ObjectProperty IRI="#hasResponse"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isComponentOf"/>
+        <ObjectProperty IRI="#hasSignalComponent"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isIdentifiedBySignature"/>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </InverseObjectProperties>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasDetector"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasResponse"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDetectedBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDetectorFor"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </AsymmetricObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </TransitiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasDetector"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasResponse"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasDetector"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasResponse"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isComponentOf"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+        <Class IRI="#EventSignature"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isResponseFor"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasDetector"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRequiredInputResource"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasResponse"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasSignalDomainContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isAffectedBy"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isComponentOf"/>
+        <Class IRI="#EventSignature"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isContextOfSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDetectedBy"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEventResponderFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIdentifierOf"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIncludedInIDS"/>
+        <Class IRI="#IDS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIncludedInIRS"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+        <Class IRI="#IRS"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProducedBy"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProducerOf"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProvidedBy"/>
+        <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+        <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isResponseFor"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isSatisfierOfInputRequiredBy"/>
+        <Class IRI="#Response"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isValueInSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyRange>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#hasRequiredInputResource"/>
+            <ObjectProperty IRI="#isProvidedBy"/>
+            <ObjectProperty IRI="#isContextOfSignalDomain"/>
+            <ObjectProperty IRI="#isDomainOfSignal"/>
+            <ObjectProperty IRI="#isProducedBy"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isAffectedBy"/>
+            <ObjectProperty IRI="#isIncludedInIRS"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isEncapsulatedInContext"/>
+            <ObjectProperty IRI="#isProviderOfResource"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isIdentifiedBySignature"/>
+            <ObjectProperty IRI="#isIncludedInIDS"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isIdentifiedByIDS"/>
+    </SubObjectPropertyOf>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1009611840"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1277899933"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig2009037603"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig918808619"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig942637334"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011219"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1019677453"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1473790157"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1690235745"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig725455968"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig799449511"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011218"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1086084502"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1950994335"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig433982302"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2007511"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1096304647"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1277634913"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1457712327"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1657304731"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig520996438"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011216"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1156207713"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1836994030"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig2133752938"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2007510"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig115653436"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig314598317"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig349174905"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig645437545"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig928917818"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011215"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig118375245"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig202783062"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig962885593"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011214"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1304545579"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig1406860207"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig680220284"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2009717"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig139032836"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig211225614"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig278426007"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2007512"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <DLSafeRule>
+        <Body>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig182510869"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig2093454036"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig309910604"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig43695209"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#HTTPSig853527367"/>
+            </ObjectPropertyAtom>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isProducerOf"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#IPProtoSigtcp"/>
+            </ObjectPropertyAtom>
+        </Body>
+        <Head>
+            <ObjectPropertyAtom>
+                <ObjectProperty IRI="#isIdentifiedBySignature"/>
+                <Variable IRI="#x"/>
+                <NamedIndividual IRI="#SnortEventSignature_2011217"/>
+            </ObjectPropertyAtom>
+        </Head>
+    </DLSafeRule>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AbbreviatedIRI>:Thing</AbbreviatedIRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Everything is a &quot;Thing&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#EventSignature</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">An EventSignature is a set of signals which is used to identify an Event.  A signature should be a subset of the Event Footprint (the set of all signals produced by an Event), and may or may not be the Event Fingerprint (the minimal set of signals required to uniquely identify an Event).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_-1497557871</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/english/advisories/2009/0360
+	com/exploits/8003
+	net/2009717
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_-1497557871</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS 1024 CMS standard.php page_include Parameter Remote File Inclusion&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_1156557485</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/advisories/39580/
+	net/2011217
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_1156557485</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS Campsite article_id Parameter UNION SELECT SQL Injection Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_1159538073</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cve
+	CVE-2006-6092
+url
+	com/bid/21154
+	net/2007512
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_1159538073</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS 20/20 Auto Gallery SQL Injection Attempt -- vehiclelistings.asp categoryID_list INSERT&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_1165773415</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/advisories/39580/
+	net/2011216
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_1165773415</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS Campsite article_id Parameter DELETE FROM SQL Injection Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_1180498870</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cve
+	CVE-2006-6092
+url
+	com/bid/21154
+	net/2007510
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_1180498870</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS 20/20 Auto Gallery SQL Injection Attempt -- vehiclelistings.asp categoryID_list SELECT&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_2089919235</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/english/advisories/2010/1444
+	com/exploits/13832/
+	net/2011214
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_2089919235</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS ArdeaCore pathForArdeaCore Parameter Remote File Inclusion Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_212788879</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/advisories/39580/
+	net/2011219
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_212788879</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS Campsite article_id Parameter UPDATE SET SQL Injection Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_921357125</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">cve
+	CVE-2006-6092
+url
+	com/bid/21154
+	net/2007511
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_921357125</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS 20/20 Auto Gallery SQL Injection Attempt -- vehiclelistings.asp categoryID_list UNION SELECT&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_953813759</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/advisories/39580/
+	net/2011218
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_953813759</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS Campsite article_id Parameter INSERT INTO SQL Injection Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Event_982500920</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">url
+	com/advisories/39580/
+	net/2011215
+</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#Event_982500920</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">&quot;ET WEB_SPECIFIC_APPS Campsite article_id Parameter SELECT FROM SQL Injection Attempt&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1009611840</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;UPDATE&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1019677453</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1086084502</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;UNION&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1096304647</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;FROM&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1156207713</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;SELECT&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig115653436</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;article_id=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig118375245</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/ardeaCore/lib/core/ardeaInit.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1277634913</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;article_id=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1277899933</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;SET&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1304545579</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;page_include=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig139032836</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;INSERT&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1406860207</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/layouts/standard.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1457712327</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/plugins/campsiteattachment/attachments.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1473790157</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;INTO&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1657304731</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1690235745</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;article_id=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig182510869</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1836994030</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/vehiclelistings.asp?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig1950994335</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/vehiclelistings.asp?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig2009037603</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;article_id=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig202783062</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig2093454036</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;UNION&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig211225614</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/vehiclelistings.asp?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig2133752938</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;categoryID_list=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig278426007</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;categoryID_list=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig309910604</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;SELECT&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig314598317</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;SELECT&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig349174905</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;FROM&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig433982302</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;categoryID_list=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig43695209</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;article_id=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig520996438</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;DELETE&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig645437545</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig680220284</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig725455968</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;INSERT&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig799449511</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/plugins/campsiteattachment/attachments.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig853527367</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/plugins/campsiteattachment/attachments.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig918808619</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/plugins/campsiteattachment/attachments.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig928917818</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;/plugins/campsiteattachment/attachments.php?&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig942637334</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;GET&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#HTTPSig962885593</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">; http_client_body&quot;pathForArdeaCore=&quot;; nocase:</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#IPProtoSigtcp</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">tcp</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Response</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A response is any action which can be taken in a system.  Typically, responses are intended to disrupt, mitigate the effects of, or recover from an Event.  Responses require Resources, pieces of information about the system, in order ot be effective.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SignalDomain</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A signal domain is a feature, for instance, packet size.   This indicates the domain in which a signal (e.g. abnormally large packets) can be observed.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SignalDomainContext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">The signal domain context is the context in which a signal domain is defined.  For instance, packet size is a signal domain which can only occur in the context of a network packet.  Another example is network session duration, which occurs in the context of a network session.
+
+The context determines which data sources can provide data for assessing a detector.   If network sessions are the context, we need session-based data, e.g. NetFlow.  If packets are, we need PCAPs.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasDetector</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">To support inference on the capabilities of an IDS based on the detectors it includes.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasEncapsulatedContext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">This transitive property allows inference on embedded contexts, allowing one to determine, e.g.  that a TCP packet over IP has a source and destination IP address.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasRequiredInputResource</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Represents the resource(s) required for a response to operate.  If all resource requirements are met, the response is considered viable given the observed signals.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasResponse</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Supports inference on the IRS coverage based on the responses it incorporates.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasSignalDomainContext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Specifies the domain context in which the signal occurs.  The domain context provides the resources which enable responses.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isAffectedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">This relation is normally inferred, and maps events to the responses that can affect them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isContextOfSignalDomain</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Map from signals to context they are observed in.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDetectedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Indicates that a signal is detected by a given detector.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDetectorFor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Indicates that a detector can spot a given signal.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDomainOfSignal</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Maps a signal to the domain of possible signal values.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEncapsulatedInContext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Supports transitive inference on contexts which include this one.  For instance, inferring that a TCP packet is also an IP packet.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEventIdentifierFor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">An inferred property indicated that an IDS is able to identify an event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEventResponderFor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">An inferred property indicated that an IDS is able to identify an event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIdentifiedByIDS</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">The isIdentifiedByIDS property indicates that an IDS can identify a specific event instance.  This is in contrast to the &quot;isPotentiallyIdentifiedBy&quot;, which indicates that an IDS operates in the same scope as an Event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIncludedInIDS</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Maps detectors to the IDS(s) that include them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isIncludedInIRS</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Maps responses to the IRS(s) that include them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isMitigatedByIRS</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">This inferred property indicates that an event is mitigated by an IRS, based on the responses the IRS includes and their ability to affect the Event.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProducedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Relates signals to the events which generate them.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProducerOf</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Relates events to the signals they produce.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProvidedBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Signal domain contexts provide additional resource which may not be a part of the signals of an event.  For instance, a CodeRed worm propagation attempt usually occurs in the context of an IP Packet, which provides resources such as source IP address and destination IP address.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isProviderOfResource</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Maps signal contexts to the resources they provide.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isResponseFor</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">This relation indicates that a response has a set of required resources which overlaps the set of indicated resources by the signals an Event produces.  </Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isSatisfierOfInputRequiredBy</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Maps resources to the responses they are able to satisfy requirements for.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isValueInSignalDomain</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Relates signals to the value domains they are a part of.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version [Not Released]) http://owlapi.sourceforge.net -->
+
