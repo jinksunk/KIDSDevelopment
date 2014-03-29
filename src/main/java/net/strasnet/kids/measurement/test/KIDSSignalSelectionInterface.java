@@ -133,6 +133,9 @@ public class KIDSSignalSelectionInterface {
 	
 	/**
 	 * Recursively evaluate the signal set, letting the maximum EID "bubble-up" to the top.
+	 * 
+	 * Changes to Support Correlation:
+	 * 
 	 * @param triedValues 
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws IOException 
@@ -240,6 +243,13 @@ public class KIDSSignalSelectionInterface {
 		
 	/**
 	 * Test the signal set returned from the ontology.
+	 * Changes to support correlation:
+	 *   TODO: If we have a time period, ask the oracle for a set of compatible datasets.  This may include:
+	 *         - stand alone datasets
+	 *   TODO: In the dataset factory (or dataset view factory), include a method to return datasets / views
+	 *         related by correlation functions as well.
+	 *   TODO: Have the oracle return datasets in a <Dataset, SignalSet> Map - intention being that each dataset will be
+	 *         individually evaluated, and the best dataset/<signal set> pair will be returned.
 	 */
 	public void testSignalSet(String ABOXFile, 
 							  String ABOXIRI,
@@ -271,12 +281,21 @@ public class KIDSSignalSelectionInterface {
 			if (TimePeriodIRI == null){
 				ourDSIRIList.add(DatasetIRI);
 			} else {
+				//TODO: Implement this method - return the list of both individual and correlated datasets, meaning that
+				//      we need to return objects?  Okay, so the Oracle should just return the list, and the Factory should
+				//      have a 'Get All Datasets' method which returns individual + correlated ones.
 				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(TimePeriodIRI), IRI.create(EventIRI));
 			}
 			
-			for (String DSIRI : ourDSIRIList){
+			//TODO: Create the datasets first, then iterate over the dataset objects rather than the IRIs
+			//      When returning the datasets, return a <Dataset,Set<SignalIRI>> map, where the signal set is
+			//      the set of signals which can actually be evaluated over the data set.  Should be the union of
+			//      individual signal sets for individual datasets.
+			List<Dataset> DSOBJList = KIDSDatasetFactory.getCorrelatedDatasets(ourDSIRIList, IRI.create(EventIRI), myGuy);
+
+			for (Dataset ourDS : DSOBJList){
 				// For each of these signals, we need to map to a dataset and detector
-				Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
+				//Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
 				assert(ourDS != null);
 		
 				// First, get the set of signals which applies to the dataset and event together
@@ -380,6 +399,7 @@ public class KIDSSignalSelectionInterface {
 			}
 			
 			KIDSSignalSelectionInterface kss = new KIDSSignalSelectionInterface();
+			//TODO: Populate ABOX File
 			kss.testSignalSet(cVals.get("ABoxFile"), 
 							  cVals.get("ABoxIRI"), 
 							  cVals.get("TBoxFile"), 

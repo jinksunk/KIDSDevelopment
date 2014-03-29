@@ -53,6 +53,8 @@ public class KIDSEIDMeasure {
 	 * Then entropy (H() ), information gain (IG() ) are produced as usual, and E_ID ~= C_ID (is computed identically)
 	 *   
 	 * @param d - The dataset on which to evaluate the E_ID measure.
+	 * TODO: I *think*, with a correlation dataset abstract interface, we no longer need the map for 's'; just the set of
+	 * signals to include.
 	 * @param s - The signal set (mapped to appropriate datasets) which will be used to filter data.
 	 * @return The E_ID value for this dataset.
 	 * @throws IOException 
@@ -64,7 +66,7 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Map<IRI,Dataset> s) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, Dataset d) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
 		double E_ID = 0;
 		int Inum = 0;                // The total number of instances (bags) (instances + # events - event related instances)
 		int[] EInumAry = null;          // The number of instances associated with each event E_i
@@ -90,15 +92,23 @@ public class KIDSEIDMeasure {
 		double IGS = 0; 			 // The information gain after applying signal s
 		
 		// First, build a unique set of datasets to consider:
-		HashSet<Dataset> dsets = new HashSet<Dataset>();
-		dsets.addAll(s.values());
+		//HashSet<Dataset> dsets = new HashSet<Dataset>();
+		//dsets.addAll(s.values());
 		
 		// Estimate probabilities:
+		// DONE: Do we need to build an abstract "correlated interface" here? - Yes, we do; call from the DatasetFactory?
+		// First, build the 'perfectly correlated' dataset.  We will end up with one instance for each event,
+		//  and one instance for each uncorrelated instance.
+		
+		/*** Denominators - perfectly correlated values ***/
+		//TODO: Add getComponentDatasets() ; should we just always assume / use a 'correlated' data set, with a null-correlation?  Yes.
+		Set<Dataset> dsets = d.getComponentDatasets();
+
 		for (Dataset ds : dsets){
 			Inum += ds.numInstances();
 			int[] tmpAry = ds.numPositiveInstances();  // Event Instance counts
 			
-			// Initialize the EInumAry, if necessary
+			// Initialize the EInumAry, if necessary, to track the number of instances associated with each event.
 			if (EInumAry == null){
 				EInumAry = new int[tmpAry.length];
 			}
@@ -115,6 +125,7 @@ public class KIDSEIDMeasure {
 		
 		BInum = Inum - EInum; // Benign instances (non-event related)
 		
+		/*** Numerators - Based on IDS correlated data ***/
 		// To get the overall performance of a set of signals, we need to determine:
 		// 1) How many total false positives there are;
 		// 2) How many of the events have a data instance detected
@@ -123,20 +134,25 @@ public class KIDSEIDMeasure {
 		// The DatasetView class implements a method to obtain related alerts given a DataInstance and correlation function individual.
 		// If we either only have one dataset to worry about, or there is no compatible correlation function, we can skip this step.
 		//
-		// To get 2, we can keep track of which event instances we have seen *no* matching instances for over all datasets with
-		//  sets of signals.
+		// To get 2 we also need to incorporate the correlation function, finding cases where the function would constitute a 
+		//  match.  For example, if the function is an 'and', then the bag of instances must match all signals.  If it is an
+		//  'or', then the bag of instances only needs to include one signal.  The dataset view will implement this.
 		// 
 		// Get counts from filtered data set:
 		Dataset dTemp = null;
 		
 		// Determine if correlation is required:
+		// Moving to a correlated dataset interface instead.  This block should no longer be needed.
+		/* Once working, DELETE
 		if (dsets.size() > 1){
 			// Is there a correlation function that can be used for this set of datasets?
 			Set<CorrelationFunction> cfs = kmo.getCompatibleCorrelationFunctions(dsets);
 			if (cfs.size() == 0){
-				// Cannot perform correlation; no false positives
+				// Cannot perform correlation; just a huge bag of instances
 			}
 		}
+		*/
+		
 		try {
 			dTemp = d.getDataSubset(d.getMatchingInstances(s));
 		} catch (net.strasnet.kids.measurement.KIDSUnEvaluableSignalException e){
@@ -148,10 +164,9 @@ public class KIDSEIDMeasure {
 			return 0; // Assume no benefit to the signal if we cannot evaluate it
 		}
 		
-		SInum = dTemp.numInstances(); // # of instances matching s - if any instance from a bag is identified, that
-		                              // bag is counted.  If 
-		SBInum = 0;					// # of benign instances matching s
-		SEInum = 0;					// # of malicious instances matching s
+		SInum = dTemp.numInstances(); // # of instances matching s, counting event-related instances once for each event
+		SBInum = 0;					// # of correlated benign instances matching s
+		SEInum = 0;					// # of correlated malicious instances matching s
 		SEInumAry = dTemp.numPositiveInstances();
 		if (SEInumAry.length != dTemp.numEventOccurrences()){
 			System.err.println("Warning: Positive instance array length (" + SEInumAry.length + ") != numEventOccurrences (" + dTemp.numEventOccurrences() + ")");
@@ -159,12 +174,22 @@ public class KIDSEIDMeasure {
 		for (i = 0; i < SEInumAry.length; i++){
 			if (SEInumAry[i] == 0){
 				continue;
+			
+			if (EInumAry[i] > 0){
+			    SEInum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
+			    EInumAry[i] = 0;
 			}
-			SEInum += EInumAry[i]; // NOTE: This is *original* event instances; 
-								   // other counts must be adjusted accordingly
-			if (EInumAry[i] > SEInumAry[i]){
-				SInum += (EInumAry[i] - SEInumAry[i]);
+
+			/*  DELETE - after working
+			if (EInumAry[i] > SEInumAry[i]){  
+				SInum += (EInumAry[i] - SEInumAry[i]); // To make sure that all accounted-for instances are... accounted for :)
 			}
+			if (EInumAry[i] == 0){
+				// If we've already accounted for this event, remove it from SInum:
+				SInum -= SEInumAry[i];
+			}
+			EInumAry[i] = 0; // Ensure we don't double-count positives
+			*/
 		}
 		SBInum = SInum - SEInum;
 		NBInum = BInum - SBInum;
