@@ -3,6 +3,7 @@ package net.strasnet.kids.measurement.datasetinstances;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -99,6 +100,18 @@ public class KIDSSnortDataInstance implements DataInstance {
 		} else {
 			System.out.println("Instances are not recognized.");
 		}
+		
+	}
+
+	@Override
+	public Map<IRI, String> getResources() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void addResources(Map<IRI, String> extractResources) {
+		// TODO Auto-generated method stub
 		
 	}
 	

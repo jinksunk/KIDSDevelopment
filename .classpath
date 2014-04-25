@@ -33,5 +33,6 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/jgrapht/jgrapht-jdk1.5.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-owlapiv3.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

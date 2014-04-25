@@ -2,10 +2,12 @@ package net.strasnet.kids.measurement;
 
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -26,6 +28,7 @@ import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.detectors.KIDSDetector;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
+import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.KIDSCorrelationFunctionFactory;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
@@ -34,32 +37,42 @@ import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset.KIDSLibpcap
 
 public class KIDSMeasurementOracle extends KIDSOracle {
 	public static final String kidsTBOXLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
-	public static final String eventDatasetRelation = kidsTBOXLocation + "#isRepresentedInDataset";
-	public static final String datasetParserImplementationProp = kidsTBOXLocation + "#datasetParserImplementation";
+	private static final String contextDomainRelation = kidsTBOXLocation + "#isContextOfSignalDomain";
 	private static final String datasetInstanceResourceProp = kidsTBOXLocation + "#datasetLocation";
 	private static final String datasetLabelResourceProp = kidsTBOXLocation + "#datasetLabelLocation";
-	private static final String eventSignalRelation = kidsTBOXLocation + "#isProducerOf";
+	public static final String datasetParserImplementationProp = kidsTBOXLocation + "#datasetParserImplementation";
+	private static final String datasetTimePeriodRelation = kidsTBOXLocation + "#includesTimePeriod";
+	private static final String datasetViewCorrelationRelation = kidsTBOXLocation + "#supportCorrelationRelation";
+	private static final String datasetViewSignalManifestationRelation = kidsTBOXLocation + "#bringsIntoExistence";
+	private static final String correlationRelationDatasetViewRelation = kidsTBOXLocation + "#isSupportedByDatasetView";
+	private static final String datasetViewRelation = kidsTBOXLocation + "#isViewableAs";
 	private static final String datasetContextRelation = kidsTBOXLocation + "#isContainerOfContext";
 	private static final String datasetSignalRelation = kidsTBOXLocation + "#isCompatibleDatasetForSignal";
-	private static final String contextDomainRelation = kidsTBOXLocation + "#isContextOfSignalDomain";
+	private static final String signalDatasetRelation = kidsTBOXLocation + "#isEvaluableWithDataset";
+	public static final String eventDatasetRelation = kidsTBOXLocation + "#isRepresentedInDataset";
+	private static final String eventLabelRelation = kidsTBOXLocation + "#isIncludedInLabel";
+	private static final String eventSignalRelation = kidsTBOXLocation + "#isProducerOf";
+	private static final String labelViewRelation = kidsTBOXLocation + "#isLabelerForDatasetView";
 	private static final String signalDomainSignalRelation = kidsTBOXLocation + "#isDomainOfSignal";
 	private static final String signalConstraintSignalRelation = kidsTBOXLocation + "#hasConstraint";
-	private static final String eventLabelRelation = kidsTBOXLocation + "#isIncludedInLabel";
 	private static final String viewLabelRelation = kidsTBOXLocation + "#hasDatasetLabel";
-	private static final String labelViewRelation = kidsTBOXLocation + "#isLabelerForDatasetView";
-	private static final String datasetViewRelation = kidsTBOXLocation + "#isViewableAs";
-	private static final String signalRepresentationRelation = kidsTBOXLocation + "#isRepresentedBy";
 	private static final String signalDetectorRelation = kidsTBOXLocation + "#isAppliedByDetector";
+	private static final String detectorSignalRelation = kidsTBOXLocation + "#canApplySignal";
+	private static final String signalRepresentationRelation = kidsTBOXLocation + "#isRepresentedBy";
+	private static final String signalManifestationRelation = kidsTBOXLocation + "#SignalInManifestation";
+	private static final String manifestationSignalRelation = kidsTBOXLocation + "#SignalManifestationIncludesSignal";
 	private static final String viewDetectorRelation = kidsTBOXLocation + "#isMonitoredBy";
-	private static final String datasetViewCorrelationRelation = kidsTBOXLocation + "#supportCorrelationRelation";
 	private static final String labelClassDataProperty = kidsTBOXLocation + "#hasLabelFunction";
 	private static final String labelLocationDataProperty = kidsTBOXLocation + "#hasLabelDataLocation";
+	private static final String timePeriodDatasetRelation = kidsTBOXLocation + "#isIncludedInDataset";
 	private static final String viewClassDataProperty = kidsTBOXLocation + "#viewProductionImplementation";
 	private static final String detectorSyntaxRelation = kidsTBOXLocation + "#hasSyntax";
 	private static final String detectorSyntaxImplementationDataProperty = kidsTBOXLocation + "#hasSyntaxProductionImplementation";
 	private static final String detectorImplementationDataProperty = kidsTBOXLocation + "#hasImplementationClass";
 	private static final String detectorExecutionDataProperty = kidsTBOXLocation + "#detectorExecutionCommand";
 	private static final String correlationFunctionImplementationDataProperty = kidsTBOXLocation + "#hasCorrelationRelationImplementation";
+	private static final String detectorSyntaxSignalRelation = kidsTBOXLocation + "#canRepresentFeatureWithConstraint";
+	private static final String datasetViewIsViewOfDatasetRelation = kidsTBOXLocation + "#providesViewOf";
 	
 	/**
 	 * At this point, we can probably assume we're returning a ViewLabelDataset:
@@ -114,10 +127,13 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws NumberFormatException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
 	public Dataset getDatasetImplementation(
 			OWLNamedIndividual ourDataset,
-			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		// get the library string value for the given Class
 		// The value is a data property of the individual:
 		OWLDataProperty datasetImpl = odf.getOWLDataProperty(IRI.create(datasetParserImplementationProp.toString()));
@@ -159,12 +175,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		List<OWLNamedIndividual> toReturn = new LinkedList<OWLNamedIndividual>();
 		
 		// If Get the intersection of signals produced by e and defined over any feature in any context of the data set.
-		toReturn.addAll( // Need a chain of dataSetContains -> isContextOfDomain -> isDomainOfSignal
-							this.r.getObjectPropertyValues(
+		NodeSet<OWLNamedIndividual> myij = this.r.getObjectPropertyValues(
 								this.odf.getOWLNamedIndividual(datasetIRI),
 								this.odf.getOWLObjectProperty(IRI.create( datasetSignalRelation))
-				).getFlattened());
-		
+				);
+				toReturn.addAll(myij.getFlattened()); // Need a chain of dataSetContains -> isContextOfDomain -> isDomainOfSignal
+				System.err.println("[D] -- " + r.getReasonerName());
+				System.err.println("[D] -- " + r.getReasonerVersion().getBuild() + "." + r.getReasonerVersion().getMajor() + "." + r.getReasonerVersion().getMinor() + "." + r.getReasonerVersion().getPatch());
+				OWLClassExpression oce = this.odf.getOWLObjectHasValue(odf.getOWLObjectProperty(IRI.create(signalDatasetRelation)), odf.getOWLNamedIndividual(datasetIRI));
+				System.err.println("[D] -- " + oce.toString());
+				NodeSet<OWLNamedIndividual> secondSet = r.getInstances(this.odf.getOWLObjectHasValue(odf.getOWLObjectProperty(IRI.create(signalDatasetRelation)), odf.getOWLNamedIndividual(datasetIRI)), false);
 		return toReturn;
 	}
 
@@ -309,29 +329,67 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return toReturn;
 	}
 
-	public OWLNamedIndividual getDetectorForSignalAndView(
-			OWLNamedIndividual signal, OWLNamedIndividual view) {
-		
-		// Finally, get the set of detectors which can monitor this view *and* see the manifestation.
+	/**
+	 * 
+	 * @param signal
+	 * @param view
+	 * @return - A set of detector individuals which can apply the signal to the view.
+	 */
+	public Set<IRI> getDetectorsForSignalAndView(
+			IRI signal, IRI view) {
+		// Get the set of detectors which can monitor this view *and* see the manifestation.
 		// Stop at the first one found.
-		LinkedList<OWLNamedIndividual> toReturn = new LinkedList<OWLNamedIndividual>();
+		Set<IRI> toReturn = new HashSet<IRI>();
+		Set<OWLNamedIndividual> retTemp = new HashSet<OWLNamedIndividual>();
 		
-		toReturn.addAll(this.r.getInstances(
+		retTemp.addAll(
+				this.r.getInstances(
 				this.odf.getOWLObjectIntersectionOf(
 						this.odf.getOWLObjectOneOf(
 						    this.r.getObjectPropertyValues(
-						       signal,
+						       odf.getOWLNamedIndividual(signal),
 						       this.odf.getOWLObjectProperty(IRI.create(signalDetectorRelation))
 						    ).getFlattened()
 						),
 						this.odf.getOWLObjectOneOf(
 							this.r.getObjectPropertyValues(
-								view,
+								odf.getOWLNamedIndividual(view),
 								this.odf.getOWLObjectProperty(IRI.create(viewDetectorRelation))
 							).getFlattened()
 						)
 					), 
 				false).getFlattened());
+		
+		for (OWLNamedIndividual oni : retTemp){
+			toReturn.add(oni.getIRI());
+		}
+		
+		return toReturn;
+	}
+		
+	/**
+	 * 
+	 * @param signal
+	 * @param view
+	 * @return - A single detector individual which can apply the signal to the view.  Assumes there is only one.
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 */
+	public OWLNamedIndividual getDetectorForSignalAndView(
+			OWLNamedIndividual signal, OWLNamedIndividual view) throws KIDSOntologyDatatypeValuesException {
+		
+		// Get the set of detectors which can monitor this view *and* see the manifestation.
+		// Stop at the first one found.
+		LinkedList<OWLNamedIndividual> toReturn = new LinkedList<OWLNamedIndividual>();
+		
+		Set<IRI>tRet = getDetectorsForSignalAndView(signal.getIRI(), view.getIRI());
+		if (tRet.size() > 1){
+			throw new KIDSOntologyDatatypeValuesException("Too many detectors for signal " + signal + " and view " + view);
+		} else if (tRet.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No detectors for signal " + signal + " and view " + view);
+		}
+		for (IRI dIRI : tRet){
+			toReturn.add(odf.getOWLNamedIndividual(dIRI));
+		}
 		
 		return toReturn.get(0);
 	}
@@ -350,8 +408,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		Set<OWLLiteral> results = r.getDataPropertyValues(
 					viewIndividual, 
 					odf.getOWLDataProperty(IRI.create(viewClassDataProperty)));
-		if (results.size() != 1){
+		if (results.size() > 1){
 			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + viewClassDataProperty + " on individual " + viewIndividual);
+		} else if (results.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No values for property " + viewClassDataProperty + " on individual " + viewIndividual);
 		}
 		return results.iterator().next().getLiteral();
 	}
@@ -436,7 +496,8 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		}
 		String synClassName = Lresults.iterator().next().getLiteral();
 		
-		KIDSDetectorSyntax ourSyn = (KIDSDetectorSyntax)this.getClass().forName(synClassName).newInstance();
+		this.getClass();
+		KIDSDetectorSyntax ourSyn = (KIDSDetectorSyntax)Class.forName(synClassName).newInstance();
 		ourSyn.init(this);
 		return ourSyn;
 	}
@@ -472,8 +533,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		// First lookup the detector implementation:
 		Set<OWLNamedIndividual> results = r.getObjectPropertyValues(odf.getOWLNamedIndividual(viewIRI), 
 				odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.viewDetectorRelation))).getFlattened();
-		if (results.size() != 1){
-			throw new KIDSOntologyObjectValuesException("Too many values for property " + viewDetectorRelation + " on individual " + viewIRI);
+		if (results.size() == 0){
+			throw new KIDSOntologyObjectValuesException("No values for property " + viewDetectorRelation + " on individual " + viewIRI);
+		} else if (results.size() > 1){
+			System.out.println("Warning: " + results.size() + " values for property " + viewDetectorRelation + " on individual " + viewIRI + ": choosing [" + results.iterator().next().getIRI() + "]");
 		}
 		
 		OWLNamedIndividual detector = results.iterator().next();
@@ -535,37 +598,250 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * 
 	 * @param dsets
 	 * @return The set of all correlation functions compatible with all indicated data sets
+	 * @throws KIDSOntologyDatatypeValuesException 
 	 */
 	public Set<CorrelationFunction> getCompatibleCorrelationFunctions(
-			HashSet<Dataset> dsets) {
+			Set<Dataset> dsets) throws KIDSOntologyDatatypeValuesException {
 		HashSet<CorrelationFunction> cfs = new HashSet<CorrelationFunction>();
 		
 		// Build an intersection query of all members of the CorrelationFunction class which are also 
+		// supported by the given datasets.
 		// 
-		Set<OWLNamedIndividual> results = new HashSet<OWLNamedIndividual>();
-		Set<OWLClassExpression> operands = new HashSet<OWLClassExpression>();
+		Set<OWLNamedIndividual> results = null;
+		Set<OWLNamedIndividual> operands = null;
 		for (Dataset dv : dsets){
-			operands.add(
-					odf.getOWLObjectHasValue(
-						odf.getOWLObjectProperty(IRI.create(datasetViewCorrelationRelation)),	
-						odf.getOWLNamedIndividual(dv.getViewIRI())
-					)
-			);
+
+			// Get the set of functions supported by these datasets:
+			operands = new HashSet<OWLNamedIndividual>();
+			operands.addAll(
+					r.getObjectPropertyValues(
+						odf.getOWLNamedIndividual(dv.getViewIRI()),
+						odf.getOWLObjectProperty(IRI.create(datasetViewCorrelationRelation))
+						).getFlattened()
+						);
+			if (results== null){
+				results = new HashSet<OWLNamedIndividual>();
+				results.addAll(operands);
+			} else {
+				for (OWLNamedIndividual ourInd : results){
+					if (!operands.contains(ourInd)){
+						results.remove(ourInd);
+					}
+				}
+				
+			}
+				
 		}
-		results.addAll(
-				r.getInstances(odf.getOWLObjectIntersectionOf(operands), false).getFlattened()
-				);
+
 		for (OWLNamedIndividual owi : results){
 			Set<OWLLiteral> classInstance = r.getDataPropertyValues(owi, 
 					odf.getOWLDataProperty(IRI.create(correlationFunctionImplementationDataProperty)));
 			if (classInstance.size() > 1){
-				
+				throw new KIDSOntologyDatatypeValuesException("Too many values for property " + correlationFunctionImplementationDataProperty + " on individual " + owi);
 			} else if (classInstance.size() == 0){
-				
+				throw new KIDSOntologyDatatypeValuesException("No values for property " + correlationFunctionImplementationDataProperty + " on individual " + owi);
 			}
-			cfs.add(KIDSCorrelationFunctionFactory.getCorrelationFunction(classInstance.iterator().next().getLiteral()));
+			OWLLiteral l = classInstance.iterator().next();
+			cfs.add(KIDSCorrelationFunctionFactory.getCorrelationFunction(l.getLiteral()));
 		}
 					
 		return cfs;
+	}
+	
+	/**
+	 * Given a detector syntax, return the known signals that it can represent.  Will be the set of signals for which the 
+	 * domain is extractable, and the constraint is representable.
+	 */
+	public Set<IRI> getSignalsRepresentableInSyntax(IRI detectorSyntax){
+		HashSet<IRI> returnValue = new HashSet<IRI>();
+		OWLNamedIndividual ourSyn = odf.getOWLNamedIndividual(detectorSyntax);
+		
+		// Get the set of signals with an extractable domain:
+		//   -- property: http://solomon.cs.iastate.edu/ontologies/KIDS.owl#canRepresentFeatureWithConstraint
+		Set<OWLNamedIndividual> retTemp = r.getObjectPropertyValues(ourSyn, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.detectorSyntaxSignalRelation))).getFlattened();
+		for (OWLNamedIndividual oni: retTemp){
+			returnValue.add(oni.getIRI());
+		}
+		return returnValue;
+	}
+	
+	/**
+	 * Given a dataset view IRI, will return the dataset it provides a view of:
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 */
+	public IRI getDatasetForDatasetView(IRI datasetView) throws KIDSOntologyDatatypeValuesException{
+		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(datasetView);
+		Set<OWLNamedIndividual> ourDSSet = r.getObjectPropertyValues(ourDV, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation))).getFlattened();
+		if (ourDSSet.size() > 1){
+			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation + " on individual " + datasetView);
+		} else if (ourDSSet.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No values for property " +  KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation  + " on individual " + datasetView);
+		}	
+		return ourDSSet.iterator().next().getIRI();
+			
+	}
+	
+	/**
+	 * 
+	 * @param dvIRI
+	 * @return A set of IRIs for the signal manifestations that exist in the given view.
+	 */
+	public Set<IRI> getSignalManifestationsInDatasetView(IRI dvIRI){
+		Set<IRI> toReturn = new HashSet<IRI>();
+		
+		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(dvIRI);
+		
+		Set<OWLNamedIndividual> retTmp = r.getObjectPropertyValues(ourDV, 
+				odf.getOWLObjectProperty(
+						IRI.create(KIDSMeasurementOracle.datasetViewSignalManifestationRelation))
+						).getFlattened();
+		
+		for (OWLNamedIndividual ourMan : retTmp){
+			toReturn.add(ourMan.getIRI());
+		}
+		return toReturn;
+		
+	}
+	
+	/**
+	 * 
+	 * @param dvIRI - The IRI of the dataset view we want to get detectors for
+	 * @return The set of detector individuals which can observe this dataset view
+	 */
+	public Set<IRI> getDetectorsForDatasetView(IRI dvIRI){
+		Set<IRI> toReturn = new HashSet<IRI>();
+		
+		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(dvIRI);
+		
+		Set<OWLNamedIndividual> retTmp = r.getObjectPropertyValues(ourDV, 
+				odf.getOWLObjectProperty(
+						IRI.create(KIDSMeasurementOracle.viewDetectorRelation))
+						).getFlattened();
+		
+		for (OWLNamedIndividual ourMan : retTmp){
+			toReturn.add(ourMan.getIRI());
+		}
+		return toReturn;
+	}
+
+	/**
+	 * 
+	 * @param ourMan - The IRI of the signal manifestation we want to get the signal for
+	 * @return The signal IRI individuals which is included in this manifestation
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 */
+	public IRI getSignalForManifestation (IRI ourMan) throws KIDSOntologyDatatypeValuesException{
+		IRI toReturn = null;
+		
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(ourMan);
+		
+		Set<OWLNamedIndividual> retTmp = r.getObjectPropertyValues(oni, 
+				odf.getOWLObjectProperty(
+						IRI.create(KIDSMeasurementOracle.manifestationSignalRelation))
+						).getFlattened();
+		
+		if (retTmp.size() > 1){
+			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + KIDSMeasurementOracle.signalManifestationRelation + " on individual " + ourMan);
+		} else if (retTmp.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No values for property " +  KIDSMeasurementOracle.signalManifestationRelation  + " on individual " + ourMan);
+		}	
+		
+		return retTmp.iterator().next().getIRI();
+	}
+	
+	/**
+	 * A signal can be applied by a detector 
+	 * @param detector
+	 * @return - The set of signal IRIs which can be applied by this detector.
+	 */
+	public Set<IRI> getSignalsApplicableByDetector(IRI detector){
+		Set<IRI> toReturn = new HashSet<IRI>();
+		
+		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(detector);
+		
+		Set<OWLNamedIndividual> retTmp = r.getObjectPropertyValues(ourDV, 
+				odf.getOWLObjectProperty(
+						IRI.create(KIDSMeasurementOracle.detectorSignalRelation))
+						).getFlattened();
+		
+		for (OWLNamedIndividual ourMan : retTmp){
+			toReturn.add(ourMan.getIRI());
+		}
+		return toReturn;
+	}
+
+	/**
+	 * 
+	 * For a given dataset, we need to know the detectors which can be used to evaluate the signal over that dataset.  So, what we really
+	 * want to return is a HashMap<Signal,Set<Detector>> which will indicate, for each signal, which detector(s) can be used to evaluate it.
+	 * 
+	 * This will be those detectors which:
+	 *   1) Can monitor the dataset view which brings the signal manifestation into existence
+	 *   2) Can apply the signal associated with that manifestation
+	 *   
+	 *   @return - A hash map of Signal -> Set of Detectors, listing the detectors which can represent each signal.
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 */
+	public Map<IRI, Set<IRI>> getSignalDetectorsForDataset(IRI datasetViewIRI, IRI eventIRI) throws KIDSOntologyDatatypeValuesException{
+		Map<IRI, Set<IRI>> toReturn = new HashMap<IRI, Set<IRI>>();
+		
+		// Get the set of signal manifestations brought into existence by this dataset view
+		Set<IRI> manifestations = this.getSignalManifestationsInDatasetView(datasetViewIRI);
+		
+		// Get the set of detectors which can monitor the dataset view
+		Set<IRI> ourDetectors = getDetectorsForDatasetView(datasetViewIRI);
+		
+		// Get the signals associated with each manifestation
+		for (IRI ourMan : manifestations){
+			try{
+				IRI ourSignal = this.getSignalForManifestation(ourMan);
+				toReturn.put(ourSignal, new HashSet<IRI>());
+				// Get the detectors which can 'apply' that signal, and which can also monitor the dataset view
+				for (IRI ourDet: ourDetectors){
+					Set<IRI> appSignals = this.getSignalsApplicableByDetector(ourDet);
+					if (appSignals.contains(ourSignal)){
+						toReturn.get(ourSignal).add(ourDet);
+					}
+				}
+			} catch (KIDSOntologyDatatypeValuesException e){
+				
+			}
+
+		}
+		
+		return toReturn;
+	}
+
+
+	/**
+	 * @param EventIRI
+	 * @param TimePeriodIRI
+	 * @return A set of IRI values for each dataset that both contains the referenced time period and contains
+	 *         the event IRI.
+	 */
+	public Set<String> getDatasetListForEventAndTimePeriod(IRI EventIRI,
+			IRI TimePeriodIRI) {
+		Set<String> returnSet = new HashSet<String>();
+		// Ask for the intersection of objects which both "Is Evaluation Of Event" EventIRI, and "Includes Time Period" TimePeriodIRI
+		Set<OWLNamedIndividual> eventDSes = 
+							this.r.getObjectPropertyValues(
+									this.odf.getOWLNamedIndividual(EventIRI),
+									this.odf.getOWLObjectProperty(IRI.create(eventDatasetRelation))
+							).getFlattened();
+		Set<OWLNamedIndividual> timePeriodDSes = 
+							this.r.getObjectPropertyValues(
+								this.odf.getOWLNamedIndividual(TimePeriodIRI),
+								this.odf.getOWLObjectProperty(IRI.create(timePeriodDatasetRelation))
+							).getFlattened();
+
+		Set<OWLNamedIndividual> s = r.getInstances(
+				this.odf.getOWLObjectIntersectionOf(
+						this.odf.getOWLObjectOneOf(eventDSes),
+						this.odf.getOWLObjectOneOf(timePeriodDSes)
+					), false).getFlattened();
+		for (OWLNamedIndividual ds : s){
+			returnSet.add(ds.getIRI().toString());
+		}
+		return returnSet;
 	}
 }

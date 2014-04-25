@@ -15,6 +15,7 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import net.strasnet.kids.datasources.KIDSSnortIPAddressRange;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.Label;
@@ -33,26 +34,19 @@ import org.semanticweb.owlapi.model.IRI;
  * packetTimestamp is a long, while srcIP and destIP are also longs.
  * 
  */
-public class KIDSNativeLibpcapTruthFile2 implements DatasetLabel {
+public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements DatasetLabel {
 	
-	private HashMap<Integer, Label> labelKey;
-	private HashMap<Integer, EventOccurrence> seenEvents;
 	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+)\\s+(?<eid>\\d+)";
     private Pattern rexp;
     private IRI ourEventIRI;
-	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
     
-	private static final List<IRI> identifyingFeatures = new LinkedList<IRI>();
-	static {
+	public KIDSNativeLibpcapTruthFile2(){
+		labelKey = new HashMap<Integer, Label>() ;
+		seenEvents= new HashMap<Integer, EventOccurrence>() ;
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketID"));
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketTimestamp"));
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketSourceIP"));
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketDestIP"));
-	}
-
-	public KIDSNativeLibpcapTruthFile2(){
-		labelKey = new HashMap<Integer, Label>() ;
-		seenEvents= new HashMap<Integer, EventOccurrence>() ;
 	}
 	
 	/**
@@ -76,56 +70,35 @@ public class KIDSNativeLibpcapTruthFile2 implements DatasetLabel {
 				HashMap<IRI,String> vals = new HashMap<IRI,String>();
 				vals.put(identifyingFeatures.get(0), rm.group("pid"));
 				//vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
-				vals.put(identifyingFeatures.get(2), rm.group("sip"));
-				vals.put(identifyingFeatures.get(3), rm.group("dip"));
-				KIDSSnortDataInstance tempGuy = new KIDSSnortDataInstance(vals);
+				// These come in as Long values - convert to dotted quad:
+				vals.put(identifyingFeatures.get(2), KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
+				vals.put(identifyingFeatures.get(3), KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+//				KIDSSnortDataInstance tempGuy = new KIDSSnortDataInstance(vals);
+				KIDSNativeLibpcapDataInstance tempGuy = new KIDSNativeLibpcapDataInstance(vals);
 				
 				Integer eid = Integer.parseInt(rm.group("eid"));
 				if (eid == 0){
-					labelKey.put(tempGuy.hashCode(), new Label(null, false));
+					labelKey.put(tempGuy.hashCode(), new Label(EventOccurrence.NONEVENT, false));
 				} else {
 				    if (!seenEvents.containsKey(eid)){
-					    seenEvents.put(eid, new EventOccurrence(ourEventIRI));
+					    seenEvents.put(eid, EventOccurrence.getEventOccurrence(ourEventIRI, eid));
 				    }
+				    System.err.println("Positive instance: " + tempGuy.getID());
 				    labelKey.put(tempGuy.hashCode(), new Label(seenEvents.get(eid), true));
 				}
 			}
 		}
+		r.close();
 	}
 
 	@Override
 	public Label getLabel(DataInstance dve) {
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
-			dve.setLabel(labelKey.get(Integer.parseInt(dve.getID())));
+			dve.setLabel(labelKey.get(dve.hashCode()));
 			return dve.getLabel();
 		}
 		// If no label is present, assume benign
 		return new Label(EventOccurrence.NONEVENT, false);
-	}
-
-	@Override
-	public int getNumEvents() {
-		return EventOccurrence.currentEventID;
-	}
-
-	@Override
-	public IRI getEventIRI() {
-		return this.ourEventIRI;
-	}
-
-	@Override
-	public List<IRI> getIdentifyingFeatures() {
-		return identifyingFeatures;
-	}
-
-	@Override
-	public List<EventOccurrence> getEventList() {
-		List<EventOccurrence> toReturn = new LinkedList<EventOccurrence>();
-		Iterator<EventOccurrence> eventSet = seenEvents.values().iterator();
-		while (eventSet.hasNext()){
-			toReturn.add(eventSet.next());
-		}
-		return toReturn;
 	}
 
 }

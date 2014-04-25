@@ -19,6 +19,7 @@ public interface DataInstance {
 	//public boolean matchesSignal(OWLNamedIndividual owlNamedIndividual) throws KIDSOntologyObjectValuesException, KIDSMeasurementInstanceUnsupportedFeatureException, KIDSMeasurementIncompatibleContextException, KIDSOntologyDatatypeValuesException, KIDSRepresentationInvalidRepresentationValueException;
 	public Label getLabel();
 	
+	// TODO: Some method to list the 'identifying' resources?
 	
 	/**
 	 * Extract the value of this data instance for the feature represented by ourSigDomain.
@@ -51,4 +52,11 @@ public interface DataInstance {
 	 * @return - The resource map (<IRI,String>) containing all resources extracted by this instance
 	 */
 	public Map<IRI,String> getResources();
+
+	/**
+	 * 
+	 * @param extractResources - The set of resources extracted from the raw data set.  A mapping
+	 * from SignalDomain -> Value.
+	 */
+	void addResources(Map<IRI, String> extractResources);
 }

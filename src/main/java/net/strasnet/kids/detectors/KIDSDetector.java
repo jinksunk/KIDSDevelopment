@@ -11,6 +11,7 @@ import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 
 public interface KIDSDetector {
@@ -27,7 +28,7 @@ public interface KIDSDetector {
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
 	Set<DataInstance> getMatchingInstances(Set<IRI> signals,
-			NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
+			DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
 
 	/**
 	 * Initialize the detector with the given values.

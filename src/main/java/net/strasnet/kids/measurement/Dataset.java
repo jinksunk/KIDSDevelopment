@@ -44,8 +44,11 @@ public interface Dataset {
 	 * @return An iterator over all data instances.
 	 * @throws IOException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSOntologyObjectValuesException 
 	 */
-	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException;
+	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException;
 	
 	/**
 	 * 
@@ -57,8 +60,9 @@ public interface Dataset {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws IOException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
-	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException;
+	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
 	
 	/**
 	 * 
@@ -77,8 +81,9 @@ public interface Dataset {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
-	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException;
+	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
 	
 	/**
 	 * 
@@ -136,7 +141,7 @@ public interface Dataset {
 	/**
 	 * Return a List of signals which can be applied to this data set.
 	 */
-	public List<OWLNamedIndividual> getKnownApplicableSignals();
+	public Set<IRI> getKnownApplicableSignals();
 	
 	/**
 	 * @return The measurement oracle object used by this dataset.
@@ -175,8 +180,11 @@ public interface Dataset {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws IOException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
-	Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException;
+	Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
 
 	/**
 	 * Perform any/all required dataset initialization:
@@ -189,7 +197,10 @@ public interface Dataset {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws IOException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
 	void init(DatasetView dv, DatasetLabel dl, KIDSMeasurementOracle o,
-			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException;
+			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
 }

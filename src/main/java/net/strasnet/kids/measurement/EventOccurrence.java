@@ -1,5 +1,10 @@
 package net.strasnet.kids.measurement;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -10,14 +15,17 @@ import org.semanticweb.owlapi.model.IRI;
  *
  */
 public class EventOccurrence implements Comparable<EventOccurrence> {
-	public static final EventOccurrence NONEVENT = new EventOccurrence(null);
-	public static int currentEventID = 0;
+	public static final EventOccurrence NONEVENT = new EventOccurrence(null,0);
+	public static int numberOfEvents = 0;
+	public static Map<IRI, Map<Integer,EventOccurrence>> eventIDMap = new HashMap<IRI, Map<Integer, EventOccurrence>>();
+	
 	private int eventID;
 	private IRI myEventOntologyInstance;
-	
-	public EventOccurrence (IRI eventIRepresent){
-		eventID = currentEventID++;
+
+	private EventOccurrence (IRI eventIRepresent, Integer eventID){
+		this.eventID = eventID;
 		myEventOntologyInstance = eventIRepresent;
+		numberOfEvents++;
 	}
 	
 	public int getID(){
@@ -36,5 +44,17 @@ public class EventOccurrence implements Comparable<EventOccurrence> {
 		Integer myID = new Integer(eventID);
 		Integer oID = new Integer(o.getID());
 		return myID.compareTo(oID);
+	}
+
+	public static EventOccurrence getEventOccurrence(IRI eventIRI, Integer eid) {
+		if (!eventIDMap.containsKey(eventIRI)){
+			Map<Integer,EventOccurrence> toPut = new HashMap<Integer,EventOccurrence>();
+			eventIDMap.put(eventIRI, toPut);
+		}
+		if (!eventIDMap.get(eventIRI).containsKey(eid)){
+			eventIDMap.get(eventIRI).put(eid, new EventOccurrence(eventIRI, eid));
+		}
+
+		return eventIDMap.get(eventIRI).get(eid);
 	}
 }

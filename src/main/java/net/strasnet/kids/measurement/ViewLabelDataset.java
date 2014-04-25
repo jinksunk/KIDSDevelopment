@@ -6,7 +6,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -55,7 +57,7 @@ public class ViewLabelDataset implements Dataset {
 	public void init(DatasetView dv, 
 			DatasetLabel dl, 
 			KIDSMeasurementOracle o,
-			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException{
 		this.datasetLocation = o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI));
 		this.dv = dv;
 		dv.generateView(o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI)), 
@@ -65,6 +67,12 @@ public class ViewLabelDataset implements Dataset {
 		this.myGuy = o;
 		this.eventIRI = eventIRI;
 		this.signalToDV = new HashMap<IRI, DatasetView>();
+		// Label the instances
+		Iterator<DataInstance> di = dv.iterator();
+		while (di.hasNext()){
+			DataInstance dvi = di.next();
+			dl.getLabel(dvi);
+		}
 	}
 
 	@Override
@@ -79,7 +87,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * Return iterator from underlying data view
 	 */
-	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException {
+	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException {
 		return dv.iterator();
 	}
 
@@ -87,7 +95,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * Return iterator from underlying data view, only including those instances which are "positive"
 	 */
-	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException {
+	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		
 		if (this.positiveOnlyView == null){
 			Set<DataInstance> pSet = new HashSet<DataInstance>();
@@ -129,7 +137,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException {
+	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		List<EventOccurrence> allEvents = dl.getEventList();
 		HashMap<EventOccurrence,Integer> hm = new HashMap<EventOccurrence,Integer>();
 		Iterator<DataInstance> dveIter = getPositiveIterator();
@@ -141,7 +149,7 @@ public class ViewLabelDataset implements Dataset {
 		}
         while (dveIter.hasNext()){
 			DataInstance dve = dveIter.next();
-			EventOccurrence dlo = dl.getLabel(dve).getEventOccurrence();
+			EventOccurrence dlo = dl.getLabel(dve).getEventOccurrence(); // Different from those in the hash map?
 			hm.put(dlo, hm.get(dlo) + 1);
 		}
 		EventOccurrence[] eArray = new EventOccurrence[hm.size()];
@@ -192,7 +200,7 @@ public class ViewLabelDataset implements Dataset {
 
 	@Override
 	public void setOracle(KIDSMeasurementOracle kidsOracle) {
-		// TODO Auto-generated method stub
+		this.myGuy = kidsOracle;
 
 	}
 
@@ -207,7 +215,7 @@ public class ViewLabelDataset implements Dataset {
 	}
 
 	@Override
-	public Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		//public ViewLabelDataset(DatasetView dv, DatasetLabel dl, KIDSMeasurementOracle o){
 		ViewLabelDataset vld = new ViewLabelDataset();
 		vld.setDatasetIRI(ourIRI);
@@ -216,15 +224,32 @@ public class ViewLabelDataset implements Dataset {
 	}
 
 	@Override
-	public List<OWLNamedIndividual> getKnownApplicableSignals() {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Return the set of signals which can be evaluated on this data set
+	 */
+	public Set<IRI> getKnownApplicableSignals() {
+		// The applicable signals are those which have a domain that can be evaluated in this data set
+		Set<IRI> toReturn = new HashSet<IRI>();
+		try {
+			Map<IRI, Set<IRI>> signalToDetectors = this.myGuy.getSignalDetectorsForDataset(getViewIRI(), eventIRI);
+			List<OWLNamedIndividual> applicableSignals = this.myGuy.getSignalsForDataset(ourIRI);
+			Iterator<OWLNamedIndividual> i = applicableSignals.iterator();
+			while (i.hasNext()){
+				IRI sTmp = i.next().getIRI();
+				if (signalToDetectors.containsKey(sTmp) && signalToDetectors.get(sTmp).size() > 0){
+					toReturn.add(sTmp);
+				}
+			}
+		} catch (KIDSOntologyDatatypeValuesException e) {
+			// TODO Auto-generated catch block
+			System.err.println("[W]: Could not get signal detectors for dataset view " + getViewIRI() + " -- " + e.getMessage());
+		}
+		return toReturn;
 	}
 
 	@Override
 	public KIDSMeasurementOracle getKIDSOracle() {
-		// TODO Auto-generated method stub
-		return null;
+		return myGuy;
 	}
 
 	@Override
@@ -243,6 +268,10 @@ public class ViewLabelDataset implements Dataset {
 	@Override
 	public IRI getViewIRI() {
 		return this.dv.getIRI();
+	}
+
+	public DatasetLabel getDatasetLabel() {
+		return this.dl;
 	}
 
 }

@@ -9,6 +9,7 @@ import java.util.Set;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 
@@ -32,13 +33,16 @@ public class KIDSEvalImplementation implements KIDSEval {
 	@Override
 	public double EvalSignal(IRI signal, IRI d, IRI event)
 			//DatasetView dv, DatasetLabel dl)
-			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException {
+			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException {
 		Set<IRI> sigset = new HashSet<IRI>();
 		sigset.add(signal);
+		Set<String> datasetSet = new HashSet<String>();
+		datasetSet.add(d.toString());
+		List<CorrelatedViewLabelDataset> vdSet = KIDSDatasetFactory.getCorrelatedDatasets(datasetSet, event, myGuy);
 		
 		return KIDSEIDMeasure.getKIDSEIDMeasureValue(
-				KIDSDatasetFactory.getViewLabelDataset(d, event, myGuy), 
-				sigset);
+				myGuy,
+				sigset, vdSet.get(0));
 	}
 
 	@Override

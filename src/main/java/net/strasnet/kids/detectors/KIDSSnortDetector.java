@@ -118,7 +118,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
 	@Override
-	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
 		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
 		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
 		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
@@ -128,7 +128,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		// Run the command with the detector specification
 		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSyn.getDetectorSyntax(signals) + " -N -k none -A console -q -v -y");
 		StreamGobbler eGobble = new StreamGobbler(genPcap.getErrorStream(), "ERROR");
-		StreamGobbler iGobble = new StreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
+		StreamGobbler iGobble = new StreamGobbler(genPcap.getInputStream(), "OUTPUT");
 		eGobble.start();
 		iGobble.start();
 		try {

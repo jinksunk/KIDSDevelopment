@@ -1,6 +1,8 @@
 package net.strasnet.kids.measurement;
 
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -11,6 +13,8 @@ import net.strasnet.kids.KIDSCanonicalRepresentation;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
+import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
@@ -105,9 +109,11 @@ public class KIDSDatasetFactory {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws IOException 
 	 * @throws NumberFormatException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws KIDSIncompatibleSyntaxException 
 	 */
-	public static Dataset getViewLabelDataset(IRI d, IRI event,
-			KIDSMeasurementOracle o) throws KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException {
+	public static ViewLabelDataset getViewLabelDataset(IRI d, IRI event,
+			KIDSMeasurementOracle o) throws KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		
 		// First, get the set of views, satisfying: isViewOf(d)
 		List<OWLNamedIndividual> views = o.getAvailableViews(d, event);
@@ -124,6 +130,16 @@ public class KIDSDatasetFactory {
 		    	ViewLabelDataset vld = new ViewLabelDataset();
 		    	vld.setDatasetIRI(d);
 		    	vld.init(dv, dl, o, event);
+		    	System.err.println("Loaded dataset view " + vld.getIRI());
+		    	System.err.println("\t Instances:\t" + vld.numInstances());
+		    	System.err.println("\t Events:\t" + vld.numEventOccurrences());
+		    	int pos = 0;
+		    	int[] pary = vld.numPositiveInstances();
+		    	for (int i = 0 ; i < pary.length; i++){
+		    		pos += pary[i];
+		    	}
+		    	
+		    	System.err.println("\t Positives:\t" + pos);
 		    	return vld;
 		    }
 		}
@@ -191,6 +207,42 @@ public class KIDSDatasetFactory {
 
 		return null;
 		
+	}
+	
+	/**
+     * Given a list of dataset IRIs, determine the applicable correlation functions and build correlated data sets
+     * for each function.  Return the set of correlated datasets.
+	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws NumberFormatException 
+	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws IncompatibleCorrelationValueException 
+	 */
+	public static List<CorrelatedViewLabelDataset> getCorrelatedDatasets(Set<String> ourDSIRIList,
+			IRI eventIRI, KIDSMeasurementOracle myGuy) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException {
+		List<CorrelatedViewLabelDataset> toReturn = new LinkedList<CorrelatedViewLabelDataset>();
+		HashMap<Dataset,DatasetLabel> dsets = new HashMap<Dataset,DatasetLabel>();
+		for (String dsIRI : ourDSIRIList){
+			ViewLabelDataset vld = KIDSDatasetFactory.getViewLabelDataset(IRI.create(dsIRI), 
+												   eventIRI, 
+												   myGuy);
+			dsets.put(vld, vld.getDatasetLabel());
+		}
+
+		// Get all possible correlation functions between the set of datasets
+		Set<CorrelationFunction> ourCFList = myGuy.getCompatibleCorrelationFunctions(dsets.keySet());
+
+		// Get a correlated dataset for each correlation function:
+		for (CorrelationFunction cf : ourCFList){
+			CorrelatedViewLabelDataset cvd = new CorrelatedViewLabelDataset(cf, dsets);
+			toReturn.add(cvd);
+		}
+		return toReturn;
 	}
 
 }

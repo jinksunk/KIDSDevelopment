@@ -25,8 +25,9 @@ public interface DatasetView {
 	 * @throws IllegalAccessException 
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	void generateView(String datasetLocation, KIDSMeasurementOracle o, List<IRI> identifyingFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException;
+	void generateView(String datasetLocation, KIDSMeasurementOracle o, List<IRI> identifyingFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException;
 
 	/**
 	 * 
@@ -50,8 +51,11 @@ public interface DatasetView {
 	 * @return An iterator over the member instances of this data view.
 	 * @throws IOException - If data instances cannot be read from the view.
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSOntologyObjectValuesException 
 	 */
-	Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException; 
+	Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException; 
 	
 	/**
 	 * 
@@ -74,8 +78,9 @@ public interface DatasetView {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException;
+	DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException;
 
 	/**
 	 * Set the IRI as specified.

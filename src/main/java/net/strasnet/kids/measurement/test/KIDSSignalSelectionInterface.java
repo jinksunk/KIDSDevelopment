@@ -41,6 +41,7 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSSnortDetectorSyntax;
+import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
 import net.strasnet.kids.measurement.EventOccurrence;
@@ -50,6 +51,7 @@ import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException
 import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset;
@@ -68,7 +70,7 @@ public class KIDSSignalSelectionInterface {
 //	private static final String testABOXFile = "file:///Users/chrisstrasburg/Documents/academic-research/papers/2013-MeasurementPaper/experiments/TestEvent-Test1/TestEventExperiment1.owl";
 //	private static final String testKBFile = "file:///Users/chrisstrasburg/Documents/academic-research/papers/2013-MeasurementPaper/experiments/TestEvent-Test1/kids.owl";
 //	private static final String OntologyLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
-	private Map<IRI, Set<Dataset>> signals = null;
+	private Set<IRI> signals = null;
 //	private static final IRI testDatasetIRI = IRI.create(testABOX + "#TestEvent1LIBPCAPDataset1");
 //	private static final IRI testEventIRI = IRI.create(testABOX + "#TestEvent1");
 	
@@ -79,11 +81,12 @@ public class KIDSSignalSelectionInterface {
 		configFileValues.put("TBoxFile", "/dev/null");
 		configFileValues.put("TBoxIRI", "/dev/null");
 		configFileValues.put("EventIRI", "/dev/null");
-		configFileValues.put("DatasetIRI", "/dev/null");
+		//configFileValues.put("DatasetIRI", "/dev/null");
+		configFileValues.put("TimePeriodIRI", "/dev/null");
 	}
 	
 	public KIDSSignalSelectionInterface(){
-		signals = new HashMap<IRI,Set<Dataset>>();
+		signals = new HashSet<IRI>();
 	}
 
 	/**
@@ -100,9 +103,9 @@ public class KIDSSignalSelectionInterface {
 	private class RecursiveResult {
 		private Set<IRI> ourSigs;
 		private double ourEID;
-		private Dataset ourDataset;
+		private CorrelatedViewLabelDataset ourDataset;
 		
-		protected RecursiveResult (Set<IRI> signals, double eidValue, Dataset dApplied){
+		protected RecursiveResult (Set<IRI> signals, double eidValue, CorrelatedViewLabelDataset dApplied){
 			ourSigs = signals;
 			ourEID = eidValue;
 			ourDataset = dApplied;
@@ -116,7 +119,7 @@ public class KIDSSignalSelectionInterface {
 			return ourEID;
 		}
 		
-		protected Dataset getDataset(){
+		protected CorrelatedViewLabelDataset getDataset(){
 			return ourDataset;
 		}
 		
@@ -146,10 +149,11 @@ public class KIDSSignalSelectionInterface {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	private RecursiveResult testSignalSet_iter(Map<Set<IRI>, RecursiveResult> triedValues, Map<IRI,Set<Dataset>> sigEvalMap) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException {
+	private RecursiveResult testSignalSet_iter(KIDSMeasurementOracle kmo, Map<Set<IRI>, RecursiveResult> triedValues, 
+			Set<IRI> sigsToEval, CorrelatedViewLabelDataset cvd) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException {
 		RecursiveResult toReturn = null;
 		Set<IRI> key = null;
-		Set<IRI> sigsToEval = sigEvalMap.keySet();
+		//Set<IRI> sigsToEval = sigEvalMap.keySet();
 		
 		System.out.print("Testing signal set: ");
 		for (IRI myI : sigsToEval){
@@ -165,24 +169,22 @@ public class KIDSSignalSelectionInterface {
 			if (triedValues.containsKey(key)){
 				return triedValues.get(key);
 		    }
+			// Try with the correlated dataset
 			// Try with each feasible dataset, and use the maximum:
 			double maxValue = 0.0;
-			Dataset bestDS = null;
-			for (Dataset d : sigEvalMap.get(key)){
-				double eidVal = 0;
-				try {
-					eidVal =  KIDSEIDMeasure.getKIDSEIDMeasureValue(d, sigsToEval);
-					if (eidVal > maxValue || bestDS == null){
+			// We'll work with a correlated data set, and only a single one
+			double eidVal = 0;
+			try {
+					eidVal =  KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					if (eidVal > maxValue){
 						maxValue = eidVal;
-						bestDS = d;
 					}
 				} catch (KIDSUnEvaluableSignalException e) {
 					System.err.println(e.getMessage());
 					e.printStackTrace();
 					return null;
 				}
-			}
-			toReturn = new RecursiveResult(sigsToEval,maxValue,bestDS);
+			toReturn = new RecursiveResult(sigsToEval,maxValue,cvd);
 			triedValues.put(key, toReturn);
 			//System.out.println(toReturn);
 		} else {
@@ -194,31 +196,23 @@ public class KIDSSignalSelectionInterface {
 				} else {
 					// Try with each feasible dataset, and use the maximum:
 					double maxValue = 0.0;
-					Dataset bestDS = null;
-					for (Dataset d : sigEvalMap.get(key)){
-						double eidVal = 0;
-						try {
-							eidVal =  KIDSEIDMeasure.getKIDSEIDMeasureValue(d, sigsToEval);
-							if (eidVal > maxValue || bestDS == null){
-								maxValue = eidVal;
-								bestDS = d;
-							}
-						} catch (KIDSUnEvaluableSignalException e) {
-							System.err.println(e.getMessage());
-							e.printStackTrace();
-							return null;
-						}
+					double eidVal = 0;
+					//TODO: Create Correlated View Dataset - matching given signals
+					eidVal = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					if (eidVal > maxEID){
+						maxEID = eidVal;
 					}
-					maxEID = KIDSEIDMeasure.getKIDSEIDMeasureValue(d, sigsToEval);
+					//maxEID = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
 				}
 			} catch (KIDSUnEvaluableSignalException e){
 				// Couldn't evaluate:
 				maxEID = -1;
 				System.err.println("Warning: " + e.getMessage());
 			}
-				toReturn = new RecursiveResult(sigsToEval, maxEID, d);
+			toReturn = new RecursiveResult(sigsToEval, maxEID, cvd);
 			if (toReturn != null){
 				System.out.println(toReturn);
+				triedValues.put(sigsToEval, toReturn);
 			
 				List<IRI> curSigs = new LinkedList<IRI>(sigsToEval);
 			
@@ -226,7 +220,7 @@ public class KIDSSignalSelectionInterface {
 					Set<IRI> cSigsToEval = new HashSet<IRI>(sigsToEval);
 					cSigsToEval.remove(curSig);
 					if (!triedValues.containsKey(cSigsToEval)){
-						RecursiveResult candidateResult = testSignalSet_iter(triedValues, cSigsToEval, d);
+						RecursiveResult candidateResult = testSignalSet_iter(kmo, triedValues, cSigsToEval, cvd);
 						triedValues.put(cSigsToEval, candidateResult);
 						if (candidateResult.getEID() >= toReturn.getEID() && 
 								candidateResult.getSignals().size() <= toReturn.getSignals().size()){
@@ -243,13 +237,7 @@ public class KIDSSignalSelectionInterface {
 		
 	/**
 	 * Test the signal set returned from the ontology.
-	 * Changes to support correlation:
-	 *   TODO: If we have a time period, ask the oracle for a set of compatible datasets.  This may include:
-	 *         - stand alone datasets
-	 *   TODO: In the dataset factory (or dataset view factory), include a method to return datasets / views
-	 *         related by correlation functions as well.
-	 *   TODO: Have the oracle return datasets in a <Dataset, SignalSet> Map - intention being that each dataset will be
-	 *         individually evaluated, and the best dataset/<signal set> pair will be returned.
+	 * Changes to support correlation -- Done
 	 */
 	public void testSignalSet(String ABOXFile, 
 							  String ABOXIRI,
@@ -277,62 +265,55 @@ public class KIDSSignalSelectionInterface {
 		try {
 			// If we have a time-period, get datasets from the time period.  Otherwise (for backward compatibility), load
 			// the specified dataset.
-			List<String> ourDSIRIList = new LinkedList<String>();
+			Set<String> ourDSIRIList = new HashSet<String>();
 			if (TimePeriodIRI == null){
 				ourDSIRIList.add(DatasetIRI);
 			} else {
-				//TODO: Implement this method - return the list of both individual and correlated datasets, meaning that
-				//      we need to return objects?  Okay, so the Oracle should just return the list, and the Factory should
+				//TODO: Implement this method - return the list of datasets?  Okay, so the Oracle should just return the list, and the Factory should
 				//      have a 'Get All Datasets' method which returns individual + correlated ones.
-				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(TimePeriodIRI), IRI.create(EventIRI));
+				//      Hmm, so are we using this to check multiple correlation functions?
+				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(EventIRI), IRI.create(TimePeriodIRI));
+			}
+			
+			// For each dataset, get the set of signals evaluable with that dataset and this event:
+			for (String dsIRI : ourDSIRIList){
+				signals.addAll(myGuy.getSignalsForDatasetAndEvent(IRI.create(dsIRI), IRI.create(EventIRI)));
+				
 			}
 			
 			//TODO: Create the datasets first, then iterate over the dataset objects rather than the IRIs
 			//      When returning the datasets, return a <Dataset,Set<SignalIRI>> map, where the signal set is
 			//      the set of signals which can actually be evaluated over the data set.  Should be the union of
 			//      individual signal sets for individual datasets.
-			List<Dataset> DSOBJList = KIDSDatasetFactory.getCorrelatedDatasets(ourDSIRIList, IRI.create(EventIRI), myGuy);
+			List<CorrelatedViewLabelDataset> DSOBJList = KIDSDatasetFactory.getCorrelatedDatasets(ourDSIRIList, IRI.create(EventIRI), myGuy);
 
-			for (Dataset ourDS : DSOBJList){
+			for (CorrelatedViewLabelDataset ourDS: DSOBJList){
 				// For each of these signals, we need to map to a dataset and detector
 				//Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
 				assert(ourDS != null);
 		
-				// First, get the set of signals which applies to the dataset and event together
-				Set<IRI> dsSigs = myGuy.getSignalsForDatasetAndEvent(
-						IRI.create(DatasetIRI),
-						IRI.create(EventIRI)
-						);
-				for (IRI sig : dsSigs){
-					if (!signals.containsKey(sig)){
-					    signals.put(sig, new HashSet<Dataset>());	
+				// Assess all subsets of available signals, recording the EID values for each:
+				Map<Set<IRI>, RecursiveResult> triedValues = new HashMap<Set<IRI>, RecursiveResult>();
+				RecursiveResult rr = this.testSignalSet_iter(myGuy, triedValues, signals,ourDS);
+			
+				System.out.println("Maximum signal set (EID = " + rr.getEID() + "):");
+					for (IRI signalC : rr.ourSigs){
+						System.out.println("\t" + signalC.toString());
 					}
-					signals.get(sig).add(ourDS);
-				}
-			//	assert(signals.size() >= 1);
-			}
-		
-			// Assess all subsets of available signals, recording the EID values for each:
-			Map<Set<IRI>, RecursiveResult> triedValues = new HashMap<Set<IRI>, RecursiveResult>();
-			RecursiveResult rr = this.testSignalSet_iter(triedValues, signals);
-			
-			System.out.println("Maximum signal set (EID = " + rr.getEID() + "):");
-				for (IRI signalC : rr.ourSigs){
-					System.out.println("\t" + signalC.toString());
-				}
 				
-			System.out.println("All results:");
-			for (Set<IRI> curKey : triedValues.keySet()){
-				StringBuilder keyString = new StringBuilder();
-				for (IRI k : curKey){
-					keyString.append(k.toString() + " ");
+				System.out.println("All results:");
+				for (Set<IRI> curKey : triedValues.keySet()){
+					StringBuilder keyString = new StringBuilder();
+					for (IRI k : curKey){
+						keyString.append(k.toString() + " ");
+					}
+					System.out.println("\t" + triedValues.get(curKey).getEID() + "\t{" + keyString + "}");
 				}
-				System.out.println("\t" + triedValues.get(curKey).getEID() + "\t{" + keyString + "}");
 			}
 			
-			KIDSSnortDetectorSyntax kds = new KIDSSnortDetectorSyntax();
-			kds.init(myGuy);
-			System.out.println("Optimal Snort rule: \n" + FileUtils.readFile(kds.getDetectorSyntax(rr.ourSigs)));
+			//KIDSSnortDetectorSyntax kds = new KIDSSnortDetectorSyntax();
+			//kds.init(myGuy);
+			//System.out.println("Optimal Snort rule: \n" + FileUtils.readFile(kds.getDetectorSyntax(rr.ourSigs)));
 		} catch (KIDSOntologyDatatypeValuesException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -358,6 +339,9 @@ public class KIDSSignalSelectionInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (KIDSUnEvaluableSignalException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IncompatibleCorrelationValueException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

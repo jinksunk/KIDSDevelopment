@@ -1020,14 +1020,13 @@ public class KIDSLibpcapDataset implements Dataset, java.io.Serializable {
 	    		return retVal;
 	    	}
 	    }
+
 		@Override
 		public int numEventOccurrences() {
 			// TODO Auto-generated method stub
 			return 0;
 		}
 	}
-
-
 
 	@Override
 	public Set<DataInstance> getMatchingInstances(Set<IRI> applicableSignals)
@@ -1054,6 +1053,12 @@ public class KIDSLibpcapDataset implements Dataset, java.io.Serializable {
 			IllegalAccessException, ClassNotFoundException {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public IRI getViewIRI() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

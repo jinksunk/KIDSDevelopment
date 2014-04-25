@@ -62,6 +62,7 @@ public class KIDSOracle {
 	public static final IRI detectorSignalRelation = IRI.create(TBOXPrefix + "#isAppliedByDetector");
 	public static final IRI signalRepRelation = IRI.create(TBOXPrefix + "#hasCanonicalRepresentation");
 	public static final IRI repImplementationProp = IRI.create(TBOXPrefix + "#signalCanonicalRepresentationImplementation");
+	public static final IRI signalValueObjectProperty = IRI.create(TBOXPrefix + "#hasSignalValue");
 	public static final IRI signalValueDataProp = IRI.create(TBOXPrefix + "#hasValue");
 	public static final IRI signalDomainObjProp = IRI.create(TBOXPrefix + "#hasDomain");
 	public static final IRI featureContextObjProp = IRI.create(TBOXPrefix + "#hasSignalDomainContext");
@@ -363,8 +364,14 @@ public class KIDSOracle {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 */
 	public String getSignalValue (OWLNamedIndividual signalInd) throws KIDSOntologyDatatypeValuesException{
+		// First, we need to get the SignalValue individual:
+		Set<OWLNamedIndividual> sinds = r.getObjectPropertyValues(signalInd, odf.getOWLObjectProperty(KIDSOracle.signalValueObjectProperty)).getFlattened();
+		if (sinds.size() != 1){
+			throw new KIDSOntologyDatatypeValuesException();
+		}
+		
 		Set<OWLLiteral> valueSet = r.getDataPropertyValues(
-				signalInd, 
+				sinds.iterator().next(), 
 				odf.getOWLDataProperty(signalValueDataProp));
 		if (valueSet.size() != 1){
 			throw new KIDSOntologyDatatypeValuesException();

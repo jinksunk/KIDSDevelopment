@@ -33,6 +33,7 @@ import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException;
 import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
+import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
@@ -137,9 +138,10 @@ public class testNativeLibPCAPView {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
 	 */
 	@Test
-	public void testNumInstances() throws IOException, KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException{
+	public void testNumInstances() throws IOException, KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException{
 
 		System.out.println("Testing " + testSet1InstanceCount + " == " + testSet1.numInstances());
 		assertTrue(testSet1InstanceCount == testSet1.numInstances());

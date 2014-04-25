@@ -17,62 +17,12 @@ import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureEx
 import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
-public class KIDSNativeLibpcapDataInstance implements DataInstance {
-	
-	private Label myLabel = null;
-	private List<IRI> identifiers = null;
-	private String myID;
-	private Map<IRI,String> myResources = null;
+public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implements DataInstance {
 	
 	public KIDSNativeLibpcapDataInstance (HashMap<IRI, String> idValues){
-		this.setID(idValues);
-		myResources = new HashMap<IRI,String>();
+		super(idValues);
 	}
 
-	@Override
-	public Label getLabel() {
-		return myLabel;
-	}
-	
-	@Override
-	public void setLabel(Label label) {
-		myLabel = label;
-	}
-
-	/**
-	 * 
-	 */
-	@Override
-	public void setID(HashMap<IRI, String> idValues) {
-		StringBuilder idbuild = new StringBuilder();
-		for (IRI fVal : idValues.keySet()){
-			idbuild.append(idValues.get(fVal));
-		}
-		myID = idbuild.toString();
-	}
-	
-	@Override
-	/**
-	 * 
-	 * @return The unique ID components by which this instance can be identified.
-	 */
-	public String getID() {
-		return myID;
-	}
-	
-	@Override
-	/**
-	 * 
-	 */
-	public int hashCode(){
-		return Integer.parseInt(this.myID);
-	}
-	
-	@Override
-	public Map<IRI,String> getResources(){
-		return myResources;
-	}
-	
 	@Override
 	/**
 	 * 

@@ -66,7 +66,16 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, Dataset d) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 
+		KIDSOntologyDatatypeValuesException, 
+		KIDSOntologyObjectValuesException, 
+		InstantiationException, 
+		IllegalAccessException, 
+		ClassNotFoundException, 
+		IOException, 
+		KIDSIncompatibleSyntaxException, 
+		KIDSUnEvaluableSignalException {
+
 		double E_ID = 0;
 		int Inum = 0;                // The total number of instances (bags) (instances + # events - event related instances)
 		int[] EInumAry = null;          // The number of instances associated with each event E_i
@@ -91,37 +100,20 @@ public class KIDSEIDMeasure {
 		
 		double IGS = 0; 			 // The information gain after applying signal s
 		
-		// First, build a unique set of datasets to consider:
-		//HashSet<Dataset> dsets = new HashSet<Dataset>();
-		//dsets.addAll(s.values());
-		
 		// Estimate probabilities:
 		// DONE: Do we need to build an abstract "correlated interface" here? - Yes, we do; call from the DatasetFactory?
 		// First, build the 'perfectly correlated' dataset.  We will end up with one instance for each event,
 		//  and one instance for each uncorrelated instance.
 		
 		/*** Denominators - perfectly correlated values ***/
-		//TODO: Add getComponentDatasets() ; should we just always assume / use a 'correlated' data set, with a null-correlation?  Yes.
-		Set<Dataset> dsets = d.getComponentDatasets();
-
-		for (Dataset ds : dsets){
-			Inum += ds.numInstances();
-			int[] tmpAry = ds.numPositiveInstances();  // Event Instance counts
+		//      In a correlated data set, numInstance returns the sum of the instances in each component
+		//      dataset, minus the event related instances, plus one for each event.
+		// problem (?) - we want to keep the denominator consistent, so we should assume that we are only using correlation functions that work over
+		//               all datasets under consideration...
+		Inum += d.numInstances(); // We need number of correlated instances here?  Actually, no, we're doing bags here
+		EInumAry = d.numPositiveInstances();  // Event Instance counts
 			
-			// Initialize the EInumAry, if necessary, to track the number of instances associated with each event.
-			if (EInumAry == null){
-				EInumAry = new int[tmpAry.length];
-			}
-			// Remove instances in the same event-related "bag", keeping track of them in EInumAry, the array of bags
-			for (i = 0; i < tmpAry.length; i++){
-				Inum -= tmpAry[i];
-				EInumAry[i] += tmpAry[i];
-			}
-			// Add back in the number of events, to represent the bags
-			Inum += EInumAry.length;
-		
-		}
-		EInum = EInumAry.length; // Number of event bags
+		EInum = d.numEventOccurrences(); // Number of event bags
 		
 		BInum = Inum - EInum; // Benign instances (non-event related)
 		
@@ -139,7 +131,7 @@ public class KIDSEIDMeasure {
 		//  'or', then the bag of instances only needs to include one signal.  The dataset view will implement this.
 		// 
 		// Get counts from filtered data set:
-		Dataset dTemp = null;
+		CorrelatedViewLabelDataset dTemp = null;
 		
 		// Determine if correlation is required:
 		// Moving to a correlated dataset interface instead.  This block should no longer be needed.
@@ -164,16 +156,17 @@ public class KIDSEIDMeasure {
 			return 0; // Assume no benefit to the signal if we cannot evaluate it
 		}
 		
-		SInum = dTemp.numInstances(); // # of instances matching s, counting event-related instances once for each event
+		SInum = dTemp.numCorrelatedInstances(); // # of instances matching s, counting event-related instances once for each event
 		SBInum = 0;					// # of correlated benign instances matching s
 		SEInum = 0;					// # of correlated malicious instances matching s
-		SEInumAry = dTemp.numPositiveInstances();
-		if (SEInumAry.length != dTemp.numEventOccurrences()){
+		SEInumAry = dTemp.numPositiveCorrelatedInstances();
+		if ((SEInumAry.length - 1) != dTemp.numEventOccurrences()){
 			System.err.println("Warning: Positive instance array length (" + SEInumAry.length + ") != numEventOccurrences (" + dTemp.numEventOccurrences() + ")");
 		}
-		for (i = 0; i < SEInumAry.length; i++){
+		for (i = 1; i < SEInumAry.length; i++){
 			if (SEInumAry[i] == 0){
 				continue;
+			}
 			
 			if (EInumAry[i] > 0){
 			    SEInum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
