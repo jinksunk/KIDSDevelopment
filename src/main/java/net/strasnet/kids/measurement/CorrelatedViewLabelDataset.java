@@ -70,7 +70,7 @@ public class CorrelatedViewLabelDataset {
 					di.setLabel(myL.getLabel(di));
 				}
 				allInstances.add(di);
-				System.err.println("Adding instance " + di.getID());
+				// debugPrint("Adding instance " + di.getID());
 			}
 		}
 
@@ -119,7 +119,7 @@ public class CorrelatedViewLabelDataset {
 		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();
 		while (cii.hasNext()){
 			CorrelationDataInstance ci = cii.next();
-			debugPrint(" + CDI " + ci.hashCode() + " with " + ci.getInstances().size() + " instances...");
+			//debugPrint(" + CDI " + ci.hashCode() + " with " + ci.getInstances().size() + " instances...");
 			Set<DataInstance> instanceSet = ci.getInstances();
 			totalInstances += instanceSet.size();
 		}

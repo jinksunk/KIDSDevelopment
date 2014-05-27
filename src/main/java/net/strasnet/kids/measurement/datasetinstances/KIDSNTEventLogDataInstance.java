@@ -30,7 +30,7 @@ public class KIDSNTEventLogDataInstance extends AbstractDataInstance {
 		if (o == null){
 			return false;
 		}
-		return ((KIDSNTEventLogDataInstance)o).getID().equals(this.getID());
+		return ((DataInstance)o).getID().equals(this.getID());
 	}
 
 }

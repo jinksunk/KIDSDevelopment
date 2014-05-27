@@ -97,14 +97,69 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 		Process genPcap = null;
 		try {
 			command = executionCommand + " -v -tt -n -n -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals) + " ";
+			System.err.print("Executing command [" + command + "] ...");
 			genPcap = Runtime.getRuntime().exec(command);
-			if (genPcap.waitFor() != 0){
-				BufferedReader errd = new BufferedReader (new InputStreamReader(genPcap.getErrorStream()));
-				String errout;
-				while ((errout = errd.readLine()) != null){
-				    System.err.println(errout);
-				}
-			}
+		    BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
+		    String pcapLine;
+
+		    // Get the packet ID for each packet, and create the data instance object for it
+		    int count = 0;
+		    int statusAt = 100000;
+		    long t0 = System.currentTimeMillis();
+		    long t1 = 0;
+		    while ((pcapLine = rd.readLine()) != null){
+			    count++;
+			    if (count % statusAt == 0){
+				    t1 = System.currentTimeMillis();
+				    double pps = statusAt / (((double)t1 - (double)t0) / 1000);
+				    System.err.println(" .. Processed " + count + " packets (" + pps + " pps)");
+				    t0 = t1;
+			    }
+			    Matcher rexmpre = rexpL1.matcher(pcapLine);
+			    Matcher rexi = rexpIgnore.matcher(pcapLine);
+			    if (rexmpre.matches()){
+				    // First of the two lines extract resources.
+			        String packetID = rexmpre.group("PID");
+			        HashMap<IRI, String> idmap = new HashMap<IRI, String>();
+			        idmap.put(v.getIdentifyingFeatures().get(0), packetID);
+    
+			        // Setup resource hashmap:
+				    HashMap<IRI,String> resMap = new HashMap<IRI,String>();
+				    String tsString = rexmpre.group("TimeStamp");
+				    resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString.substring(0, tsString.indexOf('.')));
+			        
+			        // Get the second part
+				    pcapLine = rd.readLine();
+				    Matcher rexmpost = rexp.matcher(pcapLine);
+
+				    if (rexmpost.matches()){
+					    // Extract resources
+					    resMap.put(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"), rexmpost.group("SIP"));
+					    idmap.put(v.getIdentifyingFeatures().get(2), rexmpost.group("SIP"));
+					    resMap.put(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"), rexmpost.group("DIP"));
+					    idmap.put(v.getIdentifyingFeatures().get(3), rexmpost.group("DIP"));
+					    KIDSNativeLibpcapDataInstance newGuy = new KIDSNativeLibpcapDataInstance(idmap);
+					    newGuy.addResources(resMap);
+					    toReturn.add(newGuy);
+				    } else {
+					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
+				    }
+			    } else if (rexi.matches()){
+				    // Ignore other lines
+				    continue;
+			    } else {
+				    throw new IOException("Could not extract packet ID from line: " + pcapLine);
+			    }
+		    }
+		
+		    if (genPcap.waitFor() != 0){
+			    BufferedReader errd = new BufferedReader (new InputStreamReader(genPcap.getErrorStream()));
+			    String errout;
+			    while ((errout = errd.readLine()) != null){
+			        System.err.println(errout);
+			    }
+		    }
+		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);
 		} catch (KIDSIncompatibleSyntaxException e) {
@@ -115,49 +170,6 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 			}
 			return new HashSet<DataInstance>();
 		}
-		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
-		String pcapLine;
-		
-		// Get the packet ID for each packet, and create the data instance object for it
-		while ((pcapLine = rd.readLine()) != null){
-			Matcher rexmpre = rexpL1.matcher(pcapLine);
-			Matcher rexi = rexpIgnore.matcher(pcapLine);
-			if (rexmpre.matches()){
-				// First of the two lines extract resources.
-			    String packetID = rexmpre.group("PID");
-			    HashMap<IRI, String> idmap = new HashMap<IRI, String>();
-			    idmap.put(v.getIdentifyingFeatures().get(0), packetID);
-
-			    // Setup resource hashmap:
-				HashMap<IRI,String> resMap = new HashMap<IRI,String>();
-				String tsString = rexmpre.group("TimeStamp");
-				resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString.substring(0, tsString.indexOf('.')));
-			    
-			    // Get the second part
-				pcapLine = rd.readLine();
-				Matcher rexmpost = rexp.matcher(pcapLine);
-
-				if (rexmpost.matches()){
-					// Extract resources
-					resMap.put(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"), rexmpost.group("SIP"));
-					idmap.put(v.getIdentifyingFeatures().get(2), rexmpost.group("SIP"));
-					resMap.put(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"), rexmpost.group("DIP"));
-					idmap.put(v.getIdentifyingFeatures().get(3), rexmpost.group("DIP"));
-					KIDSNativeLibpcapDataInstance newGuy = new KIDSNativeLibpcapDataInstance(idmap);
-					newGuy.addResources(resMap);
-					toReturn.add(newGuy);
-				} else {
-					throw new IOException("Only first line matched (second is listed here): " + pcapLine);
-				}
-			} else if (rexi.matches()){
-				// Ignore other lines
-				continue;
-			} else {
-				throw new IOException("Could not extract packet ID from line: " + pcapLine);
-			}
-		}
-		
-		return toReturn;
 	}
 
 	@Override

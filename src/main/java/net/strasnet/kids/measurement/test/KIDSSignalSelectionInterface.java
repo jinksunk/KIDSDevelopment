@@ -269,7 +269,7 @@ public class KIDSSignalSelectionInterface {
 			if (TimePeriodIRI == null){
 				ourDSIRIList.add(DatasetIRI);
 			} else {
-				//TODO: Implement this method - return the list of datasets?  Okay, so the Oracle should just return the list, and the Factory should
+				//      Okay, so the Oracle should just return the list, and the Factory should
 				//      have a 'Get All Datasets' method which returns individual + correlated ones.
 				//      Hmm, so are we using this to check multiple correlation functions?
 				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(EventIRI), IRI.create(TimePeriodIRI));
@@ -281,7 +281,7 @@ public class KIDSSignalSelectionInterface {
 				
 			}
 			
-			//TODO: Create the datasets first, then iterate over the dataset objects rather than the IRIs
+			//      Create the datasets first, then iterate over the dataset objects rather than the IRIs
 			//      When returning the datasets, return a <Dataset,Set<SignalIRI>> map, where the signal set is
 			//      the set of signals which can actually be evaluated over the data set.  Should be the union of
 			//      individual signal sets for individual datasets.
@@ -305,7 +305,7 @@ public class KIDSSignalSelectionInterface {
 				for (Set<IRI> curKey : triedValues.keySet()){
 					StringBuilder keyString = new StringBuilder();
 					for (IRI k : curKey){
-						keyString.append(k.toString() + " ");
+						keyString.append(k.getFragment().toString() + " ");
 					}
 					System.out.println("\t" + triedValues.get(curKey).getEID() + "\t{" + keyString + "}");
 				}

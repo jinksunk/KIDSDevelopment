@@ -31,7 +31,7 @@ public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implemen
 		if (o == null){
 			return false;
 		}
-		return ((KIDSNativeLibpcapDataInstance)o).getID().equals(this.getID());
+		return ((DataInstance)o).getID().equals(this.getID());
 	}
 	
 	public static void main(String[] args){

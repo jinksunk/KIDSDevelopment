@@ -87,8 +87,44 @@ public class KIDSGrepDetector implements KIDSDetector {
 		//String[] toExec = {" -E ",  ourSyn.getDetectorSyntax(signals), v.getViewLocation()};
 		String[] toExec = {executionCommand, "-E",  ourSyn.getDetectorSyntax(signals), v.getViewLocation()};
 		Process genPcap = Runtime.getRuntime().exec(toExec);
+		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
+		String Line;
 
 		try {
+			// Get the log entry ID for each line, and create the data instance object for it
+			// Extract out at least the ID, Source IP (if present), and HTTPGetRequestResource (if present)
+			while ((Line = rd.readLine()) != null){
+				Matcher rexm = rexp.matcher(Line);
+				//Matcher rexi = rexpIgnore.matcher(Line);
+				if (rexm.matches()){
+			    	String logLineID = rexm.group(1);
+			    	//TODO: At some point, need to add resources other than ID features
+			    	// Maps of feature IRIs to values
+			    	HashMap<IRI, String> idmap = new HashMap<IRI, String>();
+			    	// Add the identifying features for the instance
+			    	idmap.put(v.getIdentifyingFeatures().get(0), logLineID);
+			    	KIDSNTEventLogDataInstance newGuy = new KIDSNTEventLogDataInstance(idmap);
+			    	// Now add the extracted resources
+			    	newGuy.addResources(extractResources(Line));
+			    	toReturn.add(newGuy);
+	//			} else if (rexi.matches()){
+	//				// Ignore other lines
+	//				continue;
+				} else {
+					throw new IOException("Could not extract Log ID from line: " + Line);
+				}
+			}
+		
+			/**
+			Iterator<DataInstance> i = toReturn.iterator();
+			while (i.hasNext()){
+				DataInstance iNext = i.next();
+				Map<IRI,String> iResources = iNext.getResources();
+				for (IRI k : iResources.keySet()){
+					System.out.println(" -" + k + " :=: " + iResources.get(k));
+				}
+			}
+			*/
 			if (genPcap.waitFor() != 0){
 				System.err.print("Non-0 exit code from KIDSGrepDetector: '");
 				for (int i = 0; i < toExec.length; i++){
@@ -102,47 +138,11 @@ public class KIDSGrepDetector implements KIDSDetector {
 				    System.err.println(errout);
 				}
 			}
+			return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
-		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
-		String Line;
 		
-		// Get the log entry ID for each line, and create the data instance object for it
-		// Extract out at least the ID, Source IP (if present), and HTTPGetRequestResource (if present)
-		while ((Line = rd.readLine()) != null){
-			Matcher rexm = rexp.matcher(Line);
-			//Matcher rexi = rexpIgnore.matcher(Line);
-			if (rexm.matches()){
-			    String logLineID = rexm.group(1);
-			    //TODO: At some point, need to add resources other than ID features
-			    // Maps of feature IRIs to values
-			    HashMap<IRI, String> idmap = new HashMap<IRI, String>();
-			    // Add the identifying features for the instance
-			    idmap.put(v.getIdentifyingFeatures().get(0), logLineID);
-			    KIDSNTEventLogDataInstance newGuy = new KIDSNTEventLogDataInstance(idmap);
-			    // Now add the extracted resources
-			    newGuy.addResources(extractResources(Line));
-			    toReturn.add(newGuy);
-//			} else if (rexi.matches()){
-//				// Ignore other lines
-//				continue;
-			} else {
-				throw new IOException("Could not extract Log ID from line: " + Line);
-			}
-		}
-		
-		/**
-		Iterator<DataInstance> i = toReturn.iterator();
-		while (i.hasNext()){
-			DataInstance iNext = i.next();
-			Map<IRI,String> iResources = iNext.getResources();
-			for (IRI k : iResources.keySet()){
-				System.out.println(" -" + k + " :=: " + iResources.get(k));
-			}
-		}
-		*/
-		return toReturn;
 	}
 
 	/* (non-Javadoc)

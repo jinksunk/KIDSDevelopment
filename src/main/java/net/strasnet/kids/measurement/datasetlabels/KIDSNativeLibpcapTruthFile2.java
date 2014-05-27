@@ -92,6 +92,9 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 	}
 
 	@Override
+	/**
+	 * IP ID is: <PID><DIP><SIP>
+	 */
 	public Label getLabel(DataInstance dve) {
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
 			dve.setLabel(labelKey.get(dve.hashCode()));

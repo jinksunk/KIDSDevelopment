@@ -7,6 +7,7 @@ import net.strasnet.kids.measurement.Dataset;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
@@ -29,12 +30,22 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 		}
 	}
 	
+	/**
+	 * 
+	 * @param i1
+	 * @param i2
+	 * @return true if they share the required resource(s) for correlation, false otherwise.
+	 * @throws IncompatibleCorrelationValueException
+	 */
 	public boolean isCorrelated (DataInstance i1, DataInstance i2) throws IncompatibleCorrelationValueException{
 		Map<IRI, String> rMap1 = i1.getResources();
 		Map<IRI, String> rMap2 = i2.getResources();
+		
+		// If either does not have the resource, they cannot be correlated:
 		if (!rMap1.containsKey(relatedResource) ||
 			!rMap2.containsKey(relatedResource)){
-			throw new IncompatibleCorrelationValueException("Data instances do not share resource " + relatedResource);
+			return false;
+			//throw new IncompatibleCorrelationValueException("Data instances do not share resource " + relatedResource);
 		}
 		InetAddress ip1 = null;
 		InetAddress ip2 = null;
@@ -56,33 +67,32 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 	public Set<CorrelationDataInstance> generateCorrelatedDataSet(
 			Set<DataInstance> rawInstances) throws IncompatibleCorrelationValueException {
 		Set<CorrelationDataInstance> toReturn = new HashSet<CorrelationDataInstance>();
-		for (DataInstance i : rawInstances){
-			System.err.println("[DI] " + i.getID());
-		}
+	//	for (DataInstance i : rawInstances){
+	//		System.err.println("[DI] " + i.getID());
+	//	}
 		
 		// Iterate over the set of data instances until all are correlated.
-		while (!rawInstances.isEmpty()){
-			// Take the first instance:
-			Iterator<DataInstance> i = rawInstances.iterator();
-			DataInstance seed = i.next();
-			Set<DataInstance> correlatedInstances = new HashSet<DataInstance>();
-			correlatedInstances.add(seed);
-			debugPrint(seed.getID() + " :");
-			while (i.hasNext()){
-				DataInstance candidate = i.next();
-				if (this.isCorrelated(seed, candidate)){
-					// Add to the correlated data instance
-					correlatedInstances.add(candidate);
-					debugPrint("  -c- " + candidate.getID() + " ;");
-				}
+		// Sort the list, then just take it in chunks
+		HashMap <String, Set<DataInstance>> sipMap = new HashMap<String,Set<DataInstance>>();
+
+		for (DataInstance i : rawInstances){
+			Map<IRI, String> rMap2 = i.getResources();
+			String sip = rMap2.get(SourceIPAddressCorrelationFunction.relatedResource);
+			Set<DataInstance> instances;
+			if (!sipMap.containsKey(sip)){
+				sipMap.put(sip, new HashSet<DataInstance>());
 			}
-			// Remove correlated instances
-			Iterator<DataInstance> j = correlatedInstances.iterator();
-			while (j.hasNext()){
-				rawInstances.remove(j.next());
+			sipMap.get(sip).add(i);
+		}
+		
+		// Now, the sets are exactly those sets of correlated data instances!
+		for (String ciSIP : sipMap.keySet()){
+		
+			Set<DataInstance> correlatedInstances = sipMap.get(ciSIP);
+			CorrelationDataInstance newGuy = new CorrelationDataInstance(sipMap.get(ciSIP));
+			if (correlatedInstances.size() > 1){
+			  debugPrint("[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI with: " + correlatedInstances.size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
 			}
-			CorrelationDataInstance newGuy = new CorrelationDataInstance(correlatedInstances);
-			debugPrint("Resulted in CDI with: " + newGuy.getInstances().size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
 			toReturn.add(newGuy);
 		}
 		
