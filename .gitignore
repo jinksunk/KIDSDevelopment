@@ -29,3 +29,11 @@ weka.jar
 /build/**
 /antlr-generated/**
 /lib-src/**
+
+# From GITHUB
+*.class
+
+# Package Files #
+*.jar
+*.war
+*.ear
