@@ -37,6 +37,7 @@ public class CorrelatedViewLabelDataset {
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;
+	private int maxEventID = 0;
 	
 	public void debugPrint(String msg){
 		if (DEBUG){
@@ -101,10 +102,11 @@ public class CorrelatedViewLabelDataset {
 	 * @param newSet - The set of correlated data instances to include in the newly created
 	 * data set
 	 * @return A correlated view label dataset with the same correlation function as this one, but only
-	 * only the given subset of correlated data instances.
+	 * the given subset of correlated data instances.
 	 */
 	public CorrelatedViewLabelDataset getDataSubset(Set<CorrelationDataInstance> newSet){
 		CorrelatedViewLabelDataset toReturn = new CorrelatedViewLabelDataset(newSet,this.ourCombiner, this.constituentDatasets);
+		toReturn.maxEventID = this.maxEventID;
 		return toReturn;
 	}
 	
@@ -360,7 +362,6 @@ public class CorrelatedViewLabelDataset {
 	 */
 	public int[] numPositiveCorrelatedInstances() {
 		// Iterate through the dataset, keeping track of both the number of instances per event ID, and the largest eventID seen
-		int maxEventID = 0;
 		HashMap<Integer,Integer> eid2count = new HashMap<Integer,Integer>();
 		
 		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();

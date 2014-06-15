@@ -91,7 +91,7 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 			Set<DataInstance> correlatedInstances = sipMap.get(ciSIP);
 			CorrelationDataInstance newGuy = new CorrelationDataInstance(sipMap.get(ciSIP));
 			if (correlatedInstances.size() > 1){
-			  debugPrint("[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI with: " + correlatedInstances.size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
+			  debugPrint("\n[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI with: " + correlatedInstances.size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
 			}
 			toReturn.add(newGuy);
 		}

@@ -87,9 +87,12 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 						maskLength += 8;
 					}
 					// Count the number of 1's
-					while (i <= 3 && componentList[i] != 0){
-						componentList[i] = componentList[i] >> 1;
-						maskLength++;
+					int j = 0;
+					while (j < 8 && i <= 3 && componentList[i] != 0){
+						if ((componentList[i] & (1 << j++)) != 0){
+						//componentList[i] = componentList[i] >> 1;
+						    maskLength++;
+						}
 					}
 					sValBuilder.append(connector + this.template);
 					if (maskLength > 0){

@@ -210,6 +210,7 @@ public class KIDSEIDMeasure {
 		} else {
 			E_ID = 0;
 		}
+		System.err.println("E_ID:" + E_ID + "\t SBINum:" + SBInum + " \t NBINum:" + NBInum + "\t SInum:" + SInum + "\tBInum:" + BInum + "\tInum:" + Inum);
 		return E_ID;
 	}
 	

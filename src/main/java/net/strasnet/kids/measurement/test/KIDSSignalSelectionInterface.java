@@ -291,6 +291,12 @@ public class KIDSSignalSelectionInterface {
 				// For each of these signals, we need to map to a dataset and detector
 				//Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
 				assert(ourDS != null);
+				System.out.println("Evaluating CDI with the following properties:");
+				System.out.println("Instances:\t" + ourDS.numInstances());
+				System.out.println("cInstances:\t" + ourDS.numCorrelatedInstances());
+				System.out.println("Events:\t" + ourDS.numEventOccurrences());
+				System.out.println("EvInstances:\t" + ourDS.numPositiveInstances().length);
+				System.out.println("cEvInstances:\t" + (ourDS.numPositiveCorrelatedInstances().length - 1));
 		
 				// Assess all subsets of available signals, recording the EID values for each:
 				Map<Set<IRI>, RecursiveResult> triedValues = new HashMap<Set<IRI>, RecursiveResult>();
