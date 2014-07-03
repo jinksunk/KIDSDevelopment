@@ -33,7 +33,6 @@ import net.strasnet.kids.measurement.correlationfunctions.KIDSCorrelationFunctio
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset.KIDSLibpcapTruthFile.TruthFileParseException;
 
 public class KIDSMeasurementOracle extends KIDSOracle {
 	public static final String kidsTBOXLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
@@ -87,7 +86,7 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 */
-	public Set<OWLNamedIndividual> getDatasetsForEvent(IRI testeventiri) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException {
+	public Set<OWLNamedIndividual> getDatasetsForEvent(IRI testeventiri) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Set<OWLNamedIndividual> rList = this.r.getObjectPropertyValues(this.odf.getOWLNamedIndividual(testeventiri), 
 				this.odf.getOWLObjectProperty(IRI.create(eventDatasetRelation))).getFlattened();
 		
@@ -133,7 +132,7 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 */
 	public Dataset getDatasetImplementation(
 			OWLNamedIndividual ourDataset,
-			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
 		// get the library string value for the given Class
 		// The value is a data property of the individual:
 		OWLDataProperty datasetImpl = odf.getOWLDataProperty(IRI.create(datasetParserImplementationProp.toString()));
@@ -225,7 +224,7 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 							// Need a chain of dataSetContains -> isContextOfDomain -> isDomainOfSignal
 							this.r.getObjectPropertyValues(
 								this.odf.getOWLNamedIndividual(datasetIRI),
-								this.odf.getOWLObjectProperty(IRI.create( datasetSignalRelation))
+								this.odf.getOWLObjectProperty(IRI.create(datasetSignalRelation))
 							).getFlattened()
 						)
 					), 
@@ -460,8 +459,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		Set<OWLNamedIndividual> results = r.getObjectPropertyValues(
 					signal, 
 					odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.signalConstraintSignalRelation))).getFlattened();
-		if (results.size() != 1){
+		if (results.size() > 1){
 			throw new KIDSOntologyObjectValuesException("Too many values for property " + signalConstraintSignalRelation + " on individual " + signal);
+		} else if (results.size() == 0){
+			throw new KIDSOntologyObjectValuesException("No values for property " + signalConstraintSignalRelation + " on individual " + signal);
 		}
 		return results.iterator().next();
 	}
@@ -804,7 +805,8 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 					}
 				}
 			} catch (KIDSOntologyDatatypeValuesException e){
-				
+				System.err.println("[E] -- Ontology Datatype Values Exception");
+				e.printStackTrace();
 			}
 
 		}

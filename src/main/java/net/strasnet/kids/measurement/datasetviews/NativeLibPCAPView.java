@@ -58,6 +58,9 @@ import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresen
  * 
  * To support measurement, the data must be accompanied by a "truth file", provided at init() time.  
  * 
+ * In theory, this view can support terms of service flags, time to live, packet id, protocol number, ip data length, source IP address,
+ * destination IP address, source port, destination port, tcp flags, checksum value, sequence number, window size, and tcp data length.
+ * 
  * @author chrisstrasburg
  *
  */
@@ -105,6 +108,8 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	 * Given a Dataset reference, generate a specific view from it - in this case,
 	 * the view is the same file as the dataset (native LibPCAP).
 	 * 
+	 * This method identifies and sets the detector as well.
+	 * 
 	 * @param eventIRI
 	 * @param iSet
 	 * @param evtList - The list of events given by the parent data set
@@ -116,7 +121,7 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 		myGuy = o;
 		identifyingFeatures = idFeatures;
 		datasetLocation = datasetLoc;
-		ourDetector = o.getDetectorForView(ourIRI);
+		ourDetector = o.getDetectorForView(ourIRI); // TODO: Make this a list of detectors
 			try {
 				Set<DataInstance> iSet = this.getMatchingInstances(new HashSet<IRI>());
 				ourInstances.addAll(iSet);
@@ -161,6 +166,8 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	@Override
 	/**
 	 * If we have a filter set, ensure that only filtered results are included.
+	 * TODO: Add caching for matching instances.
+	 * TODO: Take a MAP from signal -> detectors for evaluation - View supports multiple detectors
 	 */
 	public Set<DataInstance> getMatchingInstances(
 			Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {

@@ -33,7 +33,7 @@ import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
  */
 public class CorrelatedViewLabelDataset {
 	
-	private static boolean DEBUG = true;
+	private static boolean DEBUG = false;
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;
@@ -45,6 +45,21 @@ public class CorrelatedViewLabelDataset {
 		}
 	}
 
+	/**
+	 * Iterates over all base instances of all dataset / dataset label pairs, and creates correlated instances
+	 * according to the provided combination function.
+	 * 
+	 * Sets labels on the individual data instances.
+	 * 
+	 * @param combinationFunction
+	 * @param members
+	 * @throws IOException
+	 * @throws IncompatibleCorrelationValueException
+	 * @throws KIDSUnEvaluableSignalException
+	 * @throws KIDSOntologyObjectValuesException
+	 * @throws KIDSOntologyDatatypeValuesException
+	 * @throws KIDSIncompatibleSyntaxException
+	 */
 	public CorrelatedViewLabelDataset(CorrelationFunction combinationFunction, HashMap<Dataset, DatasetLabel> members) throws IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException{
 		constituentDatasets = new HashMap<Dataset, DatasetLabel>();
 		ourDataInstances = new HashSet<CorrelationDataInstance>();
@@ -58,9 +73,6 @@ public class CorrelatedViewLabelDataset {
 		// all others in all other datasets to see if it is correlated.  Combine each set of correlated
 		// instances into a single CorrelationDataInstance object and store it.
 		
-		// This sucks, it's O(n^2) in the number of instances, of which there will be many; if implemented
-		// where the correlation function itself takes the datasets and returns a correlated dataset we
-		// could take some shortcuts based on the relation class (e.g. equivalence, transitive, etc...)
 		Set<DataInstance> allInstances = new HashSet<DataInstance>();
 		for (Dataset d : constituentDatasets.keySet()){
 			DatasetLabel myL = constituentDatasets.get(d);
@@ -71,7 +83,6 @@ public class CorrelatedViewLabelDataset {
 					di.setLabel(myL.getLabel(di));
 				}
 				allInstances.add(di);
-				// debugPrint("Adding instance " + di.getID());
 			}
 		}
 
@@ -81,9 +92,9 @@ public class CorrelatedViewLabelDataset {
 	/**
 	 * Intended as a copy constructor, this constructor instantiates itself with the provided set of correlation data instances, bypassing the instance
 	 * construction process.
-	 * @param instanceSet
-	 * @param cf
-	 * @param dsets
+	 * @param instanceSet - Set of instances to include in the copy
+	 * @param cf - The correlated function used to correlated the given instances
+	 * @param dsets - The datasets serving as a base for the given instances
 	 */
 	public CorrelatedViewLabelDataset(Set<CorrelationDataInstance> instanceSet,
 			CorrelationFunction cf, 
@@ -115,7 +126,7 @@ public class CorrelatedViewLabelDataset {
 	 * @return - The number of data instances, minus the number of event-related instances, plus the number of events.
 	 */
 	public int numInstances(){
-		debugPrint("CorrelatedViewLabelDataset.numInstances:");
+		// debugPrint("CorrelatedViewLabelDataset.numInstances:");
 		// First, just get a count of all the instances.
 		int totalInstances = 0;
 		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();
@@ -130,12 +141,12 @@ public class CorrelatedViewLabelDataset {
 		int[] eventInstanceCounts = numPositiveInstances();
 		int numEvents = eventInstanceCounts.length - 1; // element '0' is normal -not an event
 		for (int i = 1; i < eventInstanceCounts.length; i++){   // element '0' is normal instances
-			debugPrint(" - eventInstances " + eventInstanceCounts[i]);
+			// debugPrint(" - eventInstances " + eventInstanceCounts[i]);
 			totalInstances -= eventInstanceCounts[i];
 		}
 		
 		// Finally, add back in the number of events.
-		debugPrint(" + eventCounts " + numEvents);
+		// debugPrint(" + eventCounts " + numEvents);
 		totalInstances += numEvents;
 		return totalInstances;
 	}
@@ -195,6 +206,25 @@ public class CorrelatedViewLabelDataset {
 		IOException, 
 		KIDSIncompatibleSyntaxException, 
 		KIDSUnEvaluableSignalException{
+		return this.getMatchingInstances(signalSet, false);
+	}
+
+	/**
+	 * Given a set of signals, return the subset of CorrelationDataInstances (CDIs) which match that set of signals.
+	 * For a CDI to match, the following must be true:
+	 * - Each signal in the signal set must match at least one base instances in the CDI
+	 * 
+	 * @param signalSet - The set of signals used to filter out matching instances
+	 * @param debugOutput - Whether to enable debug output for this operation
+	 * @return
+	 */
+	public Set<CorrelationDataInstance> getMatchingInstances(Set<IRI> signalSet,
+			boolean debugOutput) throws
+		KIDSOntologyObjectValuesException, 
+		KIDSOntologyDatatypeValuesException, 
+		IOException, 
+		KIDSIncompatibleSyntaxException, 
+		KIDSUnEvaluableSignalException {
 		Set<CorrelationDataInstance> returnDataSet = new HashSet<CorrelationDataInstance>();
 
 		Set<IRI> usedSignals = new HashSet<IRI>(); // At the end of the method, if we have not used
@@ -232,8 +262,8 @@ public class CorrelatedViewLabelDataset {
 		}
 		// If we can't process all the signals, then none of the CDIs can match, so we may as well bail:
 		if (usedSignals.size() != signalSet.size()){
-			System.err.println("[W]: (CorrelatedViewDataset.getMatchingInstances) Not all signals could be matched, returning empty set.");
-			System.err.println("   : Only the following signals could be matched: ");
+			System.err.println("[W]: (CorrelatedViewDataset.getMatchingInstances) Not all signals could be applied, returning empty set.");
+			System.err.println("   : Only the following signals could be used: ");
 			for (IRI t : usedSignals){
 				System.err.println("   : - " + t.toString());
 			}
@@ -264,6 +294,13 @@ public class CorrelatedViewLabelDataset {
 			
 			if (allMatched){
 				returnDataSet.add(cdi);
+				if (this.DEBUG){
+					System.err.println("CorrelatedViewLabelDataset.getMatchingInstances(...): Matched CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
+				}
+			} else {
+				if (this.DEBUG){
+					System.err.println("CorrelatedViewLabelDataset.getMatchingInstances(...): Failed match for CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
+				}
 			}
 		}
 		
@@ -390,5 +427,6 @@ public class CorrelatedViewLabelDataset {
 		}
 		return returnArray;
 	}
+
 
 }

@@ -13,6 +13,8 @@ import org.semanticweb.owlapi.model.IRI;
 /**
  * @author cstras
  * Represents a 'complex' instance, that is, a DataInstance which is a composition of other DataInstances.
+ * The label of the CDI is determined by the number of benign and (any) event-related instances included in 
+ * this CDI.
  */
 public class CorrelationDataInstance {
 	
@@ -24,6 +26,7 @@ public class CorrelationDataInstance {
 		components = new HashSet<DataInstance>();
 		benignInstances = new HashSet<DataInstance>();
 		eInstances = new HashMap<Integer, Set<DataInstance>>();
+		int bi = 0; int ei = 0;
 		for (DataInstance i : initialComponents){
 			components.add(i);
 			// Unlabeled is assumed to be benign
@@ -37,11 +40,14 @@ public class CorrelationDataInstance {
 					addTo = new HashSet<DataInstance>();
 					eInstances.put(labelID,addTo);
 				}
+				ei++;
 				addTo.add(i);
 			} else {
+				bi++;
 				benignInstances.add(i);
 			}
 		}
+		System.err.println("Created benign CDI [" + bi + "," + ei + "] (including base instance " + this.getInstances().iterator().next().getID() + " )");
 		
 	}
 

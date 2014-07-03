@@ -20,6 +20,7 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.LinkedList;
 import java.awt.Panel;
 import java.awt.List;
 import java.awt.FlowLayout;
@@ -263,8 +264,10 @@ public class addEventPanel {
                 File KBFile = fc.getSelectedFile();
                 //This is where a real application would open the file.
                 SimpleIRIMapper m = new SimpleIRIMapper(IRI.create(OntologyLocation), IRI.create(KBFile));
+                LinkedList<SimpleIRIMapper> inList = new LinkedList<SimpleIRIMapper>();
+                inList.add(m);
                 try {
-					ko.loadKIDS(IRI.create(OntologyLocation), m);
+					ko.loadKIDS(IRI.create(OntologyLocation), inList);
 					lblKbloadiri.setText(ko.getOntologyManager().getOntologyDocumentIRI(ko.getOntology()).toString());
 					lblCurrentkbiri.setText(ko.getOntology().toString());
 	                System.out.println("Loaded KB!");

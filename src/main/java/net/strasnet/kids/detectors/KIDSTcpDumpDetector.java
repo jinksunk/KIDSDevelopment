@@ -29,14 +29,15 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 
 	/**
 	 * Represents a detector utilizing the TCPDump command-line tool.  Associated with the syntax "bpf" - berkeley packet filter.
+	 * TODO: Separate out regular expressions for different packet types
 	 */
 	
 	private IRI ourIRI = null;
 	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	private static String executionCommand;
 	// 920592993.000000 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
-	private static String regexPatternLine1 = "(?<TimeStamp>[\\d\\.]+)\\sIP\\s\\((([^,]+),){2}\\sid\\s(?<PID>\\d+),.*length\\s\\d+\\).*";
-	private static String regexPattern = "\\s*(?<SIP>[\\d\\.]+)\\.\\d+\\s+>\\s+(?<DIP>[\\d\\.]+)\\.\\d+.*";
+	private static String regexPatternLine1 = "(?<TimeStamp>[\\d\\.]+)\\sIP\\s\\((([^,]+),){2}\\sid\\s(?<PID>\\d+),.*proto[^\\(]+\\((?<PROTO>\\d+)\\), length\\s(?<DATALEN>\\d+)\\).*";
+	private static String regexPattern = "\\s*(?<SIP>[\\d\\.]+)\\.(?<SPORT>\\d+)\\s+>\\s+(?<DIP>[\\d\\.]+)\\.(?<DPORT>\\d+).*";
 	
 	// 130.130.130.130.20 > 131.131.131.131.80: Flags [S], cksum 0x4e3f (correct), seq 0:389, win 8192, length 389
 	//private static String regexPatternIgnore = "\\s+[\\d\\.]+\\s>\\s[\\d\\.]+:\\sFlags\\s.*";
@@ -48,7 +49,10 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 		supportedFeatures.put(featureIRI + "PacketID",true);
 		supportedFeatures.put(featureIRI + "IPv4SourceAddressSignalDomain",true);
 		supportedFeatures.put(featureIRI + "IPv4DestinationAddressSignalDomain",true);
+		supportedFeatures.put(featureIRI + "TCPDestinationPort",true);
 		supportedFeatures.put(featureIRI + "instanceTimestamp",true);
+		supportedFeatures.put(featureIRI + "PacketLengthSignalDomain",true);
+		supportedFeatures.put(featureIRI + "TCPFlags", true);
 		};
 		
 	private Pattern rexpL1 = null;
@@ -56,6 +60,47 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	private Pattern rexpIgnore = null;
 	private KIDSMeasurementOracle myGuy = null;
 	private KIDSDetectorSyntax ourSyn = null; 
+	
+	public enum ConnectionEndpoint {
+
+		DEST(1),
+		SOURCE(0);
+		
+		private final String epValue;
+		
+		ConnectionEndpoint(int whichone){
+			if (whichone == 0){
+				epValue = "Source";
+			} else if (whichone == 1){
+				epValue = "Destination";
+			} else {
+				epValue = "Invalid";
+			}
+		}
+		
+		public String getEndpointString(){
+			return epValue;
+		}
+	}
+	
+	public enum PortResource {
+		TCP("TCP"),
+		UDP("UDP"),
+		UNKNOWN("UNKNOWN");
+		
+		private final String proto;
+		
+		PortResource(String protocol){
+			proto = protocol;
+		}
+		
+		/**
+		 * @param endpoint - One of 'Destination' or 'Source'
+		 */
+		public String getPortResource(ConnectionEndpoint ce){
+			return proto + ce.getEndpointString() + "Port";
+		}
+	};
 	
 	public KIDSTcpDumpDetector(){
 		myGuy = null;
@@ -97,7 +142,7 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 		Process genPcap = null;
 		try {
 			command = executionCommand + " -v -tt -n -n -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals) + " ";
-			System.err.print("Executing command [" + command + "] ...");
+			System.err.println("Executing command [" + command + "] ...");
 			genPcap = Runtime.getRuntime().exec(command);
 		    BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		    String pcapLine;
@@ -134,10 +179,28 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 
 				    if (rexmpost.matches()){
 					    // Extract resources
+				    	// Start with identifying features:
 					    resMap.put(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"), rexmpost.group("SIP"));
 					    idmap.put(v.getIdentifyingFeatures().get(2), rexmpost.group("SIP"));
 					    resMap.put(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"), rexmpost.group("DIP"));
 					    idmap.put(v.getIdentifyingFeatures().get(3), rexmpost.group("DIP"));
+					    
+					    // Next, features common to all packets:
+					    resMap.put(IRI.create(featureIRI + "PacketLengthSignalDomain"), rexmpre.group("DATALEN"));
+
+					    // Need to check that this is actually a TCP packet - otherwise should set the DPORT to null (?)
+					    int ipProtocol = Integer.parseInt(rexmpre.group("PROTO"));
+				    	resMap.put(IRI.create(featureIRI + "IPProtocol"), "" + ipProtocol);
+				    	PortResource op;
+					    if (ipProtocol == 6){  // TCP
+					    	op = PortResource.TCP;
+					    } else if (ipProtocol == 17){ // UDP
+					    	op = PortResource.UDP;
+					    } else {
+					    	op = PortResource.UNKNOWN;
+					    }
+				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.DEST) + "Port"), rexmpost.group("DPORT"));
+				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.SOURCE) + "Port"), rexmpost.group("SPORT"));
 					    KIDSNativeLibpcapDataInstance newGuy = new KIDSNativeLibpcapDataInstance(idmap);
 					    newGuy.addResources(resMap);
 					    toReturn.add(newGuy);

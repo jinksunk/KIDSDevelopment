@@ -17,10 +17,9 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
+import net.strasnet.kids.measurement.datasetlabels.TruthFileParseException;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset.KIDSLibpcapTruthFile.TruthFileParseException;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -48,7 +47,9 @@ public class ViewLabelDataset implements Dataset {
 	
 	@Override
 	/**
-	 * Initialize this dataset:
+	 * Initialize this dataset.  Sets the view and label, and calls generateView on the DatasetView.
+	 * Also sets the KIDSMeasurementOracle, and establishes a mapping from each signal to the DatasetView it
+	 * will be evaluated in.
 	 * @param dv
 	 * @param dl
 	 * @param o

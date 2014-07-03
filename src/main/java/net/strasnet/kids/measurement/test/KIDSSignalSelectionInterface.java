@@ -12,53 +12,29 @@
 package net.strasnet.kids.measurement.test;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.junit.Before;
-import org.junit.Test;
-import org.mindswap.pellet.utils.FileUtils;
 import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
-import net.strasnet.kids.detectorsyntaxproducers.KIDSSnortDetectorSyntax;
 import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
-import net.strasnet.kids.measurement.DataInstance;
-import net.strasnet.kids.measurement.Dataset;
-import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSEIDMeasure;
-import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException;
-import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
-import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
-import net.strasnet.kids.measurement.datasetviews.DatasetView;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset;
-import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
-import net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
 
 /**
  * @author chrisstrasburg
@@ -66,14 +42,7 @@ import static org.junit.Assert.assertFalse;
  */
 public class KIDSSignalSelectionInterface {
 
-//	private static final String testABOX = "http://www.semantiknit.com/ontologies/2013/6/24/TestEventExperiment1.owl";
-//	private static final String testABOXFile = "file:///Users/chrisstrasburg/Documents/academic-research/papers/2013-MeasurementPaper/experiments/TestEvent-Test1/TestEventExperiment1.owl";
-//	private static final String testKBFile = "file:///Users/chrisstrasburg/Documents/academic-research/papers/2013-MeasurementPaper/experiments/TestEvent-Test1/kids.owl";
-//	private static final String OntologyLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	private Set<IRI> signals = null;
-//	private static final IRI testDatasetIRI = IRI.create(testABOX + "#TestEvent1LIBPCAPDataset1");
-//	private static final IRI testEventIRI = IRI.create(testABOX + "#TestEvent1");
-	
 	private static final HashMap<String,String> configFileValues = new HashMap<String,String>();
 	static {
 		configFileValues.put("ABoxFile", "/dev/null");
@@ -89,12 +58,6 @@ public class KIDSSignalSelectionInterface {
 		signals = new HashSet<IRI>();
 	}
 
-	/**
-	 * Represents pairs of <Signal,DataSet> to track which signals can be tested in which datasets.
-	 */
-	private class DSVector{
-		
-	}
 	/**
 	 * Represents the result of a signalSet evaluation - records the signal set evaluted, the dataset it was evaluted on, and the eidValue obtained.
 	 * @author chrisstrasburg

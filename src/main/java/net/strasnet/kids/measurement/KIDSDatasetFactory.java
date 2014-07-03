@@ -16,9 +16,9 @@ import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
+import net.strasnet.kids.measurement.datasetlabels.TruthFileParseException;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset.KIDSLibpcapTruthFile.TruthFileParseException;
 
 public class KIDSDatasetFactory {
 	/**
@@ -98,9 +98,14 @@ public class KIDSDatasetFactory {
 	
 	
 	/**
+	 * This method generated a view label dataset by following these steps:
+	 * 1) Loads the view generator for each view, using the implementation given by the oracle
+	 * 2) Loads the dataset label function, again using the implementation given by the oracle
+	 * 3) Constructs the view label dataset by incorporating both the view and the data label
 	 * 
-	 * @param d - The dataset on which to evalute
+	 * @param d - The dataset on which to evaluate
 	 * @param event - The IRI of the event with respect to which we want labels
+	 * @param o - A KIDSMeasurementOracle - the interface with the ontology
 	 * @return
 	 * @throws ClassNotFoundException 
 	 * @throws IllegalAccessException 
@@ -142,9 +147,11 @@ public class KIDSDatasetFactory {
 		    	System.err.println("\t Positives:\t" + pos);
 		    	return vld;
 		    }
+		    System.err.println("[W] - No label found for dataset view " + dvc.getIRI().getFragment());
 		}
 		
 		// If there are multiple view/label possibilities, return the first one
+		System.err.println("[W] - No valid view found for dataset " + d.getFragment() + " and event " + event.getFragment());
 		return null;
 	}
 	

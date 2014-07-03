@@ -31,7 +31,6 @@ import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException;
 import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 import net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation;
 import static org.junit.Assert.assertTrue;

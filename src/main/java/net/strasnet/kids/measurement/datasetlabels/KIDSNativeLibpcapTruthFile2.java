@@ -99,6 +99,8 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
 			dve.setLabel(labelKey.get(dve.hashCode()));
 			return dve.getLabel();
+		} else {
+			System.err.println("Instance [" + dve.getID() + "] is benign.");
 		}
 		// If no label is present, assume benign
 		return new Label(EventOccurrence.NONEVENT, false);

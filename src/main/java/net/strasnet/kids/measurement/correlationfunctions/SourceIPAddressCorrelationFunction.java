@@ -78,7 +78,6 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 		for (DataInstance i : rawInstances){
 			Map<IRI, String> rMap2 = i.getResources();
 			String sip = rMap2.get(SourceIPAddressCorrelationFunction.relatedResource);
-			Set<DataInstance> instances;
 			if (!sipMap.containsKey(sip)){
 				sipMap.put(sip, new HashSet<DataInstance>());
 			}

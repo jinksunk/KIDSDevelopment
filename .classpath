@@ -11,28 +11,19 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/Java/IntervalTree.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/antlr/antlr-runtime-3.2.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-core.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/owlapi/owlapi-bin.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Users/chrisstrasburg/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/owlapi/javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/owlapiv3/owlapi-bin.jar">
-		<attributes>
-			<attribute name="javadoc_location" value="file:/Users/chrisstrasburg/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/owlapi/javadoc/"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/aterm-java-1.6.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-rules.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-datatypes.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-el.jar"/>
 	<classpathentry kind="lib" path="/Users/cstras/Applications/Java/commons-cli-1.2/commons-cli-1.2.jar" sourcepath="/Users/cstras/Applications/Java/commons-cli-1.2/commons-cli-1.2-sources.jar">
 		<attributes>
 			<attribute name="javadoc_location" value="jar:file:/Users/cstras/Applications/Java/commons-cli-1.2/commons-cli-1.2-javadoc.jar!/"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/jgrapht/jgrapht-jdk1.5.jar"/>
-	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.2.2/lib/pellet-owlapiv3.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/antlr/antlr-runtime-3.2.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/aterm-java-1.6.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/jgrapht/jgrapht-jdk1.5.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/owlapiv3/owlapi-distribution-3.4.3-bin.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/pellet-core.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/pellet-datatypes.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/pellet-el.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/pellet-owlapiv3.jar"/>
+	<classpathentry kind="lib" path="/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/Tools/OWL/pellet-2.3.1/lib/pellet-rules.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>

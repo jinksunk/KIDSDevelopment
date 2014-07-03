@@ -13,7 +13,6 @@ import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.Label;
-import net.strasnet.kids.measurement.datasetviews.KIDSLibpcapDataset;
 import net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.assertFalse;

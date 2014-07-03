@@ -3,6 +3,7 @@ package net.strasnet.kids.detectorsyntaxproducers;
 import java.util.HashMap;
 import java.net.InetAddress;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
@@ -10,6 +11,8 @@ import java.util.regex.Pattern;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.constraint.IntegerRange;
+import net.strasnet.kids.constraint.IntegerRangeSet;
 import net.strasnet.kids.lib.IPv4Address;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 
@@ -31,12 +34,12 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 		
 		private static HashMap<String,Integer> flagMap = new HashMap<String, Integer>();
 		static {
-			flagMap.put("F", 1);
-			flagMap.put("S", 2);
-			flagMap.put("R", 4);
-			flagMap.put("P", 8);
-			flagMap.put("A", 16);
-			flagMap.put("U", 32);
+			flagMap.put("0x01", 1);  // FIN
+			flagMap.put("0x02", 2);  // SIN
+			flagMap.put("0x04", 4);  // RST
+			flagMap.put("0x08", 8);  // PSH
+			flagMap.put("0x10", 16); // ACK
+			flagMap.put("0x20", 32); // URG
 		}
 		
 		private FormatStringTcpDumpSyntaxComponent (String sFormTemplate){
@@ -107,6 +110,70 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 			return sValBuilder.toString();
 		}
 	}
+
+	public enum TCPPortRangeSetTcpDumpSyntaxComponent implements TcpDumpSyntaxComponent {
+		SOURCE_TCP_PORT_RANGESET ("src"),
+		DEST_TCP_PORT_RANGESET ("dst"),
+		TCP_PORT_RANGESET ("");
+		
+		private String template = null;
+
+		private TCPPortRangeSetTcpDumpSyntaxComponent (String sFormTemplate){
+			this.template = sFormTemplate;
+		}
+		
+		public String syntaxForm (String sVal){
+			// Parse out the range set thing.  The canonical form is:
+			// [i1:i2,i3:i4...]  So, first split on comma, then determine how many there are, and 
+			// build the string from that.
+			IntegerRangeSet irs = new IntegerRangeSet(sVal);
+			StringBuilder sValBuilder = new StringBuilder();
+			String connector = "";
+			
+			for (IntegerRange range : irs){
+
+				int start = range.getStartValue();
+				int end = range.getEndValue();
+
+				sValBuilder.append(connector + template + " portrange " + start + "-" + end);
+
+				connector = " or ";
+			}
+			return sValBuilder.toString();
+		}
+	}
+	
+	public enum PacketDataLengthSyntaxComponent implements TcpDumpSyntaxComponent {
+		PacketLengthGreaterThanOrEqual(">="),
+		PacketLengthLessThanOrEqual("<=");
+
+		String template = "len";
+		String operator = "";
+		
+		private PacketDataLengthSyntaxComponent(String op){
+			operator = op;
+		}
+		
+		public String syntaxForm (String sVal){
+			IntegerRangeSet irs = new IntegerRangeSet(sVal);
+			StringBuilder sValBuilder = new StringBuilder();
+			String connector = "";
+			
+			for (IntegerRange range : irs){
+
+				int start = range.getStartValue();
+				int end = range.getEndValue();
+
+				sValBuilder.append(connector + template + " "+ operator + " " + start);
+
+				connector = " or ";
+			}
+			return sValBuilder.toString();
+			
+		}
+		
+	}
+	
 	
 	// Map of constraint feature -> type -> syntax
 	public static final Map <IRI, Map<IRI, TcpDumpSyntaxComponent>> validSignalClassMap = new HashMap<IRI, Map<IRI, TcpDumpSyntaxComponent>>();
@@ -127,6 +194,7 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 		// TCPFlags Feature:
 		tempMap = new HashMap<IRI, TcpDumpSyntaxComponent>();
 		tempMap.put(IRI.create(sigClassIRI + "bitmaskMatchNonZero"), FormatStringTcpDumpSyntaxComponent.TCPFLAGS_BITMASK_SET);
+		tempMap.put(IRI.create(sigClassIRI + "singleBitmaskMatchNonZero"), FormatStringTcpDumpSyntaxComponent.TCPFLAGS_BITMASK_SET);
 		validSignalClassMap.put(IRI.create(sigClassIRI + "TCPFlags"), tempMap);
 		
 		// Source IP Address Feature:
@@ -135,6 +203,21 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 		tempMap.put(IRI.create(sigClassIRI + "IPv4AddressRangeSetSignalConstraint"), IPRangeSetTcpDumpSyntaxComponent.SOURCE_IP_ADDRESS_RANGESET);
 		validSignalClassMap.put(IRI.create(sigClassIRI + "IPv4SourceAddressSignalDomain"), tempMap);
 		
+		// Source TCP Port Feature
+		tempMap = new HashMap<IRI, TcpDumpSyntaxComponent>();
+		tempMap.put(IRI.create(sigClassIRI + "integerRangeSet"), TCPPortRangeSetTcpDumpSyntaxComponent.SOURCE_TCP_PORT_RANGESET);
+		validSignalClassMap.put(IRI.create(sigClassIRI + "TCPSourcePort"), tempMap);
+		
+		// Destination TCP Port Feature
+		tempMap = new HashMap<IRI, TcpDumpSyntaxComponent>();
+		tempMap.put(IRI.create(sigClassIRI + "integerRangeSet"), TCPPortRangeSetTcpDumpSyntaxComponent.DEST_TCP_PORT_RANGESET);
+		validSignalClassMap.put(IRI.create(sigClassIRI + "TCPDestinationPort"), tempMap);
+		
+		// Packet length feature
+		tempMap = new HashMap<IRI, TcpDumpSyntaxComponent>();
+		tempMap.put(IRI.create(sigClassIRI + "positiveIntegerEquality"), PacketDataLengthSyntaxComponent.PacketLengthGreaterThanOrEqual);
+		validSignalClassMap.put(IRI.create(sigClassIRI + "PacketLengthSignalDomain"), tempMap);
+
 	};
 	
 	private KIDSMeasurementOracle myGuy = null;

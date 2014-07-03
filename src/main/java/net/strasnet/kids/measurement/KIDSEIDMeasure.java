@@ -146,13 +146,14 @@ public class KIDSEIDMeasure {
 		*/
 		
 		try {
-			dTemp = d.getDataSubset(d.getMatchingInstances(s));
+			dTemp = d.getDataSubset(d.getMatchingInstances(s, false)); // Call without debugging
 		} catch (net.strasnet.kids.measurement.KIDSUnEvaluableSignalException e){
 			System.err.print("Could not evaluate signal set {");
 			StringBuilder sb = new StringBuilder();
 			for (IRI sigiri : s){
-				System.err.print(s.toString());
+				sb.append(sigiri.toString() + ",");
 			}
+			System.err.println(sb);
 			return 0; // Assume no benefit to the signal if we cannot evaluate it
 		}
 		
