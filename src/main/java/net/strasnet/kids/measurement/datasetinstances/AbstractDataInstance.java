@@ -85,7 +85,12 @@ public class AbstractDataInstance implements DataInstance {
 	
 	@Override
 	public void addResources(Map<IRI, String> extractResources) {
-		this.myResources = extractResources;
+		if (this.myResources == null){
+			this.myResources = new HashMap<IRI,String>();
+		}
+		for (IRI k : extractResources.keySet()){
+			this.myResources.put(k, extractResources.get(k));
+		}
 	}
 	
 

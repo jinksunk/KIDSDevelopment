@@ -90,6 +90,14 @@ public class CorrelationDataInstance {
 	public Set<DataInstance> getInstances() {
 		return this.components;
 	}
+
+	/**
+	 * 
+	 * @return True if this CDI is considered event related, false otherwise
+	 */
+	public boolean isEventRelated() {
+		return getEventInstances().keySet().size() > 0;
+	}
 	
 	//Provide a method to obtain the number of benign sub-instances in this instance. -- Maybe?
 	

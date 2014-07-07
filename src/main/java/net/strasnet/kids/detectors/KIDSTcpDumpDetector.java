@@ -130,12 +130,12 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
+	public Set<Map<IRI, String>> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
 		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
 		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
 		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
 		// syntaxes in the case of multiple.  
-		Set<DataInstance> toReturn = new HashSet<DataInstance>();
+		Set<Map<IRI,String>> toReturn = new HashSet<Map<IRI,String>>();
 		
 		// Run the command with the detector specification
 		String command = null;
@@ -165,13 +165,12 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 			    if (rexmpre.matches()){
 				    // First of the two lines extract resources.
 			        String packetID = rexmpre.group("PID");
-			        HashMap<IRI, String> idmap = new HashMap<IRI, String>();
-			        idmap.put(v.getIdentifyingFeatures().get(0), packetID);
     
 			        // Setup resource hashmap:
 				    HashMap<IRI,String> resMap = new HashMap<IRI,String>();
 				    String tsString = rexmpre.group("TimeStamp");
 				    resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString.substring(0, tsString.indexOf('.')));
+			        resMap.put(IRI.create(featureIRI + "PacketID"),packetID);
 			        
 			        // Get the second part
 				    pcapLine = rd.readLine();
@@ -181,9 +180,9 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 					    // Extract resources
 				    	// Start with identifying features:
 					    resMap.put(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"), rexmpost.group("SIP"));
-					    idmap.put(v.getIdentifyingFeatures().get(2), rexmpost.group("SIP"));
+					    //idmap.put(v.getIdentifyingFeatures().get(2), rexmpost.group("SIP"));
 					    resMap.put(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"), rexmpost.group("DIP"));
-					    idmap.put(v.getIdentifyingFeatures().get(3), rexmpost.group("DIP"));
+					    //idmap.put(v.getIdentifyingFeatures().get(3), rexmpost.group("DIP"));
 					    
 					    // Next, features common to all packets:
 					    resMap.put(IRI.create(featureIRI + "PacketLengthSignalDomain"), rexmpre.group("DATALEN"));
@@ -201,9 +200,7 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 					    }
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.DEST) + "Port"), rexmpost.group("DPORT"));
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.SOURCE) + "Port"), rexmpost.group("SPORT"));
-					    KIDSNativeLibpcapDataInstance newGuy = new KIDSNativeLibpcapDataInstance(idmap);
-					    newGuy.addResources(resMap);
-					    toReturn.add(newGuy);
+					    toReturn.add(resMap);
 				    } else {
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
 				    }
@@ -231,16 +228,21 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 			for (IRI s : signals){
 				System.err.println("    - " + s.toString());
 			}
-			return new HashSet<DataInstance>();
+			return new HashSet<Map<IRI,String>>();
 		}
 	}
 
 	@Override
-	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
+	public Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
 		return this.getMatchingInstances(signals, (NativeLibPCAPView)v);
+	}
+
+	@Override
+	public IRI getIRI() {
+		return this.ourIRI;
 	}
 }

@@ -44,9 +44,9 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		labelKey = new HashMap<Integer, Label>() ;
 		seenEvents= new HashMap<Integer, EventOccurrence>() ;
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketID"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketTimestamp"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketSourceIP"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketDestIP"));
+		//identifyingFeatures.add(IRI.create(featureIRI + "instanceTimestamp"));
+		identifyingFeatures.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
+		identifyingFeatures.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 	}
 	
 	/**
@@ -68,11 +68,19 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 			Matcher rm = rexp.matcher(line);
 			if (rm.matches()){
 				HashMap<IRI,String> vals = new HashMap<IRI,String>();
-				vals.put(identifyingFeatures.get(0), rm.group("pid"));
-				//vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
-				// These come in as Long values - convert to dotted quad:
-				vals.put(identifyingFeatures.get(2), KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
-				vals.put(identifyingFeatures.get(3), KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+				Iterator<IRI> ifs = identifyingFeatures.iterator();
+				while (ifs.hasNext()){
+					IRI identFeature = ifs.next();
+					if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "PacketID")){
+						vals.put(identFeature, rm.group("pid"));
+					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "IPv4SourceAddressSignalDomain")){
+						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
+					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "IPv4DestinationAddressSignalDomain")){
+						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+					}
+					//vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
+					// These come in as Long values - convert to dotted quad:
+				}
 //				KIDSSnortDataInstance tempGuy = new KIDSSnortDataInstance(vals);
 				KIDSNativeLibpcapDataInstance tempGuy = new KIDSNativeLibpcapDataInstance(vals);
 				

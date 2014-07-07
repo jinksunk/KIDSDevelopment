@@ -212,6 +212,18 @@ public class KIDSEIDMeasure {
 			E_ID = 0;
 		}
 		System.err.println("E_ID:" + E_ID + "\t SBINum:" + SBInum + " \t NBINum:" + NBInum + "\t SInum:" + SInum + "\tBInum:" + BInum + "\tInum:" + Inum);
+		/*
+		if (SBInum > 0){
+			int c = 0;
+			Set<CorrelationDataInstance> diT = dTemp.getMatchingInstances(new HashSet<IRI>());
+			for (CorrelationDataInstance cdiT : diT){
+				c = c+1;
+				System.err.println("\tCDI:" + c);
+				for (DataInstance diTemp : cdiT.getInstances()){
+					System.err.println("\t|-\t" + diTemp.getID());
+				}
+			}
+		} */
 		return E_ID;
 	}
 	

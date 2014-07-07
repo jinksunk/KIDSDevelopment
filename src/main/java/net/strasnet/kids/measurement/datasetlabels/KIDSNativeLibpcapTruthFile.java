@@ -39,9 +39,9 @@ public class KIDSNativeLibpcapTruthFile extends AbstractDatasetLabel implements 
 		labelKey = new HashMap<Integer, Label>() ;
 		seenEvents= new HashMap<Integer, EventOccurrence>() ;
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketID"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketTimestamp"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketSourceIP"));
-		identifyingFeatures.add(IRI.create(featureIRI + "PacketDestIP"));
+		identifyingFeatures.add(IRI.create(featureIRI + "instanceTimestamp"));
+		identifyingFeatures.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
+		identifyingFeatures.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 	}
 	
 	/**

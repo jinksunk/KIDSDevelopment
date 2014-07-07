@@ -521,7 +521,9 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * TODO: This assumes that there is only one detector for a given view.  Need to review this assumption.
+	 * Returns the set of all detectors which can be applied to the given view.  A detector for a view is expected to be able to 
+	 * return all instances within the view.
+	 * 
 	 * @param viewIRI - The IRI of the dataset view for which to get a compatible detector
 	 * @return An instantiation of a KIDSDetector object.
 	 * @throws KIDSOntologyObjectValuesException 
@@ -530,32 +532,23 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 */
-	public KIDSDetector getDetectorForView(IRI viewIRI) throws KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyDatatypeValuesException {
+	public Set<IRI> getDetectorsForView(IRI viewIRI) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException {
 		// First lookup the detector implementation:
 		Set<OWLNamedIndividual> results = r.getObjectPropertyValues(odf.getOWLNamedIndividual(viewIRI), 
 				odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.viewDetectorRelation))).getFlattened();
 		if (results.size() == 0){
 			throw new KIDSOntologyObjectValuesException("No values for property " + viewDetectorRelation + " on individual " + viewIRI);
-		} else if (results.size() > 1){
-			System.out.println("Warning: " + results.size() + " values for property " + viewDetectorRelation + " on individual " + viewIRI + ": choosing [" + results.iterator().next().getIRI() + "]");
 		}
 		
-		OWLNamedIndividual detector = results.iterator().next();
+		HashSet<IRI> toReturn = new HashSet<IRI>();
+		Iterator<OWLNamedIndividual> i = results.iterator();
+		OWLNamedIndividual detector = null;
 		
-		// Now get the implementation class:
-		Set<OWLLiteral> detectorImpl =
-				r.getDataPropertyValues(detector, 
-						odf.getOWLDataProperty(IRI.create(detectorImplementationDataProperty)));
-		
-		if (detectorImpl.size() != 1){
-			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + detectorImplementationDataProperty + " on individual " + detector);
+		while (i.hasNext()){
+			detector = i.next();
+			toReturn.add(detector.getIRI());
 		}
-		
-		KIDSDetector d = (KIDSDetector)Class.forName(detectorImpl.iterator().next().getLiteral()).newInstance();
-		d.init(this.getDetectorExecutionString(detector.getIRI()), 
-				detector.getIRI(), 
-				this);
-		return d;
+		return toReturn;
 	}
 
 	/**
@@ -845,5 +838,30 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 			returnSet.add(ds.getIRI().toString());
 		}
 		return returnSet;
+	}
+
+	/**
+	 * 
+	 * @param sigDet - The detector object for which to get the implementation class
+	 * @return - A string representing the class to load for this detector implementation
+	 */
+	public String getDetectorImplementation(IRI sigDet) {
+		// get the library string value for the given Class
+		// The value is a data property of the individual:
+		OWLDataProperty detectorImpl = odf.getOWLDataProperty(IRI.create(detectorImplementationDataProperty.toString()));
+		//System.err.println("DEBUG: " + representationImpl);
+		Set<OWLLiteral> oaSet = r.getDataPropertyValues(odf.getOWLNamedIndividual(sigDet), detectorImpl);
+		if (oaSet.size() > 1){
+			// Error: cannot identify class
+			System.err.println("Too many values for implementation class of: " + sigDet);
+			return null;
+		} else if (oaSet.size() == 0) {
+			// Cannot find any class for ourRep:
+			System.err.println("Cannot find any implementation class for: " + sigDet);
+			return null;
+		} 
+
+		// TODO Auto-generated method stub
+		return oaSet.iterator().next().getLiteral();
 	}
 }

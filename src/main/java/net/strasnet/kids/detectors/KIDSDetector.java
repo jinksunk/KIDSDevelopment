@@ -1,6 +1,7 @@
 package net.strasnet.kids.detectors;
 
 import java.io.IOException;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -18,16 +19,16 @@ public interface KIDSDetector {
 
 	/**
 	 * 
-	 * @param detectorSpec - The syntax with which our detector should filter out instances
+	 * @param signals - A set of signals to evaluate.
 	 * @param v
-	 * @return - The set of data instances matching the detector specification
+	 * @return - A set of resource maps, one for each matching individual.  It is up to the DatasetView using the detector to instantiate instances from this.
 	 * @throws IOException
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
-	Set<DataInstance> getMatchingInstances(Set<IRI> signals,
+	Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
 
 	/**
@@ -46,4 +47,9 @@ public interface KIDSDetector {
 			KIDSOntologyDatatypeValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException;
 
+	/**
+	 * 
+	 * @return The IRI of the detector 
+	 */
+	IRI getIRI();
 }

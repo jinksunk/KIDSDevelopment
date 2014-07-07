@@ -35,6 +35,7 @@ import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.KIDSSignal;
 import net.strasnet.kids.datasources.KIDSSnortIPAddressRange;
 import net.strasnet.kids.detectors.KIDSDetector;
+import net.strasnet.kids.detectors.KIDSDetectorFactory;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
@@ -61,18 +62,17 @@ import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresen
  * In theory, this view can support terms of service flags, time to live, packet id, protocol number, ip data length, source IP address,
  * destination IP address, source port, destination port, tcp flags, checksum value, sequence number, window size, and tcp data length.
  * 
+ * This view uses the KIDSNativeLibpcapDataInstance instance type.
+ * 
  * @author chrisstrasburg
  *
  */
-public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
+public class NativeLibPCAPView extends AbstractDatasetView implements DatasetView, java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -2243873069953554553L;
-	private HashSet<DataInstance> ourInstances;    		  // All of the instances in the dataset
-	private KIDSMeasurementOracle myGuy;			      // The KIDSOracle used to interact with the KB
-	private IRI ourIRI = null;					  // The base IRI of 
 	
 												  // Map of event to another map of data instance
 												  // (since an event will generally have many instances)
@@ -80,7 +80,6 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	private TreeMap<EventOccurrence,TreeMap<DataInstance,Boolean>> instancesByEvent = null;
 	private TreeMap<OWLNamedIndividual,TreeMap<DataInstance,Boolean>> instancesBySignalMatch = null;
 	private String datasetLocation = null;
-	private KIDSDetector ourDetector = null;
 	private List<IRI> identifyingFeatures = null;
 	private Set<DataInstance> viewFilter = null;
 
@@ -88,7 +87,7 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	/**
 	 */
 	public NativeLibPCAPView () {
-		ourInstances = new HashSet<DataInstance>();
+		ourInstances = new HashMap<DataInstance, DataInstance>();
 		instancesByEvent = new TreeMap<EventOccurrence,TreeMap<DataInstance,Boolean>>();
 		instancesBySignalMatch = new TreeMap<OWLNamedIndividual,TreeMap<DataInstance,Boolean>>();
 		eventList = new TreeMap<EventOccurrence,Boolean>();
@@ -121,10 +120,8 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 		myGuy = o;
 		identifyingFeatures = idFeatures;
 		datasetLocation = datasetLoc;
-		ourDetector = o.getDetectorForView(ourIRI); // TODO: Make this a list of detectors
 			try {
-				Set<DataInstance> iSet = this.getMatchingInstances(new HashSet<IRI>());
-				ourInstances.addAll(iSet);
+				this.getMatchingInstances(new HashSet<IRI>()); // Populate 'ourInstances'
 			} catch (KIDSOntologyObjectValuesException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -155,7 +152,7 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	public Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException {
 		if (ourInstances == null || ourInstances.size() == 0){
 			try {
-				ourInstances = (HashSet<DataInstance>) getMatchingInstances(new HashSet<IRI>());
+				getMatchingInstances(new HashSet<IRI>());  // Side effect of this is to populate ourInstances
 			} catch (KIDSOntologyObjectValuesException | KIDSOntologyDatatypeValuesException | KIDSIncompatibleSyntaxException e){
 				throw new IOException("Could not read data instances from view " + this.datasetLocation + ": " + e);
 			}
@@ -167,12 +164,11 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	/**
 	 * If we have a filter set, ensure that only filtered results are included.
 	 * TODO: Add caching for matching instances.
-	 * TODO: Take a MAP from signal -> detectors for evaluation - View supports multiple detectors
 	 */
 	public Set<DataInstance> getMatchingInstances(
 			Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
 		try {
-		    Set<DataInstance> allMatching = ourDetector.getMatchingInstances(signalSet, this);
+			Set<DataInstance> allMatching = super.getMatchingInstances(signalSet);
 		    if (viewFilter != null){
 			    Iterator<DataInstance> instanceIter = allMatching.iterator();
 			    while (instanceIter.hasNext()){
@@ -182,6 +178,8 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 				    }
 			    }
 		    } 
+		    // Strip out 'ourInstances'
+		    ourInstances.keySet().retainAll(allMatching);
 		    return allMatching;
 		} catch (KIDSIncompatibleSyntaxException e){
 			StringBuilder sb = new StringBuilder();
@@ -220,15 +218,11 @@ public class NativeLibPCAPView implements DatasetView, java.io.Serializable {
 	public String getViewLocation() {
 		return this.datasetLocation;
 	}
-
+	
 	@Override
-	public void setIRI(IRI iri) {
-		ourIRI = iri;
-	}
-
-	@Override
-	public IRI getIRI() {
-		return ourIRI;
+	public DataInstance buildInstance(HashMap<IRI,String> idMap){
+		return new KIDSNativeLibpcapDataInstance(idMap);
+		
 	}
 
 }

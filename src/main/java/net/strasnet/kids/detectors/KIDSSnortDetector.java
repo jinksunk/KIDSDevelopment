@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +49,7 @@ public class KIDSSnortDetector implements KIDSDetector {
 	 */
 	
 	private IRI ourIRI = null;
-	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
+	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	private static String executionCommand;
 	
 	
@@ -73,6 +74,9 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	static {
 		supportedFeatures.put(featureIRI + "TCPPacketPayload",true);
 		supportedFeatures.put(featureIRI + "PacketID",true);
+		supportedFeatures.put(featureIRI + "IPv4SourceAddressSignalDomain",true);
+		supportedFeatures.put(featureIRI + "IPv4DestinationAddressSignalDomain",true);
+		supportedFeatures.put(featureIRI + "instanceTimestamp",true);
 		};
 		
 	private Pattern rexp = null;
@@ -118,17 +122,17 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
 	@Override
-	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+	public Set<Map<IRI,String>> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
 		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
 		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
 		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
 		// syntaxes in the case of multiple.  
-		Set<DataInstance> toReturn;
+		Set<Map<IRI,String>> toReturn;
 		
 		// Run the command with the detector specification
 		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSyn.getDetectorSyntax(signals) + " -N -k none -A console -q -v -y");
 		StreamGobbler eGobble = new StreamGobbler(genPcap.getErrorStream(), "ERROR");
-		StreamGobbler iGobble = new StreamGobbler(genPcap.getInputStream(), "OUTPUT");
+		StreamGobbler iGobble = new StreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
 		eGobble.start();
 		iGobble.start();
 		try {
@@ -216,8 +220,8 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	    InputStream is;
 	    String type;
 	    StringBuilder mine;
-	    Set<DataInstance> toReturn;
-	    NativeLibPCAPView v;
+	    Set<Map<IRI, String>> toReturn;
+	    DatasetView v;
 	    boolean processStream = false;
 	    
 	    StreamGobbler(InputStream is, String type)
@@ -225,15 +229,15 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	        this.is = is;
 	        this.type = type;
 	        mine = new StringBuilder();
-	        toReturn = new HashSet<DataInstance>();
+	        toReturn = new HashSet<Map<IRI,String>>();
 	    }
 	    
-	    StreamGobbler(InputStream is, String type, NativeLibPCAPView v)
+	    StreamGobbler(InputStream is, String type, DatasetView v)
 	    {
 	        this.is = is;
 	        this.type = type;
 	        mine = new StringBuilder();
-	        toReturn = new HashSet<DataInstance>();
+	        toReturn = new HashSet<Map<IRI,String>>();
 	        this.v = v;
 	        processStream = true;
 	    }
@@ -242,7 +246,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			return mine.toString();
 		}
 	    
-	    public Set<DataInstance> getReturnSet(){
+	    public Set<Map<IRI,String>> getReturnSet(){
 	    	return toReturn;
 	    }
 
@@ -266,17 +270,32 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			                Matcher rexr = rexp.matcher(sRecord);
 			                if (rexr.find()){
 			    	            HashMap<IRI, String> idmap = new HashMap<IRI, String>();
-			    	            idmap.put(v.getIdentifyingFeatures().get(0), rexr.group("ID"));
-			    	            //try {
-								//	idmap.put(v.getIdentifyingFeatures().get(1), parseSnortTimestamp(rexr.group("TIMESTAMP")));
-									idmap.put(v.getIdentifyingFeatures().get(2), "" + getIPAsInt(rexr.group("SIP")));
-									idmap.put(v.getIdentifyingFeatures().get(3), "" + getIPAsInt(rexr.group("DIP")));
+			    	            Iterator<IRI> ifs = v.getIdentifyingFeatures().iterator();
+			    	            IRI identFeature;
+			    	            while (ifs.hasNext()){
+			    	            	identFeature = ifs.next();
+			    	            	if (identFeature.toString().equals(featureIRI + "PacketID")){
+			    	            		idmap.put(identFeature, rexr.group("ID"));
+					 	           	} else if (identFeature.toString().equals(featureIRI + "IPv4SourceAddressSignalDomain")){
+						 	           	idmap.put(identFeature, rexr.group("SIP"));
+					 	           	} else if (identFeature.toString().equals(featureIRI + "IPv4DestinationAddressSignalDomain")){
+						 	           	idmap.put(identFeature, rexr.group("DIP"));
+					 	           	}
+			    	            	
+			    	            	/*
+									try {
+										idmap.put(v.getIdentifyingFeatures().get(1), parseSnortTimestamp(rexr.group("TIMESTAMP")));
+									} catch (ParseException e) {
+										System.err.println("[W] - Cannot parse timestamp " + (rexr.group("TIMESTAMP")) + " ; leaving null.");
+										idmap.put(v.getIdentifyingFeatures().get(1),null);
+									}
+									*/
+			    	            }
 								//} catch (ParseException e) {
 									// TODO Auto-generated catch block
 									//e.printStackTrace();
 								//}
-			    	            KIDSSnortDataInstance newGuy = new KIDSSnortDataInstance(idmap);
-			    	            toReturn.add(newGuy);
+			    	            toReturn.add(idmap);
 			                } 
 			                sRecord = new StringBuilder();
 			            } else {
@@ -311,5 +330,11 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			return iVal;
 			
 		}
+	}
+
+	@Override
+	public IRI getIRI() {
+		// TODO Auto-generated method stub
+		return this.ourIRI;
 	}
 }

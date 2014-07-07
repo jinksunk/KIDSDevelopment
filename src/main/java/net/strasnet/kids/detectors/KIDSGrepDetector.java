@@ -63,6 +63,8 @@ public class KIDSGrepDetector implements KIDSDetector {
 	static {
 		supportedFeatures.put(featureIRI + "IPv4SourceAddressSignalDomain",true);
 		supportedFeatures.put(featureIRI + "HTTPGetParameter",true);
+		supportedFeatures.put(featureIRI + "NTEventLogRecordID",true);
+		supportedFeatures.put(featureIRI + "instanceTimestamp", true);
 		};
 		
 	private Pattern rexp = null;
@@ -74,13 +76,13 @@ public class KIDSGrepDetector implements KIDSDetector {
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
 	 */
 	@Override
-	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
+	public Set<Map<IRI,String>> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
 
-		Set<DataInstance> toReturn = new HashSet<DataInstance>();
+		Set<Map<IRI,String>> toReturn = new HashSet<Map<IRI,String>>();
 		
 		// Run the command with the detector specification
 		//String toExec = executionCommand + " -E " +  "'" + ourSyn.getDetectorSyntax(signals) + "' " + v.getViewLocation();
@@ -94,25 +96,7 @@ public class KIDSGrepDetector implements KIDSDetector {
 			// Get the log entry ID for each line, and create the data instance object for it
 			// Extract out at least the ID, Source IP (if present), and HTTPGetRequestResource (if present)
 			while ((Line = rd.readLine()) != null){
-				Matcher rexm = rexp.matcher(Line);
-				//Matcher rexi = rexpIgnore.matcher(Line);
-				if (rexm.matches()){
-			    	String logLineID = rexm.group(1);
-			    	//TODO: At some point, need to add resources other than ID features
-			    	// Maps of feature IRIs to values
-			    	HashMap<IRI, String> idmap = new HashMap<IRI, String>();
-			    	// Add the identifying features for the instance
-			    	idmap.put(v.getIdentifyingFeatures().get(0), logLineID);
-			    	KIDSNTEventLogDataInstance newGuy = new KIDSNTEventLogDataInstance(idmap);
-			    	// Now add the extracted resources
-			    	newGuy.addResources(extractResources(Line));
-			    	toReturn.add(newGuy);
-	//			} else if (rexi.matches()){
-	//				// Ignore other lines
-	//				continue;
-				} else {
-					throw new IOException("Could not extract Log ID from line: " + Line);
-				}
+			    	toReturn.add(extractResources(Line));
 			}
 		
 			/**
@@ -171,14 +155,33 @@ public class KIDSGrepDetector implements KIDSDetector {
 	 * Example is:
 	 * ID,Timestamp,EventID,EventCode,KVPairs
      * 1,920593652,40000006,0004,SRC=151.117.166.116
+	 * @throws IOException 
 	 */
-	private Map<IRI, String> extractResources(String dataLine){
+	private Map<IRI, String> extractResources(String dataLine) throws IOException{
 		Map<IRI,String> returnValue = new HashMap<IRI,String>();
+		Matcher rexm = rexp.matcher(dataLine);
+		//Matcher rexi = rexpIgnore.matcher(Line);
+		if (rexm.matches()){
+		   	String logLineID = rexm.group(1);
+			// Maps of feature IRIs to values
+			//HashMap<IRI, String> idmap = new HashMap<IRI, String>();
+			// Add the identifying features for the instance
+			// Now add the extracted resources
+		   	returnValue.put(IRI.create(featureIRI + "NTEventLogRecordID"), logLineID);
+
+	//			} else if (rexi.matches()){
+	//				// Ignore other lines
+	//				continue;
+		} else {
+			throw new IOException("Could not extract Log ID from line: " + dataLine);
+		}
 		
-		// Look for each resource in the line:
+		// Look for each other resource in the line:
 		String[] commaFields = dataLine.split(",",5);
 		returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#instanceTimestamp"), commaFields[1]);
 
+		//TODO: Extract LogLine ID from the line:
+    	//TODO: At some point, need to add resources other than ID features
 		String[] kvFields = commaFields[4].split(",");
 
 		for (String kvField : kvFields){
@@ -192,6 +195,11 @@ public class KIDSGrepDetector implements KIDSDetector {
 		}
 		
 		return returnValue;
+	}
+
+	@Override
+	public IRI getIRI() {
+		return ourIRI;
 	}
 	
 }

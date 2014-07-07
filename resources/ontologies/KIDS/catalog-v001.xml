@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1328804971951" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120125.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1332604283539" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20110630-broken.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1333306989905" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120316.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1334892047885" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120329-canonicalForms.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1335362994032" name="https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120324-master.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1368039255887" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids.owl"/>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <group id="Folder Repository, directory=file:/Users/cstras/Documents/academic-research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/KIDS/resources/ontologies/KIDS/, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="KIDS-TBOX.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl" uri="ABOX-CodeRed-2013MeasurementPaper-logsOnly.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl" uri="ABOX-CodeRed-2013MeasurementPaper-malPacketsOnly.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl" uri="ABOX-CodeRed-2013MeasurementPaper-noFakes.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl" uri="ABOX-CodeRed-2013MeasurementPaper-withFakes.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20110630-broken.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120125.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120316.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120324-master.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1404572538465" name="duplicate:https://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="kids-20120329-canonicalForms.owl"/>
     </group>
 </catalog>

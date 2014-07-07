@@ -1,8 +1,10 @@
 package net.strasnet.kids.measurement.datasetviews;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -93,4 +95,11 @@ public interface DatasetView {
 	 * @return The IRI of this dataset view
 	 */
 	IRI getIRI();
+
+	/**
+	 * 
+	 * @param idMap - The map of identifying features to be used to build the instance
+	 * @return A DataInstance of type appropriate to the DatasetView
+	 */
+	DataInstance buildInstance(HashMap<IRI, String> idMap);
 }

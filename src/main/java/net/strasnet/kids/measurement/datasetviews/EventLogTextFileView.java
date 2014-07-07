@@ -1,6 +1,7 @@
 package net.strasnet.kids.measurement.datasetviews;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -16,19 +17,18 @@ import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.datasetinstances.KIDSNTEventLogDataInstance;
 
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
-public class EventLogTextFileView implements DatasetView, java.io.Serializable {
+public class EventLogTextFileView extends AbstractDatasetView implements DatasetView, java.io.Serializable {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 2002776263250625193L;
 	private HashSet<DataInstance> ourInstances;    		  // All of the instances in the dataset
-	private KIDSMeasurementOracle myGuy;			      // The KIDSOracle used to interact with the KB
-	private IRI ourIRI = null;					  // The base IRI of 
 	
 												  // Map of event to another map of data instance
 												  // (since an event will generally have many instances)
@@ -36,7 +36,6 @@ public class EventLogTextFileView implements DatasetView, java.io.Serializable {
 	private TreeMap<EventOccurrence,TreeMap<DataInstance,Boolean>> instancesByEvent = null;
 	private TreeMap<OWLNamedIndividual,TreeMap<DataInstance,Boolean>> instancesBySignalMatch = null;
 	private String datasetLocation = null;
-	private KIDSDetector ourDetector = null;
 	private List<IRI> identifyingFeatures = null;
 	private Set<DataInstance> viewFilter = null;
 
@@ -59,7 +58,6 @@ public class EventLogTextFileView implements DatasetView, java.io.Serializable {
 		this.ourInstances = new HashSet<DataInstance>();
 		this.datasetLocation = datasetLocation;
 		this.myGuy = o;
-		ourDetector = o.getDetectorForView(ourIRI);
 		this.identifyingFeatures = new LinkedList<IRI>();
 		for (IRI i : identifyingFeatures){
 			this.identifyingFeatures.add(i);
@@ -114,7 +112,8 @@ public class EventLogTextFileView implements DatasetView, java.io.Serializable {
 			KIDSOntologyDatatypeValuesException, IOException,
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
 		try {
-		    Set<DataInstance> allMatching = ourDetector.getMatchingInstances(signalSet, this);
+		    Set<DataInstance> allMatching = super.getMatchingInstances(signalSet);
+
 		    if (viewFilter != null){
 			    Iterator<DataInstance> instanceIter = allMatching.iterator();
 			    while (instanceIter.hasNext()){
@@ -154,13 +153,8 @@ public class EventLogTextFileView implements DatasetView, java.io.Serializable {
 	}
 
 	@Override
-	public void setIRI(IRI iri) {
-		this.ourIRI = iri;
-	}
-
-	@Override
-	public IRI getIRI() {
-		return this.ourIRI;
+	public DataInstance buildInstance(HashMap<IRI, String> idMap) {
+		return new KIDSNTEventLogDataInstance(idMap);
 	}
 
 }
