@@ -37,6 +37,7 @@ import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException
 public class KIDSMeasurementOracle extends KIDSOracle {
 	public static final String kidsTBOXLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	private static final String contextDomainRelation = kidsTBOXLocation + "#isContextOfSignalDomain";
+	private static final String domainContextRelation = kidsTBOXLocation + "#isInContext";
 	private static final String datasetInstanceResourceProp = kidsTBOXLocation + "#datasetLocation";
 	private static final String datasetLabelResourceProp = kidsTBOXLocation + "#datasetLabelLocation";
 	public static final String datasetParserImplementationProp = kidsTBOXLocation + "#datasetParserImplementation";
@@ -863,5 +864,56 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 
 		// TODO Auto-generated method stub
 		return oaSet.iterator().next().getLiteral();
+	}
+
+	/**
+	 * Convenience method to work w/ IRIs rather than Named Individuals
+	 * @param mySig
+	 * @return
+	 * @throws KIDSOntologyObjectValuesException
+	 */
+	public IRI getSignalDomain(IRI mySig) throws KIDSOntologyObjectValuesException {
+		OWLNamedIndividual s = odf.getOWLNamedIndividual(mySig);
+		OWLNamedIndividual d = this.getSignalDomain(s);
+		return d.getIRI();
+	}
+
+	public String getSignalValue(IRI mySig) throws KIDSOntologyDatatypeValuesException {
+		OWLNamedIndividual s = odf.getOWLNamedIndividual(mySig);
+		String v = this.getSignalValue(s);
+		return v;
+	}
+
+	public IRI getSignalConstraint(IRI mySig) throws KIDSOntologyObjectValuesException {
+		OWLNamedIndividual c = odf.getOWLNamedIndividual(mySig);
+		return this.getSignalConstraint(c).getIRI();
+	}
+
+	/**
+	 * 
+	 * @param mySig
+	 * @return - A set of contexts (IRIs) associated with this signal
+	 * @throws KIDSOntologyObjectValuesException 
+	 */
+	public Set<IRI> getSignalContexts(IRI mySig) throws KIDSOntologyObjectValuesException {
+		// Get the signal domain for this signal:
+		IRI sDom = this.getSignalDomain(mySig);
+		
+		// Now iterate through all the contexts associated with this domain:
+		NodeSet<OWLNamedIndividual> consets = this.r.getObjectPropertyValues(
+									this.odf.getOWLNamedIndividual(sDom),
+									this.odf.getOWLObjectProperty(IRI.create(domainContextRelation))
+							);
+		Set<OWLNamedIndividual> contexts = consets.getFlattened();
+		System.out.println("** Reasoner properties: \n\tConsistent:" + this.r.isConsistent() +
+				"\n\tReasoner Name: "+ this.r.getReasonerName() +
+				"\n\tReasoner Vers: " + this.r.getReasonerVersion().getBuild() + " " + this.r.getReasonerVersion().getMajor() + " " + this.r.getReasonerVersion().getMinor() + " " + this.r.getReasonerVersion().getPatch() + "\n");
+		
+		Set<IRI> toReturn = new HashSet<IRI>();
+		for (OWLNamedIndividual c : contexts){
+			toReturn.add(c.getIRI());
+		}
+		
+		return toReturn;
 	}
 }

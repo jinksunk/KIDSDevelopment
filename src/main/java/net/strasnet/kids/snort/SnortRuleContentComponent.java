@@ -44,6 +44,13 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
  * Depending on the domain of the signal, different modifiers may be added to the content rule.  For instance, 
  * the domain HTTPGetRequest would add the modifier 'http_uri'
  * 
+ * Currently this module supports: 
+ *  - #IPPacketData_StringMatch
+ *  - #IPPacketData_ByteSubsequenceMath
+ *  - #PCREGrammar
+ * 
+ * 
+ * 
  * @author chrisstrasburg
  *
  */
@@ -63,6 +70,7 @@ public class SnortRuleContentComponent extends AbstractSnortRuleComponent {
 	{
 		contentMap.put(IRI.create(tboxPrefix + "#PCREGrammar"), new pcreContentSpecification());
 		contentMap.put(IRI.create(tboxPrefix + "#IPPacketData_StringMatch"), new substringMatchContentSpecification());
+		contentMap.put(IRI.create(tboxPrefix + "#IPPacketData_ByteSubsequenceMatch"), new subsequenceMatchContentSpecification());
 	}
 	
 	/**
@@ -112,6 +120,16 @@ public class SnortRuleContentComponent extends AbstractSnortRuleComponent {
 				System.exit(1);
 			}
 			return "";
+		}
+	}
+	
+	class subsequenceMatchContentSpecification implements SnortContentSpecification {
+		public String getSnortRepresentation(String an) {
+			return "content:\"" + an + "\";";
+		}
+		@Override
+		public IRI getCompatibleValueClass() {
+			return IRI.create(tboxPrefix + "#ByteHexDelimitedValue");
 		}
 	}
 	

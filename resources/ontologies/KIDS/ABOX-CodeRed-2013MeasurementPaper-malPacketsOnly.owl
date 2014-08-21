@@ -23,11 +23,14 @@
     <Prefix name="ABOX" IRI="http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#"/>
     <Prefix name="TBOX" IRI="http://solomon.cs.iastate.edu/ontologies/KIDS.owl#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Import>http://solomon.cs.iastate.edu/ontologies/KIDS.owl</Import>
+    <Import>https://www.semantiknit.com/ontologies/KIDS-TBOX.owl</Import>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">This ontology is a small test sample for exercising some of the KIDS code.</Literal>
     </Annotation>
+    <Declaration>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+    </Declaration>
     <Declaration>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
     </Declaration>
@@ -83,6 +86,9 @@
         <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
     </Declaration>
     <Declaration>
@@ -95,8 +101,15 @@
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
     </Declaration>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:BroIDSPolicy"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+    </ClassAssertion>
     <ClassAssertion>
         <Class abbreviatedIRI="TBOX:LibPcap_IPPacketView"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
@@ -116,6 +129,10 @@
     <ClassAssertion>
         <Class abbreviatedIRI="TBOX:IntegerValue"/>
         <NamedIndividual IRI="#Integer80"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:ByteHexDelimitedValue"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class abbreviatedIRI="TBOX:IPSourceAddress_IPRangeSet"/>
@@ -182,6 +199,11 @@
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
@@ -404,6 +426,21 @@
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:STDDEVThresholdExceededConstraint"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeDomain"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
         <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
@@ -502,6 +539,11 @@
         <DataProperty abbreviatedIRI="TBOX:hasValue"/>
         <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
         <Literal datatypeIRI="&rdf;PlainLiteral">[239:65535]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">3.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>

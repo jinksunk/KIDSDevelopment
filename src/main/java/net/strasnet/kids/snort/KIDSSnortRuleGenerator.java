@@ -230,6 +230,7 @@ public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 			}
 			
 			// Content
+			rule += " " + new SnortRuleContentComponent(ko, currentSigSet, defaultPrefix + "#IPPacketData_ByteSubsequenceMatch");
 			rule += " " + new SnortRuleContentComponent(ko, currentSigSet, defaultPrefix + "#IPPacketData_StringMatch");
 			
 			/* Non-payload options */

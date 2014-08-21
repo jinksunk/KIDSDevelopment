@@ -49,7 +49,19 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#BitMaskMatchNonZero"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#BroCompatibleIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BroEventDetectionSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BroIDSPolicy"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ByteEquality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ByteHexDelimitedValue"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ByteIntegerValue"/>
@@ -113,6 +125,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#DetectorSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DoubleValue"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Event"/>
@@ -436,6 +451,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Response"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#STDDEVThresholdExceeded"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#SecondOfPacketsSignalDomainContext"/>
     </Declaration>
     <Declaration>
@@ -527,6 +545,15 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#TCPPacket_TCPFlagsRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPayloadSize"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPayloadSize_STDDEVThresholdExceeded"/>
     </Declaration>
     <Declaration>
         <Class IRI="#TCPPort"/>
@@ -946,6 +973,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPv4AddressRangeSetSignalConstraint"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#IPv4DestinationAddressSignalDomain"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
     </Declaration>
     <Declaration>
@@ -962,6 +992,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#PositiveIntegerRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#STDDEVThresholdExceededConstraint"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#SnortIDS1.7"/>
@@ -1000,6 +1033,15 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#TCPPacket_TCPPacketDataRepresentation1"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPayloadSizeDomain"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#UniqueDstIPPerSrcPerMin"/>
     </Declaration>
     <Declaration>
@@ -1010,6 +1052,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#bpfFilterSyntax"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#broEventDetectionSyntax"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#byteAsIntegerEquality"/>
@@ -1095,6 +1140,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
                 <Class IRI="#ApplicationResponse"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#BroIDSPolicy"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasSyntax"/>
+            <Class IRI="#BroEventDetectionSyntax"/>
+        </ObjectSomeValuesFrom>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#DNSIRS"/>
@@ -1516,6 +1568,32 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isProducedByContext"/>
+                <Class IRI="#TCPPacketContext"/>
+            </ObjectSomeValuesFrom>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
+                <NamedIndividual IRI="#TCPPayloadSizeDomain"/>
+            </ObjectHasValue>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#TCPPayloadSize_STDDEVThresholdExceeded"/>
+        <ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasConstraint"/>
+                <Class IRI="#STDDEVThresholdExceeded"/>
+            </ObjectSomeValuesFrom>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasDomain"/>
+                <Class IRI="#TCPPayloadSize"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
         <Class IRI="#UDPIRS"/>
         <ObjectIntersectionOf>
             <Class IRI="#IPIRS"/>
@@ -1571,8 +1649,24 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalConstraint"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#BroCompatibleIDS"/>
+        <Class IRI="#IDS"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BroEventDetectionSyntax"/>
+        <Class IRI="#DetectorSyntax"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BroIDSPolicy"/>
+        <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ByteEquality"/>
         <Class IRI="#ByteRange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ByteHexDelimitedValue"/>
+        <Class IRI="#SignalValue"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#ByteIntegerValue"/>
@@ -1629,6 +1723,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#DNSSignalDomainContext"/>
         <Class IRI="#UDPSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DoubleValue"/>
+        <Class IRI="#SignalValue"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#GrepRuleSyntax"/>
@@ -2279,6 +2377,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ContextFreeGrammar"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#STDDEVThresholdExceeded"/>
+        <Class IRI="#SignalConstraint"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#SecondOfPacketsSignalDomainContext"/>
         <Class IRI="#TemporalSignalDomainContext"/>
     </SubClassOf>
@@ -2444,6 +2546,25 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#TCPPacket_TCPFlagsRepresentation"/>
         <Class IRI="#SignalDomainRepresentation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
+        <Class IRI="#SignalDomainRepresentation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPPayloadSize"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPPayloadSize_STDDEVThresholdExceeded"/>
+        <Class IRI="#Signal"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPPayloadSize_STDDEVThresholdExceeded"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isExpressibleInSyntax"/>
+            <NamedIndividual IRI="#broEventDetectionSyntax"/>
+        </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#TCPPort"/>
@@ -2657,12 +2778,20 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPv4AddressRangeSetSignalConstraint"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#IPv4DestinationAddress"/>
+        <NamedIndividual IRI="#IPv4DestinationAddressSignalDomain"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#IPv4SourceAddress"/>
         <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#PacketLength"/>
         <NamedIndividual IRI="#PacketLengthSignalDomain"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#STDDEVThresholdExceeded"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededConstraint"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#SignalManifestation"/>
@@ -2701,8 +2830,24 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#TCPPacket_TCPPacketDataRepresentation1"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
+        <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#TCPPayloadSize"/>
+        <NamedIndividual IRI="#TCPPayloadSizeDomain"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalManifestation"/>
+        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#BitMaskMatchNonZero"/>
         <NamedIndividual IRI="#bitmaskMatchNonZero"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#BroEventDetectionSyntax"/>
+        <NamedIndividual IRI="#broEventDetectionSyntax"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#ByteEquality"/>
@@ -2860,6 +3005,11 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#ipPacketSignalDomainContext"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isInContext"/>
+        <NamedIndividual IRI="#IPv4DestinationAddressSignalDomain"/>
+        <NamedIndividual IRI="#IPPacket"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasSignalDomainRepresentation"/>
         <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
         <NamedIndividual IRI="#IISEventLogMessageContext_IPv4SourceAddressSignalDomainRepresentation1"/>
@@ -2940,6 +3090,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#TCPPacket"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isInContext"/>
+        <NamedIndividual IRI="#TCPPayloadSizeDomain"/>
+        <NamedIndividual IRI="#TCPPacket"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#realizesSignalRepresentation"/>
+        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#hasEncapsulatedContext"/>
         <NamedIndividual IRI="#WindowsLogEntry"/>
         <NamedIndividual IRI="#TCPPacket"/>
@@ -2993,6 +3153,11 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
         <NamedIndividual IRI="#bpfFilterSyntax"/>
         <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.KIDSTcpDumpDetectorSyntax</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasSyntaxProductionImplementation"/>
+        <NamedIndividual IRI="#broEventDetectionSyntax"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasCorrelationRelationImplementation"/>
@@ -3053,16 +3218,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#bringsIntoExistence"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isAppliedByDetector"/>
         <ObjectProperty IRI="#canApplySignal"/>
+        <ObjectProperty IRI="#isAppliedByDetector"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canApplySignalValue"/>
         <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isDetectedByIDS"/>
         <ObjectProperty IRI="#canDetectEvent"/>
+        <ObjectProperty IRI="#isDetectedByIDS"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canMonitor"/>
@@ -3133,8 +3298,8 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isAbleToRepresent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isResponseFor"/>
         <ObjectProperty IRI="#isAffectedBy"/>
+        <ObjectProperty IRI="#isResponseFor"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
@@ -3889,6 +4054,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </DLSafeRule>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#BroEventDetectionSyntax</IRI>
+        <Literal datatypeIRI="&xsd;string">Indicates that the given syntax producer yields valid &apos;Bro&apos; files.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ByteHexDelimitedValue</IRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">This value type is of the form &apos;|AABBCCDD EEFF1122 ... 33445566|&apos; the string can be of arbitrary length, delimited by vertical bars.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#ByteSubsequenceMatch</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Represents a subsequence match for a string of bytes.  This constraint requires a byte sequence to be specified, and a range of value locations to search within the context.  For example, the form may be: &quot;[|AAABBBCC XXXYYYZZ|,0,64]&quot; indicating a match if that subsequence of 8 bytes is found anywhere starting from byte 0 through byte 64.</Literal>
     </AnnotationAssertion>
@@ -4020,7 +4195,7 @@ An effort should be made to subclass the event according to intent or objective.
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#IDS</IRI>
-        <Literal datatypeIRI="&rdf;PlainLiteral">An Intrusion Detection System (IDS) is a collection of detectors.
+        <Literal datatypeIRI="&rdf;PlainLiteral">An Intrusion Detection System (IDS) is a collection of detectors associated with a runtime executable which can apply the detectors to a dataset.
 
 == Class vs. Instance ==
 
@@ -4337,6 +4512,38 @@ Dataset Labels with the same TimePeriod can be evaluated as part of the same mul
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#bringsIntoExistence</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">DatasetView Brings SignalManifestation Into Existence</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#broEventDetectionSyntax</IRI>
+        <Literal datatypeIRI="&xsd;string">This syntax works by having predefined bro scripts which implement specific constraint / domain pairs.  The constraints are functions implemented in Bro, and described here.  The domains are extracted from the specific contexts within the bro language, where contexts are generally associated with Bro &apos;events&apos;, i.e. &apos;IPPacketReceived&apos;.
+
+Care must be taken that the output produced is compatible with the label function being used with the detector.
+
+An example script produced by this syntax might be:
+
+--
+@load kids/broIDSMethods
+
+export {
+    const stddev_threshold: double = 2 &amp;redef;
+}
+
+event kids_constraint_satisfied (c: connection , l: vector of string , msg: string ) 
+{
+    local d = &quot;&quot;;
+    local s: int ;
+    local b = &quot;&quot; ;
+    for (s in l)
+    {
+        b = b + fmt(&quot;%s%s&quot;,d,l[s]);
+        d = &quot;,&quot;;
+    }
+    print b ;
+}
+--
+
+In this case the functionality is provided by the broIDSMethods module in bro, and the desired event (kids_constraint_satisfied) is overridden to produce label-compatible output.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
