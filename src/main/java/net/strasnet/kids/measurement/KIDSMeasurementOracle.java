@@ -799,8 +799,9 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 					}
 				}
 			} catch (KIDSOntologyDatatypeValuesException e){
-				System.err.println("[E] -- Ontology Datatype Values Exception");
-				e.printStackTrace();
+				//System.err.println("[E] -- Ontology Datatype Values Exception");
+				//e.printStackTrace();
+				continue;
 			}
 
 		}
@@ -905,9 +906,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 									this.odf.getOWLObjectProperty(IRI.create(domainContextRelation))
 							);
 		Set<OWLNamedIndividual> contexts = consets.getFlattened();
-		System.out.println("** Reasoner properties: \n\tConsistent:" + this.r.isConsistent() +
+		/**System.out.println("** Reasoner properties: \n\tConsistent:" + this.r.isConsistent() +
 				"\n\tReasoner Name: "+ this.r.getReasonerName() +
 				"\n\tReasoner Vers: " + this.r.getReasonerVersion().getBuild() + " " + this.r.getReasonerVersion().getMajor() + " " + this.r.getReasonerVersion().getMinor() + " " + this.r.getReasonerVersion().getPatch() + "\n");
+				*/
 		
 		Set<IRI> toReturn = new HashSet<IRI>();
 		for (OWLNamedIndividual c : contexts){
