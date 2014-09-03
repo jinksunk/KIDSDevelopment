@@ -68,19 +68,10 @@
         <NamedIndividual IRI="#Integer80"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
@@ -135,10 +126,6 @@
         <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="TBOX:IPSourceAddress_IPRangeSet"/>
-        <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
-    </ClassAssertion>
-    <ClassAssertion>
         <Class abbreviatedIRI="TBOX:SnortRule"/>
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
     </ClassAssertion>
@@ -189,6 +176,16 @@
         <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPFlagsRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSyntax"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:broEventDetectionSyntax"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
@@ -278,12 +275,7 @@
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
-        <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
-        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
@@ -329,61 +321,6 @@
         <ObjectProperty abbreviatedIRI="TBOX:hasSyntax"/>
         <NamedIndividual IRI="#IISLogGrepRuleForCodeRed"/>
         <NamedIndividual abbreviatedIRI="TBOX:Grep2.5.1RuleSyntax"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
-        <NamedIndividual abbreviatedIRI="TBOX:byteSubsequenceMatch"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
-        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataResource"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
-        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
-        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
-        <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
-        <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
-        <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
-        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:SignalInManifestation"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
-        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
-        <NamedIndividual abbreviatedIRI="TBOX:positiveIntegerEquality"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
-        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthSignalDomain"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
-    </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:isProducedBy"/>
-        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
-        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
@@ -465,6 +402,16 @@
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
     </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">/opt/bro/bin/bro</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectors.KIDSBroDetector</Literal>
+    </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>

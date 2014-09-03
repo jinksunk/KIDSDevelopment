@@ -29,6 +29,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.KIDSAbstractDetector.StreamGobbler;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSSnortDetectorSyntax;
@@ -42,15 +43,13 @@ import net.strasnet.kids.measurement.datasetinstances.KIDSSnortDataInstance;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 
-public class KIDSSnortDetector implements KIDSDetector {
+public class KIDSSnortDetector extends KIDSAbstractDetector implements KIDSDetector {
 
 	/**
 	 * Represents a detector utilizing the TCPDump command-line tool.  Associated with the syntax "bpf" - berkeley packet filter.
 	 */
 	
-	private IRI ourIRI = null;
 	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
-	private static String executionCommand;
 	
 	
 	/**
@@ -81,8 +80,6 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		
 	private Pattern rexp = null;
 	private Pattern recRexp = null;
-	private KIDSMeasurementOracle myGuy = null;
-	private KIDSDetectorSyntax ourSyn = null; 
 	//private Path tmpDir;
 	
 	public KIDSSnortDetector(){
@@ -131,8 +128,8 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		
 		// Run the command with the detector specification
 		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSyn.getDetectorSyntax(signals) + " -N -k none -A console -q -v -y");
-		StreamGobbler eGobble = new StreamGobbler(genPcap.getErrorStream(), "ERROR");
-		StreamGobbler iGobble = new StreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
+		SnortStreamGobbler eGobble = new SnortStreamGobbler(genPcap.getErrorStream(), "ERROR");
+		SnortStreamGobbler iGobble = new SnortStreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
 		eGobble.start();
 		iGobble.start();
 		try {
@@ -215,40 +212,16 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		}
 	}
 	
-	class StreamGobbler extends Thread
+	class SnortStreamGobbler extends StreamGobbler
 	{
-	    InputStream is;
-	    String type;
-	    StringBuilder mine;
-	    Set<Map<IRI, String>> toReturn;
-	    DatasetView v;
-	    boolean processStream = false;
-	    
-	    StreamGobbler(InputStream is, String type)
-	    {
-	        this.is = is;
-	        this.type = type;
-	        mine = new StringBuilder();
-	        toReturn = new HashSet<Map<IRI,String>>();
-	    }
-	    
-	    StreamGobbler(InputStream is, String type, DatasetView v)
-	    {
-	        this.is = is;
-	        this.type = type;
-	        mine = new StringBuilder();
-	        toReturn = new HashSet<Map<IRI,String>>();
-	        this.v = v;
-	        processStream = true;
-	    }
-	    
-	    public String getOutput() {
-			return mine.toString();
+
+		SnortStreamGobbler( InputStream is, String type) {
+			super(is, type);
 		}
-	    
-	    public Set<Map<IRI,String>> getReturnSet(){
-	    	return toReturn;
-	    }
+
+		SnortStreamGobbler(InputStream is, String type, DatasetView v) {
+			super(is, type, v);
+		}
 
 		public void run()
 	    {
@@ -308,33 +281,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	              }
 	    }
 		
-		/**
-		 * Given a timestamp in snort format (), return a unix epoch timestamp instead.
-		 * @param snortTS (e.g. 09/23-00:08:08.040748)
-		 * @return corresponding unix epoch timestamp
-		 * @throws ParseException 
-		 */
-		public String parseSnortTimestamp(String snortTS) throws ParseException{
-			SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yy-HH:mm:ss.SSSSSS");
-			return ("" + (sdf.parse("" + snortTS).getTime()/1000));
-		}
-		
-		public long getIPAsInt(String IPDottedQuad) throws UnknownHostException{
-			byte[] bytes = InetAddress.getByName(IPDottedQuad).getAddress();
-			long iVal = 0;
-			for (int i = 0; i < 4; i++){
-				iVal <<= 8;
-				iVal |= bytes[i] & 0xff;
-				//iVal += ((long)(bytes[i] << (24 - (8*i)))) & 0xffffffff;
-			}
-			return iVal;
-			
-		}
 	}
 
 	@Override
 	public IRI getIRI() {
-		// TODO Auto-generated method stub
 		return this.ourIRI;
 	}
 }

@@ -23,11 +23,14 @@
     <Prefix name="ABOX" IRI="http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#"/>
     <Prefix name="TBOX" IRI="http://solomon.cs.iastate.edu/ontologies/KIDS.owl#"/>
     <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
-    <Import>http://solomon.cs.iastate.edu/ontologies/KIDS.owl</Import>
+    <Import>https://www.semantiknit.com/ontologies/KIDS-TBOX.owl</Import>
     <Annotation>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">This ontology is a small test sample for exercising some of the KIDS code.</Literal>
     </Annotation>
+    <Declaration>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+    </Declaration>
     <Declaration>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
     </Declaration>
@@ -65,26 +68,48 @@
         <NamedIndividual IRI="#Integer80"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#TCPAckFlagSet"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#TCPAckFlagSetSignalValue"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignalValue"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
     </Declaration>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:BroIDSPolicy"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+    </ClassAssertion>
     <ClassAssertion>
         <Class abbreviatedIRI="TBOX:LibPcap_IPPacketView"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
@@ -106,6 +131,10 @@
         <NamedIndividual IRI="#Integer80"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:ByteHexDelimitedValue"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class abbreviatedIRI="TBOX:IPSourceAddress_IPRangeSet"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
     </ClassAssertion>
@@ -114,11 +143,7 @@
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
     </ClassAssertion>
     <ClassAssertion>
-        <Class abbreviatedIRI="TBOX:TCPFlags_SingleBitmaskNonZero"/>
-        <NamedIndividual IRI="#TCPAckFlagSet"/>
-    </ClassAssertion>
-    <ClassAssertion>
-        <Class abbreviatedIRI="TBOX:TCPDestinationPort_integerEquality"/>
+        <Class abbreviatedIRI="TBOX:TCPDestinationPort_IntegerRangeSet"/>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
     </ClassAssertion>
     <ClassAssertion>
@@ -136,6 +161,61 @@
         <NamedIndividual abbreviatedIRI="TBOX:IISEventLogMessageContext_IPv4SourceAddressSignalDomainRepresentation1"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+        <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPFlagsRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSyntax"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:broEventDetectionSyntax"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
@@ -143,7 +223,12 @@
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
-        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
@@ -203,17 +288,27 @@
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
-        <NamedIndividual IRI="#TCPAckFlagSet"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
@@ -251,6 +346,26 @@
         <NamedIndividual abbreviatedIRI="TBOX:Grep2.5.1RuleSyntax"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:byteSubsequenceMatch"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataResource"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
@@ -261,9 +376,29 @@
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
-        <NamedIndividual IRI="#SnortRuleForCodeRed"/>
-        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalInManifestation"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:positiveIntegerEquality"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthSignalDomain"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducedBy"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
@@ -271,9 +406,29 @@
         <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#SnortRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#SnortRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:singleBitmaskMatchNonZero"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlags"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
-        <NamedIndividual IRI="#TCPAckFlagSet"/>
-        <NamedIndividual IRI="#TCPAckFlagSetSignalValue"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignalValue"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
@@ -281,14 +436,29 @@
         <NamedIndividual IRI="#Integer80"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
-        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
-        <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
-        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
+        <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:STDDEVThresholdExceededConstraint"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeDomain"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
-        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
@@ -300,6 +470,26 @@
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">/opt/bro/bin/bro</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual IRI="#BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectors.KIDSBroDetector</Literal>
+    </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
@@ -358,12 +548,27 @@
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasValue"/>
         <NamedIndividual IRI="#Integer80"/>
-        <Literal datatypeIRI="&xsd;string">80</Literal>
+        <Literal datatypeIRI="&xsd;string">[80:80]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">|2F646566 61756C74 2E696461 3F4E4E4E|</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasValue"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
-        <Literal datatypeIRI="&rdf;PlainLiteral">[151.117.166.116/255.255.255.255,129.0.0.0/255.0.0.0,127.1.5.122/255.255.255.254,132.106.196.195/255.255.255.255,154.130.20.235/255.255.255.255]</Literal>
+        <Literal datatypeIRI="&rdf;PlainLiteral">[151.117.166.116/255.255.255.255,129.0.0.0/255.0.0.0,127.1.5.122/255.255.255.254,132.106.196.195/255.255.255.255,154.130.20.235/255.255.255.255,148.130.200.57/255.255.255.255,132.195.136.168/255.255.255.255,128.0.0.0/224.0.0.0,127.6.231.207/255.255.255.255,127.7.76.175/255.255.255.255,127.102.105.144/255.255.255.255,165.125.20.213/255.255.255.255]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">[239:65535]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">3.0</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
@@ -374,6 +579,11 @@
         <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
         <Literal datatypeIRI="&xsd;string">net.strasnet.kids.detectors.KIDSSnortDetector</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">0x10</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>

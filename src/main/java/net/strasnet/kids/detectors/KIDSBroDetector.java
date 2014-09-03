@@ -3,13 +3,18 @@
  */
 package net.strasnet.kids.detectors;
 
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
@@ -17,6 +22,7 @@ import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.ViewLabelDataset;
@@ -31,14 +37,22 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
  * @author cstras
  *
  */
-public class KIDSBroDetector implements KIDSDetector {
+public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetector {
 	/**
-	 * Represents a detector utilizing the Bro command-line tool.  Associated with the bro script syntax 
+	 * Represents a detector utilizing the Bro command-line tool.  Associated with the bro script syntax.
+	 * 
+	 * Will parse and data in the format:
+	 * EpochTS,PacketID,SourceIP,DestIP 
+	 * - EpochTS - The timestamp in Unix epoch
+	 * - PacketID - The IP packet ID in the trace file
+	 * - SourceIP - The source IP address in dotted-quad form
+	 * - DestIP - The destination IP address in dotted-quad form
+	 * 
+	 * Example:
+	 * 920567169.0,38963,136.201.241.147,172.16.112.100
 	 */
 	
-	private IRI ourIRI = null;
 	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
-	private static String executionCommand;
 	
 	
 	/**
@@ -46,8 +60,7 @@ public class KIDSBroDetector implements KIDSDetector {
 	 */
 	//private static String regexPattern = "[\\d/-:\\.]+\\s+\\[\\*\\*\\].*\\s+ID:(?<PID>\\d+)\\s.*";
 //	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\]\\s+.*(<?SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(<?DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(<?ID>\\d+)\\s+";
-	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\].*\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(?<ID>\\d+)\\s+";
-	private static String recordPattern = "(=\\+){37}";
+	private static String regexPattern = "(?<TIMESTAMP>[\\d\\.]+),(?<PID>\\d+),(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+),(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\s*";
 	
 	private static final Map<String, Boolean> supportedFeatures = new HashMap <String, Boolean>();
 	static {
@@ -55,9 +68,6 @@ public class KIDSBroDetector implements KIDSDetector {
 		};
 		
 	private Pattern rexp = null;
-	private Pattern recRexp = null;
-	private KIDSMeasurementOracle myGuy = null;
-	private KIDSDetectorSyntax ourSyn = null; 
 	//private Path tmpDir;
 	
 
@@ -70,8 +80,28 @@ public class KIDSBroDetector implements KIDSDetector {
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Map<IRI,String>> toReturn;
+		
+		String runBroString = executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals); 
+		System.out.println("Executing: " + runBroString);
+		Process runBro = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals)); 
+		BroStreamGobbler eGobble = new BroStreamGobbler(runBro.getErrorStream(), "ERROR");
+		BroStreamGobbler iGobble = new BroStreamGobbler(runBro.getInputStream(), "OUTPUT", v);
+		eGobble.start();
+		iGobble.start();
+		
+		try {
+			if (runBro.waitFor() != 0){
+				eGobble.join();
+				System.err.println(eGobble.getOutput());
+			}
+			iGobble.join();
+		} catch (InterruptedException e){
+			throw new IOException("Command interrupted: " + this.executionCommand);
+		}
+		toReturn = iGobble.getReturnSet();
+
+		return toReturn;
 	}
 
 	/* (non-Javadoc)
@@ -82,7 +112,8 @@ public class KIDSBroDetector implements KIDSDetector {
 			throws KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
-		// TODO Auto-generated method stub
+		super.init(toExecute, detectorIRI, o);
+		rexp = Pattern.compile(regexPattern);
 	}
 
 	/* (non-Javadoc)
@@ -90,7 +121,7 @@ public class KIDSBroDetector implements KIDSDetector {
 	 */
 	@Override
 	public IRI getIRI() {
-		return null;
+		return ourIRI;
 	}
 
 	/**
@@ -98,7 +129,6 @@ public class KIDSBroDetector implements KIDSDetector {
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		// TODO Auto-generated method stub
 		// Test driver here
 		String ABOXLocation = args[0];
 		String ABOXIRI = "http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl";
@@ -110,28 +140,88 @@ public class KIDSBroDetector implements KIDSDetector {
 
 		KIDSMeasurementOracle localO = TestOracleFactory.getKIDSMeasurementOracle(TBOXIRI, TBOXLocation, ABOXIRI, ABOXLocation);
 
-		// Test the bro syntax producer
-		//KIDSBroDetector beds = new KIDSBroDetector();
-		//beds.init(localO.getDetectorExecutionString(DetectorIRI), DetectorIRI, localO);
+		KIDSBroDetector beds = new KIDSBroDetector();
+		beds.init(localO.getDetectorExecutionString(DetectorIRI), DetectorIRI, localO);
+
 		Set<IRI> sigSet = new HashSet<IRI>();
 		sigSet.add(TestSignalIRI);
 		
 		Set<OWLNamedIndividual> dSets = localO.getDatasetsForEvent(EventIRI);
-		OWLNamedIndividual dSet = dSets.iterator().next();
+		
+		// In this case, we want to ensure we get the libpcap dataset:
+		Map<IRI, List<OWLNamedIndividual>> dsetViewMap = new HashMap<IRI, List<OWLNamedIndividual>>();
+		OWLNamedIndividual chosenDset = null;
+		for (OWLNamedIndividual dSet : dSets){
+			if (dSet.getIRI().equals(IRI.create("http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#CodeRedEvalPCAPDataset1"))){
+				chosenDset = dSet;
+			}
+			List<OWLNamedIndividual> tViews = localO.getAvailableViews(dSet.getIRI(), EventIRI);
+			dsetViewMap.put(dSet.getIRI(), tViews);
+		}
 
-		List<OWLNamedIndividual> vSets = localO.getAvailableViews(dSet.getIRI(), EventIRI);
+		// Pull out the libpcap view:
 		NativeLibPCAPView nlpv = new NativeLibPCAPView();
-		nlpv.setIRI(vSets.get(0).getIRI());
-		localO.getLabelForViewAndEvent(vSets.get(0), EventIRI);
-		List<IRI> lList = new LinkedList<IRI>();
-		lList.add(localO.getLabelForViewAndEvent(vSets.get(0), EventIRI).getIRI());
-		nlpv.generateView(localO.getDatasetLocation(dSet), localO, lList);
+		OWLNamedIndividual ourView = dsetViewMap.get(chosenDset.getIRI()).iterator().next();
+		nlpv.setIRI(ourView.getIRI());
+		//localO.getLabelForViewAndEvent(ourView, EventIRI);
+		//List<IRI> lList = new LinkedList<IRI>();
+		//OWLNamedIndividual kl = localO.getLabelImplementation(localO.getLabelForViewAndEvent(ourView, EventIRI));
+		ViewLabelDataset v = KIDSDatasetFactory.getViewLabelDataset(chosenDset.getIRI(), EventIRI, localO);
+		// TODO: not lList, we need the identifying features here:
+		//nlpv.generateView(localO.getDatasetLocation(chosenDset), localO, lList);
 		
 		//ViewLabelDataset v = new ViewLabelDataset();
 		//v.init(IRI.create(EventIRI));
 
-		nlpv.getMatchingInstances(sigSet);
+		v.getMatchingInstances(sigSet);
 
 	}
 
+	class BroStreamGobbler extends StreamGobbler {
+
+		BroStreamGobbler(InputStream is, String type) {
+			super(is, type);
+		}
+
+		BroStreamGobbler(InputStream is, String type, DatasetView v) {
+			super(is, type, v);
+		}
+		
+		public void run() {
+			try {
+				InputStreamReader isr = new InputStreamReader(is);
+				BufferedReader br = new BufferedReader(isr);
+				String line = null;
+				StringBuilder sRecord = new StringBuilder();
+				while ( (line = br.readLine()) != null) {
+						Matcher rexr = rexp.matcher(line);
+						if (rexr.find()){
+							HashMap<IRI, String> idmap = new HashMap<IRI, String>();
+							Iterator<IRI> ifs = v.getIdentifyingFeatures().iterator();
+							IRI identFeature;
+							while (ifs.hasNext()){
+								identFeature = ifs.next();
+								if (identFeature.toString().equals(featureIRI + "PacketID")){
+									idmap.put(identFeature, rexr.group("PID"));
+								} else if (identFeature.toString().equals(featureIRI + "IPv4SourceAddressSignalDomain")){
+									idmap.put(identFeature, rexr.group("SIP"));
+								} else if (identFeature.toString().equals(featureIRI + "IPv4DestinationAddressSignalDomain")){
+									idmap.put(identFeature, rexr.group("DIP"));
+								} else {
+									// We need a feature according to the view that we don't support
+									// in this detector:
+									throw new UnimplementedIdentifyingFeatureException(String.format("Identifying Feature %s not currently supported by KIDSBroDetector",identFeature.toString()));
+
+								}
+							}
+							toReturn.add(idmap);
+						}
+				}
+			} catch (IOException | UnimplementedIdentifyingFeatureException ioe) {
+			  System.err.println(ioe);
+              ioe.printStackTrace();  
+            }
+		}
+		
+	}
 }

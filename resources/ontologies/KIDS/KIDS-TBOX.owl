@@ -1657,6 +1657,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DetectorSyntax"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#BroEventDetectionSyntax"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#canRepresentFeatureWithConstraint"/>
+            <Class IRI="#TCPPayloadSize_STDDEVThresholdExceeded"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#BroIDSPolicy"/>
         <Class IRI="#Detector"/>
     </SubClassOf>
@@ -3218,16 +3225,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#bringsIntoExistence"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#canApplySignal"/>
         <ObjectProperty IRI="#isAppliedByDetector"/>
+        <ObjectProperty IRI="#canApplySignal"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canApplySignalValue"/>
         <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#canDetectEvent"/>
         <ObjectProperty IRI="#isDetectedByIDS"/>
+        <ObjectProperty IRI="#canDetectEvent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canMonitor"/>
@@ -3298,8 +3305,8 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isAbleToRepresent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isAffectedBy"/>
         <ObjectProperty IRI="#isResponseFor"/>
+        <ObjectProperty IRI="#isAffectedBy"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
