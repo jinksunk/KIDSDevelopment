@@ -36,6 +36,7 @@ import net.strasnet.kids.KIDSSignal;
 import net.strasnet.kids.datasources.KIDSSnortIPAddressRange;
 import net.strasnet.kids.detectors.KIDSDetector;
 import net.strasnet.kids.detectors.KIDSDetectorFactory;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
@@ -99,7 +100,18 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 	 */
 	@Override
 	public int numInstances(){
-		return ourInstances.size();
+		//return ourInstances.size();
+		try {
+			return this.getMatchingInstances(new HashSet<IRI>()).size();
+		} catch (KIDSOntologyObjectValuesException
+				| KIDSOntologyDatatypeValuesException | IOException
+				| KIDSIncompatibleSyntaxException
+				| KIDSUnEvaluableSignalException
+				| UnimplementedIdentifyingFeatureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return 0;
+		}
 	}
 
 	@Override
@@ -116,7 +128,7 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 	public void generateView(
 			String datasetLoc,
 			KIDSMeasurementOracle o,
-			List<IRI> idFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException{
+			List<IRI> idFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		myGuy = o;
 		identifyingFeatures = idFeatures;
 		datasetLocation = datasetLoc;
@@ -149,24 +161,24 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 
 	@Override
 	// Need to accommodate the filter set:
-	public Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException {
+	public Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
+		/*
 		if (ourInstances == null || ourInstances.size() == 0){
 			try {
 				getMatchingInstances(new HashSet<IRI>());  // Side effect of this is to populate ourInstances
 			} catch (KIDSOntologyObjectValuesException | KIDSOntologyDatatypeValuesException | KIDSIncompatibleSyntaxException e){
 				throw new IOException("Could not read data instances from view " + this.datasetLocation + ": " + e);
 			}
-		}
+		}*/
 		return this.getMatchingInstances(new HashSet<IRI>()).iterator();
 	}
 
 	@Override
 	/**
 	 * If we have a filter set, ensure that only filtered results are included.
-	 * TODO: Add caching for matching instances.
 	 */
 	public Set<DataInstance> getMatchingInstances(
-			Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+			Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		try {
 			Set<DataInstance> allMatching = super.getMatchingInstances(signalSet);
 		    if (viewFilter != null){
@@ -179,7 +191,7 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 			    }
 		    } 
 		    // Strip out 'ourInstances'
-		    ourInstances.keySet().retainAll(allMatching);
+		    //ourInstances.keySet().retainAll(allMatching);
 		    return allMatching;
 		} catch (KIDSIncompatibleSyntaxException e){
 			StringBuilder sb = new StringBuilder();
@@ -195,7 +207,7 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 	/**
 	 * Only include those instances included in this view.
 	 */
-	public DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException {
+	public DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		NativeLibPCAPView ourDV = new NativeLibPCAPView();
 		ourDV.setIRI(ourIRI);
 		ourDV.generateView(datasetLocation, myGuy, identifyingFeatures);
@@ -220,7 +232,7 @@ public class NativeLibPCAPView extends AbstractDatasetView implements DatasetVie
 	}
 	
 	@Override
-	public DataInstance buildInstance(HashMap<IRI,String> idMap){
+	public DataInstance buildInstance(HashMap<IRI,String> idMap) throws UnimplementedIdentifyingFeatureException{
 		return new KIDSNativeLibpcapDataInstance(idMap);
 		
 	}

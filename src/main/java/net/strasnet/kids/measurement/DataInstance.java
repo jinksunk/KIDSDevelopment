@@ -5,6 +5,7 @@ import java.util.Map;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -40,7 +41,7 @@ public interface DataInstance {
 	 * 
 	 * @param idValues - HashMap of FeatureIRI -> Value for each identifying feature component
 	 */
-	public void setID(HashMap <IRI,String> idValues);
+	public void setID() throws UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 

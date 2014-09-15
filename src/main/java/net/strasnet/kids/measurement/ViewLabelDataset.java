@@ -15,6 +15,7 @@ import java.util.TreeSet;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetlabels.TruthFileParseException;
@@ -58,7 +59,7 @@ public class ViewLabelDataset implements Dataset {
 	public void init(DatasetView dv, 
 			DatasetLabel dl, 
 			KIDSMeasurementOracle o,
-			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException{
+			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
 		this.datasetLocation = o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI));
 		this.dv = dv;
 		dv.generateView(o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI)), 
@@ -69,18 +70,20 @@ public class ViewLabelDataset implements Dataset {
 		this.eventIRI = eventIRI;
 		this.signalToDV = new HashMap<IRI, DatasetView>();
 		// Label the instances
+		/*
 		Iterator<DataInstance> di = dv.iterator();
 		while (di.hasNext()){
 			DataInstance dvi = di.next();
 			dl.getLabel(dvi);
 		}
+		*/
 	}
 
 	@Override
 	/**
 	 * Return the number of instances in the dataset view:
 	 */
-	public int numInstances() throws KIDSUnEvaluableSignalException {
+	public int numInstances() throws KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		return dv.numInstances();
 	}
 
@@ -88,7 +91,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * Return iterator from underlying data view
 	 */
-	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException {
+	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		return dv.iterator();
 	}
 
@@ -96,7 +99,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * Return iterator from underlying data view, only including those instances which are "positive"
 	 */
-	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		
 		if (this.positiveOnlyView == null){
 			Set<DataInstance> pSet = new HashSet<DataInstance>();
@@ -105,7 +108,7 @@ public class ViewLabelDataset implements Dataset {
 			Iterator<DataInstance> i = this.getIterator();
 			while (i.hasNext()){
 				DataInstance ti = i.next();
-				if (dl.getLabel(ti).isEvent()){
+				if (dl.getLabel(ti).isEvent() == true){
 					pSet.add(ti);
 				}
 			}
@@ -138,7 +141,7 @@ public class ViewLabelDataset implements Dataset {
 	/**
 	 * 
 	 */
-	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		List<EventOccurrence> allEvents = dl.getEventList();
 		HashMap<EventOccurrence,Integer> hm = new HashMap<EventOccurrence,Integer>();
 		Iterator<DataInstance> dveIter = getPositiveIterator();
@@ -211,12 +214,12 @@ public class ViewLabelDataset implements Dataset {
 	}
 
 	@Override
-	public Set<DataInstance> getMatchingInstances(Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+	public Set<DataInstance> getMatchingInstances(Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		return dv.getMatchingInstances(signalSet);
 	}
 
 	@Override
-	public Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+	public Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		//public ViewLabelDataset(DatasetView dv, DatasetLabel dl, KIDSMeasurementOracle o){
 		ViewLabelDataset vld = new ViewLabelDataset();
 		vld.setDatasetIRI(ourIRI);

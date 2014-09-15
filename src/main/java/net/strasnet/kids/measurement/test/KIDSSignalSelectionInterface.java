@@ -13,7 +13,6 @@ package net.strasnet.kids.measurement.test;
 
 import java.io.File;
 import java.io.FileReader;
-
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -28,6 +27,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
 import net.strasnet.kids.measurement.KIDSDatasetFactory;
@@ -110,10 +110,11 @@ public class KIDSSignalSelectionInterface {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 */
 	private RecursiveResult testSignalSet_iter(KIDSMeasurementOracle kmo, Map<Set<IRI>, RecursiveResult> triedValues, 
-			Set<IRI> sigsToEval, CorrelatedViewLabelDataset cvd) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException {
+			Set<IRI> sigsToEval, CorrelatedViewLabelDataset cvd) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		RecursiveResult toReturn = null;
 		Set<IRI> key = null;
 		//Set<IRI> sigsToEval = sigEvalMap.keySet();
@@ -124,7 +125,7 @@ public class KIDSSignalSelectionInterface {
 		}
 		System.out.println(" ");
 		
-		// If the list contains only one element, evaluate it and return the result.
+		// If the list contains only one element, evaluate it and return the result, caching the members (?)
 		if (sigsToEval.size() == 1){
 			IRI sig = sigsToEval.iterator().next();
 			key = new HashSet<IRI>();
@@ -158,7 +159,6 @@ public class KIDSSignalSelectionInterface {
 					maxEID = triedValues.get(sigsToEval).getEID(); 
 				} else {
 					// Try with each feasible dataset, and use the maximum:
-					double maxValue = 0.0;
 					double eidVal = 0;
 					//TODO: Create Correlated View Dataset - matching given signals
 					eidVal = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
@@ -201,6 +201,7 @@ public class KIDSSignalSelectionInterface {
 	/**
 	 * Test the signal set returned from the ontology.
 	 * Changes to support correlation -- Done
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public void testSignalSet(String ABOXFile, 
 							  String ABOXIRI,
@@ -208,7 +209,7 @@ public class KIDSSignalSelectionInterface {
 							  String TBOXIRI,
 							  String EventIRI,
 							  String DatasetIRI,
-							  String TimePeriodIRI){
+							  String TimePeriodIRI) throws UnimplementedIdentifyingFeatureException{
 			KIDSMeasurementOracle myGuy = null;
 			try {
 				myGuy = new KIDSMeasurementOracle();
@@ -320,8 +321,9 @@ public class KIDSSignalSelectionInterface {
 	/**
 	 * @param args - one arg is the libpcap file to parse
 	 * run the tests
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnimplementedIdentifyingFeatureException {
 		String usage = "Usage: KIDSSignalSelection <pathToConfigFile>";
 		if (args.length != 1){
 			System.err.println(usage);

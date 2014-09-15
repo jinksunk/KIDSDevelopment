@@ -22,10 +22,12 @@ import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.ViewLabelDataset;
+import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 import net.strasnet.kids.measurement.test.TestOracleFactory;
@@ -69,19 +71,68 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		
 	private Pattern rexp = null;
 	//private Path tmpDir;
-	
 
 	/* (non-Javadoc)
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
 	 */
 	@Override
-	public Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
+	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
-		Set<Map<IRI,String>> toReturn;
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
+
+		// First, check cache to see if the signal set has already been evaluated:
+		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
+		if (toReturn != null){
+			return toReturn;
+		}
 		
+		boolean firstSignal = true;
+		
+		for (IRI signal : signals){
+			Set<DataInstance> results = null;
+			if (this.sigMap.containsKey(signal)){
+				results = this.sigMap.get(signal);
+			} else {
+				results = getMatchingInstances(signal, v);
+				if (this.sigSets.contains(results)){
+					System.err.println(String.format("[D] BroDetector - Found existing signal set for signal %s...", signal));
+					for (Set<DataInstance> s : this.sigSets){
+						if (results.equals(s)){
+							results = s;
+						}
+					}
+				} else {
+					System.err.println(String.format("[D] BroDetector - Adding signal set containing %d entires for signal %s...", results.size(), signal));
+				    this.sigSets.add(results);
+				}
+				System.err.println(String.format("[D] BroDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
+				this.sigMap.put(signal, results);
+				System.err.println("\t(Signal cache now consists of:");
+				for (IRI cMapEntry : this.sigMap.keySet()){
+					System.err.println(String.format("\t%s ;",cMapEntry));
+				}
+				System.err.println("\t)");
+
+			}
+			if (firstSignal){
+				toReturn = results;
+				firstSignal = false;
+			} else {
+				toReturn.retainAll(results);
+			}
+		}
+		return toReturn;
+
+	}
+	
+	private Set<DataInstance> getMatchingInstances(IRI signal, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+		
+		Set<DataInstance> toReturn = new HashSet<DataInstance>();
+		Set<IRI> signals = new HashSet<IRI>();
+		signals.add(signal);
+
 		String runBroString = executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals); 
 		System.out.println("Executing: " + runBroString);
 		Process runBro = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals)); 
@@ -100,6 +151,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
+		this.sigMap.put(signal, toReturn);
 
 		return toReturn;
 	}
@@ -189,12 +241,17 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		
 		public void run() {
 			try {
+				int count = 0;
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				String line = null;
 				StringBuilder sRecord = new StringBuilder();
 				while ( (line = br.readLine()) != null) {
 						Matcher rexr = rexp.matcher(line);
+						count = count+1;
+						if (count % 10000 == 0){
+							System.err.println(String.format("\t.. [Bro] Processed %d packets",count));
+						}
 						if (rexr.find()){
 							HashMap<IRI, String> idmap = new HashMap<IRI, String>();
 							Iterator<IRI> ifs = v.getIdentifyingFeatures().iterator();
@@ -214,7 +271,8 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 
 								}
 							}
-							toReturn.add(idmap);
+							DataInstance di = new KIDSNativeLibpcapDataInstance(idmap);
+							toReturn.add(di);
 						}
 				}
 			} catch (IOException | UnimplementedIdentifyingFeatureException ioe) {

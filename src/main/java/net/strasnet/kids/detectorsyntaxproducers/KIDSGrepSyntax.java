@@ -142,6 +142,9 @@ public class KIDSGrepSyntax implements KIDSDetectorSyntax {
 		
 		// In this case, we end up with an extended regular expression, so we need to first check for the SRC=<IP> and then for the HTTPGetRequest=<string>
 		for (IRI mySignal : sigSet){
+			if (mySignal == null){
+				continue;
+			}
 			// Look up the class for each signal in the set
 			IRI sigDomain = myGuy.getSignalDomain(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();
 			IRI sigConstraint = myGuy.getSignalConstraint(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();

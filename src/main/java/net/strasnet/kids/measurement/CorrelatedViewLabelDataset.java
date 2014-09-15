@@ -21,6 +21,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
@@ -37,6 +38,7 @@ public class CorrelatedViewLabelDataset {
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;
+	private Set<Set<CorrelationDataInstance>> dataSubsetCache;
 	private int maxEventID = 0;
 	
 	public void debugPrint(String msg){
@@ -59,9 +61,11 @@ public class CorrelatedViewLabelDataset {
 	 * @throws KIDSOntologyObjectValuesException
 	 * @throws KIDSOntologyDatatypeValuesException
 	 * @throws KIDSIncompatibleSyntaxException
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public CorrelatedViewLabelDataset(CorrelationFunction combinationFunction, HashMap<Dataset, DatasetLabel> members) throws IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException{
+	public CorrelatedViewLabelDataset(CorrelationFunction combinationFunction, HashMap<Dataset, DatasetLabel> members) throws IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
 		constituentDatasets = new HashMap<Dataset, DatasetLabel>();
+		dataSubsetCache = new HashSet<Set<CorrelationDataInstance>>();
 		ourDataInstances = new HashSet<CorrelationDataInstance>();
 		for (Dataset d : members.keySet()){
 			debugPrint("Adding dataset " + d.getIRI());
@@ -116,6 +120,10 @@ public class CorrelatedViewLabelDataset {
 	 * the given subset of correlated data instances.
 	 */
 	public CorrelatedViewLabelDataset getDataSubset(Set<CorrelationDataInstance> newSet){
+		// Check to see if a subset has already been created with this instance set.  If so, zero this instance set
+		// and just return the existing one.
+		// TODO In order to actually cache this, we need correlated data instances that override the equality, comparison, and hash value
+		//      methods.
 		CorrelatedViewLabelDataset toReturn = new CorrelatedViewLabelDataset(newSet,this.ourCombiner, this.constituentDatasets);
 		toReturn.maxEventID = this.maxEventID;
 		return toReturn;
@@ -199,13 +207,14 @@ public class CorrelatedViewLabelDataset {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	Set<CorrelationDataInstance> getMatchingInstances(Set<IRI> signalSet) throws 
 		KIDSOntologyObjectValuesException, 
 		KIDSOntologyDatatypeValuesException, 
 		IOException, 
 		KIDSIncompatibleSyntaxException, 
-		KIDSUnEvaluableSignalException{
+		KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		return this.getMatchingInstances(signalSet, false);
 	}
 
@@ -217,6 +226,7 @@ public class CorrelatedViewLabelDataset {
 	 * @param signalSet - The set of signals used to filter out matching instances
 	 * @param debugOutput - Whether to enable debug output for this operation
 	 * @return
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public Set<CorrelationDataInstance> getMatchingInstances(Set<IRI> signalSet,
 			boolean debugOutput) throws
@@ -224,7 +234,7 @@ public class CorrelatedViewLabelDataset {
 		KIDSOntologyDatatypeValuesException, 
 		IOException, 
 		KIDSIncompatibleSyntaxException, 
-		KIDSUnEvaluableSignalException {
+		KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		Set<CorrelationDataInstance> returnDataSet = new HashSet<CorrelationDataInstance>();
 
 		Set<IRI> usedSignals = new HashSet<IRI>(); // At the end of the method, if we have not used

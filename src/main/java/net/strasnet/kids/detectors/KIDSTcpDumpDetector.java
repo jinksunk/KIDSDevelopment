@@ -25,16 +25,15 @@ import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInsta
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 
-public class KIDSTcpDumpDetector implements KIDSDetector {
+public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDetector {
 
 	/**
 	 * Represents a detector utilizing the TCPDump command-line tool.  Associated with the syntax "bpf" - berkeley packet filter.
 	 * TODO: Separate out regular expressions for different packet types
 	 */
 	
-	private IRI ourIRI = null;
+	//public Set<Map<IRI, String>> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
 	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
-	private static String executionCommand;
 	// 920592993.000000 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
 	private static String regexPatternLine1 = "(?<TimeStamp>[\\d\\.]+)\\sIP\\s\\((([^,]+),){2}\\sid\\s(?<PID>\\d+),.*proto[^\\(]+\\((?<PROTO>\\d+)\\), length\\s(?<DATALEN>\\d+)\\).*";
 	private static String regexPattern = "\\s*(?<SIP>[\\d\\.]+)\\.(?<SPORT>\\d+)\\s+>\\s+(?<DIP>[\\d\\.]+)\\.(?<DPORT>\\d+).*";
@@ -58,8 +57,6 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	private Pattern rexpL1 = null;
 	private Pattern rexp = null;
 	private Pattern rexpIgnore = null;
-	private KIDSMeasurementOracle myGuy = null;
-	private KIDSDetectorSyntax ourSyn = null; 
 	
 	public enum ConnectionEndpoint {
 
@@ -109,10 +106,7 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	
 	@Override
 	public void init(String toExecute, IRI detectorIRI, KIDSMeasurementOracle o) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		myGuy = o;
-		ourIRI = detectorIRI;
-	
-		executionCommand = toExecute;
+		super.init(toExecute, detectorIRI, o);
 		rexpL1 = Pattern.compile(regexPatternLine1);
 		rexp = Pattern.compile(regexPattern);
 		rexpIgnore = Pattern.compile(regexPatternIgnore);
@@ -121,6 +115,9 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	
 	/**
 	 * 
+		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
+		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
+		// syntaxes in the case of multiple.  
 	 * @param detectorSpec
 	 * @param v
 	 * @return
@@ -129,14 +126,58 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public Set<Map<IRI, String>> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
-		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
-		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
-		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
-		// syntaxes in the case of multiple.  
-		Set<Map<IRI,String>> toReturn = new HashSet<Map<IRI,String>>();
+	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
+		// First, check to see if we have already run the detector on this set of signals - if so, no need to run it again:
+		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
+		if (toReturn != null){
+			return toReturn;
+		}
+		boolean firstSignal = true;
 		
+		for (IRI signal : signals){
+			Set<DataInstance> results = null;
+			if (this.sigMap.containsKey(signal)){
+				System.err.println(String.format("[D] TcpDumpDetector using cache entry (size = %d) for %s",this.sigMap.get(signal).size(),signal));
+				results = this.sigMap.get(signal);
+			} else {
+				results = getMatchingInstances(signal, v);
+				if (this.sigSets.contains(results)){
+					System.err.println(String.format("[D] TcpDumpDetector - Found existing signal set for signal %s...", signal));
+					for (Set<DataInstance> s : this.sigSets){
+						if (results.equals(s)){
+							results = s;
+						}
+					}
+				} else {
+					System.err.println(String.format("[D] TcpDumpDetector - Adding signal set (size = %d) for signal %s...", results.size(), signal));
+				    this.sigSets.add(results);
+				}
+				System.err.println(String.format("[D] TcpDumpDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
+				this.sigMap.put(signal, results);
+				System.err.println("\t(Signal cache now consists of:");
+				for (IRI cMapEntry : this.sigMap.keySet()){
+					System.err.println(String.format("\t%s ;",cMapEntry));
+				}
+				System.err.println("\t)");
+			}
+			if (firstSignal){
+				toReturn = results;
+				firstSignal = false;
+			} else {
+				toReturn.retainAll(results);
+			}
+		}
+		return toReturn;
+	}
+		
+	private Set<DataInstance> getMatchingInstances (IRI signal, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
+		
+		Set<DataInstance> toReturn = new HashSet<DataInstance>();
+		Set<IRI> signals = new HashSet<IRI>();
+		signals.add(signal);
+
 		// Run the command with the detector specification
 		String command = null;
 		Process genPcap = null;
@@ -200,7 +241,8 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 					    }
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.DEST) + "Port"), rexmpost.group("DPORT"));
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.SOURCE) + "Port"), rexmpost.group("SPORT"));
-					    toReturn.add(resMap);
+				    	DataInstance di = new KIDSNativeLibpcapDataInstance(resMap);
+					    toReturn.add(di);
 				    } else {
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
 				    }
@@ -219,6 +261,7 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 			        System.err.println(errout);
 			    }
 		    }
+			this.sigMap.put(signal, toReturn);
 		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);
@@ -228,16 +271,17 @@ public class KIDSTcpDumpDetector implements KIDSDetector {
 			for (IRI s : signals){
 				System.err.println("    - " + s.toString());
 			}
-			return new HashSet<Map<IRI,String>>();
+			this.sigMap.put(signal, new HashSet<DataInstance>());
+			return new HashSet<DataInstance>();
 		}
 	}
 
 	@Override
-	public Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
+	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		return this.getMatchingInstances(signals, (NativeLibPCAPView)v);
 	}
 

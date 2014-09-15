@@ -238,6 +238,10 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 		StringBuilder sb = new StringBuilder();
 		String tString = "";
 		for (IRI mySignal : signalSet){
+			// Skip null signals:
+			if (mySignal == null){
+				continue;
+			}
 			// Look up the class for each signal in the set
 			IRI sigDomain = myGuy.getSignalDomain(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();
 			IRI sigConstraint = myGuy.getSignalConstraint(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();

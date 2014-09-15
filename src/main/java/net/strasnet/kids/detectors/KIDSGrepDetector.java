@@ -45,10 +45,8 @@ import org.semanticweb.owlapi.model.IRI;
  *  * IPv4SourceAddressSignalDomain - KEY 'SRC'
  *  * HTTPGetParameter - KEY 'HTTPGetParameter'
  */
-public class KIDSGrepDetector implements KIDSDetector {
-	private IRI ourIRI = null;
+public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetector {
 	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
-	private static String executionCommand;
 	private static String regexPattern = "(\\d+),.*";
 
 	// Map known keys in the kvPairs to the feature domains they represent
@@ -69,34 +67,86 @@ public class KIDSGrepDetector implements KIDSDetector {
 		
 	private Pattern rexp = null;
 	private Pattern rexpIgnore = null;
-	private KIDSMeasurementOracle myGuy = null;
 	private KIDSDetectorSyntax ourSyn = null; 
 	
 	/* (non-Javadoc)
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
 	 */
 	@Override
-	public Set<Map<IRI,String>> getMatchingInstances(Set<IRI> signals,
+	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 
-		Set<Map<IRI,String>> toReturn = new HashSet<Map<IRI,String>>();
+		// First, check to see if we have already run the detector on this set of signals - if so, no need to run it again:
+		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
+		if (toReturn != null){
+			return toReturn;
+		}
 		
+		boolean firstSignal = true;
+		
+		for (IRI signal : signals){
+			Set<DataInstance> results = null;
+			if (this.sigMap.containsKey(signal)){
+				results = this.sigMap.get(signal);
+			} else {
+				results = getMatchingInstances(signal, v);
+				if (this.sigSets.contains(results)){
+					System.err.println(String.format("[D] Found existing signal set for signal %s...", signal));
+					for (Set<DataInstance> s : this.sigSets){
+						if (results.equals(s)){
+							results = s;
+						}
+					}
+				} else {
+					System.err.println(String.format("[D] GrepDetector - Adding signal set (size = %d) for signal %s...", results.size(), signal));
+				    this.sigSets.add(results);
+				}
+				System.err.println(String.format("[D] GrepDetector - Adding cache entry of size %d for %s",results.size(), signal));
+				this.sigMap.put(signal, results);
+				System.err.println("\t(Signal cache now consists of:");
+				for (IRI cMapEntry : this.sigMap.keySet()){
+					System.err.println(String.format("\t%s ;",cMapEntry));
+				}
+				System.err.println("\t)");
+
+			}
+			if (firstSignal){
+				toReturn = results;
+				firstSignal = false;
+			} else {
+				toReturn.retainAll(results);
+			}
+		}
+		return toReturn;
+	}
+		
+	private Set<DataInstance> getMatchingInstances(IRI signal, DatasetView v) throws
+			IOException,
+			KIDSOntologyObjectValuesException,
+			KIDSOntologyDatatypeValuesException,
+			UnimplementedIdentifyingFeatureException,
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
 		// Run the command with the detector specification
 		//String toExec = executionCommand + " -E " +  "'" + ourSyn.getDetectorSyntax(signals) + "' " + v.getViewLocation();
 		//String[] toExec = {" -E ",  ourSyn.getDetectorSyntax(signals), v.getViewLocation()};
+		Set<IRI> signals = new HashSet<IRI>();
+		signals.add(signal);
 		String[] toExec = {executionCommand, "-E",  ourSyn.getDetectorSyntax(signals), v.getViewLocation()};
 		Process genPcap = Runtime.getRuntime().exec(toExec);
 		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		String Line;
+		Set<DataInstance> toReturn = new HashSet<DataInstance>();
 
 		try {
 			// Get the log entry ID for each line, and create the data instance object for it
 			// Extract out at least the ID, Source IP (if present), and HTTPGetRequestResource (if present)
 			while ((Line = rd.readLine()) != null){
-			    	toReturn.add(extractResources(Line));
+					Map<IRI, String> rMap = extractResources(Line);
+			    	KIDSNTEventLogDataInstance di = new KIDSNTEventLogDataInstance(rMap);
+			    	toReturn.add(di);
 			}
 		
 			/**
@@ -122,6 +172,7 @@ public class KIDSGrepDetector implements KIDSDetector {
 				    System.err.println(errout);
 				}
 			}
+			this.sigMap.put(signal, toReturn);
 			return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + this.executionCommand);
@@ -137,10 +188,8 @@ public class KIDSGrepDetector implements KIDSDetector {
 			throws KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
-		myGuy = o;
-		ourIRI = detectorIRI;
-	
-		executionCommand = toExecute;
+		super.init(toExecute, detectorIRI, o);
+
 		rexp = Pattern.compile(regexPattern);
 		//rexpIgnore = Pattern.compile(regexPatternIgnore);
 		ourSyn = o.getDetectorSyntax(ourIRI);

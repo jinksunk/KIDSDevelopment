@@ -15,6 +15,7 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectors.KIDSDetector;
 import net.strasnet.kids.detectors.KIDSDetectorFactory;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
@@ -39,7 +40,7 @@ public abstract class AbstractDatasetView implements DatasetView {
 	public Set<DataInstance> getMatchingInstances(Set<IRI> signalSet)
 			throws KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, IOException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		
 			if (ourInstances == null){
 				ourInstances = new HashMap<DataInstance, DataInstance>();
@@ -57,7 +58,7 @@ public abstract class AbstractDatasetView implements DatasetView {
 				Set<IRI> signalDetectors;
 				if (mySig == null){
 					signalDetectors = myGuy.getDetectorsForView(getIRI());
-					signalSet.remove(null);
+					//signalSet.remove(null);
 				} else {
 					signalDetectors = myGuy.getDetectorsForSignalAndView(mySig, this.getIRI());
 				}
@@ -92,15 +93,22 @@ public abstract class AbstractDatasetView implements DatasetView {
 			HashSet<IRI> toBeProcessed = new HashSet<IRI>();
 			toBeProcessed.addAll(signalSet);
 			Set<DataInstance> allMatching = new HashSet<DataInstance>();
+			boolean firstSignal = true;
 			
 			// For each detector, process the signals, keeping the intersection of what is matched.
 			for (IRI kd : detectorsToSignals.keySet()){
 				Set<IRI> thisSigSet = detectorsToSignals.get(kd);
 				thisSigSet.retainAll(toBeProcessed);
-				if (allMatching.isEmpty()){
-					allMatching = buildInstances(IRIsToDetectors.get(kd).getMatchingInstances(thisSigSet, this));
+				if (thisSigSet.isEmpty()){
+					thisSigSet.add(null);
+				}
+				if (firstSignal){
+					// Run the detector for each individual signal if we have not seen it before, otherwise
+					// just return the intersection of data instances.
+					allMatching = IRIsToDetectors.get(kd).getMatchingInstances(thisSigSet, this);
+					firstSignal = false;
 				} else {
-					allMatching.retainAll(buildInstances(IRIsToDetectors.get(kd).getMatchingInstances(thisSigSet, this)));
+					allMatching.retainAll(IRIsToDetectors.get(kd).getMatchingInstances(thisSigSet, this));
 				}
 				toBeProcessed.removeAll(thisSigSet);
 			}
@@ -117,15 +125,17 @@ public abstract class AbstractDatasetView implements DatasetView {
 	
 	/**
 	 * 
-	 * @param matchingInstances - A set of resource -> value maps, one for each instance we need to create and return.  This method will extract
+	 * @param set - A set of resource -> value maps, one for each instance we need to create and return.  This method will extract
 	 * identifying resources according to the defined idMap, and create instances with the given set of resources defined.
 	 * @return The resulting set of data instances; throws an exception if not all resources are available.
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
+	/*
 	protected Set<DataInstance> buildInstances(
-			Set<Map<IRI, String>> matchingInstances) {
+			Set<DataInstance> set) {
 		
 		Set<DataInstance> toReturn = new HashSet<DataInstance>();
-		for (Map<IRI,String> resourceSet : matchingInstances){
+		for (Map<IRI,String> resourceSet : set){
 			// First, extract the set of identifying features from the matchingInstances
 			HashMap<IRI,String> idFeatures = new HashMap<IRI, String>();
 			for (IRI idKey : this.getIdentifyingFeatures()){
@@ -149,7 +159,7 @@ public abstract class AbstractDatasetView implements DatasetView {
 			toReturn.add(di);
 		}
 		return toReturn;
-	}
+	} */
 
 
 	/* (non-Javadoc)
@@ -160,7 +170,7 @@ public abstract class AbstractDatasetView implements DatasetView {
 			throws KIDSOntologyDatatypeValuesException,
 			KIDSOntologyObjectValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException,
-			KIDSUnEvaluableSignalException {
+			KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		// TODO Auto-generated method stub
 		return null;
 	}

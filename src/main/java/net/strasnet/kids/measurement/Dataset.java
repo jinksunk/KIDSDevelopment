@@ -16,6 +16,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
 import net.strasnet.kids.measurement.datasetlabels.TruthFileParseException;
@@ -36,8 +37,9 @@ public interface Dataset {
 	 * 
 	 * @return The number of instances in the dataset.
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public int numInstances() throws KIDSUnEvaluableSignalException;
+	public int numInstances() throws KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 	
 	/**
 	 * 
@@ -47,8 +49,9 @@ public interface Dataset {
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException;
+	public Iterator<DataInstance> getIterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException;
 	
 	/**
 	 * 
@@ -61,8 +64,9 @@ public interface Dataset {
 	 * @throws IOException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
+	public Iterator<DataInstance> getPositiveIterator() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException;
 	
 	/**
 	 * 
@@ -82,8 +86,9 @@ public interface Dataset {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
+	public int[] numPositiveInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException;
 	
 	/**
 	 * 
@@ -168,8 +173,9 @@ public interface Dataset {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Set<DataInstance> getMatchingInstances(Set<IRI> applicableSignals) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
+	Set<DataInstance> getMatchingInstances(Set<IRI> applicableSignals) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 
@@ -183,8 +189,9 @@ public interface Dataset {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws IOException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
+	Dataset getDataSubset(Set<DataInstance> dataInstanceSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * Perform any/all required dataset initialization:
@@ -200,7 +207,8 @@ public interface Dataset {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws IOException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	void init(DatasetView dv, DatasetLabel dl, KIDSMeasurementOracle o,
-			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException;
+			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException;
 }

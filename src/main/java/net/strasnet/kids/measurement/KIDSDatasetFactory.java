@@ -13,6 +13,7 @@ import net.strasnet.kids.KIDSCanonicalRepresentation;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
@@ -116,9 +117,10 @@ public class KIDSDatasetFactory {
 	 * @throws NumberFormatException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public static ViewLabelDataset getViewLabelDataset(IRI d, IRI event,
-			KIDSMeasurementOracle o) throws KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+			KIDSMeasurementOracle o) throws KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		
 		// First, get the set of views, satisfying: isViewOf(d)
 		List<OWLNamedIndividual> views = o.getAvailableViews(d, event);
@@ -229,9 +231,10 @@ public class KIDSDatasetFactory {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws IncompatibleCorrelationValueException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public static List<CorrelatedViewLabelDataset> getCorrelatedDatasets(Set<String> ourDSIRIList,
-			IRI eventIRI, KIDSMeasurementOracle myGuy) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException {
+			IRI eventIRI, KIDSMeasurementOracle myGuy) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException, UnimplementedIdentifyingFeatureException {
 		List<CorrelatedViewLabelDataset> toReturn = new LinkedList<CorrelatedViewLabelDataset>();
 		HashMap<Dataset,DatasetLabel> dsets = new HashMap<Dataset,DatasetLabel>();
 		for (String dsIRI : ourDSIRIList){

@@ -16,6 +16,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import net.strasnet.kids.datasources.KIDSSnortIPAddressRange;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.Label;
@@ -55,9 +56,10 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 	 * @param eventIRI - The IRI of the event we are labeling
 	 * @throws IOException 
 	 * @throws NumberFormatException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	@Override
-	public void init(IRI labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException {
+	public void init(IRI labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException {
 		ourEventIRI = eventIRI;
 		rexp = Pattern.compile(regexPattern);
 		// Read in file and build the labelKey
@@ -107,8 +109,8 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
 			dve.setLabel(labelKey.get(dve.hashCode()));
 			return dve.getLabel();
-		} else {
-			System.err.println("Instance [" + dve.getID() + "] is benign.");
+		//} else {
+			//System.err.println("Instance [" + dve.getID() + "] is benign.");
 		}
 		// If no label is present, assume benign
 		return new Label(EventOccurrence.NONEVENT, false);

@@ -27,9 +27,10 @@ public interface KIDSDetector {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
-			DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
+	Set<DataInstance> getMatchingInstances(Set<IRI> signals,
+			DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * Initialize the detector with the given values.

@@ -22,6 +22,7 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
@@ -40,18 +41,42 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	protected String executionCommand;
 	protected KIDSMeasurementOracle myGuy = null;
 	protected KIDSDetectorSyntax ourSyn = null; 
+	protected HashMap<IRI, Set<DataInstance>> sigMap;
+	protected Set<Set<DataInstance>> sigSets;
 
 	/* (non-Javadoc)
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
 	 */
 	@Override
-	public Set<Map<IRI, String>> getMatchingInstances(Set<IRI> signals,
+	public Set<DataInstance> getMatchingInstances(Set<IRI> signals,
 			DatasetView v) throws IOException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
-		// TODO Auto-generated method stub
-		return null;
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
+		//First, check the cache to see if we've already evaluated these signals:
+		Set <DataInstance> matches = new HashSet<DataInstance>();
+		boolean firstSignal = true;
+		for (IRI signal : signals){
+			if (sigMap.containsKey(signal)){
+				System.err.println(String.format("[D] Matched signal %s; using %d cached values.",signal,this.sigMap.get(signal).size()));
+				// We want the intersection of data instances:
+				if (firstSignal){
+					matches.addAll(sigMap.get(signal));
+					firstSignal = false;
+				} else {
+					matches.retainAll(sigMap.get(signal));
+				}
+			} else {
+				System.err.println(String.format("[D] No cache entry for signal %s.",signal));
+				System.err.println("\t(Cache consists of:");
+				for (IRI cEntry : sigMap.keySet()){
+					System.err.println(String.format("\t%s.",cEntry));
+				}
+				System.err.println("\t)");
+				return null;
+			}
+		}
+		return matches;
 	}
 
 	/* (non-Javadoc)
@@ -62,10 +87,16 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			throws KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
-		myGuy = o;
-		ourIRI = detectorIRI;
-		executionCommand = toExecute;
-		ourSyn = o.getDetectorSyntax(ourIRI);
+		if (sigMap != null){
+			System.err.println("[W] - Warning, initializing already-initialized detector!");
+		} else {
+			myGuy = o;
+			ourIRI = detectorIRI;
+			executionCommand = toExecute;
+			ourSyn = o.getDetectorSyntax(ourIRI);
+			sigMap = new HashMap<IRI, Set<DataInstance>>();
+			sigSets = new HashSet<Set<DataInstance>>();
+		}
 	}
 
 	/* (non-Javadoc)
@@ -88,7 +119,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	    InputStream is;
 	    String type;
 	    StringBuilder mine;
-	    Set<Map<IRI, String>> toReturn;
+	    Set<DataInstance> toReturn;
 	    DatasetView v;
 	    boolean processStream = false;
 	    
@@ -97,7 +128,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	        this.is = is;
 	        this.type = type;
 	        mine = new StringBuilder();
-	        toReturn = new HashSet<Map<IRI,String>>();
+	        toReturn = new HashSet<DataInstance>();
 	    }
 	    
 	    StreamGobbler(InputStream is, String type, DatasetView v)
@@ -105,7 +136,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	        this.is = is;
 	        this.type = type;
 	        mine = new StringBuilder();
-	        toReturn = new HashSet<Map<IRI,String>>();
+	        toReturn = new HashSet<DataInstance>();
 	        this.v = v;
 	        processStream = true;
 	    }
@@ -114,7 +145,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			return mine.toString();
 		}
 	    
-	    public Set<Map<IRI,String>> getReturnSet(){
+	    public Set<DataInstance> getReturnSet(){
 	    	return toReturn;
 	    }
 		

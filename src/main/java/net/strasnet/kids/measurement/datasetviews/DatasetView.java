@@ -12,6 +12,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
@@ -28,15 +29,17 @@ public interface DatasetView {
 	 * @throws InstantiationException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	void generateView(String datasetLocation, KIDSMeasurementOracle o, List<IRI> identifyingFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException;
+	void generateView(String datasetLocation, KIDSMeasurementOracle o, List<IRI> identifyingFeatures) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 
 	 * @return The number of instances in this view
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	int numInstances() throws KIDSUnEvaluableSignalException;
+	int numInstances() throws KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 
@@ -56,8 +59,9 @@ public interface DatasetView {
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException; 
+	Iterator<DataInstance> iterator() throws IOException, KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException; 
 	
 	/**
 	 * 
@@ -68,8 +72,9 @@ public interface DatasetView {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Set<DataInstance> getMatchingInstances(Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException;
+	Set<DataInstance> getMatchingInstances(Set<IRI> signalSet) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 	
 	/**
 	 * 
@@ -81,8 +86,9 @@ public interface DatasetView {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException;
+	DatasetView getSubview(Set<DataInstance> members) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * Set the IRI as specified.
@@ -100,6 +106,7 @@ public interface DatasetView {
 	 * 
 	 * @param idMap - The map of identifying features to be used to build the instance
 	 * @return A DataInstance of type appropriate to the DatasetView
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	DataInstance buildInstance(HashMap<IRI, String> idMap);
+	DataInstance buildInstance(HashMap<IRI, String> idMap) throws UnimplementedIdentifyingFeatureException;
 }

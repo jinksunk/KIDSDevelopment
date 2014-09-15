@@ -17,6 +17,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public interface KIDSDetectorSyntax {
 	/**
+	 * Note: Implementers *must* include handling for a null signal
 	 * 
 	 * @param sigSet - The map of representations (features + constraints) -> values for the syntax to include
 	 * tests for.

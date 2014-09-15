@@ -15,6 +15,7 @@ import java.util.Set;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectors.KIDSGrepDetector;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSGrepSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
@@ -96,7 +97,7 @@ public class testManyThings {
 			System.out.println(kgs.getDetectorSyntax(sigSet));
 	}
 	
-	public void testGrepDetector() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+	public void testGrepDetector() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		final IRI detectorIRI = IRI.create("http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#IISLogGrepRuleForCodeRed");
 		// Test the grep detector - first create one
 		KIDSGrepDetector kgd = new KIDSGrepDetector();
@@ -127,7 +128,7 @@ public class testManyThings {
 		
 	}
 	
-	public void testCorrelatedDataset() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+	public void testCorrelatedDataset() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		Set<String> ourDSIRIList;
 		ourDSIRIList = kmo.getDatasetListForEventAndTimePeriod(IRI.create(configFileValues.get("EventIRI")), 
 																	 IRI.create(configFileValues.get("TimePeriodIRI")));

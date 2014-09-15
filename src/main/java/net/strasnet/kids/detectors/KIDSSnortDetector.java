@@ -89,10 +89,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	
 	@Override
 	public void init(String toExecute, IRI detectorIRI, KIDSMeasurementOracle o) throws KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException{
-		myGuy = o;
-		ourIRI = detectorIRI;
-	
-		executionCommand = toExecute;
+		super.init(toExecute, detectorIRI, o);
 		rexp = Pattern.compile(regexPattern,Pattern.DOTALL);
 		recRexp = Pattern.compile(recordPattern);
 		ourSyn = o.getDetectorSyntax(ourIRI);
@@ -108,6 +105,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	}
 	
 	/**
+		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
+		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
+		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
+		// syntaxes in the case of multiple.  
 	 * 
 	 * @param detectorSpec
 	 * @param v
@@ -117,14 +118,58 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	@Override
-	public Set<Map<IRI,String>> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
-		//TODO: Should we pass the string in, or a Syntax object, or just the signal?
-		// 08-24-2013 - I'm thinking that the detector should know it's syntax already, 
-		// so we *should* be able to just pass in a set of signals.  The KB can be used to map signals to
-		// syntaxes in the case of multiple.  
-		Set<Map<IRI,String>> toReturn;
+	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
+		
+		
+		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
+		if (toReturn != null){
+			return toReturn;
+		}
+		boolean firstSignal = true;
+		
+		for (IRI signal : signals){
+			Set<DataInstance> results = null;
+			if (this.sigMap.containsKey(signal)){
+				System.err.println(String.format("[D] SnortDetector using cache entry for %s",signal));
+				results = this.sigMap.get(signal);
+			} else {
+				results = getMatchingInstances(signal, v);
+				if (this.sigSets.contains(results)){
+					System.err.println(String.format("[D] SnortDetector - Found existing signal set for signal %s...", signal));
+					for (Set<DataInstance> s : this.sigSets){
+						if (results.equals(s)){
+							results = s;
+						}
+					}
+				} else {
+					System.err.println(String.format("[D] SnortDetector - Adding signal set for signal %s...", signal));
+				    this.sigSets.add(results);
+				}
+				System.err.println(String.format("[D] SnortDetector - Adding cache entry for %s",signal));
+				this.sigMap.put(signal, results);
+				System.err.println("\t(Signal cache now consists of:");
+				for (IRI cMapEntry : this.sigMap.keySet()){
+					System.err.println(String.format("\t%s ;",cMapEntry));
+				}
+				System.err.println("\t)");
+			}
+			if (firstSignal){
+				toReturn = results;
+				firstSignal = false;
+			} else {
+				toReturn.retainAll(results);
+			}
+		}
+		return toReturn;
+	}	
+	
+	private Set<DataInstance> getMatchingInstances(IRI signal, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+		Set<IRI> signals = new HashSet<IRI>();
+		signals.add(signal);
+		Set<DataInstance> toReturn = new HashSet<DataInstance>();
 		
 		// Run the command with the detector specification
 		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSyn.getDetectorSyntax(signals) + " -N -k none -A console -q -v -y");
@@ -166,7 +211,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 				//sRecord.append(pcapLine);
 			//}
 		//}
-		
+		this.sigMap.put(signal,toReturn);
 		return toReturn;
 	}
 	
@@ -268,14 +313,15 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 									// TODO Auto-generated catch block
 									//e.printStackTrace();
 								//}
-			    	            toReturn.add(idmap);
+			    	            DataInstance di = new KIDSSnortDataInstance(idmap);
+			    	            toReturn.add(di);
 			                } 
 			                sRecord = new StringBuilder();
 			            } else {
 				            sRecord.append(line);
 			            }
 	            	}
-	            } catch (IOException ioe)
+	            } catch (IOException | UnimplementedIdentifyingFeatureException ioe)
 	              {
 	                ioe.printStackTrace();  
 	              }

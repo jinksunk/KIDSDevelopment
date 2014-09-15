@@ -4,11 +4,13 @@
 package net.strasnet.kids.measurement.datasetinstances;
 
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
 import org.semanticweb.owlapi.model.IRI;
 
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Label;
 
@@ -18,19 +20,17 @@ import net.strasnet.kids.measurement.Label;
  */
 public class KIDSNTEventLogDataInstance extends AbstractDataInstance {
 	
-	public KIDSNTEventLogDataInstance(HashMap<IRI, String> idValues){
-		super(idValues);
+	static List<IRI> myIDs = new LinkedList<IRI>();
+
+	static {
+		myIDs.add(IRI.create(featureIRI + "NTEventLogRecordID"));
+	};
+	
+	public KIDSNTEventLogDataInstance(Map<IRI, String> rMap) throws UnimplementedIdentifyingFeatureException{
+		super(rMap, myIDs);
 	}
 
-	@Override
-	/**
-	 * 
-	 */
 	public boolean equals(Object o){
-		if (o == null){
-			return false;
-		}
-		return ((DataInstance)o).getID().equals(this.getID());
+		return super.equals(o);
 	}
-
 }

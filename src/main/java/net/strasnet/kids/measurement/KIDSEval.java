@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
@@ -40,10 +41,11 @@ public interface KIDSEval {
 	 * @throws NumberFormatException 
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws IncompatibleCorrelationValueException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 //	double EvalSignal(IRI signal, DatasetView dv, DatasetLabel dl)
 	double EvalSignal(IRI signal, IRI d, IRI event)
-			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException;
+			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException, UnimplementedIdentifyingFeatureException;
 	
 	/** 
 	 * Given the IRI for an event, E, determine the maximum CID attainable with the given KB

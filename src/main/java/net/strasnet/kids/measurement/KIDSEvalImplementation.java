@@ -8,6 +8,7 @@ import java.util.Set;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
@@ -33,7 +34,7 @@ public class KIDSEvalImplementation implements KIDSEval {
 	@Override
 	public double EvalSignal(IRI signal, IRI d, IRI event)
 			//DatasetView dv, DatasetLabel dl)
-			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException {
+			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException, UnimplementedIdentifyingFeatureException {
 		Set<IRI> sigset = new HashSet<IRI>();
 		sigset.add(signal);
 		Set<String> datasetSet = new HashSet<String>();

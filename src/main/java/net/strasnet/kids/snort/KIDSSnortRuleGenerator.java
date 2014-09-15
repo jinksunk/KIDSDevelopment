@@ -11,6 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -154,7 +155,8 @@ public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 	}
 	
 	public void setCurrentSignalSet(Set<IRI> sigSet){
-		currentSigSet = sigSet;
+		currentSigSet = new HashSet<IRI>();
+		currentSigSet.addAll(sigSet);
 	}
 	
 	public Set<IRI> getCurrentSignalSet(){

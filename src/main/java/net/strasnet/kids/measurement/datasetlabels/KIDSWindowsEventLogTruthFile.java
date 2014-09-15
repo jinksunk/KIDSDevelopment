@@ -47,8 +47,9 @@ public class KIDSWindowsEventLogTruthFile extends AbstractDatasetLabel implement
 	 */
 	@Override
 	public Label getLabel(DataInstance dve) {
-		if (labelKey.containsKey(Integer.parseInt(dve.getID()))){
-			dve.setLabel(labelKey.get(Integer.parseInt(dve.getID())));
+		int ourID = Integer.parseInt(dve.getID().split("=")[1]);
+		if (labelKey.containsKey(ourID)){
+			dve.setLabel(labelKey.get(ourID));
 			return dve.getLabel();
 		}
 		// If no label is present, assume benign

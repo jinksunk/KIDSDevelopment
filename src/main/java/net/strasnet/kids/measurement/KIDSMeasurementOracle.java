@@ -27,6 +27,7 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.detectors.KIDSDetector;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.correlationfunctions.KIDSCorrelationFunctionFactory;
@@ -130,10 +131,11 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws NumberFormatException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public Dataset getDatasetImplementation(
 			OWLNamedIndividual ourDataset,
-			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException {
+			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		// get the library string value for the given Class
 		// The value is a data property of the individual:
 		OWLDataProperty datasetImpl = odf.getOWLDataProperty(IRI.create(datasetParserImplementationProp.toString()));
@@ -863,7 +865,6 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 			return null;
 		} 
 
-		// TODO Auto-generated method stub
 		return oaSet.iterator().next().getLiteral();
 	}
 

@@ -12,6 +12,7 @@ import java.util.TreeMap;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectors.KIDSDetector;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.EventOccurrence;
@@ -66,7 +67,7 @@ public class EventLogTextFileView extends AbstractDatasetView implements Dataset
 	}
 
 	@Override
-	public int numInstances() throws KIDSUnEvaluableSignalException {
+	public int numInstances() throws KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		if (ourInstances.size() == 0){
 			Set<DataInstance> iSet;
 			try {
@@ -93,7 +94,7 @@ public class EventLogTextFileView extends AbstractDatasetView implements Dataset
 
 	@Override
 	public Iterator<DataInstance> iterator() throws IOException,
-			KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException {
+			KIDSUnEvaluableSignalException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		if (ourInstances == null || ourInstances.size() == 0){
 			try {
 				ourInstances = (HashSet<DataInstance>) getMatchingInstances(new HashSet<IRI>());
@@ -110,7 +111,7 @@ public class EventLogTextFileView extends AbstractDatasetView implements Dataset
 	public Set<DataInstance> getMatchingInstances(Set<IRI> signalSet)
 			throws KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, IOException,
-			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException {
+			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 		try {
 		    Set<DataInstance> allMatching = super.getMatchingInstances(signalSet);
 
@@ -153,7 +154,7 @@ public class EventLogTextFileView extends AbstractDatasetView implements Dataset
 	}
 
 	@Override
-	public DataInstance buildInstance(HashMap<IRI, String> idMap) {
+	public DataInstance buildInstance(HashMap<IRI, String> idMap) throws UnimplementedIdentifyingFeatureException {
 		return new KIDSNTEventLogDataInstance(idMap);
 	}
 

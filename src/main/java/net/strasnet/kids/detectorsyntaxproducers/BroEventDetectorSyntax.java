@@ -107,34 +107,35 @@ public class BroEventDetectorSyntax implements KIDSDetectorSyntax {
 		Map<String,IRI> kMap = new HashMap<String,IRI>();
 		Map<String,String> vMap = null;
 		String sigValue = null;
-		if (sigSet.size() == 0){
-			// In this case, load the null module:
-			if (broModuleSelector.containsKey(null)){
-				vMap = broModuleSelector.get(null);
-			}
-		}
 		for (IRI mySig : sigSet){
-			IRI sigDomain = o.getSignalDomain(mySig);
-			sigValue = o.getSignalValue(mySig);
-			IRI sigConstraint = o.getSignalConstraint(mySig);
-			Set<IRI> contexts = o.getSignalContexts(mySig);
+			if (mySig == null){
+				// In this case, load the null module:
+				if (broModuleSelector.containsKey(null)){
+					vMap = broModuleSelector.get(null);
+					}
+			} else {
+				IRI sigDomain = o.getSignalDomain(mySig);
+				sigValue = o.getSignalValue(mySig);
+				IRI sigConstraint = o.getSignalConstraint(mySig);
+				Set<IRI> contexts = o.getSignalContexts(mySig);
 
-			/* When we find the first match, stop */
-			for (IRI myContext : contexts){
-				kMap.put(BroEventDetectorSyntax.SignalDomain, sigDomain);
-				kMap.put(BroEventDetectorSyntax.SignalContext, myContext);
-				kMap.put(BroEventDetectorSyntax.SignalConstraint, sigConstraint);
+				/* When we find the first match, stop */
+				for (IRI myContext : contexts){
+					kMap.put(BroEventDetectorSyntax.SignalDomain, sigDomain);
+					kMap.put(BroEventDetectorSyntax.SignalContext, myContext);
+					kMap.put(BroEventDetectorSyntax.SignalConstraint, sigConstraint);
 				
-				if (broModuleSelector.containsKey(kMap)){
-					vMap = broModuleSelector.get(kMap);
-					continue;
+					if (broModuleSelector.containsKey(kMap)){
+						vMap = broModuleSelector.get(kMap);
+						continue;
+					}
 				}
-			}
-			if (vMap == null){
-				throw new KIDSIncompatibleSyntaxException(String.format(
+				if (vMap == null){
+					throw new KIDSIncompatibleSyntaxException(String.format(
 						"Cannot match bro syntax function to domain %s and constraint %s.",
 						sigDomain.getFragment(),
 						sigConstraint.getFragment()));
+				}
 			}
 		}
 		

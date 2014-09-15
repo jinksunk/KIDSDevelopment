@@ -7,6 +7,7 @@ import java.util.Set;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -65,6 +66,7 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 
 		KIDSOntologyDatatypeValuesException, 
@@ -74,7 +76,7 @@ public class KIDSEIDMeasure {
 		ClassNotFoundException, 
 		IOException, 
 		KIDSIncompatibleSyntaxException, 
-		KIDSUnEvaluableSignalException {
+		KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 
 		double E_ID = 0;
 		int Inum = 0;                // The total number of instances (bags) (instances + # events - event related instances)
@@ -275,8 +277,9 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSIncompatibleSyntaxException 
 	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public static double getKIDSCIDMeasureValue(Dataset d, Set<IRI> sigSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException{
+	public static double getKIDSCIDMeasureValue(Dataset d, Set<IRI> sigSet) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		double C_ID = 0;
 		int Inum;                // The total number of instances
 		int[] EInumAry;          // The number of instances associated with each event E_i

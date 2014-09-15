@@ -47,7 +47,13 @@ public class KIDSSnortDetectorSyntax implements KIDSDetectorSyntax {
 			throws KIDSIncompatibleSyntaxException,
 			KIDSOntologyObjectValuesException,
 			KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException {
+
 		sGen.setCurrentSignalSet(sigSet);
+		// Remove null values:
+		if (sGen.getCurrentSignalSet().contains(null)){
+			sGen.getCurrentSignalSet().remove(null);
+		}
+
 		// Write to a temporary rule file, then return the file location:
 		try {
 			File rFile = File.createTempFile("snort", ".rule");

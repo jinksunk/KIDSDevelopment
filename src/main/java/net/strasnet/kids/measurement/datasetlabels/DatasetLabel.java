@@ -6,6 +6,7 @@ import java.util.Set;
 
 import org.semanticweb.owlapi.model.IRI;
 
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.Label;
@@ -49,8 +50,9 @@ public interface DatasetLabel {
 	 * @param event - The IRI of the event this label file deals with.
 	 * @throws IOException 
 	 * @throws NumberFormatException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public void init(IRI labelLocation, IRI event) throws NumberFormatException, IOException;
+	public void init(IRI labelLocation, IRI event) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 
