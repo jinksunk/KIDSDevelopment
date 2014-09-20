@@ -143,17 +143,6 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				results = this.sigMap.get(signal);
 			} else {
 				results = getMatchingInstances(signal, v);
-				if (this.sigSets.contains(results)){
-					System.err.println(String.format("[D] TcpDumpDetector - Found existing signal set for signal %s...", signal));
-					for (Set<DataInstance> s : this.sigSets){
-						if (results.equals(s)){
-							results = s;
-						}
-					}
-				} else {
-					System.err.println(String.format("[D] TcpDumpDetector - Adding signal set (size = %d) for signal %s...", results.size(), signal));
-				    this.sigSets.add(results);
-				}
 				System.err.println(String.format("[D] TcpDumpDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
 				System.err.println("\t(Signal cache now consists of:");
@@ -190,6 +179,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 
 		    // Get the packet ID for each packet, and create the data instance object for it
 		    int count = 0;
+		    int cvaluesUsed = 0;
 		    int statusAt = 100000;
 		    long t0 = System.currentTimeMillis();
 		    long t1 = 0;
@@ -242,7 +232,11 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.DEST) + "Port"), rexmpost.group("DPORT"));
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.SOURCE) + "Port"), rexmpost.group("SPORT"));
 				    	DataInstance di = new KIDSNativeLibpcapDataInstance(resMap);
-					    toReturn.add(di);
+				    	DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
+				    	if (sdi != di){
+				    		cvaluesUsed++;
+				    	}
+					    toReturn.add(sdi);
 				    } else {
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
 				    }
@@ -262,6 +256,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			    }
 		    }
 			this.sigMap.put(signal, toReturn);
+			System.err.println(String.format("[D] TCPDumpDetector - Used %d / %d cached values",cvaluesUsed,count));
 		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);

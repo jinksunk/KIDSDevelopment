@@ -93,17 +93,6 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 				results = this.sigMap.get(signal);
 			} else {
 				results = getMatchingInstances(signal, v);
-				if (this.sigSets.contains(results)){
-					System.err.println(String.format("[D] Found existing signal set for signal %s...", signal));
-					for (Set<DataInstance> s : this.sigSets){
-						if (results.equals(s)){
-							results = s;
-						}
-					}
-				} else {
-					System.err.println(String.format("[D] GrepDetector - Adding signal set (size = %d) for signal %s...", results.size(), signal));
-				    this.sigSets.add(results);
-				}
 				System.err.println(String.format("[D] GrepDetector - Adding cache entry of size %d for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
 				System.err.println("\t(Signal cache now consists of:");
@@ -139,14 +128,21 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		String Line;
 		Set<DataInstance> toReturn = new HashSet<DataInstance>();
+		int count = 0;
+		int cvaluesUsed = 0;
 
 		try {
 			// Get the log entry ID for each line, and create the data instance object for it
 			// Extract out at least the ID, Source IP (if present), and HTTPGetRequestResource (if present)
 			while ((Line = rd.readLine()) != null){
+					count++;
 					Map<IRI, String> rMap = extractResources(Line);
 			    	KIDSNTEventLogDataInstance di = new KIDSNTEventLogDataInstance(rMap);
-			    	toReturn.add(di);
+			    	DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
+			    	if (sdi != di){
+			    		cvaluesUsed++;
+			    	}
+			    	toReturn.add(sdi);
 			}
 		
 			/**
@@ -173,6 +169,7 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 				}
 			}
 			this.sigMap.put(signal, toReturn);
+			System.err.println(String.format("[D] KIDSGrepDetector - Used %d/%d cached values.",cvaluesUsed,count));
 			return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + this.executionCommand);

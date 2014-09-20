@@ -42,7 +42,8 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	protected KIDSMeasurementOracle myGuy = null;
 	protected KIDSDetectorSyntax ourSyn = null; 
 	protected HashMap<IRI, Set<DataInstance>> sigMap;
-	protected Set<Set<DataInstance>> sigSets;
+	//protected Set<Set<DataInstance>> sigSets;
+	private static HashMap<DataInstance, DataInstance> dataInstancePool = new HashMap<DataInstance, DataInstance>();
 
 	/* (non-Javadoc)
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
@@ -95,7 +96,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			executionCommand = toExecute;
 			ourSyn = o.getDetectorSyntax(ourIRI);
 			sigMap = new HashMap<IRI, Set<DataInstance>>();
-			sigSets = new HashSet<Set<DataInstance>>();
+//			sigSets = new HashSet<Set<DataInstance>>();
 		}
 	}
 
@@ -105,6 +106,19 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	@Override
 	public IRI getIRI() {
 		return this.ourIRI;
+	}
+
+	/**
+	 * If we already have an instance for this data instance, return that one instead, 
+	 * otherwise, add this to the static map, and return it.
+	 * @param di
+	 * @return
+	 */
+	public static DataInstance getDataInstance(DataInstance di){
+		if (! KIDSAbstractDetector.dataInstancePool.containsKey(di)){
+			KIDSAbstractDetector.dataInstancePool.put(di, di);
+		}
+		return dataInstancePool.get(di);
 	}
 	
 	/**
@@ -175,5 +189,6 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			return iVal;
 			
 		}
+		
 	}
 }

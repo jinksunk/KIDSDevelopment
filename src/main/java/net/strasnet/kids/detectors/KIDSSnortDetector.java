@@ -137,17 +137,6 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 				results = this.sigMap.get(signal);
 			} else {
 				results = getMatchingInstances(signal, v);
-				if (this.sigSets.contains(results)){
-					System.err.println(String.format("[D] SnortDetector - Found existing signal set for signal %s...", signal));
-					for (Set<DataInstance> s : this.sigSets){
-						if (results.equals(s)){
-							results = s;
-						}
-					}
-				} else {
-					System.err.println(String.format("[D] SnortDetector - Adding signal set for signal %s...", signal));
-				    this.sigSets.add(results);
-				}
 				System.err.println(String.format("[D] SnortDetector - Adding cache entry for %s",signal));
 				this.sigMap.put(signal, results);
 				System.err.println("\t(Signal cache now consists of:");
@@ -187,6 +176,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
+		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cached instances.",iGobble.cvaluesUsed, iGobble.count));
 		//BufferedReader rd = new BufferedReader(new StringReader(iGobble.getOutput()));
 		//String pcapLine;
 		//StringBuilder sRecord = new StringBuilder();
@@ -260,6 +250,9 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	class SnortStreamGobbler extends StreamGobbler
 	{
 
+		int count = 0;
+		int cvaluesUsed = 0;
+
 		SnortStreamGobbler( InputStream is, String type) {
 			super(is, type);
 		}
@@ -282,6 +275,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	            		mine.append(line);
 	            		continue;
 	            	} else {
+	            		count++;
 	            	    rexm = recRexp.matcher(line);
 	                    if (rexm.matches()){
 				        // End of record, process:
@@ -314,7 +308,11 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 									//e.printStackTrace();
 								//}
 			    	            DataInstance di = new KIDSSnortDataInstance(idmap);
-			    	            toReturn.add(di);
+			    	            DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
+			    	            if (di != sdi){
+			    	            	cvaluesUsed++;
+			    	            }
+			    	            toReturn.add(sdi);
 			                } 
 			                sRecord = new StringBuilder();
 			            } else {

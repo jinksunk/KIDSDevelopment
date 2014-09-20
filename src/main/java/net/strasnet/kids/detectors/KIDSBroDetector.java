@@ -95,17 +95,15 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			if (this.sigMap.containsKey(signal)){
 				results = this.sigMap.get(signal);
 			} else {
+				HashSet<DataInstance> tResults = new HashSet<DataInstance>();
 				results = getMatchingInstances(signal, v);
-				if (this.sigSets.contains(results)){
-					System.err.println(String.format("[D] BroDetector - Found existing signal set for signal %s...", signal));
-					for (Set<DataInstance> s : this.sigSets){
-						if (results.equals(s)){
-							results = s;
-						}
+				int count = 0;
+				for (DataInstance di : results){
+					tResults.add(KIDSAbstractDetector.getDataInstance(di));
+					count++;
+					if (count % 100000 == 0){
+						System.err.println(String.format("[M] - Processed %d records...",count));
 					}
-				} else {
-					System.err.println(String.format("[D] BroDetector - Adding signal set containing %d entires for signal %s...", results.size(), signal));
-				    this.sigSets.add(results);
 				}
 				System.err.println(String.format("[D] BroDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
@@ -151,6 +149,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
+		System.err.println(String.format("[D] KIDSBroDetector - Used %d / %d cache values.", iGobble.cvaluesUsed, iGobble.count));
 		this.sigMap.put(signal, toReturn);
 
 		return toReturn;
@@ -231,6 +230,9 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 
 	class BroStreamGobbler extends StreamGobbler {
 
+		int cvaluesUsed = 0;
+		int count = 0;
+
 		BroStreamGobbler(InputStream is, String type) {
 			super(is, type);
 		}
@@ -241,15 +243,13 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		
 		public void run() {
 			try {
-				int count = 0;
 				InputStreamReader isr = new InputStreamReader(is);
 				BufferedReader br = new BufferedReader(isr);
 				String line = null;
-				StringBuilder sRecord = new StringBuilder();
 				while ( (line = br.readLine()) != null) {
 						Matcher rexr = rexp.matcher(line);
 						count = count+1;
-						if (count % 10000 == 0){
+						if (count % 100000 == 0){
 							System.err.println(String.format("\t.. [Bro] Processed %d packets",count));
 						}
 						if (rexr.find()){
@@ -272,7 +272,11 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 								}
 							}
 							DataInstance di = new KIDSNativeLibpcapDataInstance(idmap);
-							toReturn.add(di);
+							DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
+							if (sdi != di){
+								cvaluesUsed++;
+							}
+							toReturn.add(sdi);
 						}
 				}
 			} catch (IOException | UnimplementedIdentifyingFeatureException ioe) {
