@@ -19,35 +19,53 @@ import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureEx
 import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
-public class KIDSSnortDataInstance extends AbstractDataInstance implements DataInstance {
+/**
+ * @author cstras
+ * 
+ * The class of data instance indicates what features are used to identify unique 
+ * data instances.  Multiple views may use a single data instance type, however
+ * a view may only use a single data instance type; the data instance used implies
+ * the features that the view considers to be identifying.
+ * 
+ * This relates to the identifying features used by the dataset label classes - those
+ * classes indicate the features which the label function uses to differentiate malicious 
+ * from benign data instances.  A label is free to use a subset of data instance identifying
+ * features, however this may cause multiple actual data instance to match a single label
+ * instance.
+ * 
+ * A label function cannot be used to evaluate a data instance which does not include all
+ * of the label function's identifying features.
+ *
+ */
+public class KIDSBroDataInstance extends AbstractDataInstance implements DataInstance {
 	
 	static List<IRI> myIDs = new LinkedList<IRI>();
-
+	
 	static {
 		myIDs.add(IRI.create(featureIRI + "PacketID"));
-		//identifyingFeatures.add(IRI.create(featureIRI + "instanceTimestamp"));
+		//myIDs.add(IRI.create(featureIRI + "instanceTimestamp"));
 		myIDs.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "ObservationOrder"));
 	};
 	
-	public KIDSSnortDataInstance (HashMap<IRI, String> resourceValues) throws UnimplementedIdentifyingFeatureException{
-		super(resourceValues, myIDs);
+	public KIDSBroDataInstance (HashMap<IRI, String> resourceValues) throws UnimplementedIdentifyingFeatureException{
+		super(resourceValues, KIDSBroDataInstance.myIDs);
 	}
-
+	
 	public boolean equals(Object o){
 		return super.equals(o);
 	}
-	
+
 	public static void main(String[] args) throws UnimplementedIdentifyingFeatureException{
 		// Test use in hashmap:
-		HashSet<KIDSSnortDataInstance>m = new HashSet<KIDSSnortDataInstance>();
+		HashSet<KIDSBroDataInstance> m = new HashSet<KIDSBroDataInstance>();
 		HashMap<IRI, String> h1 = new HashMap<IRI, String>();
 		HashMap<IRI, String> h2 = new HashMap<IRI, String>();
 		h1.put(IRI.create("http://www.semantiknit.com/#f1"),"1");
 		h2.put(IRI.create("http://www.semantiknit.com/#f1"),"1");
-		KIDSSnortDataInstance di1 = new KIDSSnortDataInstance(h1);
-		KIDSSnortDataInstance di2 = new KIDSSnortDataInstance(h2);
+		KIDSBroDataInstance di1 = new KIDSBroDataInstance(h1);
+		KIDSBroDataInstance di2 = new KIDSBroDataInstance(h2);
 		
 		if (di1.equals(di2)){
 			System.out.println("Instances are equal.");

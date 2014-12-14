@@ -14,6 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -27,9 +28,12 @@ import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.ViewLabelDataset;
+import net.strasnet.kids.measurement.datasetinstances.KIDSBroDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
+import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
+import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 import net.strasnet.kids.measurement.test.TestOracleFactory;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -54,8 +58,6 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 	 * 920567169.0,38963,136.201.241.147,172.16.112.100
 	 */
 	
-	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
-	
 	
 	/**
 	 * Bro rule output sample from this detector:
@@ -68,6 +70,19 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 	static {
 		supportedFeatures.put(featureIRI + "TCPPayloadSizeDomain",true);
 		};
+
+	/** Configuration file values required for testing */
+	private static final HashMap<String,String> configFileTestValues = new HashMap<String,String>();
+	static {
+		configFileTestValues.put("ABoxFile", "/dev/null");
+		configFileTestValues.put("ABoxIRI", "/dev/null");
+		configFileTestValues.put("TBoxFile", "/dev/null");
+		configFileTestValues.put("TBoxIRI", "/dev/null");
+		configFileTestValues.put("EventIRI", "/dev/null");
+		//configFileValues.put("DatasetIRI", "/dev/null");
+		configFileTestValues.put("DetectorIRI", "/dev/null");
+		configFileTestValues.put("TestSignalIRI", "/dev/null");
+	}
 		
 	private Pattern rexp = null;
 	//private Path tmpDir;
@@ -83,6 +98,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 
 		// First, check cache to see if the signal set has already been evaluated:
+		System.err.println(String.format("[D] BroDetector checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -97,15 +113,18 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			} else {
 				HashSet<DataInstance> tResults = new HashSet<DataInstance>();
 				results = getMatchingInstances(signal, v);
+				/**
 				int count = 0;
 				for (DataInstance di : results){
 					tResults.add(KIDSAbstractDetector.getDataInstance(di));
 					count++;
 					if (count % 100000 == 0){
-						System.err.println(String.format("[M] - Processed %d records...",count));
+						System.err.println(String.format("[Bro] - Processed %d records...",count));
 					}
 				}
-				System.err.println(String.format("[D] BroDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
+				results = tResults;
+				*/
+				System.err.println(String.format("[D] Bro - Adding cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
 				System.err.println("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
@@ -149,7 +168,9 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		System.err.println(String.format("[D] KIDSBroDetector - Used %d / %d cache values.", iGobble.cvaluesUsed, iGobble.count));
+		System.err.println(String.format("[D] KIDSBroDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
+		System.err.println(String.format("                    - %d duplicate instances found.", iGobble.dvaluesInSet));
+		System.err.println(String.format("                    - %d total instances found.", iGobble.icount));
 		this.sigMap.put(signal, toReturn);
 
 		return toReturn;
@@ -180,14 +201,28 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 	 * @throws Exception 
 	 */
 	public static void main(String[] args) throws Exception {
-		// Test driver here
-		String ABOXLocation = args[0];
-		String ABOXIRI = "http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl";
-		String TBOXLocation = args[1];
-		String TBOXIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
-		IRI DetectorIRI = IRI.create(args[2]);
-		IRI TestSignalIRI = IRI.create(args[3]);
-		IRI EventIRI = IRI.create(args[4]);
+		// Load from a config file:
+		String usage = "Usage: KIDSBroDetector <pathToConfigFile>";
+		if (args.length != 1){
+			System.err.println(usage);
+			java.lang.System.exit(1);
+		}
+		HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[0], KIDSBroDetector.configFileTestValues.keySet());
+		if (cVals == null){
+			System.exit(1);
+		}
+		
+		KIDSBroDetector.runTests(cVals);
+	}
+
+	private static void runTests(HashMap<String, String> cVals) throws Exception{
+		String ABOXLocation = cVals.get("ABoxFile");
+		String ABOXIRI = cVals.get("ABoxIRI");
+		String TBOXLocation = cVals.get("TBoxFile");
+		String TBOXIRI = cVals.get("TBoxIRI");
+		IRI DetectorIRI = IRI.create(cVals.get("DetectorIRI"));
+		IRI TestSignalIRI = IRI.create(cVals.get("TestSignalIRI"));
+		IRI EventIRI = IRI.create(cVals.get("EventIRI"));
 
 		KIDSMeasurementOracle localO = TestOracleFactory.getKIDSMeasurementOracle(TBOXIRI, TBOXLocation, ABOXIRI, ABOXLocation);
 
@@ -201,44 +236,46 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		
 		// In this case, we want to ensure we get the libpcap dataset:
 		Map<IRI, List<OWLNamedIndividual>> dsetViewMap = new HashMap<IRI, List<OWLNamedIndividual>>();
-		OWLNamedIndividual chosenDset = null;
 		for (OWLNamedIndividual dSet : dSets){
-			if (dSet.getIRI().equals(IRI.create("http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#CodeRedEvalPCAPDataset1"))){
-				chosenDset = dSet;
-			}
 			List<OWLNamedIndividual> tViews = localO.getAvailableViews(dSet.getIRI(), EventIRI);
 			dsetViewMap.put(dSet.getIRI(), tViews);
-		}
 
-		// Pull out the libpcap view:
-		NativeLibPCAPView nlpv = new NativeLibPCAPView();
-		OWLNamedIndividual ourView = dsetViewMap.get(chosenDset.getIRI()).iterator().next();
-		nlpv.setIRI(ourView.getIRI());
+			// Pull out the libpcap view:
+			NativeLibPCAPView nlpv = new NativeLibPCAPView();
+			OWLNamedIndividual ourView = dsetViewMap.get(dSet.getIRI()).iterator().next();
+			nlpv.setIRI(ourView.getIRI());
 		//localO.getLabelForViewAndEvent(ourView, EventIRI);
 		//List<IRI> lList = new LinkedList<IRI>();
 		//OWLNamedIndividual kl = localO.getLabelImplementation(localO.getLabelForViewAndEvent(ourView, EventIRI));
-		ViewLabelDataset v = KIDSDatasetFactory.getViewLabelDataset(chosenDset.getIRI(), EventIRI, localO);
+			ViewLabelDataset v = KIDSDatasetFactory.getViewLabelDataset(dSet.getIRI(), EventIRI, localO);
 		// TODO: not lList, we need the identifying features here:
 		//nlpv.generateView(localO.getDatasetLocation(chosenDset), localO, lList);
 		
 		//ViewLabelDataset v = new ViewLabelDataset();
 		//v.init(IRI.create(EventIRI));
 
-		v.getMatchingInstances(sigSet);
+			v.getMatchingInstances(sigSet);
+		}
 
 	}
 
 	class BroStreamGobbler extends StreamGobbler {
 
-		int cvaluesUsed = 0;
+		int cvaluesUsed = 0; // Number of cached values seen by this detector
+		int nvaluesUsed = 0; // Number of new values seen by this detector
 		int count = 0;
+		int icount = 0;
+		int dvaluesInSet = 0;
+		TreeMap<String,Integer> orderMap;
 
 		BroStreamGobbler(InputStream is, String type) {
 			super(is, type);
+			orderMap = new TreeMap<String,Integer>();
 		}
 
 		BroStreamGobbler(InputStream is, String type, DatasetView v) {
 			super(is, type, v);
+			orderMap = new TreeMap<String,Integer>();
 		}
 		
 		public void run() {
@@ -253,6 +290,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 							System.err.println(String.format("\t.. [Bro] Processed %d packets",count));
 						}
 						if (rexr.find()){
+							icount = icount + 1;
 							HashMap<IRI, String> idmap = new HashMap<IRI, String>();
 							Iterator<IRI> ifs = v.getIdentifyingFeatures().iterator();
 							IRI identFeature;
@@ -264,6 +302,8 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 									idmap.put(identFeature, rexr.group("SIP"));
 								} else if (identFeature.toString().equals(featureIRI + "IPv4DestinationAddressSignalDomain")){
 									idmap.put(identFeature, rexr.group("DIP"));
+								} else if (identFeature.toString().equals(featureIRI + "instanceTimestamp")){
+									idmap.put(identFeature, rexr.group("TIMESTAMP"));
 								} else {
 									// We need a feature according to the view that we don't support
 									// in this detector:
@@ -271,12 +311,30 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 
 								}
 							}
-							DataInstance di = new KIDSNativeLibpcapDataInstance(idmap);
+
+							LinkedList<IRI> orderKey = new LinkedList<IRI>();
+							orderKey.add(IRI.create(featureIRI + "PacketID"));
+							orderKey.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
+							orderKey.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
+							addOrderKeyToIDMap(orderKey, idmap);
+
+
+						  	DataInstance di = new KIDSBroDataInstance(idmap);
 							DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
 							if (sdi != di){
 								cvaluesUsed++;
+							} else {
+                                nvaluesUsed++;
+                                if (nvaluesUsed == 1){
+								  System.err.println(String.format("[D] - BroDetector -- No existing entry found for e.g.: %s; from line %s", sdi.getID(), line));
+                                }
 							}
-							toReturn.add(sdi);
+							if (!toReturn.add(sdi)){
+								dvaluesInSet++;
+						    	if (dvaluesInSet < 5){
+						    	    System.err.println(String.format("[E] - BroDetector -- Duplicate data instance added to return set e.g.: %s (from line %s)",sdi.getID(), line));
+						    	}
+							}
 						}
 				}
 			} catch (IOException | UnimplementedIdentifyingFeatureException ioe) {
@@ -284,6 +342,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
               ioe.printStackTrace();  
             }
 		}
-		
 	}
+		
+		
 }

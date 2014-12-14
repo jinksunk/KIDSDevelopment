@@ -14,8 +14,10 @@ import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
@@ -37,6 +39,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSAbstractDetector implements KIDSDetector {
 
+    protected TreeMap<String,Integer> orderMap;
 	protected IRI ourIRI = null;
 	protected String executionCommand;
 	protected KIDSMeasurementOracle myGuy = null;
@@ -44,6 +47,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	protected HashMap<IRI, Set<DataInstance>> sigMap;
 	//protected Set<Set<DataInstance>> sigSets;
 	private static HashMap<DataInstance, DataInstance> dataInstancePool = new HashMap<DataInstance, DataInstance>();
+	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 
 	/* (non-Javadoc)
 	 * @see net.strasnet.kids.detectors.KIDSDetector#getMatchingInstances(java.util.Set, net.strasnet.kids.measurement.datasetviews.DatasetView)
@@ -59,7 +63,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 		boolean firstSignal = true;
 		for (IRI signal : signals){
 			if (sigMap.containsKey(signal)){
-				System.err.println(String.format("[D] Matched signal %s; using %d cached values.",signal,this.sigMap.get(signal).size()));
+				System.err.println(String.format("[D] AbstractDetector - Matched signal %s; using %d cached values.",signal,this.sigMap.get(signal).size()));
 				// We want the intersection of data instances:
 				if (firstSignal){
 					matches.addAll(sigMap.get(signal));
@@ -68,7 +72,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 					matches.retainAll(sigMap.get(signal));
 				}
 			} else {
-				System.err.println(String.format("[D] No cache entry for signal %s.",signal));
+				System.err.println(String.format("[D] AbstractDetector - No cache entry for signal %s.",signal));
 				System.err.println("\t(Cache consists of:");
 				for (IRI cEntry : sigMap.keySet()){
 					System.err.println(String.format("\t%s.",cEntry));
@@ -96,6 +100,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			executionCommand = toExecute;
 			ourSyn = o.getDetectorSyntax(ourIRI);
 			sigMap = new HashMap<IRI, Set<DataInstance>>();
+	        orderMap = new TreeMap<String,Integer>();
 //			sigSets = new HashSet<Set<DataInstance>>();
 		}
 	}
@@ -119,6 +124,14 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			KIDSAbstractDetector.dataInstancePool.put(di, di);
 		}
 		return dataInstancePool.get(di);
+	}
+	
+	/**
+	 * 
+	 * @return The number of data instances in the data pool.
+	 */
+	public static int getDataInstancePoolSize(){
+		return KIDSAbstractDetector.dataInstancePool.size();
 	}
 	
 	/**
@@ -191,4 +204,21 @@ public class KIDSAbstractDetector implements KIDSDetector {
 		}
 		
 	}
+	public void addOrderKeyToIDMap(List<IRI> orderKeys, HashMap<IRI,String> idmap){
+
+		StringBuilder orderKeyBuilder = new StringBuilder();
+		for (IRI k : orderKeys){
+			orderKeyBuilder.append(idmap.get(k));
+		}
+
+	// Add order features:
+		int orderVal = 1;
+		String orderKey = orderKeyBuilder.toString();
+		if (orderMap.containsKey(orderKey)){
+				orderVal = orderMap.get(orderKey)+1;
+		}
+		orderMap.put(orderKey.toString(), new Integer(orderVal));
+		idmap.put(IRI.create(featureIRI + "ObservationOrder"), String.format("%d",orderVal));
+	}
+
 }

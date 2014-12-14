@@ -1,6 +1,7 @@
 package net.strasnet.kids.measurement;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
@@ -68,7 +69,8 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public static double getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 
+	//TODO: Rather than just return the EID value, modify to return a suite of metrics, including fpr, fnr, and list of events matched / missed
+	public static RecursiveResult getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 
 		KIDSOntologyDatatypeValuesException, 
 		KIDSOntologyObjectValuesException, 
 		InstantiationException, 
@@ -102,6 +104,11 @@ public class KIDSEIDMeasure {
 		
 		double IGS = 0; 			 // The information gain after applying signal s
 		
+		RecursiveResult toReturn = new RecursiveResult();
+		toReturn.setSignals(s);
+		toReturn.setDataset(d);
+		Map<Integer,Boolean> eventMatches = new HashMap<Integer,Boolean>();
+		
 		// Estimate probabilities:
 		// DONE: Do we need to build an abstract "correlated interface" here? - Yes, we do; call from the DatasetFactory?
 		// First, build the 'perfectly correlated' dataset.  We will end up with one instance for each event,
@@ -116,6 +123,9 @@ public class KIDSEIDMeasure {
 		EInumAry = d.numPositiveInstances();  // Event Instance counts
 			
 		EInum = d.numEventOccurrences(); // Number of event bags
+		for (i = 0; i < EInum; i++){
+			eventMatches.put(i, false);
+		}
 		
 		BInum = Inum - EInum; // Benign instances (non-event related)
 		
@@ -135,18 +145,6 @@ public class KIDSEIDMeasure {
 		// Get counts from filtered data set:
 		CorrelatedViewLabelDataset dTemp = null;
 		
-		// Determine if correlation is required:
-		// Moving to a correlated dataset interface instead.  This block should no longer be needed.
-		/* Once working, DELETE
-		if (dsets.size() > 1){
-			// Is there a correlation function that can be used for this set of datasets?
-			Set<CorrelationFunction> cfs = kmo.getCompatibleCorrelationFunctions(dsets);
-			if (cfs.size() == 0){
-				// Cannot perform correlation; just a huge bag of instances
-			}
-		}
-		*/
-		
 		try {
 			dTemp = d.getDataSubset(d.getMatchingInstances(s, false)); // Call without debugging
 		} catch (net.strasnet.kids.measurement.KIDSUnEvaluableSignalException e){
@@ -156,7 +154,11 @@ public class KIDSEIDMeasure {
 				sb.append(sigiri.toString() + ",");
 			}
 			System.err.println(sb);
-			return 0; // Assume no benefit to the signal if we cannot evaluate it
+			toReturn.setEID(0);
+			toReturn.setFPR(1);
+			toReturn.setFNR(1);
+			toReturn.setEventStatus(eventMatches);
+			return toReturn; // Assume no benefit to the signal if we cannot evaluate it
 		}
 		
 		SInum = dTemp.numCorrelatedInstances(); // # of instances matching s, counting event-related instances once for each event
@@ -174,6 +176,7 @@ public class KIDSEIDMeasure {
 			if (EInumAry[i] > 0){
 			    SEInum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
 			    EInumAry[i] = 0;
+			    eventMatches.put(i, true);
 			}
 
 			/*  DELETE - after working
@@ -213,7 +216,7 @@ public class KIDSEIDMeasure {
 		} else {
 			E_ID = 0;
 		}
-		System.err.println("E_ID:" + E_ID + "\t SBINum:" + SBInum + " \t NBINum:" + NBInum + "\t SInum:" + SInum + "\tBInum:" + BInum + "\tInum:" + Inum);
+//		System.err.println("E_ID:" + E_ID + "\t SBINum:" + SBInum + " \t NBINum:" + NBInum + "\t SInum:" + SInum + "\tBInum:" + BInum + "\tInum:" + Inum);
 		/*
 		if (SBInum > 0){
 			int c = 0;
@@ -226,7 +229,14 @@ public class KIDSEIDMeasure {
 				}
 			}
 		} */
-		return E_ID;
+		toReturn.setBINum(BInum);
+		toReturn.setSINum(SInum);
+		toReturn.setSBINum(SBInum);
+		toReturn.setNBINum(NBInum);
+		toReturn.setFNR(((double)SEInum) / EInum);
+		toReturn.setFPR(((double)SBInum) / BInum);
+		toReturn.setEID(E_ID);
+		return toReturn;
 	}
 	
 	/**

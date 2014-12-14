@@ -33,10 +33,10 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 	 */
 	
 	//public Set<Map<IRI, String>> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
-	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
+	//private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	// 920592993.000000 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
 	private static String regexPatternLine1 = "(?<TimeStamp>[\\d\\.]+)\\sIP\\s\\((([^,]+),){2}\\sid\\s(?<PID>\\d+),.*proto[^\\(]+\\((?<PROTO>\\d+)\\), length\\s(?<DATALEN>\\d+)\\).*";
-	private static String regexPattern = "\\s*(?<SIP>[\\d\\.]+)\\.(?<SPORT>\\d+)\\s+>\\s+(?<DIP>[\\d\\.]+)\\.(?<DPORT>\\d+).*";
+	private static String regexPattern = "\\s*(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.?(?<SPORT>\\d+)?\\s+>\\s+(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.?(?<DPORT>\\d+)?.*";
 	
 	// 130.130.130.130.20 > 131.131.131.131.80: Flags [S], cksum 0x4e3f (correct), seq 0:389, win 8192, length 389
 	//private static String regexPatternIgnore = "\\s+[\\d\\.]+\\s>\\s[\\d\\.]+:\\sFlags\\s.*";
@@ -130,6 +130,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 	 */
 	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
 		// First, check to see if we have already run the detector on this set of signals - if so, no need to run it again:
+		System.err.println(String.format("[D] TCPDumpDetector checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -142,12 +143,13 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				System.err.println(String.format("[D] TcpDumpDetector using cache entry (size = %d) for %s",this.sigMap.get(signal).size(),signal));
 				results = this.sigMap.get(signal);
 			} else {
+				System.err.println(String.format("[D] TcpDumpDetector executing detector to gather instances. "));
 				results = getMatchingInstances(signal, v);
-				System.err.println(String.format("[D] TcpDumpDetector - Adding cache entry (size = %d) for %s",results.size(), signal));
+				System.err.println(String.format("[D] TcpDumpDetector - Added cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
 				System.err.println("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
-					System.err.println(String.format("\t%s ;",cMapEntry));
+					System.err.println(String.format("\t%s : %d ;",cMapEntry, this.sigMap.get(cMapEntry).size()));
 				}
 				System.err.println("\t)");
 			}
@@ -178,17 +180,22 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		    String pcapLine;
 
 		    // Get the packet ID for each packet, and create the data instance object for it
-		    int count = 0;
+		    int startPoolSize = super.getDataInstancePoolSize();
+		    int lcount = 0;
+		    int icount = 0;
 		    int cvaluesUsed = 0;
 		    int statusAt = 100000;
+		    int dvaluesInSet = 0;
 		    long t0 = System.currentTimeMillis();
 		    long t1 = 0;
 		    while ((pcapLine = rd.readLine()) != null){
-			    count++;
-			    if (count % statusAt == 0){
+			    lcount++;
+			    if (lcount % statusAt == 0){
 				    t1 = System.currentTimeMillis();
-				    double pps = statusAt / (((double)t1 - (double)t0) / 1000);
-				    System.err.println(" .. Processed " + count + " packets (" + pps + " pps)");
+				    double lps = statusAt / (((double)t1 - (double)t0) / 1000);
+				    //double pps = icount / (((double)t1 - (double)t0) / 1000);
+				    System.err.println(" .. Processed " + lcount + " lines (" + lps + " lps) and " + icount + " instances " );
+				    		//+ "(" + pps + " ips)");
 				    t0 = t1;
 			    }
 			    Matcher rexmpre = rexpL1.matcher(pcapLine);
@@ -200,7 +207,8 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			        // Setup resource hashmap:
 				    HashMap<IRI,String> resMap = new HashMap<IRI,String>();
 				    String tsString = rexmpre.group("TimeStamp");
-				    resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString.substring(0, tsString.indexOf('.')));
+				    //resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString.substring(0, tsString.indexOf('.')));
+				    resMap.put(IRI.create(featureIRI + "instanceTimestamp"),tsString);
 			        resMap.put(IRI.create(featureIRI + "PacketID"),packetID);
 			        
 			        // Get the second part
@@ -208,6 +216,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				    Matcher rexmpost = rexp.matcher(pcapLine);
 
 				    if (rexmpost.matches()){
+				    	icount++;
 					    // Extract resources
 				    	// Start with identifying features:
 					    resMap.put(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"), rexmpost.group("SIP"));
@@ -231,13 +240,30 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 					    }
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.DEST) + "Port"), rexmpost.group("DPORT"));
 				    	resMap.put(IRI.create(featureIRI + op.getPortResource(ConnectionEndpoint.SOURCE) + "Port"), rexmpost.group("SPORT"));
+
+						List<IRI> orderKey = new LinkedList<IRI>();
+						orderKey.add(IRI.create(featureIRI + "PacketID"));
+						orderKey.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
+						orderKey.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
+						
+						super.addOrderKeyToIDMap(orderKey, resMap);
+
 				    	DataInstance di = new KIDSNativeLibpcapDataInstance(resMap);
 				    	DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
 				    	if (sdi != di){
 				    		cvaluesUsed++;
 				    	}
-					    toReturn.add(sdi);
+
+					    if (!toReturn.add(sdi)){
+					    	// The return set already contained this element -- this shouldn't happen:
+					    	dvaluesInSet++;
+					    	if (dvaluesInSet == 1){
+					    	    System.err.println("[E] - TCPDumpDetector -- Duplicate data instance added to return set.  E.g.:");
+					    	    System.err.println("\t " + sdi.getID());
+					    	}
+					    }
 				    } else {
+					    System.err.println("Only first line matched (second is listed here): " + pcapLine);
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
 				    }
 			    } else if (rexi.matches()){
@@ -255,8 +281,10 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			        System.err.println(errout);
 			    }
 		    }
-			this.sigMap.put(signal, toReturn);
-			System.err.println(String.format("[D] TCPDumpDetector - Used %d / %d cached values",cvaluesUsed,count));
+			//this.sigMap.put(signal, toReturn);
+			System.err.println(String.format("[D] TCPDumpDetector - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
+			System.err.println(String.format("                    - %d duplicate instances found",dvaluesInSet));
+			System.err.println(String.format("                    - %d total instances found",toReturn.size()));
 		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);
@@ -284,4 +312,14 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 	public IRI getIRI() {
 		return this.ourIRI;
 	}
+
+	/**
+	 * Test the KIDSTcpDumpDetector
+	 * @param args - Command line arguments
+	 * 
+	 */
+    public static int main (String[] args){
+	    return 0;
+    }
 }
+

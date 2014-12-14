@@ -59,10 +59,16 @@
         <NamedIndividual IRI="#DefaultIDASignalValue"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#HTTPGetRequestParameterSignal"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#IISLogGrepRuleForCodeRed"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#Integer80"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
@@ -74,6 +80,9 @@
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
     </Declaration>
     <Declaration>
@@ -83,10 +92,16 @@
         <NamedIndividual IRI="#SnortRuleForCodeRed"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#TCPACKFlagSetSignalValue"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#tcpdumpFilterCommandForCodeRed"/>
@@ -164,6 +179,11 @@
         <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
         <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
@@ -268,12 +288,47 @@
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
         <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
+        <NamedIndividual IRI="#HTTPGetRequestParameterSignal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#HTTPGetRequestParameterSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:stringMatch"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#HTTPGetRequestParameterSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:HTTPGetParameter"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#HTTPGetRequestParameterSignal"/>
+        <NamedIndividual IRI="#DefaultIDASignalValue"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
@@ -291,6 +346,26 @@
         <NamedIndividual abbreviatedIRI="TBOX:Grep2.5.1RuleSyntax"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:byteSubsequenceMatch"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataResource"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
+        <NamedIndividual IRI="#MaliciousByteSequenceSignal"/>
+        <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignalValue"/>
@@ -299,6 +374,31 @@
         <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
         <NamedIndividual IRI="#MaliciousSourceIPSignal"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalInManifestation"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:positiveIntegerEquality"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthSignalDomain"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239SignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducedBy"/>
+        <NamedIndividual IRI="#PacketLengthGreaterThan239Signal"/>
+        <NamedIndividual IRI="#CodeRedPropagationAttempt"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
@@ -316,6 +416,21 @@
         <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:singleBitmaskMatchNonZero"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlags"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignal"/>
+        <NamedIndividual IRI="#TCPACKFlagSetSignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
         <NamedIndividual IRI="#Integer80"/>
@@ -324,6 +439,21 @@
         <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
         <NamedIndividual IRI="#TCPDestinationPort80Signal"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:STDDEVThresholdExceededConstraint"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeDomain"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual IRI="#TCPPacketLengthExceeds3STDEVsSignal"/>
+        <NamedIndividual IRI="#STDDEVThresholdExceededDoubleValue3"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
         <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>

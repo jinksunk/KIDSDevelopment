@@ -289,9 +289,24 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return null;
 	}
 
+
+	/**
+	 * @param datasetIRI
+	 * @return - All available views of the given datasetIRI
+	 */
+	public Set<OWLNamedIndividual> getAvailableViews(IRI datasetIRI) {
+		
+		Set<OWLNamedIndividual> datasetViewSet = this.r.getObjectPropertyValues(
+						       this.odf.getOWLNamedIndividual(datasetIRI),
+						       this.odf.getOWLObjectProperty(IRI.create(datasetViewRelation))
+						    ).getFlattened();
+		return datasetViewSet;
+	}
+
 	/**
 	 * Get the available view list for this dataset
-	 * @param testdatasetiri
+	 * @param datasetIRI
+	 * @param eventIRI
 	 * @return
 	 */
 	public List<OWLNamedIndividual> getAvailableViews(IRI datasetIRI, IRI eventIRI) {
@@ -319,10 +334,7 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		toReturn.addAll(this.r.getInstances(
 				this.odf.getOWLObjectIntersectionOf(
 						this.odf.getOWLObjectOneOf(
-						    this.r.getObjectPropertyValues(
-						       this.odf.getOWLNamedIndividual(datasetIRI),
-						       this.odf.getOWLObjectProperty(IRI.create(datasetViewRelation))
-						    ).getFlattened()
+								this.getAvailableViews(datasetIRI)
 						),
 						this.odf.getOWLObjectOneOf(views)
 					), 
@@ -565,8 +577,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 				r.getDataPropertyValues(this.odf.getOWLNamedIndividual(detector), 
 						odf.getOWLDataProperty(IRI.create(detectorExecutionDataProperty)));
 		
-		if (detectorImpl.size() != 1){
+		if (detectorImpl.size() > 1){
 			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + detectorExecutionDataProperty + " on individual " + detector);
+		} else if (detectorImpl.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No values for property " + detectorExecutionDataProperty + " on individual " + detector);
 		}
 		return detectorImpl.iterator().next().getLiteral();
 	}
@@ -918,5 +932,31 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		}
 		
 		return toReturn;
+	}
+	
+	/**
+	 * Given a signal, get the set of Datasets that the signal can be applied to,
+	 * along with the detectors which can apply it.
+	 */
+	public Map<IRI, Set<IRI>> getDatasetsForSignal(IRI SignalIRI){
+
+		Map<IRI,Set<IRI>> returnMap = new HashMap<IRI,Set<IRI>>();
+		
+		Set<OWLNamedIndividual> dataSetSet = 
+				this.r.getObjectPropertyValues(this.odf.getOWLNamedIndividual(SignalIRI), 
+						this.odf.getOWLObjectProperty(IRI.create(this.signalDatasetRelation))).getFlattened();
+		
+		// For each dataset returned, determine the detectors which can be used to apply the signal
+		// to the dataset:
+		for (OWLNamedIndividual own : dataSetSet){
+			Set<OWLNamedIndividual> viewSet = this.getAvailableViews(own.getIRI());
+			Set<IRI> detectorSet = new HashSet<IRI>();
+
+			for (OWLNamedIndividual oView : viewSet){
+				detectorSet.addAll(this.getDetectorsForSignalAndView(SignalIRI, oView.getIRI()));
+			}
+			returnMap.put(own.getIRI(), detectorSet);
+		}
+		return returnMap;
 	}
 }

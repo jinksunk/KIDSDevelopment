@@ -46,7 +46,7 @@ import org.semanticweb.owlapi.model.IRI;
  *  * HTTPGetParameter - KEY 'HTTPGetParameter'
  */
 public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetector {
-	private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
+	//private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	private static String regexPattern = "(\\d+),.*";
 
 	// Map known keys in the kvPairs to the feature domains they represent

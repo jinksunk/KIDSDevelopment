@@ -4,15 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.StringReader;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.DateFormatSymbols;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -29,19 +20,14 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
-import net.strasnet.kids.detectors.KIDSAbstractDetector.StreamGobbler;
-import net.strasnet.kids.detectorsyntaxproducers.KIDSDetectorSyntax;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
-import net.strasnet.kids.detectorsyntaxproducers.KIDSSnortDetectorSyntax;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
 import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
-import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSSnortDataInstance;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
-import net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView;
 
 public class KIDSSnortDetector extends KIDSAbstractDetector implements KIDSDetector {
 
@@ -49,7 +35,7 @@ public class KIDSSnortDetector extends KIDSAbstractDetector implements KIDSDetec
 	 * Represents a detector utilizing the TCPDump command-line tool.  Associated with the syntax "bpf" - berkeley packet filter.
 	 */
 	
-	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
+	//protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	
 	
 	/**
@@ -66,7 +52,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	// 16:20:59.752086 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
 	//private static String regexPattern = "[\\d/-:\\.]+\\s+\\[\\*\\*\\].*\\s+ID:(?<PID>\\d+)\\s.*";
 //	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\]\\s+.*(<?SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(<?DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(<?ID>\\d+)\\s+";
-	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\].*\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(?<ID>\\d+)\\s+";
+	private static String regexPattern = ".*\\[\\*\\*\\].*(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]*\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^\\*]*ID:(?<ID>\\d+)\\s+IpLen";
 	private static String recordPattern = "(=\\+){37}";
 	
 	private static final Map<String, Boolean> supportedFeatures = new HashMap <String, Boolean>();
@@ -124,6 +110,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		
 		
+		System.err.println(String.format("[D] SnortDetector checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -161,7 +148,9 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		Set<DataInstance> toReturn = new HashSet<DataInstance>();
 		
 		// Run the command with the detector specification
-		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSyn.getDetectorSyntax(signals) + " -N -k none -A console -q -v -y");
+		String ourSynStr = ourSyn.getDetectorSyntax(signals) ;
+		System.err.println("[Snort] Executing: " + executionCommand + " -r " + v.getViewLocation() + " -c " + ourSynStr + " -N -k none -A console -q -v -y");
+		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSynStr + " -N -k none -A console -q -v -y");
 		SnortStreamGobbler eGobble = new SnortStreamGobbler(genPcap.getErrorStream(), "ERROR");
 		SnortStreamGobbler iGobble = new SnortStreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
 		eGobble.start();
@@ -176,7 +165,9 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cached instances.",iGobble.cvaluesUsed, iGobble.count));
+		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
+		System.err.println(String.format("                    - %d duplicate instances found.", iGobble.dvaluesInSet));
+		System.err.println(String.format("                    - %d total instances found.", iGobble.icount));
 		//BufferedReader rd = new BufferedReader(new StringReader(iGobble.getOutput()));
 		//String pcapLine;
 		//StringBuilder sRecord = new StringBuilder();
@@ -251,7 +242,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	{
 
 		int count = 0;
+		int nvaluesUsed = 0;
 		int cvaluesUsed = 0;
+		int icount = 0;
+		int dvaluesInSet = 0;
 
 		SnortStreamGobbler( InputStream is, String type) {
 			super(is, type);
@@ -307,13 +301,31 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 									// TODO Auto-generated catch block
 									//e.printStackTrace();
 								//}
+								LinkedList<IRI> orderKey = new LinkedList<IRI>();
+								orderKey.add(IRI.create(featureIRI + "PacketID"));
+								orderKey.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
+								orderKey.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
+								addOrderKeyToIDMap(orderKey, idmap);
+
 			    	            DataInstance di = new KIDSSnortDataInstance(idmap);
+			    	            icount++;
 			    	            DataInstance sdi = KIDSAbstractDetector.getDataInstance(di);
 			    	            if (di != sdi){
 			    	            	cvaluesUsed++;
+			    	            } else {
+			    	            	nvaluesUsed++;
+			    	            	if (nvaluesUsed < 5){
+			    	            		System.err.println(String.format("[D] - new value found from record: \n++=> %s", sRecord));
+			    	            	}
 			    	            }
-			    	            toReturn.add(sdi);
-			                } 
+			    	            if (!toReturn.add(sdi)){
+			    	            	if (dvaluesInSet < 5){
+						    	             	System.err.println(String.format("[E] - SnortDetector -- Duplicate data instance added to return set.  E.g. %s (from line %s)",sdi.getID(), line));
+			    	            	}
+						    	}
+			                }  else {
+			                	System.err.println(String.format("[W] - SnortDetector -- Could not parse record: \n%s",sRecord));
+			                }
 			                sRecord = new StringBuilder();
 			            } else {
 				            sRecord.append(line);

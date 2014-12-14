@@ -34,6 +34,7 @@ import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSEIDMeasure;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.RecursiveResult;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
 
 /**
@@ -58,44 +59,6 @@ public class KIDSSignalSelectionInterface {
 		signals = new HashSet<IRI>();
 	}
 
-	/**
-	 * Represents the result of a signalSet evaluation - records the signal set evaluted, the dataset it was evaluted on, and the eidValue obtained.
-	 * @author chrisstrasburg
-	 *
-	 */
-	private class RecursiveResult {
-		private Set<IRI> ourSigs;
-		private double ourEID;
-		private CorrelatedViewLabelDataset ourDataset;
-		
-		protected RecursiveResult (Set<IRI> signals, double eidValue, CorrelatedViewLabelDataset dApplied){
-			ourSigs = signals;
-			ourEID = eidValue;
-			ourDataset = dApplied;
-		}
-		
-		protected Set<IRI> getSignals(){
-			return ourSigs;
-		}
-		
-		protected double getEID(){
-			return ourEID;
-		}
-		
-		protected CorrelatedViewLabelDataset getDataset(){
-			return ourDataset;
-		}
-		
-		public String toString(){
-			StringBuilder sb = new StringBuilder();
-			sb.append("EID value " + getEID() + " for signal set:");
-			for (IRI signal : getSignals()){
-				sb.append("\t" + signal.getFragment() + "\n");
-			}
-			return sb.toString();
-		}
-		
-	}
 	
 	/**
 	 * Recursively evaluate the signal set, letting the maximum EID "bubble-up" to the top.
@@ -139,7 +102,8 @@ public class KIDSSignalSelectionInterface {
 			// We'll work with a correlated data set, and only a single one
 			double eidVal = 0;
 			try {
-					eidVal =  KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					toReturn =  KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					eidVal = toReturn.getEID();
 					if (eidVal > maxValue){
 						maxValue = eidVal;
 					}
@@ -148,9 +112,8 @@ public class KIDSSignalSelectionInterface {
 					e.printStackTrace();
 					return null;
 				}
-			toReturn = new RecursiveResult(sigsToEval,maxValue,cvd);
 			triedValues.put(key, toReturn);
-			//System.out.println(toReturn);
+			System.out.println(toReturn);
 		} else {
 			// If we have more than one element, remove each in turn and evaluate the rest of them, keeping track of the maximum value
 			double maxEID = 0;
@@ -160,19 +123,17 @@ public class KIDSSignalSelectionInterface {
 				} else {
 					// Try with each feasible dataset, and use the maximum:
 					double eidVal = 0;
-					//TODO: Create Correlated View Dataset - matching given signals
-					eidVal = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					toReturn = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
+					eidVal = toReturn.getEID();
 					if (eidVal > maxEID){
 						maxEID = eidVal;
 					}
-					//maxEID = KIDSEIDMeasure.getKIDSEIDMeasureValue(kmo, sigsToEval, cvd);
 				}
 			} catch (KIDSUnEvaluableSignalException e){
 				// Couldn't evaluate:
 				maxEID = -1;
 				System.err.println("Warning: " + e.getMessage());
-			}
-			toReturn = new RecursiveResult(sigsToEval, maxEID, cvd);
+			} 
 			if (toReturn != null){
 				System.out.println(toReturn);
 				triedValues.put(sigsToEval, toReturn);
@@ -191,7 +152,7 @@ public class KIDSSignalSelectionInterface {
 						}
 					}
 				}
-			}
+		}
 		}
 			
 		// Return the one with the maximum value.
@@ -267,7 +228,7 @@ public class KIDSSignalSelectionInterface {
 				RecursiveResult rr = this.testSignalSet_iter(myGuy, triedValues, signals,ourDS);
 			
 				System.out.println("Maximum signal set (EID = " + rr.getEID() + "):");
-					for (IRI signalC : rr.ourSigs){
+					for (IRI signalC : rr.getSignals()){
 						System.out.println("\t" + signalC.toString());
 					}
 				
@@ -317,6 +278,51 @@ public class KIDSSignalSelectionInterface {
 		}
 		
 	}
+	
+	/** 
+	 * UTILITY METHODS
+	 */
+	
+	
+	/**
+	 * 
+	 * @param sourceFile - A string giving the path of a configuration file to load values from.
+	 * @param requiredValueSet - A set of keys which *must* be present in the properties file for it to be considered
+	 * a complete configuration.  All values from the properties file will be loaded regardless, however, if any of these
+	 * required values are missing it will produce error messages and the method will return a null value.
+	 * @return A hash map from property keys to property values, as defined in the file
+	 */
+	public static HashMap<String,String> loadPropertiesFromFile(String sourceFile, Set<String> requiredValueSet){
+		boolean cerr = false;
+		Properties p = new Properties ();
+		HashMap<String,String> cVals = new HashMap<String,String>();
+		
+		try {
+			p.load(new FileReader(new File(sourceFile)));
+			for (String cstring : requiredValueSet){
+				if (! p.containsKey(cstring)){
+					System.err.println("Config file does not define property " + (String)cstring);
+					cerr = true;
+				}
+			}
+			for (Object kstring : p.keySet()){
+				if (!requiredValueSet.contains((String)kstring)){
+					System.err.println("Config file contains unknown property " + (String)kstring);
+					cerr = true;
+				}
+				cVals.put((String)kstring, (String)p.getProperty((String)kstring));
+			}
+			
+			if (cerr){
+				return null;
+			}
+			
+		} catch (IOException e1) {
+			e1.printStackTrace();
+			return null;
+		}
+		return cVals;
+	}
 				
 	/**
 	 * @param args - one arg is the libpcap file to parse
@@ -330,29 +336,8 @@ public class KIDSSignalSelectionInterface {
 			java.lang.System.exit(1);
 		}
 		
-		boolean cerr = false;
-		Properties p = new Properties ();
-		try {
-			p.load(new FileReader(new File(args[0])));
-			HashMap<String,String> cVals = new HashMap<String,String>();
-			for (String cstring : configFileValues.keySet()){
-				if (! p.containsKey(cstring)){
-					System.err.println("Config file does not define property " + (String)cstring);
-					cerr = true;
-				}
-			}
-			for (Object kstring : p.keySet()){
-				if (!configFileValues.containsKey((String)kstring)){
-					System.err.println("Config file contains unknown property " + (String)kstring);
-					cerr = true;
-				}
-				cVals.put((String)kstring, (String)p.getProperty((String)kstring));
-			}
-			
-			if (cerr){
-				System.exit(1);
-			}
-			
+			HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[1], KIDSSignalSelectionInterface.configFileValues.keySet());
+		
 			KIDSSignalSelectionInterface kss = new KIDSSignalSelectionInterface();
 			//TODO: Populate ABOX File
 			kss.testSignalSet(cVals.get("ABoxFile"), 
@@ -363,10 +348,6 @@ public class KIDSSignalSelectionInterface {
 							  cVals.get("DatasetIRI"),
 							  cVals.get("TimePeriodIRI"));
 			
-		} catch (IOException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
 		
 	}
 

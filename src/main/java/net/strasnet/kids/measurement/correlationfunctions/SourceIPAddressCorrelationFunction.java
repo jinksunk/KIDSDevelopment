@@ -23,7 +23,7 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 	public static final String kidsTbox = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	public static final IRI relatedResource = IRI.create(kidsTbox + "#IPv4SourceAddressSignalDomain");
 	
-	public static boolean DEBUG = true;
+	public static boolean DEBUG = false;
 	public void debugPrint(String msg){
 		if (DEBUG){
 			System.err.println(msg);
