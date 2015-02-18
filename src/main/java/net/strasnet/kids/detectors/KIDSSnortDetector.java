@@ -165,7 +165,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
+		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.icount, KIDSAbstractDetector.getDataInstancePoolSize()));
 		System.err.println(String.format("                    - %d duplicate instances found.", iGobble.dvaluesInSet));
 		System.err.println(String.format("                    - %d total instances found.", iGobble.icount));
 		//BufferedReader rd = new BufferedReader(new StringReader(iGobble.getOutput()));
@@ -241,7 +241,6 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	class SnortStreamGobbler extends StreamGobbler
 	{
 
-		int count = 0;
 		int nvaluesUsed = 0;
 		int cvaluesUsed = 0;
 		int icount = 0;
@@ -269,7 +268,6 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	            		mine.append(line);
 	            		continue;
 	            	} else {
-	            		count++;
 	            	    rexm = recRexp.matcher(line);
 	                    if (rexm.matches()){
 				        // End of record, process:
@@ -323,8 +321,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 						    	             	System.err.println(String.format("[E] - SnortDetector -- Duplicate data instance added to return set.  E.g. %s (from line %s)",sdi.getID(), line));
 			    	            	}
 						    	}
+			    	            /** vv In general we don't really need this, unless we're debugging vv
 			                }  else {
-			                	System.err.println(String.format("[W] - SnortDetector -- Could not parse record: \n%s",sRecord));
+			                	// Getting here implies that the line did not match the regular expression, e.g. did not trigger the snort rule or something along those lines.
+			                	System.err.println(String.format("[W] - SnortDetector -- Could not parse record: \n%s",sRecord)); */
 			                }
 			                sRecord = new StringBuilder();
 			            } else {

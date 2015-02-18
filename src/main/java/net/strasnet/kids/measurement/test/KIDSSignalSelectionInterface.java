@@ -39,7 +39,15 @@ import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelatio
 
 /**
  * @author chrisstrasburg
- *
+ * The input interface is a series of configuration file values that specify:
+ *   - The TBOX location
+ *   - The TBOX IRI
+ *   - The ABOX location
+ *   - The ABOX IRI
+ *   
+ *   Once read in, the user can select an event, or set of events, to evaluate, along with a time period.
+ *   
+ *   -- If a time period is selected, it should be used to evaluate the data sets according to a dynamic evaluation of the datasets.
  */
 public class KIDSSignalSelectionInterface {
 
@@ -50,8 +58,12 @@ public class KIDSSignalSelectionInterface {
 		configFileValues.put("ABoxIRI", "/dev/null");
 		configFileValues.put("TBoxFile", "/dev/null");
 		configFileValues.put("TBoxIRI", "/dev/null");
+
+		// TODO: Read the set of events from the ontology
 		configFileValues.put("EventIRI", "/dev/null");
 		//configFileValues.put("DatasetIRI", "/dev/null");
+
+		// TODO: Read the available time periods from the ontology
 		configFileValues.put("TimePeriodIRI", "/dev/null");
 	}
 	
@@ -336,7 +348,7 @@ public class KIDSSignalSelectionInterface {
 			java.lang.System.exit(1);
 		}
 		
-			HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[1], KIDSSignalSelectionInterface.configFileValues.keySet());
+			HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[0], KIDSSignalSelectionInterface.configFileValues.keySet());
 		
 			KIDSSignalSelectionInterface kss = new KIDSSignalSelectionInterface();
 			//TODO: Populate ABOX File

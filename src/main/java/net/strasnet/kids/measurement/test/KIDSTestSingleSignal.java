@@ -5,6 +5,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -18,14 +19,20 @@ import net.strasnet.kids.detectors.KIDSDetectorFactory;
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
+import net.strasnet.kids.measurement.CorrelationFunction;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
 import net.strasnet.kids.measurement.KIDSDatasetFactory;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.ViewLabelDataset;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
+import net.strasnet.kids.measurement.correlationfunctions.KIDSCorrelationFunctionFactory;
+import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
+import net.strasnet.kids.measurement.datasetviews.DatasetView;
 
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 /**
@@ -65,6 +72,8 @@ public class KIDSTestSingleSignal {
 	private String EventIRI;
 	private KIDSMeasurementOracle myGuy;
 	private List<CorrelatedViewLabelDataset> DSOBJList;
+	private Dataset mOd;
+	private CorrelatedViewLabelDataset cvld;
 	
 	/** Object Methods */
 	public KIDSTestSingleSignal(){
@@ -89,7 +98,6 @@ public class KIDSTestSingleSignal {
 		// For each dataset, get the set of signals evaluable with that dataset and this event:
 		for (String dsIRI : ourDSIRIList){
 			signals.addAll(myGuy.getSignalsForDatasetAndEvent(IRI.create(dsIRI), IRI.create(EventIRI)));
-			
 		}
 		
 		return signals;
@@ -116,13 +124,21 @@ public class KIDSTestSingleSignal {
 		this.DSOBJList = correlatedDatasets;
 	}
 	
+	private List<CorrelatedViewLabelDataset> getCorrelatedDatasets(){
+		return this.DSOBJList;
+	}
+	
+	private void setDataset(Dataset vld){
+		this.mOd = vld;
+	}
+	
 	/**
 	 * Given a signal individual, evaluate it on the applicable data sets, and return the number
 	 * of raw instances matched, along with the dataset(s) matched.
 	 * 
 	 * @param Signal
 	 */
-	public void getSingleSignalRawInstances(IRI Signal){
+	public int getSingleSignalRawInstances(IRI Signal){
 		Set<IRI> singleSigSet = new HashSet<IRI>();
 		singleSigSet.add(Signal);
 
@@ -139,7 +155,8 @@ public class KIDSTestSingleSignal {
 						eIRI, this.myGuy);
 				System.err.println("[D] - Event: " + eIRI.getFragment() + "\tDataset: " + dataset.getFragment() + "\tView: " + od.getViewIRI().getFragment());
 				Set<DataInstance> rs = od.getMatchingInstances(singleSigSet);
-				System.out.println(dataset.getFragment() + " : " + rs.size());
+				this.setDataset(od.getDataSubset(rs));
+				return rs.size();
 			} catch (KIDSOntologyDatatypeValuesException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -162,8 +179,7 @@ public class KIDSTestSingleSignal {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (KIDSUnEvaluableSignalException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				System.err.println("[W] - " + e.getMessage());
 			} catch (KIDSIncompatibleSyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -172,6 +188,17 @@ public class KIDSTestSingleSignal {
 				e.printStackTrace();
 			}
 		}
+		return -1;
+	}
+	
+	public int getSingleSignalEventRawInstances() throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
+		int count = 0;
+		Iterator<DataInstance> pi = this.mOd.getPositiveIterator();
+		while (pi.hasNext()){
+			DataInstance di = pi.next();
+			count = count+1;
+		}
+		return count;
 	}
 	
 	/** Static interface methods */
@@ -181,7 +208,9 @@ public class KIDSTestSingleSignal {
 			  										  String TBoxIRI,
 			  										  String EventIRI,
 			  										  String DatasetIRI,
-			  										  String TimePeriodIRI){
+			  										  String TimePeriodIRI,
+			  										  String CFIRI,
+			  										  String CDSIRI){
 		KIDSTestSingleSignal KTSS = new KIDSTestSingleSignal();
 		KIDSMeasurementOracle myGuy = null;
 		Set<String> ourDSIRIList = new HashSet<String>();
@@ -200,7 +229,25 @@ public class KIDSTestSingleSignal {
 				//      have a 'Get All Datasets' method which returns individual + correlated ones.
 				//      Hmm, so are we using this to check multiple correlation functions?
 				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(EventIRI), IRI.create(TimePeriodIRI));
+				// Get the view for this dataset
+				// Get the label for this Dataset and Event 
 			}
+			//CorrelationFunction cf = KIDSCorrelationFunctionFactory.getCorrelationFunction(CFIRI);
+			//HashMap<Dataset,DatasetLabel> CDSes = new HashMap<Dataset,DatasetLabel>();
+			
+			//for (String DSiri : ourDSIRIList){
+				// Get a label for each dataset
+				//List<OWLNamedIndividual> vList = myGuy.getAvailableViews(IRI.create(DSiri), IRI.create(EventIRI));
+				//if (vList.size() == 0){
+					//System.err.println("[D] - No views available for dataset " + DSiri);
+				//} else {
+					// Just take the first instance for now:
+					//ViewLabelDataset vld = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DSiri), 
+																				//IRI.create(EventIRI), myGuy);
+					//CDSes.put(vld, vld.getDatasetLabel());
+				//}
+			//}
+			//KTSS.setCorrelatedViewLabelDataset(new CorrelatedViewLabelDataset(cf,CDSes));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
@@ -229,8 +276,17 @@ public class KIDSTestSingleSignal {
 		
 	}
 
-	/** Test interface driver */
-	public static void main(String[] args) {
+	/** Test interface driver 
+	 * @throws UnimplementedIdentifyingFeatureException 
+	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws IOException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws KIDSOntologyDatatypeValuesException */
+	public static void main(String[] args) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
 		String usage = "Usage: KIDSTestSingleSignal <pathToConfigFile>";
 		if (args.length != 1){
 			System.err.println(usage);
@@ -248,22 +304,38 @@ public class KIDSTestSingleSignal {
 				cVals.get("TBoxIRI"), 
 				cVals.get("EventIRI"), 
 				cVals.get("DatasetIRI"), 
-				cVals.get("TimePeriodIRI"));
+				cVals.get("TimePeriodIRI"),
+				cVals.get("CorrelationFunctionIRI"), cVals.get("TestDatasetIRI"));
 		
         //*  - The number of matching raw instances according to the ontology
 		System.out.println("== Begin Test of Signal " + cVals.get("TestSignalIRI") + " ==");
-		ktss.getSingleSignalRawInstances(IRI.create(cVals.get("TestSignalIRI"))); 
+		int numRawInstances = ktss.getSingleSignalRawInstances(IRI.create(cVals.get("TestSignalIRI"))); 
+		System.out.println("\tRaw Instances: " + numRawInstances);
+
+		//*  - The number of event related raw instances
+		int numERInstances = ktss.getSingleSignalEventRawInstances(); 
+		System.out.println("\tEvent Related: " + numERInstances);
+
+		//*  - The number of non-event related raw instances
+		System.out.println("\tNon-Event Related: " + (numRawInstances - numERInstances));
 
 		//*  - The number of matching correlated instances according to the 
 		//*    ontology
-
-		//*  - The number of event related raw instances
-
-		//*  - The number of non-event related raw instances
+		List<CorrelatedViewLabelDataset> cdsList = ktss.getCorrelatedDatasets();
+		int numCIs = cdsList.get(0).numCorrelatedInstances();
+		System.out.println("\tCorrelated Data Instances: " + numCIs);
 
 		//*  - The number of event related correlated instances
+		System.out.println("\tCorrelated Event Related Instances: ");
+		int[] eventRelatedInstances = cdsList.get(0).numPositiveCorrelatedInstances();
+		int totalEVCInstances = 0;
+		for (int p = 0 ; p < eventRelatedInstances.length; p++){
+			System.out.println("\t\t " + p + " : " + eventRelatedInstances[p]);
+			totalEVCInstances += eventRelatedInstances[p];
+		}
 
 		//*  - The number of non-event related correlated instances
+		System.out.println("\tCorrelated Normal Instances: " + (numCIs - totalEVCInstances));
 		
 	}
 }

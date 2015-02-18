@@ -178,9 +178,9 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			genPcap = Runtime.getRuntime().exec(command);
 		    BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		    String pcapLine;
+		    super.resetOrderMap();
 
 		    // Get the packet ID for each packet, and create the data instance object for it
-		    int startPoolSize = super.getDataInstancePoolSize();
 		    int lcount = 0;
 		    int icount = 0;
 		    int cvaluesUsed = 0;
@@ -262,6 +262,8 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 					    	    System.err.println("\t " + sdi.getID());
 					    	}
 					    }
+					    /* Delete Me */
+					    //System.err.println("[D] " + sdi.getID());
 				    } else {
 					    System.err.println("Only first line matched (second is listed here): " + pcapLine);
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);

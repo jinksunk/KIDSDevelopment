@@ -204,6 +204,20 @@ public class KIDSAbstractDetector implements KIDSDetector {
 		}
 		
 	}
+	/**
+	 * This method will empty the order map, effectively resetting all values.  This is
+	 * necessary to ensure that cache values actually get used on subsequent run-throughs
+	 * of the data set.
+	 */
+	public void resetOrderMap(){
+		orderMap = new TreeMap<String, Integer>();
+	}
+	
+	/**
+	 * Adds an order key to the provided ID map, incrementing it by 1 each time.
+	 * @param orderKeys - the list of resources to be used as keys to the ordering map
+	 * @param idmap - The map to be populated with the new order value
+	 */
 	public void addOrderKeyToIDMap(List<IRI> orderKeys, HashMap<IRI,String> idmap){
 
 		StringBuilder orderKeyBuilder = new StringBuilder();

@@ -162,6 +162,7 @@ public class KIDSOracle {
 		setOurIRI(kidskb);
 		System.out.println("[loadKIDS] Loading from IRI " + getOurIRI());
 		ourIRIMap = m;
+		IRI fileIRI = null;
 
 		p = new DefaultPrefixManager("https://solomon.cs.iastate.edu/ontologies/KIDS.owl#");
 
@@ -169,11 +170,20 @@ public class KIDSOracle {
 		if (m != null){
 			for (SimpleIRIMapper imap : m){
 			    manager.addIRIMapper(imap);
+			    if (imap.getDocumentIRI(kidskb) != null){
+			    	fileIRI = imap.getDocumentIRI(kidskb);
+			    }
 			}
 		}
+		
+		if (fileIRI == null){
+			System.err.println("Could not identify file IRI for " + kidskb + "!");
+			System.exit(1);
+		}
+		
 		setOwlDataFactory(manager.getOWLDataFactory());
 		try {
-			setOntology(manager.loadOntology(getOurIRI()));
+			setOntology(manager.loadOntology(fileIRI));
 
 			// Initialize a reasoner:
 			ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();

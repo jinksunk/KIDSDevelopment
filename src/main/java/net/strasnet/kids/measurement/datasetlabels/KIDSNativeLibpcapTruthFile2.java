@@ -37,7 +37,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements DatasetLabel {
 	
-	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+)\\s+(?<eid>\\d+)";
+	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
     private Pattern rexp;
     private IRI ourEventIRI;
     
@@ -45,7 +45,8 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		labelKey = new HashMap<Integer, Label>() ;
 		seenEvents= new HashMap<Integer, EventOccurrence>() ;
 		identifyingFeatures.add(IRI.create(featureIRI + "PacketID"));
-		identifyingFeatures.add(IRI.create(featureIRI + "instanceTimestamp"));
+		//identifyingFeatures.add(IRI.create(featureIRI + "instanceTimestamp"));
+		identifyingFeatures.add(IRI.create(featureIRI + "ObservationOrder"));
 		identifyingFeatures.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
 		identifyingFeatures.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 	}
@@ -79,8 +80,10 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
 					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "IPv4DestinationAddressSignalDomain")){
 						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "ObservationOrder")){
+						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("oid"))));
 					}
-					vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
+					//vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
 					// These come in as Long values - convert to dotted quad:
 				}
 //				KIDSSnortDataInstance tempGuy = new KIDSSnortDataInstance(vals);

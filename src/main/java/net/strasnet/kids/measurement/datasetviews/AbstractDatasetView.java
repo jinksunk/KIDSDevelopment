@@ -113,10 +113,11 @@ public abstract class AbstractDatasetView implements DatasetView {
 				toBeProcessed.removeAll(thisSigSet);
 			}
 			if (toBeProcessed.size() != 0){
-				System.err.println("[W] - AbstractDatasetView.getMatchingInstances() -- Could not process all signals; the following were skipped: ");
+				StringBuilder sigList = new StringBuilder();
 				for (IRI sign : toBeProcessed){
-					System.err.println("\t" + sign);
+					sigList.append(sign + "\n");
 				}
+				throw new KIDSUnEvaluableSignalException("AbstractDatasetView.getMatchingInstances() -- Could not process all signals; the following were skipped: \n" + sigList.toString());
 			}
 
 		return allMatching;

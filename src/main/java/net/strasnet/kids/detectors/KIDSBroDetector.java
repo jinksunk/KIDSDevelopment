@@ -302,13 +302,12 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 									idmap.put(identFeature, rexr.group("SIP"));
 								} else if (identFeature.toString().equals(featureIRI + "IPv4DestinationAddressSignalDomain")){
 									idmap.put(identFeature, rexr.group("DIP"));
-								} else if (identFeature.toString().equals(featureIRI + "instanceTimestamp")){
-									idmap.put(identFeature, rexr.group("TIMESTAMP"));
+								} else if (identFeature.toString().equals(featureIRI + "ObservationOrder")){
+									continue; // This will be added later, after the key string is built
 								} else {
 									// We need a feature according to the view that we don't support
 									// in this detector:
 									throw new UnimplementedIdentifyingFeatureException(String.format("Identifying Feature %s not currently supported by KIDSBroDetector",identFeature.toString()));
-
 								}
 							}
 

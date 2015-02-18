@@ -36,47 +36,61 @@ import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
 
 public class KIDSMeasurementOracle extends KIDSOracle {
+	
+	/** TODO: Use a logger rather than Stderr. */
+	/** TODO: Move these to a properties file. */
+	/** Define all the static values for properties etc... These should all probably be in a properties file */
 	public static final String kidsTBOXLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
-	private static final String contextDomainRelation = kidsTBOXLocation + "#isContextOfSignalDomain";
-	private static final String domainContextRelation = kidsTBOXLocation + "#isInContext";
-	private static final String datasetInstanceResourceProp = kidsTBOXLocation + "#datasetLocation";
-	private static final String datasetLabelResourceProp = kidsTBOXLocation + "#datasetLabelLocation";
+
+	public static final String contextDomainRelation = kidsTBOXLocation + "#isContextOfSignalDomain";
+	public static final String correlationFunctionImplementationDataProperty = kidsTBOXLocation + "#hasCorrelationRelationImplementation";
+	public static final String correlationRelationDatasetViewRelation = kidsTBOXLocation + "#isSupportedByDatasetView";
+	public static final String datasetContextRelation = kidsTBOXLocation + "#isContainerOfContext";
+	public static final String datasetInstanceResourceProp = kidsTBOXLocation + "#datasetLocation";
+	public static final String datasetLabelResourceProp = kidsTBOXLocation + "#datasetLabelLocation";
 	public static final String datasetParserImplementationProp = kidsTBOXLocation + "#datasetParserImplementation";
-	private static final String datasetTimePeriodRelation = kidsTBOXLocation + "#includesTimePeriod";
-	private static final String datasetViewCorrelationRelation = kidsTBOXLocation + "#supportCorrelationRelation";
-	private static final String datasetViewSignalManifestationRelation = kidsTBOXLocation + "#bringsIntoExistence";
-	private static final String correlationRelationDatasetViewRelation = kidsTBOXLocation + "#isSupportedByDatasetView";
-	private static final String datasetViewRelation = kidsTBOXLocation + "#isViewableAs";
-	private static final String datasetContextRelation = kidsTBOXLocation + "#isContainerOfContext";
-	private static final String datasetSignalRelation = kidsTBOXLocation + "#isCompatibleDatasetForSignal";
-	private static final String signalDatasetRelation = kidsTBOXLocation + "#isEvaluableWithDataset";
+	public static final String datasetTimePeriodRelation = kidsTBOXLocation + "#includesTimePeriod";
+	public static final String datasetSignalRelation = kidsTBOXLocation + "#isCompatibleDatasetForSignal";
+	public static final String datasetViewCorrelationRelation = kidsTBOXLocation + "#supportCorrelationRelation";
+	public static final String datasetViewIsViewOfDatasetRelation = kidsTBOXLocation + "#providesViewOf";
+	public static final String datasetViewRelation = kidsTBOXLocation + "#isViewableAs";
+	public static final String datasetViewSignalManifestationRelation = kidsTBOXLocation + "#bringsIntoExistence";
+	public static final String detectorImplementationDataProperty = kidsTBOXLocation + "#hasImplementationClass";
+	public static final String detectorExecutionDataProperty = kidsTBOXLocation + "#detectorExecutionCommand";
+	public static final String detectorSignalRelation = kidsTBOXLocation + "#canApplySignal";
+	public static final String detectorSyntaxImplementationDataProperty = kidsTBOXLocation + "#hasSyntaxProductionImplementation";
+	public static final String detectorSyntaxRelation = kidsTBOXLocation + "#hasSyntax";
+	public static final String detectorSyntaxSignalRelation = kidsTBOXLocation + "#canRepresentFeatureWithConstraint";
+	public static final String domainContextRelation = kidsTBOXLocation + "#isInContext";
 	public static final String eventDatasetRelation = kidsTBOXLocation + "#isRepresentedInDataset";
-	private static final String eventLabelRelation = kidsTBOXLocation + "#isIncludedInLabel";
-	private static final String eventSignalRelation = kidsTBOXLocation + "#isProducerOf";
-	private static final String labelViewRelation = kidsTBOXLocation + "#isLabelerForDatasetView";
-	private static final String signalDomainSignalRelation = kidsTBOXLocation + "#isDomainOfSignal";
-	private static final String signalConstraintSignalRelation = kidsTBOXLocation + "#hasConstraint";
-	private static final String viewLabelRelation = kidsTBOXLocation + "#hasDatasetLabel";
-	private static final String signalDetectorRelation = kidsTBOXLocation + "#isAppliedByDetector";
-	private static final String detectorSignalRelation = kidsTBOXLocation + "#canApplySignal";
-	private static final String signalRepresentationRelation = kidsTBOXLocation + "#isRepresentedBy";
-	private static final String signalManifestationRelation = kidsTBOXLocation + "#SignalInManifestation";
-	private static final String manifestationSignalRelation = kidsTBOXLocation + "#SignalManifestationIncludesSignal";
-	private static final String viewDetectorRelation = kidsTBOXLocation + "#isMonitoredBy";
-	private static final String labelClassDataProperty = kidsTBOXLocation + "#hasLabelFunction";
-	private static final String labelLocationDataProperty = kidsTBOXLocation + "#hasLabelDataLocation";
-	private static final String timePeriodDatasetRelation = kidsTBOXLocation + "#isIncludedInDataset";
-	private static final String viewClassDataProperty = kidsTBOXLocation + "#viewProductionImplementation";
-	private static final String detectorSyntaxRelation = kidsTBOXLocation + "#hasSyntax";
-	private static final String detectorSyntaxImplementationDataProperty = kidsTBOXLocation + "#hasSyntaxProductionImplementation";
-	private static final String detectorImplementationDataProperty = kidsTBOXLocation + "#hasImplementationClass";
-	private static final String detectorExecutionDataProperty = kidsTBOXLocation + "#detectorExecutionCommand";
-	private static final String correlationFunctionImplementationDataProperty = kidsTBOXLocation + "#hasCorrelationRelationImplementation";
-	private static final String detectorSyntaxSignalRelation = kidsTBOXLocation + "#canRepresentFeatureWithConstraint";
-	private static final String datasetViewIsViewOfDatasetRelation = kidsTBOXLocation + "#providesViewOf";
+	public static final String eventLabelRelation = kidsTBOXLocation + "#isIncludedInLabel";
+	public static final String eventSignalRelation = kidsTBOXLocation + "#isProducerOf";
+	public static final String labelClassDataProperty = kidsTBOXLocation + "#hasLabelFunction";
+	public static final String labelLocationDataProperty = kidsTBOXLocation + "#hasLabelDataLocation";
+	public static final String labelViewRelation = kidsTBOXLocation + "#isLabelerForDatasetView";
+	public static final String manifestationSignalRelation = kidsTBOXLocation + "#SignalManifestationIncludesSignal";
+	public static final String signalConstraintSignalRelation = kidsTBOXLocation + "#hasConstraint";
+	public static final String signalDatasetRelation = kidsTBOXLocation + "#isEvaluableWithDataset";
+	public static final String signalDomainSignalRelation = kidsTBOXLocation + "#isDomainOfSignal";
+	public static final String signalDetectorRelation = kidsTBOXLocation + "#isAppliedByDetector";
+	public static final String signalManifestationRelation = kidsTBOXLocation + "#SignalInManifestation";
+	public static final String signalRepresentationRelation = kidsTBOXLocation + "#isRepresentedBy";
+	public static final String timePeriodDatasetRelation = kidsTBOXLocation + "#isIncludedInDataset";
+	public static final String viewClassDataProperty = kidsTBOXLocation + "#viewProductionImplementation";
+	public static final String viewDetectorRelation = kidsTBOXLocation + "#isMonitoredBy";
+	public static final String viewLabelRelation = kidsTBOXLocation + "#hasDatasetLabel";
+	
+	/**********************************/
+	/** Ontology Interaction Methods **/
+	/**********************************/
 	
 	/**
-	 * At this point, we can probably assume we're returning a ViewLabelDataset:
+	 * Returns the (atomic) dataset IRIs known by the ontology to be valid for evaluating the given event.  The intention
+	 * is to identify which datasets contain data elements which can be used to evaluate an event.  
+	 * 
+	 * For the specific semantics, 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isRepresentedInDataset
+	 * 
 	 * @param testeventiri
 	 * @return
 	 * @throws IOException
@@ -91,85 +105,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	public Set<OWLNamedIndividual> getDatasetsForEvent(IRI testeventiri) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException {
 		Set<OWLNamedIndividual> rList = this.r.getObjectPropertyValues(this.odf.getOWLNamedIndividual(testeventiri), 
 				this.odf.getOWLObjectProperty(IRI.create(eventDatasetRelation))).getFlattened();
-		
 		return rList;
-		
-		/**
-		// For each dataset, get the implementing class and load it:
-		Iterator<OWLNamedIndividual> i = rList.iterator();
-		
-		List<IRI> toReturn = new LinkedList<IRI>();
-		
-		while (i.hasNext()){
-			OWLNamedIndividual ind = i.next();
-			try{
-				toReturn.add(getDatasetImplementation(ind, testeventiri));
-				toReturn.get(toReturn.size() - 1).init(eventClass);
-			} catch (IOException e) {
-				System.err.println("[W]: Could not read a datasource for " + ind);
-			} catch (KIDSOntologyDatatypeValuesException e){
-				System.err.println("[W]: Problem with datatype value cardinality for " + ind);
-			}
-		}	
-		
-		return toReturn;
-		*/
 	}
 
 	/**
-	 * Attempts to instantiate the library associated with the given dataset
-	 * @param ourDataset
-	 * @return
-	 * @throws IOException 
-	 * @throws KIDSOntologyDatatypeValuesException 
-	 * @throws TruthFileParseException 
-	 * @throws KIDSUnsupportedSchemeException 
-	 * @throws ClassNotFoundException 
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 * @throws KIDSOntologyObjectValuesException 
-	 * @throws KIDSUnEvaluableSignalException 
-	 * @throws NumberFormatException 
-	 * @throws KIDSIncompatibleSyntaxException 
-	 * @throws UnimplementedIdentifyingFeatureException 
-	 */
-	public Dataset getDatasetImplementation(
-			OWLNamedIndividual ourDataset,
-			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
-		// get the library string value for the given Class
-		// The value is a data property of the individual:
-		OWLDataProperty datasetImpl = odf.getOWLDataProperty(IRI.create(datasetParserImplementationProp.toString()));
-		//System.err.println("DEBUG: " + representationImpl);
-		Set<OWLLiteral> oaSet = r.getDataPropertyValues(ourDataset, datasetImpl);
-		if (oaSet.size() > 1){
-			// Error: cannot identify class
-			System.err.println("Too many values for representation library of: " + ourDataset);
-			return null;
-		} else if (oaSet.size() == 0) {
-			// Cannot find any class for ourRep:
-			System.err.println("Cannot find any representation library for: " + ourDataset);
-			return null;
-		} else {
-			OWLLiteral oa = oaSet.iterator().next();
-			
-			// For each data set, get the URI of the instances and the URI of the labels:
-			Set<OWLLiteral> dataLocation =
-					r.getDataPropertyValues(
-							ourDataset,
-							odf.getOWLDataProperty(IRI.create( datasetInstanceResourceProp)));
-			
-			if (dataLocation.size() != 1){
-				throw new KIDSOntologyDatatypeValuesException();
-			}
-			
-			// Now try to instantiate the class:
-			return KIDSDatasetFactory.getViewLabelDataset(ourDataset.getIRI(), eventIRI, this);
-		}
-	}
-
-	/**
-	 * Given a dataset IRI, get the signals which are associated with this dataset.  In this method, we return all
-	 * signals which apply to this dataset, regardless of current association with any event.
+	 * Given a dataset IRI, get the signals which are associated with the given dataset.  In this method, we return all
+	 * signals which are represented in this dataset, regardless of current association with any event.
+	 * 
+	 * For specific semantics: 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isCompatibleDatasetForSignal
+	 * 
 	 * @param datasetIRI - The IRI of the dataset we should get signals for:
 	 * @return A list of signal IRIs which are available in a given dataset.
 	 */
@@ -181,9 +126,9 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 								this.odf.getOWLNamedIndividual(datasetIRI),
 								this.odf.getOWLObjectProperty(IRI.create( datasetSignalRelation))
 				);
-				toReturn.addAll(myij.getFlattened()); // Need a chain of dataSetContains -> isContextOfDomain -> isDomainOfSignal
-				System.err.println("[D] -- " + r.getReasonerName());
-				System.err.println("[D] -- " + r.getReasonerVersion().getBuild() + "." + r.getReasonerVersion().getMajor() + "." + r.getReasonerVersion().getMinor() + "." + r.getReasonerVersion().getPatch());
+				toReturn.addAll(myij.getFlattened()); // TODO: Review in ontology: Need a chain of dataSetContains -> isContextOfDomain -> isDomainOfSignal
+
+				this.dumpReasonerInfo();
 				OWLClassExpression oce = this.odf.getOWLObjectHasValue(odf.getOWLObjectProperty(IRI.create(signalDatasetRelation)), odf.getOWLNamedIndividual(datasetIRI));
 				System.err.println("[D] -- " + oce.toString());
 				NodeSet<OWLNamedIndividual> secondSet = r.getInstances(this.odf.getOWLObjectHasValue(odf.getOWLObjectProperty(IRI.create(signalDatasetRelation)), odf.getOWLNamedIndividual(datasetIRI)), false);
@@ -191,9 +136,17 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Given an event and dataset IRI, get the signals which are associated with this dataset.  More specifically, we would like
-	 * the set of signals satisfying: Produced by event e and defined over a feature represented in one of the contexts contained 
-	 * within the dataset.
+	 * Given event and dataset IRIs, get the signals evaluable on the dataset, which are associated with
+	 * the event.  
+	 * 
+	 * More specifically, we would like
+	 * the set of signals satisfying: Produced by event e and defined over a feature represented in 
+	 * one of the contexts contained within the dataset.
+	 * 
+	 * For specific semantics:
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isProducerOf
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isCompatibleDatasetForSignal
+	 * 
 	 * @param datasetIRI - The IRI of the dataset we should get signals for:
 	 * @param eventIRI - The IRI of the event individual we are considering
 	 * @return A list of signal IRIs which are available in a given dataset.
@@ -201,18 +154,6 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	public Set<IRI> getSignalsForDatasetAndEvent(IRI datasetIRI, IRI eventIRI) {
 		Set<IRI> toReturn = new HashSet<IRI>();
 		
-		Set<OWLNamedIndividual> erSet = 	
-							this.r.getObjectPropertyValues(
-									this.odf.getOWLNamedIndividual(eventIRI),
-									this.odf.getOWLObjectProperty(IRI.create(eventSignalRelation))
-							).getFlattened();
-							
-		Set<OWLNamedIndividual> drSet = 
-							this.r.getObjectPropertyValues(
-								this.odf.getOWLNamedIndividual(datasetIRI),
-								this.odf.getOWLObjectProperty(IRI.create( datasetSignalRelation))
-							).getFlattened();
-	
 		// If Get the intersection of signals produced by e and defined over any feature in any context of the data set.
 		Set <OWLNamedIndividual> sset = 
 			(this.r.getInstances(
@@ -235,62 +176,14 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		for (OWLNamedIndividual i : sset){
 			toReturn.add(i.getIRI());
 		}
-		
 		return toReturn;
 	}
 
 	/**
+	 * There may be multiple views of a given dataset - this method returns a list of all of
+	 * their IRIs.  For detailed semantics:
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isViewableAs
 	 * 
-	 * @param testeventiri
-	 * @param ourDataset
-	 * @return - The truth file IRI for the given dataset
-	 * @throws KIDSOntologyDatatypeValuesException
-	 */
-	public IRI getTruthFileForEvent(IRI testeventiri, OWLNamedIndividual ourDataset) throws KIDSOntologyDatatypeValuesException {
-			Set<OWLLiteral> labelLocation =
-					r.getDataPropertyValues(
-							ourDataset,
-							odf.getOWLDataProperty(IRI.create( datasetLabelResourceProp)));
-			
-			if (labelLocation.size() != 1){
-				throw new KIDSOntologyDatatypeValuesException();
-			}
-			return IRI.create(labelLocation.iterator().next().getLiteral());
-	}
-	
-	/**
-	 * Returns a text dump for debugging the current ontology:
-	 * @param fromReasoner - True - use reasoner interface; False - only dump explicit axioms
-	 */
-	public String ontoDump(){
-		return this.o.getAxioms().toString();
-	}
-
-	/**
-	 * Return the list of detectors which are possible evaluators for the event.
-	 * @param event
-	 * @return A list of detectors.
-	 */
-	public List<OWLNamedIndividual> getPossibleEvaluatorsFor(
-			IRI event) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	/**
-	 * Return the set of detectable signals both produced by event, and detectable by 'd'
-	 * @param event
-	 * @param d
-	 * @return
-	 */
-	public Set<OWLNamedIndividual> getDetectableSignals(IRI event,
-			OWLNamedIndividual d) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	/**
 	 * @param datasetIRI
 	 * @return - All available views of the given datasetIRI
 	 */
@@ -304,7 +197,14 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Get the available view list for this dataset
+	 * Get the available view list for this dataset *and* event - that is, the view
+	 * should both be associated with the given dataset, and have a defined label function
+	 * related to the given event.
+	 * 
+	 * For detailed semantics:
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isIncludedInLabel
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isLabelerForDatasetView
+	 * 
 	 * @param datasetIRI
 	 * @param eventIRI
 	 * @return
@@ -344,9 +244,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given a signal and a view to track the signal in, will return a set of detector individuals
+	 * capable of identifying the signal in the view.
 	 * 
-	 * @param signal
-	 * @param view
+	 * For detailed semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isAppliedByDetector
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isMonitoredBy
+	 *  
+	 * @param signal - The signal to be identified in the view
+	 * @param view - The view to identify the signal in
 	 * @return - A set of detector individuals which can apply the signal to the view.
 	 */
 	public Set<IRI> getDetectorsForSignalAndView(
@@ -382,6 +289,8 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 		
 	/**
+	 * For a given signal and dataset view, a set of detectors is defined which can both detect the signal,
+	 * as well as process the view.  This method will return one of these detectors, if set size > 0.
 	 * 
 	 * @param signal
 	 * @param view
@@ -409,9 +318,14 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Get the implementation information for the given dataset view.  The result is a single class to
+	 * instantiate.
+	 * 
+	 * For specific semantics:
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#viewProductionImplementation
 	 * 
 	 * @param viewIndividual - The view instance we want to instantiate
-	 * @return
+	 * @return The name of a java class to instantiate
 	 * @throws KIDSOntologyDatatypeValuesException
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
@@ -431,7 +345,12 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Return the label individual which, applied to datasetView, provides the truth about testeventiri
+	 * Return the label individual which is associated with the given datasetView, 
+	 * and provides the truth about the given event.  For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasDatasetLabel
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isIncludedInLabel
+	 * 
 	 * @param datasetView
 	 * @param testeventiri
 	 * @return
@@ -464,7 +383,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Given a signal individual, return the constraint individual associated with it:
+	 * Given a signal individual, return the constraint individual associated with it. For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasConstraint
+	 * 
 	 * @param owlNamedIndividual
 	 * @return The constraint individual associated with the signal
 	 * @throws KIDSOntologyObjectValuesException When the ontology contains ill-defined values, e.g. more than one constraint for a signal.
@@ -483,10 +405,14 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given the IRI of a detector individual, will return the IRI of the Syntax individual associated with it.
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasSyntax
 	 * 
 	 * @param ourIRI - The IRI of the detector to get the syntax for -- for now, assuming each detector has a single
 	 * syntax object - may be reasonable since it translates signals into detector definitions...
-	 * @return
+	 * @return The IRI of the syntax individual associated with the given detector.
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws ClassNotFoundException 
@@ -519,6 +445,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given a dataset individual, will return the dataset location (physical) for that dataset.
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#datasetLocation
 	 * 
 	 * @param ourDS - The dataset to get the location of
 	 * @return The dataset location for the dataset 'd'
@@ -536,8 +466,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Returns the set of all detectors which can be applied to the given view.  A detector for a view is expected to be able to 
-	 * return all instances within the view.
+	 * Returns the set of all detectors which can be applied to the given view.  A detector for a view 
+	 * is expected to be able to return all instances within the view.  For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isMonitoredBy
 	 * 
 	 * @param viewIRI - The IRI of the dataset view for which to get a compatible detector
 	 * @return An instantiation of a KIDSDetector object.
@@ -567,6 +499,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given a detector individual, return the execution string for it (physical).
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#detectorExecutionCommand
 	 * 
 	 * @param iri - The IRI of the detector individual we are working with.
 	 * @return The string used to execute this detector.
@@ -585,6 +521,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return detectorImpl.iterator().next().getLiteral();
 	}
 
+	/**
+	 * Given a labeler individual, return the class which implements it.
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasLabelFunction
+	 * 
+	 * @param label - The label individual
+	 * @return The java class which implements this label function
+	 * @throws KIDSOntologyDatatypeValuesException
+	 */
 	public String getLabelImplementation(OWLNamedIndividual label) throws KIDSOntologyDatatypeValuesException {
 		Set<OWLLiteral> results = r.getDataPropertyValues(
 					label, 
@@ -595,6 +541,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return results.iterator().next().getLiteral();
 	}
 
+	/**
+	 * Given a label individual, return the physical location of the label specification.
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasLabelDataLocation
+	 * 
+	 * @param label
+	 * @return The physical location of the label specification
+	 * @throws KIDSOntologyDatatypeValuesException
+	 */
 	public IRI getLabelLocation(OWLNamedIndividual label) throws KIDSOntologyDatatypeValuesException {
 		Set<OWLLiteral> results = r.getDataPropertyValues(
 					label, 
@@ -606,6 +562,13 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given a set of datasets, will return the set of defined correlation functions that can be applied
+	 * to the entire set of them.
+	 * 
+	 * For full semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#supportCorrelationRelation
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasCorrelationRelationImplementation
 	 * 
 	 * @param dsets
 	 * @return The set of all correlation functions compatible with all indicated data sets
@@ -660,41 +623,13 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 	
 	/**
-	 * Given a detector syntax, return the known signals that it can represent.  Will be the set of signals for which the 
-	 * domain is extractable, and the constraint is representable.
-	 */
-	public Set<IRI> getSignalsRepresentableInSyntax(IRI detectorSyntax){
-		HashSet<IRI> returnValue = new HashSet<IRI>();
-		OWLNamedIndividual ourSyn = odf.getOWLNamedIndividual(detectorSyntax);
-		
-		// Get the set of signals with an extractable domain:
-		//   -- property: http://solomon.cs.iastate.edu/ontologies/KIDS.owl#canRepresentFeatureWithConstraint
-		Set<OWLNamedIndividual> retTemp = r.getObjectPropertyValues(ourSyn, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.detectorSyntaxSignalRelation))).getFlattened();
-		for (OWLNamedIndividual oni: retTemp){
-			returnValue.add(oni.getIRI());
-		}
-		return returnValue;
-	}
-	
-	/**
-	 * Given a dataset view IRI, will return the dataset it provides a view of:
-	 * @throws KIDSOntologyDatatypeValuesException 
-	 */
-	public IRI getDatasetForDatasetView(IRI datasetView) throws KIDSOntologyDatatypeValuesException{
-		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(datasetView);
-		Set<OWLNamedIndividual> ourDSSet = r.getObjectPropertyValues(ourDV, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation))).getFlattened();
-		if (ourDSSet.size() > 1){
-			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation + " on individual " + datasetView);
-		} else if (ourDSSet.size() == 0){
-			throw new KIDSOntologyDatatypeValuesException("No values for property " +  KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation  + " on individual " + datasetView);
-		}	
-		return ourDSSet.iterator().next().getIRI();
-			
-	}
-	
-	/**
+	 * Given a dataset view, get the set of all signal manifestations available in it.
 	 * 
-	 * @param dvIRI
+	 * For specific semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#bringsIntoExistence
+	 * 
+	 * @param dvIRI - The dataset view we want the manifestations from
 	 * @return A set of IRIs for the signal manifestations that exist in the given view.
 	 */
 	public Set<IRI> getSignalManifestationsInDatasetView(IRI dvIRI){
@@ -715,9 +650,14 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 	
 	/**
+	 * Given a dataset view, return the list of detectors which can be applied to it.
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isMonitoredBy
 	 * 
 	 * @param dvIRI - The IRI of the dataset view we want to get detectors for
 	 * @return The set of detector individuals which can observe this dataset view
+	 * 
+	 * TODO: getDetectorsForSignalAndView should use this...
 	 */
 	public Set<IRI> getDetectorsForDatasetView(IRI dvIRI){
 		Set<IRI> toReturn = new HashSet<IRI>();
@@ -736,14 +676,15 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * Given a manifestation, return the signal individual associated with it.  For precise semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#SignalManifestationIncludesSignal
 	 * 
 	 * @param ourMan - The IRI of the signal manifestation we want to get the signal for
 	 * @return The signal IRI individuals which is included in this manifestation
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 */
 	public IRI getSignalForManifestation (IRI ourMan) throws KIDSOntologyDatatypeValuesException{
-		IRI toReturn = null;
-		
 		OWLNamedIndividual oni = odf.getOWLNamedIndividual(ourMan);
 		
 		Set<OWLNamedIndividual> retTmp = r.getObjectPropertyValues(oni, 
@@ -761,7 +702,11 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 	
 	/**
-	 * A signal can be applied by a detector 
+	 * Return the set of signals which can be applied (in theory) by a detector.  Note that no
+	 * dataset view is indicated here, so all signals that can potentially be applied will be returned.
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#canApplySignal
+	 * 
 	 * @param detector
 	 * @return - The set of signal IRIs which can be applied by this detector.
 	 */
@@ -790,7 +735,9 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 *   1) Can monitor the dataset view which brings the signal manifestation into existence
 	 *   2) Can apply the signal associated with that manifestation
 	 *   
-	 *   @return - A hash map of Signal -> Set of Detectors, listing the detectors which can represent each signal.
+	 * @param datasetViewIRI - The view individual to search for event instances in
+	 * @param eventIRI - The event individual which is being targeted
+	 * @return - A hash map of Signal -> Set of Detectors, listing the detectors which can represent each signal.
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 */
 	public Map<IRI, Set<IRI>> getSignalDetectorsForDataset(IRI datasetViewIRI, IRI eventIRI) throws KIDSOntologyDatatypeValuesException{
@@ -827,6 +774,13 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 
 
 	/**
+	 * Will return a list of datasets which both include the given time period and (potentially) contain event
+	 * related signals.
+	 * 
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isRepresentedInDataset
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isIncludedInDataset
+	 * 
 	 * @param EventIRI
 	 * @param TimePeriodIRI
 	 * @return A set of IRI values for each dataset that both contains the referenced time period and contains
@@ -859,6 +813,10 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
+	 * The detector implementation for the given detector individual.  This is the actual java class
+	 * which implements the detector evaluation on the dataset.
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#hasImplementationClass
 	 * 
 	 * @param sigDet - The detector object for which to get the implementation class
 	 * @return - A string representing the class to load for this detector implementation
@@ -883,9 +841,11 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	}
 
 	/**
-	 * Convenience method to work w/ IRIs rather than Named Individuals
+	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
+	 * return the signal domain individual.
+	 * 
 	 * @param mySig
-	 * @return
+	 * @return the signal domain individual
 	 * @throws KIDSOntologyObjectValuesException
 	 */
 	public IRI getSignalDomain(IRI mySig) throws KIDSOntologyObjectValuesException {
@@ -894,20 +854,40 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return d.getIRI();
 	}
 
+	/**
+	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
+	 * return the signal value individual.
+	 * 
+	 * @param mySig
+	 * @return the signal value individual
+	 * @throws KIDSOntologyObjectValuesException
+	 */
 	public String getSignalValue(IRI mySig) throws KIDSOntologyDatatypeValuesException {
 		OWLNamedIndividual s = odf.getOWLNamedIndividual(mySig);
 		String v = this.getSignalValue(s);
 		return v;
 	}
 
+	/**
+	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
+	 * return the signal constraint.
+	 * 
+	 * @param mySig
+	 * @return The signal constraint individual
+	 * @throws KIDSOntologyObjectValuesException
+	 */
 	public IRI getSignalConstraint(IRI mySig) throws KIDSOntologyObjectValuesException {
 		OWLNamedIndividual c = odf.getOWLNamedIndividual(mySig);
 		return this.getSignalConstraint(c).getIRI();
 	}
 
 	/**
+	 * Given a specification of a signal individual, will return the set of contexts which include
+	 * that signal.
 	 * 
-	 * @param mySig
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isInContext
+	 * 
+	 * @param mySig - the signal under consideration
 	 * @return - A set of contexts (IRIs) associated with this signal
 	 * @throws KIDSOntologyObjectValuesException 
 	 */
@@ -921,10 +901,6 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 									this.odf.getOWLObjectProperty(IRI.create(domainContextRelation))
 							);
 		Set<OWLNamedIndividual> contexts = consets.getFlattened();
-		/**System.out.println("** Reasoner properties: \n\tConsistent:" + this.r.isConsistent() +
-				"\n\tReasoner Name: "+ this.r.getReasonerName() +
-				"\n\tReasoner Vers: " + this.r.getReasonerVersion().getBuild() + " " + this.r.getReasonerVersion().getMajor() + " " + this.r.getReasonerVersion().getMinor() + " " + this.r.getReasonerVersion().getPatch() + "\n");
-				*/
 		
 		Set<IRI> toReturn = new HashSet<IRI>();
 		for (OWLNamedIndividual c : contexts){
@@ -937,6 +913,11 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	/**
 	 * Given a signal, get the set of Datasets that the signal can be applied to,
 	 * along with the detectors which can apply it.
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isEvaluableWithDataset
+	 * 
+	 * @param SignalIRI -- The signal individual under consideration.
+	 * @return A hashmap of Dataset -> Set<Detector> IRIs. 
 	 */
 	public Map<IRI, Set<IRI>> getDatasetsForSignal(IRI SignalIRI){
 
@@ -944,7 +925,7 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		
 		Set<OWLNamedIndividual> dataSetSet = 
 				this.r.getObjectPropertyValues(this.odf.getOWLNamedIndividual(SignalIRI), 
-						this.odf.getOWLObjectProperty(IRI.create(this.signalDatasetRelation))).getFlattened();
+						this.odf.getOWLObjectProperty(IRI.create(signalDatasetRelation))).getFlattened();
 		
 		// For each dataset returned, determine the detectors which can be used to apply the signal
 		// to the dataset:
@@ -959,4 +940,160 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		}
 		return returnMap;
 	}
+	
+/*********************/
+/** Utility Methods **/
+/*********************/
+	/**
+	 * Returns a text dump for debugging the current ontology:
+	 * @param fromReasoner - True - use reasoner interface; False - only dump explicit axioms
+	 */
+	public String ontoDump(boolean fromReasoner){
+		if (fromReasoner){
+			//TODO: Determine how best to list all inferred axioms
+			System.err.println("[D] -- TODO: KIDSMeasurementOracle.OntoDump(boolean)");
+			return this.o.getAxioms().toString();
+		} else {
+			return this.o.getAxioms().toString();
+		}
+	}
+
+	
+	/**
+	 * Log (print) the reasoner details we are using:
+	 */
+	public void dumpReasonerInfo(){
+				System.err.println("[D] -- Reasoner: " + r.getReasonerName() + " -- " + 
+						r.getReasonerVersion().getBuild() + "." + 
+						r.getReasonerVersion().getMajor() + "." + 
+						r.getReasonerVersion().getMinor() + "." + 
+						r.getReasonerVersion().getPatch());
+	}
+
+/****************/
+/** DEPRECATED **/
+/****************/
+	/**
+	 * Attempts to instantiate the library associated with the given dataset
+	 * @param ourDataset
+	 * @return
+	 * @throws IOException 
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 * @throws TruthFileParseException 
+	 * @throws KIDSUnsupportedSchemeException 
+	 * @throws ClassNotFoundException 
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 * @throws KIDSOntologyObjectValuesException 
+	 * @throws KIDSUnEvaluableSignalException 
+	 * @throws NumberFormatException 
+	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
+	 * 
+	 * @deprecated -- This appears to no longer be used; the dataset factory should be employed instead.
+	 */
+	public Dataset getDatasetImplementation(
+			OWLNamedIndividual ourDataset,
+			IRI eventIRI) throws IOException, KIDSOntologyDatatypeValuesException, KIDSUnsupportedSchemeException, net.strasnet.kids.measurement.datasetlabels.TruthFileParseException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, NumberFormatException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
+		// get the library string value for the given Class
+		// The value is a data property of the individual:
+		OWLDataProperty datasetImpl = odf.getOWLDataProperty(IRI.create(datasetParserImplementationProp.toString()));
+		//System.err.println("DEBUG: " + representationImpl);
+		Set<OWLLiteral> oaSet = r.getDataPropertyValues(ourDataset, datasetImpl);
+		if (oaSet.size() > 1){
+			// Error: cannot identify class
+			System.err.println("Too many values for representation library of: " + ourDataset);
+			return null;
+		} else if (oaSet.size() == 0) {
+			// Cannot find any class for ourRep:
+			System.err.println("Cannot find any representation library for: " + ourDataset);
+			return null;
+		} else {
+			OWLLiteral oa = oaSet.iterator().next();
+			
+			// For each data set, get the URI of the instances and the URI of the labels:
+			Set<OWLLiteral> dataLocation =
+					r.getDataPropertyValues(
+							ourDataset,
+							odf.getOWLDataProperty(IRI.create( datasetInstanceResourceProp)));
+			
+			if (dataLocation.size() != 1){
+				throw new KIDSOntologyDatatypeValuesException();
+			}
+			
+			// Now try to instantiate the class:
+			return KIDSDatasetFactory.getViewLabelDataset(ourDataset.getIRI(), eventIRI, this);
+		}
+	}
+
+	/**
+	 * Each truth file is related to both an event and a dataset.  This method will return the 
+	 * truth file given for each.  There should only ever be one.  For specific semantics:
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#datasetLabelLocation
+	 * 
+	 * @param testeventiri
+	 * @param ourDataset
+	 * @return - The truth file IRI for the given dataset
+	 * @throws KIDSOntologyDatatypeValuesException
+	 * 
+	 * @deprecated - Truth files are no longer associated with datasets, rather dataset views.
+	 */
+	public IRI getTruthFileForEvent(IRI testeventiri, OWLNamedIndividual ourDataset) throws KIDSOntologyDatatypeValuesException {
+			Set<OWLLiteral> labelLocation =
+					r.getDataPropertyValues(
+							ourDataset,
+							odf.getOWLDataProperty(IRI.create( datasetLabelResourceProp)));
+			
+			if (labelLocation.size() != 1){
+				throw new KIDSOntologyDatatypeValuesException();
+			}
+			return IRI.create(labelLocation.iterator().next().getLiteral());
+	}
+
+	/**
+	 * Given a detector syntax, return the known signals that it can represent.  Will be the set of signals for which the 
+	 * domain is extractable, and the constraint is representable.  For detailed semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#canRepresentFeatureWithConstaint
+	 * 
+	 * @param detectorSyntax - The syntax individual we want the signals for.
+	 * 
+	 * @deprecated - Not currently in use
+	 */
+	public Set<IRI> getSignalsRepresentableInSyntax(IRI detectorSyntax){
+		HashSet<IRI> returnValue = new HashSet<IRI>();
+		OWLNamedIndividual ourSyn = odf.getOWLNamedIndividual(detectorSyntax);
+		
+		// Get the set of signals with an extractable domain:
+		//   -- property: http://solomon.cs.iastate.edu/ontologies/KIDS.owl#canRepresentFeatureWithConstraint
+		Set<OWLNamedIndividual> retTemp = r.getObjectPropertyValues(ourSyn, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.detectorSyntaxSignalRelation))).getFlattened();
+		for (OWLNamedIndividual oni: retTemp){
+			returnValue.add(oni.getIRI());
+		}
+		return returnValue;
+	}
+
+	/**
+	 * Given a dataset view IRI, will return the dataset it provides a view of.  For detailed semantics:
+	 * 
+	 * @see http://solomon.cs.iastate.edu/ontologies/KIDS.owl#providesViewOf
+	 * 
+	 * @param datasetView - The view that we want to identify the dataset for
+	 * @throws KIDSOntologyDatatypeValuesException 
+	 * 
+	 * @deprecated - Not currently used by anything
+	 */
+	public IRI getDatasetForDatasetView(IRI datasetView) throws KIDSOntologyDatatypeValuesException{
+		OWLNamedIndividual ourDV = odf.getOWLNamedIndividual(datasetView);
+		Set<OWLNamedIndividual> ourDSSet = r.getObjectPropertyValues(ourDV, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation))).getFlattened();
+		if (ourDSSet.size() > 1){
+			throw new KIDSOntologyDatatypeValuesException("Too many values for property " + KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation + " on individual " + datasetView);
+		} else if (ourDSSet.size() == 0){
+			throw new KIDSOntologyDatatypeValuesException("No values for property " +  KIDSMeasurementOracle.datasetViewIsViewOfDatasetRelation  + " on individual " + datasetView);
+		}	
+		return ourDSSet.iterator().next().getIRI();
+			
+	}
+	
+	
 }
