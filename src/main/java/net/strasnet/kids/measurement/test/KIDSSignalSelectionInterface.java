@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
@@ -36,6 +37,7 @@ import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.RecursiveResult;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
+import net.strasnet.kids.measurement.correlationfunctions.SourceIPAddressCorrelationFunction;
 
 /**
  * @author chrisstrasburg
@@ -50,6 +52,8 @@ import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelatio
  *   -- If a time period is selected, it should be used to evaluate the data sets according to a dynamic evaluation of the datasets.
  */
 public class KIDSSignalSelectionInterface {
+
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
 
 	private Set<IRI> signals = null;
 	private static final HashMap<String,String> configFileValues = new HashMap<String,String>();
@@ -94,11 +98,10 @@ public class KIDSSignalSelectionInterface {
 		Set<IRI> key = null;
 		//Set<IRI> sigsToEval = sigEvalMap.keySet();
 		
-		System.out.print("Testing signal set: ");
+		logme.info("Testing signal set: ");
 		for (IRI myI : sigsToEval){
-			System.out.print(myI.getFragment() + ",");
+			logme.info(myI.getFragment() + ",");
 		}
-		System.out.println(" ");
 		
 		// If the list contains only one element, evaluate it and return the result, caching the members (?)
 		if (sigsToEval.size() == 1){
@@ -120,12 +123,12 @@ public class KIDSSignalSelectionInterface {
 						maxValue = eidVal;
 					}
 				} catch (KIDSUnEvaluableSignalException e) {
-					System.err.println(e.getMessage());
+					logme.error(e.getMessage());
 					e.printStackTrace();
 					return null;
 				}
 			triedValues.put(key, toReturn);
-			System.out.println(toReturn);
+			logme.debug(toReturn);
 		} else {
 			// If we have more than one element, remove each in turn and evaluate the rest of them, keeping track of the maximum value
 			double maxEID = 0;
@@ -144,10 +147,10 @@ public class KIDSSignalSelectionInterface {
 			} catch (KIDSUnEvaluableSignalException e){
 				// Couldn't evaluate:
 				maxEID = -1;
-				System.err.println("Warning: " + e.getMessage());
+				logme.warn("Warning: " + e.getMessage());
 			} 
 			if (toReturn != null){
-				System.out.println(toReturn);
+				logme.debug(toReturn);
 				triedValues.put(sigsToEval, toReturn);
 			
 				List<IRI> curSigs = new LinkedList<IRI>(sigsToEval);
@@ -194,7 +197,7 @@ public class KIDSSignalSelectionInterface {
 				e.printStackTrace();
 				System.exit(1);
 			} catch (Exception e){
-				System.err.println(e);
+				logme.error(e);
 				e.printStackTrace();
 				System.exit(1);
 			}
@@ -228,29 +231,29 @@ public class KIDSSignalSelectionInterface {
 				// For each of these signals, we need to map to a dataset and detector
 				//Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
 				assert(ourDS != null);
-				System.out.println("Evaluating CDI with the following properties:");
-				System.out.println("Instances:\t" + ourDS.numInstances());
-				System.out.println("cInstances:\t" + ourDS.numCorrelatedInstances());
-				System.out.println("Events:\t" + ourDS.numEventOccurrences());
-				System.out.println("EvInstances:\t" + ourDS.numPositiveInstances().length);
-				System.out.println("cEvInstances:\t" + (ourDS.numPositiveCorrelatedInstances().length - 1));
+				logme.info("Evaluating CDI with the following properties:");
+				logme.info("Instances:\t" + ourDS.numInstances());
+				logme.info("cInstances:\t" + ourDS.numCorrelatedInstances());
+				logme.info("Events:\t" + ourDS.numEventOccurrences());
+				logme.info("EvInstances:\t" + (ourDS.numPositiveInstances().length - 1));
+				logme.info("cEvInstances:\t" + (ourDS.numPositiveCorrelatedInstances().length - 1));
 		
 				// Assess all subsets of available signals, recording the EID values for each:
 				Map<Set<IRI>, RecursiveResult> triedValues = new HashMap<Set<IRI>, RecursiveResult>();
 				RecursiveResult rr = this.testSignalSet_iter(myGuy, triedValues, signals,ourDS);
 			
-				System.out.println("Maximum signal set (EID = " + rr.getEID() + "):");
+				logme.info("Maximum signal set (EID = " + rr.getEID() + "):");
 					for (IRI signalC : rr.getSignals()){
-						System.out.println("\t" + signalC.toString());
+						logme.info("\t" + signalC.toString());
 					}
 				
-				System.out.println("All results:");
+				logme.info("All results:");
 				for (Set<IRI> curKey : triedValues.keySet()){
 					StringBuilder keyString = new StringBuilder();
 					for (IRI k : curKey){
 						keyString.append(k.getFragment().toString() + " ");
 					}
-					System.out.println("\t" + triedValues.get(curKey).getEID() + "\t{" + keyString + "}");
+					logme.info("\t" + triedValues.get(curKey).getEID() + "\t{" + keyString + "}");
 				}
 			}
 			
@@ -313,13 +316,13 @@ public class KIDSSignalSelectionInterface {
 			p.load(new FileReader(new File(sourceFile)));
 			for (String cstring : requiredValueSet){
 				if (! p.containsKey(cstring)){
-					System.err.println("Config file does not define property " + (String)cstring);
+					logme.error("Config file does not define property " + (String)cstring);
 					cerr = true;
 				}
 			}
 			for (Object kstring : p.keySet()){
 				if (!requiredValueSet.contains((String)kstring)){
-					System.err.println("Config file contains unknown property " + (String)kstring);
+					logme.error("Config file contains unknown property " + (String)kstring);
 					cerr = true;
 				}
 				cVals.put((String)kstring, (String)p.getProperty((String)kstring));
@@ -344,7 +347,7 @@ public class KIDSSignalSelectionInterface {
 	public static void main(String[] args) throws UnimplementedIdentifyingFeatureException {
 		String usage = "Usage: KIDSSignalSelection <pathToConfigFile>";
 		if (args.length != 1){
-			System.err.println(usage);
+			logme.error(usage);
 			java.lang.System.exit(1);
 		}
 		

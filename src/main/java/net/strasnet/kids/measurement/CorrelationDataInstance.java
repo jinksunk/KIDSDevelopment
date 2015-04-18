@@ -7,6 +7,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import org.semanticweb.owlapi.model.IRI;
 
@@ -18,14 +20,21 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class CorrelationDataInstance {
 	
+	private final static Logger logme = LogManager.getLogger(CorrelationDataInstance.class.getName());
+	
 	private Set<DataInstance> components; // The set of all instances (union of the below two sets)
 	private Map<Integer, Set<DataInstance>> eInstances; // Set of event-related instances, indexed by event ID
     private Set<DataInstance> benignInstances; // The set of non-event-related instances
+    private String correlationFeature; // The feature used to create this CDI
+    private String correlationFeatureValue; // The value that this particular CDI has for that feature
 	
-	public CorrelationDataInstance(Set<DataInstance> initialComponents){
+	public CorrelationDataInstance(Set<DataInstance> initialComponents, String cFeature, String cValue){
 		components = new HashSet<DataInstance>();
 		benignInstances = new HashSet<DataInstance>();
 		eInstances = new HashMap<Integer, Set<DataInstance>>();
+		correlationFeature =  cFeature;
+		correlationFeatureValue =  cValue;
+
 		int bi = 0; int ei = 0;
 		for (DataInstance i : initialComponents){
 			components.add(i);
@@ -47,7 +56,7 @@ public class CorrelationDataInstance {
 				benignInstances.add(i);
 			}
 		}
-		System.err.println("Created benign CDI [" + bi + "," + ei + "] (including base instance " + this.getInstances().iterator().next().getID() + " )");
+		logme.debug("Created benign CDI [" + bi + "," + ei + "] (including base instance " + this.getInstances().iterator().next().getID() + " )");
 		
 	}
 
@@ -97,6 +106,38 @@ public class CorrelationDataInstance {
 	 */
 	public boolean isEventRelated() {
 		return getEventInstances().keySet().size() > 0;
+	}
+	
+	/**
+	 * Return a string listing out the instances, as well as the overall classification of the CDI
+	 * 
+	 * @override
+	 */
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+
+		// First print out the ID of this CDI, the event(s) it is associated with, and the number of instances
+		sb.append(String.format("CDI ID: %s = %s ; Object ID: %s ; Events: \n", this.correlationFeature, this.correlationFeatureValue, System.identityHashCode(this)));
+		
+		// List out the events associated with this CDI:
+		StringBuilder eventIDs = new StringBuilder();
+		
+		for (Integer eid : this.eInstances.keySet()){
+			eventIDs.append(String.format("\tEID: %d ; ",eid));
+			for (DataInstance di : this.eInstances.get(eid)){
+				eventIDs.append(String.format("%s,",di.getID()));
+			}
+			eventIDs.deleteCharAt(eventIDs.length() -1);
+		}
+		
+		sb.append(String.format("\n %s \nCDI Instances:",eventIDs));
+		
+		// Next, iterate over the instances, adding each
+		for (DataInstance di : this.components){
+			sb.append(String.format("\t%s\t%d\n",di.getID(),di.getLabel().getEventOccurrence().getID()));
+		}
+		
+		return sb.toString();
 	}
 	
 	//Provide a method to obtain the number of benign sub-instances in this instance. -- Maybe?

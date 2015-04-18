@@ -2,6 +2,8 @@ package net.strasnet.kids.snort;
 
 import java.util.Set;
 
+import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
+import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.gui.KIDSAddEventOracle;
 
 import org.semanticweb.owlapi.model.IRI;
@@ -12,8 +14,8 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 public class SnortRuleSourceIPComponent extends SnortRuleIPComponent {
 
-	public SnortRuleSourceIPComponent(KIDSAddEventOracle ko, Set<IRI> currentSignalSet) {
-		super(ko, "#IPSource_IPRangeSet",  currentSignalSet);
+	public SnortRuleSourceIPComponent(KIDSAddEventOracle ko, Set<IRI> currentSignalSet) throws KIDSOntologyDatatypeValuesException {
+		super(ko, KIDSOracle.TBOXIRI + "#IPSourceAddress_IPRangeSet",  currentSignalSet);
 	}
 
 }

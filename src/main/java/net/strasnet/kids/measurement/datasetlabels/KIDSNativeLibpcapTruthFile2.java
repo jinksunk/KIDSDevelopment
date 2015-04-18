@@ -7,6 +7,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -23,6 +24,7 @@ import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSSnortDataInstance;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -37,7 +39,9 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements DatasetLabel {
 	
-	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSNativeLibpcapTruthFile2.class.getName());
+//	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
+	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-\\.]+),(?<dip>[\\d-\\.]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
     private Pattern rexp;
     private IRI ourEventIRI;
     
@@ -60,11 +64,12 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	@Override
-	public void init(IRI labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException {
+	public void init(String labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException {
 		ourEventIRI = eventIRI;
 		rexp = Pattern.compile(regexPattern);
 		// Read in file and build the labelKey
-		BufferedReader r = new BufferedReader(new FileReader(new File(labelFileIRI.toURI())));
+		logme.info(String.format("Reading labels from file: %s", labelFileIRI));
+		BufferedReader r = new BufferedReader(new FileReader(new File(labelFileIRI)));
 		
 		String line;
 		while ((line = r.readLine()) != null){
@@ -77,11 +82,13 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 					if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "PacketID")){
 						vals.put(identFeature, rm.group("pid"));
 					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "IPv4SourceAddressSignalDomain")){
-						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
+//						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("sip"))));
+						vals.put(identFeature, rm.group("sip"));
 					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "IPv4DestinationAddressSignalDomain")){
-						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+//						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("dip"))));
+						vals.put(identFeature, rm.group("dip"));
 					} else if (identFeature.toString().equals(AbstractDatasetLabel.featureIRI + "ObservationOrder")){
-						vals.put(identFeature, KIDSSnortIPAddressRange.longIPToString(Long.parseLong(rm.group("oid"))));
+						vals.put(identFeature, rm.group("oid"));
 					}
 					//vals.put(identifyingFeatures.get(1), rm.group("timestamp"));
 					// These come in as Long values - convert to dotted quad:
@@ -99,6 +106,7 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 				    //System.err.println("Positive instance: " + tempGuy.getID());
 				    labelKey.put(tempGuy.hashCode(), new Label(seenEvents.get(eid), true));
 				}
+				logme.debug(String.format("Added labelKey for instance %s (hash value %d)",tempGuy.getID(),tempGuy.hashCode()));
 			}
 		}
 		r.close();
@@ -109,14 +117,19 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 	 * IP ID is: <PID><DIP><SIP>
 	 */
 	public Label getLabel(DataInstance dve) {
+		logme.debug(String.format("Setting label for %s...",dve.getID()));
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
 			dve.setLabel(labelKey.get(dve.hashCode()));
-			return dve.getLabel();
-		//} else {
+			logme.debug(String.format("Found hashkey for code: %s",dve.hashCode()));
+		} else {
 			//System.err.println("Instance [" + dve.getID() + "] is benign.");
+			dve.setLabel(new Label(EventOccurrence.NONEVENT, false));
+			logme.debug(String.format("Did not find hashkey for code: %s",dve.hashCode()));
 		}
 		// If no label is present, assume benign
-		return new Label(EventOccurrence.NONEVENT, false);
+		//return new Label(EventOccurrence.NONEVENT, false);
+		logme.debug(String.format("Set label for instance %s to event %s",dve.getID(), dve.getLabel().getEventOccurrence()));
+	    return dve.getLabel();
 	}
 
 }

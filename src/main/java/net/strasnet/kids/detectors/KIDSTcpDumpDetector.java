@@ -9,9 +9,13 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
@@ -35,6 +39,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 	//public Set<Map<IRI, String>> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException{
 	//private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	// 920592993.000000 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
+	private static final Logger logme = LogManager.getLogger(KIDSTcpDumpDetector.class.getName());
 	private static String regexPatternLine1 = "(?<TimeStamp>[\\d\\.]+)\\sIP\\s\\((([^,]+),){2}\\sid\\s(?<PID>\\d+),.*proto[^\\(]+\\((?<PROTO>\\d+)\\), length\\s(?<DATALEN>\\d+)\\).*";
 	private static String regexPattern = "\\s*(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.?(?<SPORT>\\d+)?\\s+>\\s+(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\.?(?<DPORT>\\d+)?.*";
 	
@@ -130,7 +135,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 	 */
 	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
 		// First, check to see if we have already run the detector on this set of signals - if so, no need to run it again:
-		System.err.println(String.format("[D] TCPDumpDetector checking cache..."));
+		logme.debug(String.format("TCPDumpDetector checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -140,18 +145,18 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		for (IRI signal : signals){
 			Set<DataInstance> results = null;
 			if (this.sigMap.containsKey(signal)){
-				System.err.println(String.format("[D] TcpDumpDetector using cache entry (size = %d) for %s",this.sigMap.get(signal).size(),signal));
+				logme.info(String.format("TcpDumpDetector using cache entry (size = %d) for %s",this.sigMap.get(signal).size(),signal));
 				results = this.sigMap.get(signal);
 			} else {
-				System.err.println(String.format("[D] TcpDumpDetector executing detector to gather instances. "));
+				logme.info(String.format("TcpDumpDetector executing detector to gather instances. "));
 				results = getMatchingInstances(signal, v);
-				System.err.println(String.format("[D] TcpDumpDetector - Added cache entry (size = %d) for %s",results.size(), signal));
+				logme.info(String.format("[D] TcpDumpDetector - Added cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
-				System.err.println("\t(Signal cache now consists of:");
+				logme.debug("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
-					System.err.println(String.format("\t%s : %d ;",cMapEntry, this.sigMap.get(cMapEntry).size()));
+					logme.debug(String.format("\t%s : %d ;",cMapEntry, this.sigMap.get(cMapEntry).size()));
 				}
-				System.err.println("\t)");
+				logme.debug("\t)");
 			}
 			if (firstSignal){
 				toReturn = results;
@@ -173,9 +178,10 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		String command = null;
 		Process genPcap = null;
 		try {
-			command = executionCommand + " -v -tt -n -n -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals) + " ";
-			System.err.println("Executing command [" + command + "] ...");
-			genPcap = Runtime.getRuntime().exec(command);
+			//command = executionCommand + " -v -tt -n -n -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals) + " ";
+			String[] toExec = {executionCommand,"-v","-tt","-n","-n","-r",v.getViewLocation(),ourSyn.getDetectorSyntax(signals)};
+			logme.info("Executing command [" + StringUtils.join(toExec," ") + "] ...");
+			genPcap = Runtime.getRuntime().exec(toExec);
 		    BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		    String pcapLine;
 		    super.resetOrderMap();
@@ -194,7 +200,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				    t1 = System.currentTimeMillis();
 				    double lps = statusAt / (((double)t1 - (double)t0) / 1000);
 				    //double pps = icount / (((double)t1 - (double)t0) / 1000);
-				    System.err.println(" .. Processed " + lcount + " lines (" + lps + " lps) and " + icount + " instances " );
+				    logme.debug(" .. Processed " + lcount + " lines (" + lps + " lps) and " + icount + " instances " );
 				    		//+ "(" + pps + " ips)");
 				    t0 = t1;
 			    }
@@ -258,14 +264,12 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 					    	// The return set already contained this element -- this shouldn't happen:
 					    	dvaluesInSet++;
 					    	if (dvaluesInSet == 1){
-					    	    System.err.println("[E] - TCPDumpDetector -- Duplicate data instance added to return set.  E.g.:");
-					    	    System.err.println("\t " + sdi.getID());
+					    	    logme.error("TCPDumpDetector -- Duplicate data instance added to return set.  E.g.:");
+					    	    logme.error("\t " + sdi.getID());
 					    	}
 					    }
-					    /* Delete Me */
-					    //System.err.println("[D] " + sdi.getID());
 				    } else {
-					    System.err.println("Only first line matched (second is listed here): " + pcapLine);
+					    logme.error("Only first line matched (second is listed here): " + pcapLine);
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
 				    }
 			    } else if (rexi.matches()){
@@ -280,21 +284,21 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			    BufferedReader errd = new BufferedReader (new InputStreamReader(genPcap.getErrorStream()));
 			    String errout;
 			    while ((errout = errd.readLine()) != null){
-			        System.err.println(errout);
+			        logme.debug(errout);
 			    }
 		    }
 			//this.sigMap.put(signal, toReturn);
-			System.err.println(String.format("[D] TCPDumpDetector - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
-			System.err.println(String.format("                    - %d duplicate instances found",dvaluesInSet));
-			System.err.println(String.format("                    - %d total instances found",toReturn.size()));
+			logme.info(String.format("TCPDumpDetector - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
+			logme.info(String.format("                    - %d duplicate instances found",dvaluesInSet));
+			logme.info(String.format("                    - %d total instances found",toReturn.size()));
 		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);
 		} catch (KIDSIncompatibleSyntaxException e) {
-			System.err.println("[W] - Could not represent all signals in signal set; returning empty matching instances.");
-			System.err.println("    - Detector: " + this.getClass().getName() + " with signals: ");
+			logme.warn("Could not represent all signals in signal set; returning empty matching instances.");
+			logme.warn("    - Detector: " + this.getClass().getName() + " with signals: ");
 			for (IRI s : signals){
-				System.err.println("    - " + s.toString());
+				logme.warn("    - " + s.toString());
 			}
 			this.sigMap.put(signal, new HashSet<DataInstance>());
 			return new HashSet<DataInstance>();

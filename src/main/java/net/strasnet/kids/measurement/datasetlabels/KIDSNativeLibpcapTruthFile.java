@@ -52,11 +52,11 @@ public class KIDSNativeLibpcapTruthFile extends AbstractDatasetLabel implements 
 	 * @throws NumberFormatException 
 	 */
 	@Override
-	public void init(IRI labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException {
+	public void init(String labelFileIRI, IRI eventIRI) throws NumberFormatException, IOException {
 		ourEventIRI = eventIRI;
 		rexp = Pattern.compile(regexPattern);
 		// Read in file and build the labelKey
-		BufferedReader r = new BufferedReader(new FileReader(new File(labelFileIRI.toURI())));
+		BufferedReader r = new BufferedReader(new FileReader(new File(labelFileIRI)));
 		
 		String line;
 		while ((line = r.readLine()) != null){

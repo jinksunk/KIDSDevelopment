@@ -4,6 +4,7 @@ import net.strasnet.kids.measurement.CorrelationDataInstance;
 import net.strasnet.kids.measurement.CorrelationFunction;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
+import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -13,6 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.core.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
@@ -22,13 +25,7 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 	 */
 	public static final String kidsTbox = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	public static final IRI relatedResource = IRI.create(kidsTbox + "#IPv4SourceAddressSignalDomain");
-	
-	public static boolean DEBUG = false;
-	public void debugPrint(String msg){
-		if (DEBUG){
-			System.err.println(msg);
-		}
-	}
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(SourceIPAddressCorrelationFunction.class.getName());
 	
 	/**
 	 * 
@@ -44,6 +41,12 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 		// If either does not have the resource, they cannot be correlated:
 		if (!rMap1.containsKey(relatedResource) ||
 			!rMap2.containsKey(relatedResource)){
+			if (!rMap1.containsKey(relatedResource)){
+				logme.info(String.format("%s has no value for %s",i1.getID(),relatedResource));
+			}
+			if (!rMap2.containsKey(relatedResource)){
+				logme.info(String.format("%s has no value for %s",i2.getID(),relatedResource));
+			}
 			return false;
 			//throw new IncompatibleCorrelationValueException("Data instances do not share resource " + relatedResource);
 		}
@@ -52,13 +55,16 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 		try {
 			ip1 = InetAddress.getByName(rMap1.get(relatedResource));
 		} catch (UnknownHostException e) {
+			logme.warn(String.format("Could not look up IP for %s value %s",relatedResource,rMap1.get(relatedResource)));
 			throw new IncompatibleCorrelationValueException("Value " + rMap1.get(relatedResource) + " is not a valid IPv4 Address.");
 		}
 		try {
 			ip2 = InetAddress.getByName(rMap2.get(relatedResource));
 		} catch (UnknownHostException e) {
+			logme.warn(String.format("Could not look up IP for %s value %s",relatedResource,rMap2.get(relatedResource)));
 			throw new IncompatibleCorrelationValueException("Value " + rMap2.get(relatedResource) + " is not a valid IPv4 Address.");
 		}
+		logme.debug(String.format("Checking %s == %s",ip1,ip2));
 		return ip1.equals(ip2);
 	}
 
@@ -88,14 +94,17 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 		for (String ciSIP : sipMap.keySet()){
 		
 			Set<DataInstance> correlatedInstances = sipMap.get(ciSIP);
-			CorrelationDataInstance newGuy = new CorrelationDataInstance(sipMap.get(ciSIP));
-			if (correlatedInstances.size() > 1){
-			  debugPrint("\n[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI with: " + correlatedInstances.size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
+			CorrelationDataInstance newGuy = new CorrelationDataInstance(sipMap.get(ciSIP), SourceIPAddressCorrelationFunction.relatedResource.toString(), ciSIP);
+			if (newGuy.getInstances().size() >= 1){
+//			  logme.info("\n[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI with: " + correlatedInstances.size() + " instances, " + newGuy.getEventInstances().keySet().size() + " events, and " + newGuy.getResourceSets().keySet().size() + " resources." );
+			  logme.info("\n[SIP Correlation Functions]: Source IP from instance " + ciSIP + " resulted in CDI " + newGuy);
+			} else {
+				logme.warn("Empty correlated data instance created on key " + ciSIP);
 			}
 			toReturn.add(newGuy);
 		}
 		
-	    debugPrint ("Final CDI count: " + toReturn.size());
+	    logme.info("Final CDI count: " + toReturn.size());
 		return toReturn;
 	}
 }

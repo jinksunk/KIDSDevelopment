@@ -52,7 +52,7 @@ public class KIDSOracle {
 	protected OWLDataFactory odf = null;
 	protected OWLOntology o = null;
 	protected PrefixManager p = null;
-	protected String TBOXIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
+	public static final String TBOXIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	protected String ABOXIRI = null;
 	protected List<SimpleIRIMapper> ourIRIMap = null;
 	

@@ -1,6 +1,9 @@
 package net.strasnet.kids.detectors;
 
 import java.io.BufferedReader;
+
+import org.apache.commons.lang3.StringUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -11,9 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
@@ -32,7 +38,7 @@ import net.strasnet.kids.measurement.datasetviews.DatasetView;
 public class KIDSSnortDetector extends KIDSAbstractDetector implements KIDSDetector {
 
 	/**
-	 * Represents a detector utilizing the TCPDump command-line tool.  Associated with the syntax "bpf" - berkeley packet filter.
+	 * Represents a detector utilizing Snort.  Associated with the syntax "bpf" - berkeley packet filter syntax.
 	 */
 	
 	//protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
@@ -52,7 +58,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	// 16:20:59.752086 IP (tos 0x0, ttl 64, id 4, offset 0, flags [none], proto TCP (6), length 429)
 	//private static String regexPattern = "[\\d/-:\\.]+\\s+\\[\\*\\*\\].*\\s+ID:(?<PID>\\d+)\\s.*";
 //	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\]\\s+.*(<?SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(<?DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(<?ID>\\d+)\\s+";
-	private static String regexPattern = ".*\\[\\*\\*\\].*(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]*\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^\\*]*ID:(?<ID>\\d+)\\s+IpLen";
+	private static final Logger logme = LogManager.getLogger(KIDSSnortDetector.class.getName());
+
+	//private static String regexPattern = ".*\\[\\*\\*\\].*(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]*\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^\\*]*ID:(?<ID>\\d+)\\s+IpLen";
+	private static String regexPattern = ".*\\[\\*\\*\\].*(?<TIMESTAMP>\\d\\d\\/\\d\\d\\/\\d\\d-[\\d:\\.]+)\\s+(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]*\\s->\\s(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^\\*]*ID:(?<ID>\\d+)\\s+IpLen.*";
 	private static String recordPattern = "(=\\+){37}";
 	
 	private static final Map<String, Boolean> supportedFeatures = new HashMap <String, Boolean>();
@@ -110,7 +119,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 	public Set<DataInstance> getMatchingInstances (Set<IRI> signals, DatasetView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		
 		
-		System.err.println(String.format("[D] SnortDetector checking cache..."));
+		logme.info(String.format("Checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -120,17 +129,17 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		for (IRI signal : signals){
 			Set<DataInstance> results = null;
 			if (this.sigMap.containsKey(signal)){
-				System.err.println(String.format("[D] SnortDetector using cache entry for %s",signal));
+				logme.debug(String.format("Using cache entry for %s",signal));
 				results = this.sigMap.get(signal);
 			} else {
 				results = getMatchingInstances(signal, v);
-				System.err.println(String.format("[D] SnortDetector - Adding cache entry for %s",signal));
+				logme.debug(String.format("Adding cache entry for %s",signal));
 				this.sigMap.put(signal, results);
-				System.err.println("\t(Signal cache now consists of:");
+				logme.debug("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
-					System.err.println(String.format("\t%s ;",cMapEntry));
+					logme.debug(String.format("\t%s ;",cMapEntry));
 				}
-				System.err.println("\t)");
+				logme.debug("\t)");
 			}
 			if (firstSignal){
 				toReturn = results;
@@ -149,8 +158,11 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		
 		// Run the command with the detector specification
 		String ourSynStr = ourSyn.getDetectorSyntax(signals) ;
-		System.err.println("[Snort] Executing: " + executionCommand + " -r " + v.getViewLocation() + " -c " + ourSynStr + " -N -k none -A console -q -v -y");
-		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSynStr + " -N -k none -A console -q -v -y");
+		String[] toExec = {executionCommand, "-r", v.getViewLocation(), "-c", ourSynStr, "-N", "-k", "none", "-A", "console", "-q", "-v", "-y"};
+		logme.info("[Snort] Executing: " + StringUtils.join(toExec, " "));
+		Process genPcap = Runtime.getRuntime().exec(toExec);
+//		Process genPcap = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " -c " + ourSynStr + " -N -k none -A console -q -v -y");
+	    super.resetOrderMap();
 		SnortStreamGobbler eGobble = new SnortStreamGobbler(genPcap.getErrorStream(), "ERROR");
 		SnortStreamGobbler iGobble = new SnortStreamGobbler(genPcap.getInputStream(), "OUTPUT", v);
 		eGobble.start();
@@ -165,9 +177,10 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		System.err.println(String.format("[D] KIDSSnortDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.icount, KIDSAbstractDetector.getDataInstancePoolSize()));
-		System.err.println(String.format("                    - %d duplicate instances found.", iGobble.dvaluesInSet));
-		System.err.println(String.format("                    - %d total instances found.", iGobble.icount));
+		logme.debug(String.format("- Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.icount, KIDSAbstractDetector.getDataInstancePoolSize()));
+		logme.debug(String.format("- %d duplicate instances found.", iGobble.dvaluesInSet));
+		logme.debug(String.format("- %d total matching instances found.", iGobble.icount));
+		logme.debug(String.format("- %d non-matching instances found.", iGobble.bcount));
 		//BufferedReader rd = new BufferedReader(new StringReader(iGobble.getOutput()));
 		//String pcapLine;
 		//StringBuilder sRecord = new StringBuilder();
@@ -226,7 +239,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			OWLNamedIndividual ourDS = eventDSes.iterator().next();
 			Dataset d = KIDSDatasetFactory.getViewLabelDataset(ourDS.getIRI(), testEvent, kmo);
 			Set<DataInstance> rInstances = d.getMatchingInstances(testSigSet);
-			System.out.println("Number of data instances: " + rInstances.size());
+			logme.info("Number of data instances: " + rInstances.size());
 		} catch (KIDSOntologyObjectValuesException
 				| KIDSOntologyDatatypeValuesException | InstantiationException
 				| IllegalAccessException | ClassNotFoundException e1) {
@@ -244,6 +257,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		int nvaluesUsed = 0;
 		int cvaluesUsed = 0;
 		int icount = 0;
+		int bcount = 0;
 		int dvaluesInSet = 0;
 
 		SnortStreamGobbler( InputStream is, String type) {
@@ -313,18 +327,19 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 			    	            } else {
 			    	            	nvaluesUsed++;
 			    	            	if (nvaluesUsed < 5){
-			    	            		System.err.println(String.format("[D] - new value found from record: \n++=> %s", sRecord));
+			    	            		logme.debug(String.format("New value found from record: \n++=> %s", sRecord));
 			    	            	}
 			    	            }
 			    	            if (!toReturn.add(sdi)){
+			    	            	dvaluesInSet++;
 			    	            	if (dvaluesInSet < 5){
-						    	             	System.err.println(String.format("[E] - SnortDetector -- Duplicate data instance added to return set.  E.g. %s (from line %s)",sdi.getID(), line));
+						    	             	logme.error(String.format("Detector -- Duplicate data instance added to return set.  E.g. %s (from line %s)",sdi.getID(), line));
 			    	            	}
 						    	}
-			    	            /** vv In general we don't really need this, unless we're debugging vv
 			                }  else {
 			                	// Getting here implies that the line did not match the regular expression, e.g. did not trigger the snort rule or something along those lines.
-			                	System.err.println(String.format("[W] - SnortDetector -- Could not parse record: \n%s",sRecord)); */
+			                	bcount++;
+			                	logme.debug(String.format("Could not parse record: \n%s",sRecord));
 			                }
 			                sRecord = new StringBuilder();
 			            } else {

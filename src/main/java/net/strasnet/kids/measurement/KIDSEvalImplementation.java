@@ -32,7 +32,7 @@ public class KIDSEvalImplementation implements KIDSEval {
 	}
 
 	@Override
-	public double EvalSignal(IRI signal, IRI d, IRI event)
+	public RecursiveResult EvalSignal(IRI signal, IRI d, IRI event)
 			//DatasetView dv, DatasetLabel dl)
 			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException, UnimplementedIdentifyingFeatureException {
 		Set<IRI> sigset = new HashSet<IRI>();

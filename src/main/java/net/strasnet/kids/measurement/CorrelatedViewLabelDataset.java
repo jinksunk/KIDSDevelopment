@@ -15,6 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
@@ -34,19 +35,13 @@ import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
  */
 public class CorrelatedViewLabelDataset {
 	
-	private static boolean DEBUG = false;
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;
 	private Set<Set<CorrelationDataInstance>> dataSubsetCache;
 	private int maxEventID = 0;
 	
-	public void debugPrint(String msg){
-		if (DEBUG){
-			System.err.println(msg);
-		}
-	}
-
 	/**
 	 * Iterates over all base instances of all dataset / dataset label pairs, and creates correlated instances
 	 * according to the provided combination function.
@@ -68,7 +63,7 @@ public class CorrelatedViewLabelDataset {
 		dataSubsetCache = new HashSet<Set<CorrelationDataInstance>>();
 		ourDataInstances = new HashSet<CorrelationDataInstance>();
 		for (Dataset d : members.keySet()){
-			debugPrint("Adding dataset " + d.getIRI());
+			logme.debug("Adding dataset " + d.getIRI());
 			constituentDatasets.put(d, members.get(d));
 		}
 		ourCombiner = combinationFunction;
@@ -107,7 +102,7 @@ public class CorrelatedViewLabelDataset {
 		this.ourDataInstances = instanceSet;
 		constituentDatasets = new HashMap<Dataset, DatasetLabel>();
 		for (Dataset d : dsets.keySet()){
-			debugPrint("Adding dataset " + d.getIRI());
+			logme.debug("Adding dataset " + d.getIRI());
 			constituentDatasets.put(d, dsets.get(d));
 		}
 	}
@@ -134,28 +129,32 @@ public class CorrelatedViewLabelDataset {
 	 * @return - The number of data instances, minus the number of event-related instances, plus the number of events.
 	 */
 	public int numInstances(){
-		// debugPrint("CorrelatedViewLabelDataset.numInstances:");
+		// logme.debug("CorrelatedViewLabelDataset.numInstances:");
 		// First, just get a count of all the instances.
 		int totalInstances = 0;
 		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();
 		while (cii.hasNext()){
 			CorrelationDataInstance ci = cii.next();
-			//debugPrint(" + CDI " + ci.hashCode() + " with " + ci.getInstances().size() + " instances...");
+			//logme.debug(" + CDI " + ci.hashCode() + " with " + ci.getInstances().size() + " instances...");
 			Set<DataInstance> instanceSet = ci.getInstances();
 			totalInstances += instanceSet.size();
 		}
+		// We now have a count of all instances
 
 		// Next, remove all the event related instances.
-		int[] eventInstanceCounts = numPositiveInstances();
+		int[] eventInstanceCounts = numPositiveInstances(); // We need to determine when there is a positive instance here
 		int numEvents = eventInstanceCounts.length - 1; // element '0' is normal -not an event
+		int tEvents = 0;
 		for (int i = 1; i < eventInstanceCounts.length; i++){   // element '0' is normal instances
-			// debugPrint(" - eventInstances " + eventInstanceCounts[i]);
-			totalInstances -= eventInstanceCounts[i];
+			// logme.debug(" - eventInstances " + eventInstanceCounts[i]);
+			if (eventInstanceCounts[i] > 0){
+				totalInstances -= eventInstanceCounts[i];
+				tEvents++;
+			}
 		}
-		
 		// Finally, add back in the number of events.
-		// debugPrint(" + eventCounts " + numEvents);
-		totalInstances += numEvents;
+		// logme.debug(" + eventCounts " + numEvents);
+		totalInstances += tEvents; // No - we just add back in the number of non-0 ones!
 		return totalInstances;
 	}
 
@@ -304,13 +303,9 @@ public class CorrelatedViewLabelDataset {
 			
 			if (allMatched){
 				returnDataSet.add(cdi);
-				if (this.DEBUG){
-					System.err.println("CorrelatedViewLabelDataset.getMatchingInstances(...): Matched CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
-				}
+				logme.debug("Matched CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
 			} else {
-				if (this.DEBUG){
-					System.err.println("CorrelatedViewLabelDataset.getMatchingInstances(...): Failed match for CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
-				}
+				logme.debug("Failed match for CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
 			}
 		}
 		
@@ -438,5 +433,25 @@ public class CorrelatedViewLabelDataset {
 		return returnArray;
 	}
 
+	/**
+	 * Return a string summarizing the characteristics of this data set.
+	 */
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		// First, report the number of instances in the dataset:
+		sb.append(String.format("Raw Instances: %d",this.numInstances()));
+		sb.append(String.format("Correlated Instances %d",this.numCorrelatedInstances())); 
+		sb.append(String.format(", Num Event Occurrences: %d",this.numEventOccurrences())); 
+		int totalPositives = 0;
+		int[] posAry = this.numPositiveInstances();
+		for (int i = 0; i < posAry.length; i++){
+			totalPositives += posAry[i];
+		}
+		sb.append(String.format(", numPositiveInstances: %d",totalPositives)); 
+		sb.append(String.format(", numPositiveCorrelatedInstances: %d",this.numPositiveCorrelatedInstances()));
+		
+		return sb.toString();
+		
+	}
 
 }

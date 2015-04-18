@@ -17,13 +17,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.KIDSSyntacticFormGenerator;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.gui.KIDSAddEventOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -65,6 +68,7 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSnortRuleGenerator.class.getName());
 	public static final String defaultPrefix = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	public static final IRI ourIdentity = IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#snortRuleSyntax3");
 	private KIDSAddEventOracle ko;
@@ -183,7 +187,11 @@ public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 			rule += " " + protocol;
 			
 			// Source IP specification
-			rule += " " + new SnortRuleSourceIPComponent(ko, currentSigSet).toString();
+			try {
+				rule += " " + new SnortRuleSourceIPComponent(ko, currentSigSet).toString();
+			} catch (KIDSOntologyDatatypeValuesException e) {
+				logme.error(String.format("Ontology data values exception on destination IP rule component."));
+			}
 
 			// Source Port specification
 			if (protocol == "tcp"){
@@ -198,7 +206,11 @@ public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 			rule += " " + new SnortRuleDirectionComponent(ko, currentSigSet).toString();
 
 			// Destination IP
-			rule += " " + new SnortRuleDestinationIPComponent(ko, currentSigSet).toString();
+			try {
+				rule += " " + new SnortRuleDestinationIPComponent(ko, currentSigSet).toString();
+			} catch (KIDSOntologyDatatypeValuesException e) {
+				logme.error(String.format("Ontology data values exception on destination IP rule component."));
+			}
 
 			// Destination Port
 			if (protocol == "tcp"){

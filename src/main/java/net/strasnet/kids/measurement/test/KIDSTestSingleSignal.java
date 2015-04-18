@@ -19,6 +19,7 @@ import net.strasnet.kids.detectors.KIDSDetectorFactory;
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.CorrelatedViewLabelDataset;
+import net.strasnet.kids.measurement.CorrelationDataInstance;
 import net.strasnet.kids.measurement.CorrelationFunction;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
@@ -34,6 +35,8 @@ import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 /**
  * This class will read a configuration file which specifies:
@@ -55,6 +58,8 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 public class KIDSTestSingleSignal {
 
+	private static final Logger logme = LogManager.getLogger(KIDSTestSingleSignal.class.getName());
+	
 	private static final HashMap<String,String> configFileValues = new HashMap<String,String>();
 	static {
 		configFileValues.put("ABoxFile", "/dev/null");
@@ -153,7 +158,7 @@ public class KIDSTestSingleSignal {
 			try {
 				od = KIDSDatasetFactory.getViewLabelDataset(dataset, 
 						eIRI, this.myGuy);
-				System.err.println("[D] - Event: " + eIRI.getFragment() + "\tDataset: " + dataset.getFragment() + "\tView: " + od.getViewIRI().getFragment());
+				logme.info("[D] - Event: " + eIRI.getFragment() + "\tDataset: " + dataset.getFragment() + "\tView: " + od.getViewIRI().getFragment());
 				Set<DataInstance> rs = od.getMatchingInstances(singleSigSet);
 				this.setDataset(od.getDataSubset(rs));
 				return rs.size();
@@ -179,7 +184,7 @@ public class KIDSTestSingleSignal {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			} catch (KIDSUnEvaluableSignalException e) {
-				System.err.println("[W] - " + e.getMessage());
+				logme.error("[W] - " + e.getMessage());
 			} catch (KIDSIncompatibleSyntaxException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -252,7 +257,7 @@ public class KIDSTestSingleSignal {
 			e.printStackTrace();
 			System.exit(1);
 		} catch (Exception e){
-			System.err.println(e);
+			logme.error(e);
 			e.printStackTrace();
 			System.exit(1);
 		}
@@ -287,9 +292,13 @@ public class KIDSTestSingleSignal {
 	 * @throws KIDSOntologyObjectValuesException 
 	 * @throws KIDSOntologyDatatypeValuesException */
 	public static void main(String[] args) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException {
+		logme.error("error");
+		logme.warn("warn");
+		logme.info("info");
+		logme.debug("debug");
 		String usage = "Usage: KIDSTestSingleSignal <pathToConfigFile>";
 		if (args.length != 1){
-			System.err.println(usage);
+			logme.error(usage);
 			java.lang.System.exit(1);
 		}
 		HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[0], KIDSTestSingleSignal.configFileValues.keySet());
@@ -308,34 +317,40 @@ public class KIDSTestSingleSignal {
 				cVals.get("CorrelationFunctionIRI"), cVals.get("TestDatasetIRI"));
 		
         //*  - The number of matching raw instances according to the ontology
-		System.out.println("== Begin Test of Signal " + cVals.get("TestSignalIRI") + " ==");
+		logme.info("== Begin Test of Signal " + cVals.get("TestSignalIRI") + " ==");
 		int numRawInstances = ktss.getSingleSignalRawInstances(IRI.create(cVals.get("TestSignalIRI"))); 
-		System.out.println("\tRaw Instances: " + numRawInstances);
+		logme.info("\tRaw Instances: " + numRawInstances);
 
 		//*  - The number of event related raw instances
 		int numERInstances = ktss.getSingleSignalEventRawInstances(); 
-		System.out.println("\tEvent Related: " + numERInstances);
+		logme.info("\tEvent Related: " + numERInstances);
 
 		//*  - The number of non-event related raw instances
-		System.out.println("\tNon-Event Related: " + (numRawInstances - numERInstances));
+		logme.info("\tNon-Event Related: " + (numRawInstances - numERInstances));
 
 		//*  - The number of matching correlated instances according to the 
 		//*    ontology
 		List<CorrelatedViewLabelDataset> cdsList = ktss.getCorrelatedDatasets();
 		int numCIs = cdsList.get(0).numCorrelatedInstances();
-		System.out.println("\tCorrelated Data Instances: " + numCIs);
+		logme.info("\tCorrelated Data Instances: " + numCIs);
+		for (CorrelatedViewLabelDataset cd : cdsList){
+		    logme.debug(cd);
+		    for (CorrelationDataInstance cdi : cd.getMatchingInstances(new HashSet<IRI>(), true)){
+		    	logme.debug(cdi);
+		    }
+		}
 
 		//*  - The number of event related correlated instances
-		System.out.println("\tCorrelated Event Related Instances: ");
+		logme.info("\tCorrelated Event Related Instances: ");
 		int[] eventRelatedInstances = cdsList.get(0).numPositiveCorrelatedInstances();
 		int totalEVCInstances = 0;
 		for (int p = 0 ; p < eventRelatedInstances.length; p++){
-			System.out.println("\t\t " + p + " : " + eventRelatedInstances[p]);
+			logme.info("\t\t " + p + " : " + eventRelatedInstances[p]);
 			totalEVCInstances += eventRelatedInstances[p];
 		}
 
 		//*  - The number of non-event related correlated instances
-		System.out.println("\tCorrelated Normal Instances: " + (numCIs - totalEVCInstances));
+		logme.info("\tCorrelated Normal Instances: " + (numCIs - totalEVCInstances));
 		
 	}
 }

@@ -214,7 +214,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 	}
 	
 	/**
-	 * Adds an order key to the provided ID map, incrementing it by 1 each time.
+	 * Adds an order key to the provided ID map, incrementing it by 1 each time for a specific detector.
 	 * @param orderKeys - the list of resources to be used as keys to the ordering map
 	 * @param idmap - The map to be populated with the new order value
 	 */
@@ -229,9 +229,11 @@ public class KIDSAbstractDetector implements KIDSDetector {
 		int orderVal = 1;
 		String orderKey = orderKeyBuilder.toString();
 		if (orderMap.containsKey(orderKey)){
+			// This should be distinct per detector
 				orderVal = orderMap.get(orderKey)+1;
 		}
 		orderMap.put(orderKey.toString(), new Integer(orderVal));
+
 		idmap.put(IRI.create(featureIRI + "ObservationOrder"), String.format("%d",orderVal));
 	}
 

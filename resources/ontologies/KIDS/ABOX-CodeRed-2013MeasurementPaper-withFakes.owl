@@ -363,7 +363,7 @@
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPDataset1"/>
-        <Literal datatypeIRI="&rdfs;Literal">/Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/fakemerged.pcap</Literal>
+        <Literal datatypeIRI="&rdfs;Literal">/Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/datasets/fakemerged.pcap</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetParserImplementation"/>
@@ -373,7 +373,7 @@
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasLabelDataLocation"/>
         <NamedIndividual IRI="#CodeRedEvalPCAPLabelFile"/>
-        <Literal datatypeIRI="&xsd;string">file:///Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/fakepktlabels.txt</Literal>
+        <Literal datatypeIRI="&xsd;string">file:///Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/dataset-labels/fakepktlabels.txt</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasLabelFunction"/>
@@ -383,7 +383,7 @@
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
         <NamedIndividual IRI="#CodeRedEvalSYSLOGDataset1"/>
-        <Literal datatypeIRI="&xsd;string">/Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/fakelogs.txt</Literal>
+        <Literal datatypeIRI="&xsd;string">/Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/datasets/fakelogs.txt</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:datasetParserImplementation"/>
@@ -393,7 +393,7 @@
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasLabelDataLocation"/>
         <NamedIndividual IRI="#CodeRedEvalSYSLOGLabelFile"/>
-        <Literal datatypeIRI="&xsd;string">file:///Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/fakeloglabels.txt</Literal>
+        <Literal datatypeIRI="&xsd;string">file:///Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/dataset-labels/fakeloglabels.txt</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty abbreviatedIRI="TBOX:hasLabelFunction"/>

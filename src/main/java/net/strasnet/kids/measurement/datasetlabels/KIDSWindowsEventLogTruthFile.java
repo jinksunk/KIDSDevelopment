@@ -60,13 +60,13 @@ public class KIDSWindowsEventLogTruthFile extends AbstractDatasetLabel implement
 	 * @see net.strasnet.kids.measurement.datasetlabels.DatasetLabel#init(org.semanticweb.owlapi.model.IRI, org.semanticweb.owlapi.model.IRI)
 	 */
 	@Override
-	public void init(IRI labelLocation, IRI eventIRI)
+	public void init(String labelLocation, IRI eventIRI)
 			throws NumberFormatException, IOException {
 		ourEventIRI = eventIRI;
 		rexp = Pattern.compile(regexPattern);
 		rexpIgnore = Pattern.compile(regexIgnorePattern);
 		// Read in file and build the labelKey
-		BufferedReader r = new BufferedReader(new FileReader(new File(labelLocation.toURI())));
+		BufferedReader r = new BufferedReader(new FileReader(new File(labelLocation)));
 		
 		String line;
 		while ((line = r.readLine()) != null){

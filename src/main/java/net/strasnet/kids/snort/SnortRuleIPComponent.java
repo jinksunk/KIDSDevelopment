@@ -10,6 +10,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.datasources.KIDSSnortIPAddressRange;
 import net.strasnet.kids.gui.KIDSAddEventOracle;
@@ -41,7 +42,7 @@ public class SnortRuleIPComponent extends AbstractSnortRuleComponent {
 	private List<String> values = null;
 
 	
-	public SnortRuleIPComponent(KIDSAddEventOracle ko, String sc2, Set<IRI> currentSignalSet) {
+	public SnortRuleIPComponent(KIDSAddEventOracle ko, String sc2, Set<IRI> currentSignalSet) throws KIDSOntologyDatatypeValuesException {
 		super(ko, currentSignalSet);
 		sClass = sc2;
 		values = new LinkedList<String>();
@@ -55,19 +56,22 @@ public class SnortRuleIPComponent extends AbstractSnortRuleComponent {
 		//TODO: Update to use datatype property "canonical signal value"
 		while (i.hasNext()){
 			OWLNamedIndividual signal = ko.getOwlDataFactory().getOWLNamedIndividual(i.next());
+			String sigVal = ko.getSignalValue(signal);
+			setSnortRepresentation(sigVal);
+			/*
 			OWLDataProperty signalValue = myF.getOWLDataProperty(KIDSOracle.signalValueDataProp);
-			Set<OWLLiteral> ow = ko.getReasoner().getDataPropertyValues(signal, signalValue);
+			//Set<OWLLiteral> ow = ko.getReasoner().getDataPropertyValues(signal, signalValue);
 			Iterator<OWLLiteral> anI = ow.iterator();
 			while (anI.hasNext()){
 				String anval = anI.next().getLiteral();
 				setSnortRepresentation(anval);
-			}
+			}*/
 		}
 	}
 
 	/**
-	 * Given an integer representing a protocol value, will set this.protocol to the snort text for a rule.  If the integer does not
-	 * correspond to a valid Snort rule protocol, will leave the value of this.protocol unchanged. 
+	 * Given an IP specification in the form ip/nm or ip/bits, will return a normalized (ip/bits) 
+	 * form for a Snort rule.
 	 * @param val
 	 */
 	private void setSnortRepresentation(String val){
@@ -80,16 +84,21 @@ public class SnortRuleIPComponent extends AbstractSnortRuleComponent {
 			// Parse the range into a start and end InetAddress:
 			int start1 = 0;
 			int end1 = cValues[i].indexOf('/');
-			int start2 = cValues[i].indexOf('/') + 1;
 
 			InetAddress start = null;
 			InetAddress end = null;
 
 			try {
 				start = InetAddress.getByName(cValues[i].substring(start1,end1));
-				end = InetAddress.getByName(cValues[i].substring(start2));
 				String s = start.toString().substring(1);
-				s += "/" + KIDSSnortIPAddressRange.netmaskAsCidr(end.toString().substring(1));
+				int bits = -1;
+				try {
+					bits = Integer.valueOf(cValues[i].substring(end1+1));
+					s += String.format("/%d",bits);
+				} catch (NumberFormatException ef){
+					end = InetAddress.getByName(cValues[i].substring(end1+1));
+					s += "/" + KIDSSnortIPAddressRange.netmaskAsCidr(end.toString());
+				}
 				values.add(s);
 			} catch (UnknownHostException e) {
 				e.printStackTrace();

@@ -8,10 +8,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.measurement.DataInstance;
+import net.strasnet.kids.measurement.KIDSEIDMeasure;
 import net.strasnet.kids.measurement.Label;
 
 /**
@@ -21,6 +23,7 @@ import net.strasnet.kids.measurement.Label;
  *
  */
 public class AbstractDataInstance implements DataInstance {
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(AbstractDataInstance.class.getName());
 	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	protected Label myLabel = null;
 	private List<IRI> identifiers = new LinkedList<IRI>();
@@ -46,6 +49,7 @@ public class AbstractDataInstance implements DataInstance {
 	 */
 	@Override
 	public void setLabel(Label label) {
+		// How does this get set in practice?
 		myLabel = label;
 	}
 
@@ -62,7 +66,7 @@ public class AbstractDataInstance implements DataInstance {
 			idbuild.append(fVal + "=" + this.myResources.get(fVal));
 		}
 		if (myID != null){
-			System.err.println("[W] Previous ID was: " + myID + " now " + idbuild.toString());
+			logme.warn("Previous ID was: " + myID + " now " + idbuild.toString());
 		}
 		myID = idbuild.toString();
 	}

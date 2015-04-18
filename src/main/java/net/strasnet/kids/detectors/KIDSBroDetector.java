@@ -36,6 +36,9 @@ import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 import net.strasnet.kids.measurement.test.TestOracleFactory;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
@@ -62,6 +65,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 	/**
 	 * Bro rule output sample from this detector:
 	 */
+	private static final Logger logme = LogManager.getLogger(KIDSBroDetector.class.getName());
 	//private static String regexPattern = "[\\d/-:\\.]+\\s+\\[\\*\\*\\].*\\s+ID:(?<PID>\\d+)\\s.*";
 //	private static String regexPattern = "(?<TIMESTAMP>[\\d\\/\\-:\\.]+)\\s+\\[\\*\\*\\]\\s+.*(<?SIP>\\d+\\.\\d+\\.\\d+\\.\\d+)[^-]+\\s->\\s(<?DIP>\\d+\\.\\d+\\.\\d+\\.\\d+).*ID:(<?ID>\\d+)\\s+";
 	private static String regexPattern = "(?<TIMESTAMP>[\\d\\.]+),(?<PID>\\d+),(?<SIP>\\d+\\.\\d+\\.\\d+\\.\\d+),(?<DIP>\\d+\\.\\d+\\.\\d+\\.\\d+)\\s*";
@@ -98,7 +102,8 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			KIDSIncompatibleSyntaxException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
 
 		// First, check cache to see if the signal set has already been evaluated:
-		System.err.println(String.format("[D] BroDetector checking cache..."));
+	    super.resetOrderMap();
+		logme.info(String.format("Checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
@@ -124,13 +129,13 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 				}
 				results = tResults;
 				*/
-				System.err.println(String.format("[D] Bro - Adding cache entry (size = %d) for %s",results.size(), signal));
+				logme.debug(String.format("Adding cache entry (size = %d) for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
-				System.err.println("\t(Signal cache now consists of:");
+				logme.debug("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
-					System.err.println(String.format("\t%s ;",cMapEntry));
+					logme.debug(String.format("\t%s ;",cMapEntry));
 				}
-				System.err.println("\t)");
+				logme.debug("\t)");
 
 			}
 			if (firstSignal){
@@ -150,9 +155,11 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		Set<IRI> signals = new HashSet<IRI>();
 		signals.add(signal);
 
-		String runBroString = executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals); 
-		System.out.println("Executing: " + runBroString);
-		Process runBro = Runtime.getRuntime().exec(executionCommand + " -r " + v.getViewLocation() + " " + ourSyn.getDetectorSyntax(signals)); 
+		String[] runBroString = {executionCommand, "-r",v.getViewLocation(),ourSyn.getDetectorSyntax(signals)}; 
+
+		logme.info("Executing: " + StringUtils.join(runBroString," "));
+		Process runBro = Runtime.getRuntime().exec(runBroString); 
+	    super.resetOrderMap();
 		BroStreamGobbler eGobble = new BroStreamGobbler(runBro.getErrorStream(), "ERROR");
 		BroStreamGobbler iGobble = new BroStreamGobbler(runBro.getInputStream(), "OUTPUT", v);
 		eGobble.start();
@@ -161,16 +168,16 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		try {
 			if (runBro.waitFor() != 0){
 				eGobble.join();
-				System.err.println(eGobble.getOutput());
+				logme.error(eGobble.getOutput());
 			}
 			iGobble.join();
 		} catch (InterruptedException e){
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		System.err.println(String.format("[D] KIDSBroDetector - Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
-		System.err.println(String.format("                    - %d duplicate instances found.", iGobble.dvaluesInSet));
-		System.err.println(String.format("                    - %d total instances found.", iGobble.icount));
+		logme.error(String.format("- Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
+		logme.error(String.format("- %d duplicate instances found.", iGobble.dvaluesInSet));
+		logme.error(String.format("- %d total instances found.", iGobble.icount));
 		this.sigMap.put(signal, toReturn);
 
 		return toReturn;
@@ -204,7 +211,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		// Load from a config file:
 		String usage = "Usage: KIDSBroDetector <pathToConfigFile>";
 		if (args.length != 1){
-			System.err.println(usage);
+			logme.error(usage);
 			java.lang.System.exit(1);
 		}
 		HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[0], KIDSBroDetector.configFileTestValues.keySet());
@@ -266,16 +273,13 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		int count = 0;
 		int icount = 0;
 		int dvaluesInSet = 0;
-		TreeMap<String,Integer> orderMap;
 
 		BroStreamGobbler(InputStream is, String type) {
 			super(is, type);
-			orderMap = new TreeMap<String,Integer>();
 		}
 
 		BroStreamGobbler(InputStream is, String type, DatasetView v) {
 			super(is, type, v);
-			orderMap = new TreeMap<String,Integer>();
 		}
 		
 		public void run() {
@@ -287,7 +291,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 						Matcher rexr = rexp.matcher(line);
 						count = count+1;
 						if (count % 100000 == 0){
-							System.err.println(String.format("\t.. [Bro] Processed %d packets",count));
+							logme.info(String.format("Processed %d packets",count));
 						}
 						if (rexr.find()){
 							icount = icount + 1;
@@ -325,19 +329,19 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 							} else {
                                 nvaluesUsed++;
                                 if (nvaluesUsed == 1){
-								  System.err.println(String.format("[D] - BroDetector -- No existing entry found for e.g.: %s; from line %s", sdi.getID(), line));
+								  logme.debug(String.format("No existing entry found for e.g.: %s; from line %s", sdi.getID(), line));
                                 }
 							}
 							if (!toReturn.add(sdi)){
 								dvaluesInSet++;
 						    	if (dvaluesInSet < 5){
-						    	    System.err.println(String.format("[E] - BroDetector -- Duplicate data instance added to return set e.g.: %s (from line %s)",sdi.getID(), line));
+						    	    logme.error(String.format("Detector -- Duplicate data instance added to return set e.g.: %s (from line %s)",sdi.getID(), line));
 						    	}
 							}
 						}
 				}
 			} catch (IOException | UnimplementedIdentifyingFeatureException ioe) {
-			  System.err.println(ioe);
+			  logme.error(ioe);
               ioe.printStackTrace();  
             }
 		}

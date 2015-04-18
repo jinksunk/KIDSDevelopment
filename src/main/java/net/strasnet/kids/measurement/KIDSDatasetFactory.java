@@ -133,7 +133,7 @@ public class KIDSDatasetFactory {
 		    	DatasetView dv = getViewGenerator(o.getViewImplementation(dvc));
 		    	dv.setIRI(dvc.getIRI());
 		    	DatasetLabel dl = getViewLabelClass(o.getLabelImplementation(label));
-		    	dl.init(o.getLabelLocation(label),event);
+		    	dl.init(o.getLabelLocation(label).toString(),event); // TODO: Some day, use IRIs again
 		    	ViewLabelDataset vld = new ViewLabelDataset();
 		    	vld.setDatasetIRI(d);
 		    	vld.init(dv, dl, o, event);

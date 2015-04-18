@@ -52,7 +52,7 @@ public interface DatasetLabel {
 	 * @throws NumberFormatException 
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public void init(IRI labelLocation, IRI event) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException;
+	public void init(String labelLocation, IRI event) throws NumberFormatException, IOException, UnimplementedIdentifyingFeatureException;
 
 	/**
 	 * 

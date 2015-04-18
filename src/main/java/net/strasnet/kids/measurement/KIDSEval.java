@@ -43,8 +43,7 @@ public interface KIDSEval {
 	 * @throws IncompatibleCorrelationValueException 
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-//	double EvalSignal(IRI signal, DatasetView dv, DatasetLabel dl)
-	double EvalSignal(IRI signal, IRI d, IRI event)
+RecursiveResult EvalSignal(IRI signal, IRI d, IRI event)
 			throws KIDSUnEvaluableSignalException, KIDSOntologyDatatypeValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSOntologyObjectValuesException, NumberFormatException, IOException, KIDSIncompatibleSyntaxException, IncompatibleCorrelationValueException, UnimplementedIdentifyingFeatureException;
 	
 	/** 

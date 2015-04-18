@@ -10,7 +10,9 @@ import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
+import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
+import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
@@ -39,12 +41,12 @@ public class KIDSEIDMeasure {
 
 	/**
 	 * The E_ID measure is computed as follows:
-	 *   - The total number of instances: Inum
 	 *   - The number of instances associated with each event E_i: Enum[i]
-	 *   - The total number of benign instances: IBnum = Inum - sum(Enum)
-	 *   - The number of benign instances which are matched by s: SBInum
-	 *   - The number of benign instances which are not matched by s: NBInum = Inum - SBInum
-	 *   - The adjusted number of event instances matched by the signal: SEnum[i] = Ematched[i] ? 
+	 *   - The total number of instance bags: Inum = IBnum - sum(Enum) + (Enum.len -1)
+	 *   - The total number of benign instance bags: IBnum = Inum - sum(Enum)
+	 *   - The number of benign instance bags which are matched by s: SBInum - (any benign instances in event-related CDIs)
+	 *   - The number of benign instance bags which are not matched by s: NBInum = Inum - SBInum
+	 *   - The adjusted number of event instances matched by the signal: SEnum[i] = all event instances in all matched CDIs for I
 	 *   
 	 * From these values we produce estimates of:
 	 *   - The probability that a randomly chosen instance is benign: pBI = IBnum / Inum
@@ -69,6 +71,9 @@ public class KIDSEIDMeasure {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
+	
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSEIDMeasure.class.getName());
+	
 	//TODO: Rather than just return the EID value, modify to return a suite of metrics, including fpr, fnr, and list of events matched / missed
 	public static RecursiveResult getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 
 		KIDSOntologyDatatypeValuesException, 
@@ -86,9 +91,11 @@ public class KIDSEIDMeasure {
 		int EInum = 0;               // The total number of event bags (# events)
 		int BInum = 0;               // The total number of benign instances
 		int[] SEInumAry = null;		 // The count of positive instances, by event, matched by s
+		int SDnum = 0;				 // The number of events 'caught' by s
 		int SEInum = 0;				 // The number of event instances matched by s
 		int SBInum = 0;				 // The number of benign instances matched by s
 		int NBInum = 0;				 // The number of benign instances *not* matched by s
+		int NEInum = 0;				 // The number of event instances not matched by s, but with related instances matched by s - discounted from NInum
 		int SInum = 0;				 // The number of instances matched (detected) by s
 		int i = 0;					 // Just a counter ;)
 		
@@ -116,18 +123,18 @@ public class KIDSEIDMeasure {
 		
 		/*** Denominators - perfectly correlated values ***/
 		//      In a correlated data set, numInstance returns the sum of the instances in each component
-		//      dataset, minus the event related instances, plus one for each event.
-		// problem (?) - we want to keep the denominator consistent, so we should assume that we are only using correlation functions that work over
+		//      dataset, minus the event related instances, plus one for each event.  This implements 'bagging'.
+		// problem (?) - we want to keep the denominator consistent, so we assume that we are only using correlation functions that work over
 		//               all datasets under consideration...
-		Inum += d.numInstances(); // We need number of correlated instances here?  Actually, no, we're doing bags here
-		EInumAry = d.numPositiveInstances();  // Event Instance counts
+		Inum += d.numInstances(); // Number of bags in the dataset
+		EInumAry = d.numPositiveInstances();  // Event bags in the dataset
 			
 		EInum = d.numEventOccurrences(); // Number of event bags
 		for (i = 0; i < EInum; i++){
 			eventMatches.put(i, false);
 		}
 		
-		BInum = Inum - EInum; // Benign instances (non-event related)
+		BInum = Inum - EInum; // Benign bags (instances) (non-event related)
 		
 		/*** Numerators - Based on IDS correlated data ***/
 		// To get the overall performance of a set of signals, we need to determine:
@@ -143,17 +150,17 @@ public class KIDSEIDMeasure {
 		//  'or', then the bag of instances only needs to include one signal.  The dataset view will implement this.
 		// 
 		// Get counts from filtered data set:
-		CorrelatedViewLabelDataset dTemp = null;
+		CorrelatedViewLabelDataset dTemp = null;  // These are S+ bags
 		
 		try {
 			dTemp = d.getDataSubset(d.getMatchingInstances(s, false)); // Call without debugging
 		} catch (net.strasnet.kids.measurement.KIDSUnEvaluableSignalException e){
-			System.err.print("Could not evaluate signal set {");
+			logme.error("Could not evaluate signal set {");
 			StringBuilder sb = new StringBuilder();
 			for (IRI sigiri : s){
 				sb.append(sigiri.toString() + ",");
 			}
-			System.err.println(sb);
+			logme.error(sb);
 			toReturn.setEID(0);
 			toReturn.setFPR(1);
 			toReturn.setFNR(1);
@@ -161,20 +168,27 @@ public class KIDSEIDMeasure {
 			return toReturn; // Assume no benefit to the signal if we cannot evaluate it
 		}
 		
-		SInum = dTemp.numCorrelatedInstances(); // # of instances matching s, counting event-related instances once for each event
-		SBInum = 0;					// # of correlated benign instances matching s
-		SEInum = 0;					// # of correlated malicious instances matching s
+//		SInum = dTemp.numCorrelatedInstances(); // # of instances matching s, counting event-related instances once for each event -- I think this needs to change now for bagging
+		SInum = dTemp.numInstances(); // # of instance bags matching s, counting event-related instances once for each event -- STILL NEED TO DISCOUNT FROM S-
+		SBInum = 0;					// # of benign instances matching s
+		SEInum = 0;					// # of malicious bags matching s
 		SEInumAry = dTemp.numPositiveCorrelatedInstances();
 		if ((SEInumAry.length - 1) != dTemp.numEventOccurrences()){
-			System.err.println("Warning: Positive instance array length (" + SEInumAry.length + ") != numEventOccurrences (" + dTemp.numEventOccurrences() + ")");
+			logme.warn("Positive instance array length (" + SEInumAry.length + ") != numEventOccurrences (" + dTemp.numEventOccurrences() + ")");
 		}
+		
+		// This is the loop where we handle tp credits and fn discounts
 		for (i = 1; i < SEInumAry.length; i++){
 			if (SEInumAry[i] == 0){
 				continue;
 			}
+
+		    SEInum += SEInumAry[i]; // Track the total number of event related instances in the signal selected data subset
 			
+		    // Don't count the same bag more than once, even if split across multiple CDIs
+		    // After this look, EInumAry will determine which events were identified by the signal set, and which were not.
 			if (EInumAry[i] > 0){
-			    SEInum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
+			    SDnum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
 			    EInumAry[i] = 0;
 			    eventMatches.put(i, true);
 			}
@@ -190,8 +204,9 @@ public class KIDSEIDMeasure {
 			EInumAry[i] = 0; // Ensure we don't double-count positives
 			*/
 		}
-		SBInum = SInum - SEInum;
-		NBInum = BInum - SBInum;
+		SBInum = SInum - SEInum;  // Number of raw benign bags caught by the signal
+		NBInum = BInum - SBInum;  // Number of raw benign bags not caught by the signal
+		NEInum = EInum - SEInum;  // Number of raw benign bags not caught by the signal
 		
 		// Compute Entropies:
 		if (Inum > 0){
@@ -205,8 +220,9 @@ public class KIDSEIDMeasure {
 		pNI = 1 - pSI;
 		
 		H0 = computeEntropy(BInum, EInum);
-		HS = computeEntropy(SBInum, SEInum);
-		HN = computeEntropy(BInum - SBInum, EInum - SEInum);
+		HS = computeEntropy(SBInum, SEInum); // So, SEInum needs to include all instances part of caught events, regardless of
+		                                     //     whether their correlated instances were caught or not.
+		HN = computeEntropy(NBInum, NEInum); // will include all benign events not caught by the signal, and all events not counted in S+
 		
 		IGS = H0 - (pSI*HS + pNI*HN);
 		
@@ -216,7 +232,7 @@ public class KIDSEIDMeasure {
 		} else {
 			E_ID = 0;
 		}
-//		System.err.println("E_ID:" + E_ID + "\t SBINum:" + SBInum + " \t NBINum:" + NBInum + "\t SInum:" + SInum + "\tBInum:" + BInum + "\tInum:" + Inum);
+		logme.debug("\tE_ID:" + E_ID + "\n\t SBINum:" + SBInum + "\n\t NBINum:" + NBInum + "\n\t SEInum:" + SEInum + "\n\t NEInum:" + NEInum + "\n\t SInum:" + SInum + "\n\tBInum:" + BInum + "\n\tInum:" + Inum);
 		/*
 		if (SBInum > 0){
 			int c = 0;
@@ -233,7 +249,7 @@ public class KIDSEIDMeasure {
 		toReturn.setSINum(SInum);
 		toReturn.setSBINum(SBInum);
 		toReturn.setNBINum(NBInum);
-		toReturn.setFNR(((double)SEInum) / EInum);
+		toReturn.setFNR(((double)(NEInum)) / EInum);
 		toReturn.setFPR(((double)SBInum) / BInum);
 		toReturn.setEID(E_ID);
 		return toReturn;

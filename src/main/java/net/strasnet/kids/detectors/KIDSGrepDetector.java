@@ -24,7 +24,10 @@ import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNTEventLogDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
+import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -47,6 +50,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetector {
 	//private static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
+	private static final Logger logme = LogManager.getLogger(KIDSGrepDetector.class.getName());
 	private static String regexPattern = "(\\d+),.*";
 
 	// Map known keys in the kvPairs to the feature domains they represent
@@ -93,13 +97,14 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 				results = this.sigMap.get(signal);
 			} else {
 				results = getMatchingInstances(signal, v);
-				System.err.println(String.format("[D] GrepDetector - Adding cache entry of size %d for %s",results.size(), signal));
+				logme.debug(String.format("Adding cache entry of size %d for %s",results.size(), signal));
 				this.sigMap.put(signal, results);
-				System.err.println("\t(Signal cache now consists of:");
+				StringBuilder lm = new StringBuilder();
+				lm.append("\t(Signal cache now consists of:");
 				for (IRI cMapEntry : this.sigMap.keySet()){
-					System.err.println(String.format("\t%s ;",cMapEntry));
+					lm.append(String.format("\t%s ;",cMapEntry));
 				}
-				System.err.println("\t)");
+				logme.debug(String.format("%s\n)",lm));
 
 			}
 			if (firstSignal){
@@ -124,6 +129,7 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 		Set<IRI> signals = new HashSet<IRI>();
 		signals.add(signal);
 		String[] toExec = {executionCommand, "-E",  ourSyn.getDetectorSyntax(signals), v.getViewLocation()};
+		//String[] toExec2 = {executionCommand, "-E",  ourSyn.getDetectorSyntax(signals), "/Users/cstras/Box Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/test/test2.log"};
 		Process genPcap = Runtime.getRuntime().exec(toExec);
 		BufferedReader rd = new BufferedReader( new InputStreamReader( genPcap.getInputStream() ) );
 		String Line;
@@ -156,23 +162,26 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 			}
 			*/
 			if (genPcap.waitFor() != 0){
-				System.err.print("Non-0 exit code from KIDSGrepDetector: '");
+				logme.warn("Non-0 exit code from KIDSGrepDetector: '");
+				StringBuilder lm = new StringBuilder();
 				for (int i = 0; i < toExec.length; i++){
-					System.err.print(toExec[i] + " ");
+					lm.append(toExec[i] + " ");
 				}
-				System.err.println();
 
 				BufferedReader errd = new BufferedReader (new InputStreamReader(genPcap.getErrorStream()));
 				String errout;
 				while ((errout = errd.readLine()) != null){
-				    System.err.println(errout);
+				    lm.append(String.format("%s\n",errout));
 				}
+				logme.warn(lm);
 			}
 			this.sigMap.put(signal, toReturn);
-			System.err.println(String.format("[D] KIDSGrepDetector - Used %d/%d cached values.",cvaluesUsed,count));
+			logme.info(String.format("Used %d/%d cached values.",cvaluesUsed,count));
 			return toReturn;
 		} catch (InterruptedException e) {
-			throw new IOException("Command interrupted: " + this.executionCommand);
+			String em = String.format("Command interrupted: %s", this.executionCommand); 
+			logme.warn(em);
+			throw new IOException();
 		}
 		
 	}
@@ -206,25 +215,25 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 	private Map<IRI, String> extractResources(String dataLine) throws IOException{
 		Map<IRI,String> returnValue = new HashMap<IRI,String>();
 		Matcher rexm = rexp.matcher(dataLine);
-		//Matcher rexi = rexpIgnore.matcher(Line);
 		if (rexm.matches()){
 		   	String logLineID = rexm.group(1);
-			// Maps of feature IRIs to values
-			//HashMap<IRI, String> idmap = new HashMap<IRI, String>();
 			// Add the identifying features for the instance
-			// Now add the extracted resources
+		   	logme.debug(String.format("Read value for NTEventLogRecordID = %s",logLineID));
 		   	returnValue.put(IRI.create(featureIRI + "NTEventLogRecordID"), logLineID);
 
 	//			} else if (rexi.matches()){
 	//				// Ignore other lines
 	//				continue;
 		} else {
-			throw new IOException("Could not extract Log ID from line: " + dataLine);
+			String em = String.format("Could not extract Log ID from line: %s", dataLine);
+			logme.warn(em);
+			throw new IOException(em);
 		}
 		
 		// Look for each other resource in the line:
 		String[] commaFields = dataLine.split(",",5);
 		returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#instanceTimestamp"), commaFields[1]);
+	   	logme.debug(String.format("Read value for timestamp = %s",commaFields[1]));
 
 		//TODO: Extract LogLine ID from the line:
     	//TODO: At some point, need to add resources other than ID features
@@ -235,8 +244,10 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 			String[] kvPair = kvField.split("=");
 			if (kvPair[0].equals("SRC")){
 				returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#IPv4SourceAddressSignalDomain"), kvPair[1]);
+				logme.debug(String.format("Read value for IPv4SourceAddressSignalDomain = %s",commaFields[1]));
 			} else if (kvPair[0].equals("HTTPGetParameter")){
-				returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#instanceTimestamp"), kvPair[1]);
+				returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#HTTPGetParameterSignalDomain"), kvPair[1]);
+				logme.debug(String.format("Read value for HTTPGetParameter = %s",commaFields[1]));
 			}
 		}
 		
