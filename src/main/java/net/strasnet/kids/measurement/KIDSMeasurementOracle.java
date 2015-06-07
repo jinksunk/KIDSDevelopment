@@ -154,6 +154,16 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	public Set<IRI> getSignalsForDatasetAndEvent(IRI datasetIRI, IRI eventIRI) {
 		Set<IRI> toReturn = new HashSet<IRI>();
 		
+		// Quick test:
+		Set <OWLNamedIndividual> tset = 
+							this.r.getObjectPropertyValues(
+									this.odf.getOWLNamedIndividual(eventIRI),
+									this.odf.getOWLObjectProperty(IRI.create(eventSignalRelation))).getFlattened();
+		tset = 
+							this.r.getObjectPropertyValues(
+								this.odf.getOWLNamedIndividual(datasetIRI),
+								this.odf.getOWLObjectProperty(IRI.create(datasetSignalRelation))
+							).getFlattened();
 		// If Get the intersection of signals produced by e and defined over any feature in any context of the data set.
 		Set <OWLNamedIndividual> sset = 
 			(this.r.getInstances(

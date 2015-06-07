@@ -138,6 +138,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		logme.debug(String.format("TCPDumpDetector checking cache..."));
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
+			logme.info(String.format("Returning %d values cached for signal set in abstract detector.",toReturn.size()));
 			return toReturn;
 		}
 		boolean firstSignal = true;
@@ -165,11 +166,13 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				toReturn.retainAll(results);
 			}
 		}
+		logme.info(String.format("Returning %d values.",toReturn.size()));
 		return toReturn;
 	}
 		
 	private Set<DataInstance> getMatchingInstances (IRI signal, NativeLibPCAPView v) throws IOException, KIDSOntologyObjectValuesException, KIDSOntologyDatatypeValuesException, KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
 		
+		logme.info(String.format("Determining matching instances for %s",signal));
 		Set<DataInstance> toReturn = new HashSet<DataInstance>();
 		Set<IRI> signals = new HashSet<IRI>();
 		signals.add(signal);
@@ -192,6 +195,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		    int cvaluesUsed = 0;
 		    int statusAt = 100000;
 		    int dvaluesInSet = 0;
+		    int evaluesInSet = 0;
 		    long t0 = System.currentTimeMillis();
 		    long t1 = 0;
 		    while ((pcapLine = rd.readLine()) != null){
@@ -268,6 +272,9 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 					    	    logme.error("\t " + sdi.getID());
 					    	}
 					    }
+				    	if (sdi.getLabel() != null && sdi.getLabel().isEvent()){
+				    		evaluesInSet++;
+				    	}
 				    } else {
 					    logme.error("Only first line matched (second is listed here): " + pcapLine);
 					    throw new IOException("Only first line matched (second is listed here): " + pcapLine);
@@ -288,9 +295,11 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			    }
 		    }
 			//this.sigMap.put(signal, toReturn);
-			logme.info(String.format("TCPDumpDetector - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
-			logme.info(String.format("                    - %d duplicate instances found",dvaluesInSet));
-			logme.info(String.format("                    - %d total instances found",toReturn.size()));
+			logme.debug(String.format(" - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
+			logme.debug(String.format(" - %d duplicate instances found",dvaluesInSet));
+			logme.debug(String.format(" - %d event-related instances found",evaluesInSet));
+			logme.debug(String.format(" - %d total instances found",toReturn.size()));
+			logme.info(String.format("Returning %d instances.",toReturn.size()));
 		    return toReturn;
 		} catch (InterruptedException e) {
 			throw new IOException("Command interrupted: " + command);

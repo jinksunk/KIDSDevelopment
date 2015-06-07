@@ -175,9 +175,9 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 			throw new IOException("Command interrupted: " + this.executionCommand);
 		}
 		toReturn = iGobble.getReturnSet();
-		logme.error(String.format("- Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
-		logme.error(String.format("- %d duplicate instances found.", iGobble.dvaluesInSet));
-		logme.error(String.format("- %d total instances found.", iGobble.icount));
+		logme.info(String.format("- Used %d / %d cache values (pool size now: %d).", iGobble.cvaluesUsed, iGobble.count, KIDSAbstractDetector.getDataInstancePoolSize()));
+		logme.info(String.format("- %d duplicate instances found.", iGobble.dvaluesInSet));
+		logme.info(String.format("- %d total instances found.", iGobble.icount));
 		this.sigMap.put(signal, toReturn);
 
 		return toReturn;

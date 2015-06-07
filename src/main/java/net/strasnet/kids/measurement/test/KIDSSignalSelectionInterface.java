@@ -98,10 +98,12 @@ public class KIDSSignalSelectionInterface {
 		Set<IRI> key = null;
 		//Set<IRI> sigsToEval = sigEvalMap.keySet();
 		
-		logme.info("Testing signal set: ");
+		StringBuilder lInfo = new StringBuilder();
+		lInfo.append("Testing signal set: ");
 		for (IRI myI : sigsToEval){
-			logme.info(myI.getFragment() + ",");
+			lInfo.append(myI.getFragment() + ",");
 		}
+		logme.info(lInfo.toString());
 		
 		// If the list contains only one element, evaluate it and return the result, caching the members (?)
 		if (sigsToEval.size() == 1){
@@ -160,10 +162,10 @@ public class KIDSSignalSelectionInterface {
 					cSigsToEval.remove(curSig);
 					if (!triedValues.containsKey(cSigsToEval)){
 						RecursiveResult candidateResult = testSignalSet_iter(kmo, triedValues, cSigsToEval, cvd);
-						triedValues.put(cSigsToEval, candidateResult);
+			//			triedValues.put(cSigsToEval, candidateResult); // This line is the problem - it is already set in a sub-function.
 						if (candidateResult.getEID() >= toReturn.getEID() && 
 								candidateResult.getSignals().size() <= toReturn.getSignals().size()){
-							toReturn = candidateResult;
+							toReturn = candidateResult; 
 						}
 					}
 				}
@@ -216,10 +218,18 @@ public class KIDSSignalSelectionInterface {
 			}
 			
 			// For each dataset, get the set of signals evaluable with that dataset and this event:
+			StringBuilder dsStringList = new StringBuilder();
 			for (String dsIRI : ourDSIRIList){
+				dsStringList.append("dsIRI,");
 				signals.addAll(myGuy.getSignalsForDatasetAndEvent(IRI.create(dsIRI), IRI.create(EventIRI)));
-				
 			}
+			logme.info(String.format("Evaluating signals which are evaluable against event %s with a dataset from [%s] ",EventIRI,dsStringList.toString()));
+			logme.info(String.format("Evaluating %d signals",signals.size()));
+			StringBuilder signalList = new StringBuilder();
+			for (IRI sigString : signals){
+				signalList.append(sigString.getFragment() + ","); 
+			}
+			logme.debug(String.format("[%s]",signalList.toString()));
 			
 			//      Create the datasets first, then iterate over the dataset objects rather than the IRIs
 			//      When returning the datasets, return a <Dataset,Set<SignalIRI>> map, where the signal set is

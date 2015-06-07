@@ -143,7 +143,7 @@ public class CorrelatedViewLabelDataset {
 
 		// Next, remove all the event related instances.
 		int[] eventInstanceCounts = numPositiveInstances(); // We need to determine when there is a positive instance here
-		int numEvents = eventInstanceCounts.length - 1; // element '0' is normal -not an event
+		//int numEvents = eventInstanceCounts.length - 1; // element '0' is normal -not an event
 		int tEvents = 0;
 		for (int i = 1; i < eventInstanceCounts.length; i++){   // element '0' is normal instances
 			// logme.debug(" - eventInstances " + eventInstanceCounts[i]);
@@ -258,6 +258,14 @@ public class CorrelatedViewLabelDataset {
 			// Get the set of matching instances from dataset d for this set of signals.  If the set of signals is empty, just
 			// use the empty set.  Just IDs should be sufficient.
 			Set<DataInstance> matchingInstances = d.getMatchingInstances(applicableSignalSubset);
+
+			// Don't include null if it wasn't specified in the original set of signals.
+			if (applicableSignalSubset.size() == 1 &&
+				applicableSignalSubset.contains(null) &&
+				signalSet.size() != 0 &&
+				! signalSet.contains(null)){
+				matchingInstances = new HashSet<DataInstance>();
+			}
 			
 			// What we really want to know is which signals from the original signal set are covered by a given CDI
 			// Key points:
@@ -303,7 +311,7 @@ public class CorrelatedViewLabelDataset {
 			
 			if (allMatched){
 				returnDataSet.add(cdi);
-				logme.debug("Matched CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
+				logme.debug("Matched CDI ["+ cdi + "]");
 			} else {
 				logme.debug("Failed match for CDI containing instance [" + cdi.getInstances().iterator().next().getID() + "]");
 			}

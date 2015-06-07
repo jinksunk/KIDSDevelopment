@@ -3225,16 +3225,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#bringsIntoExistence"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isAppliedByDetector"/>
         <ObjectProperty IRI="#canApplySignal"/>
+        <ObjectProperty IRI="#isAppliedByDetector"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canApplySignalValue"/>
         <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isDetectedByIDS"/>
         <ObjectProperty IRI="#canDetectEvent"/>
+        <ObjectProperty IRI="#isDetectedByIDS"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canMonitor"/>
@@ -3305,8 +3305,8 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isAbleToRepresent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isResponseFor"/>
         <ObjectProperty IRI="#isAffectedBy"/>
+        <ObjectProperty IRI="#isResponseFor"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>

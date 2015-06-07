@@ -190,7 +190,7 @@ public class BroEventDetectorSyntax implements KIDSDetectorSyntax {
 		File tmp;
 		try {
 			tmp = File.createTempFile("KIDS-", ".bro");
-			tmp.deleteOnExit();
+			//tmp.deleteOnExit();
 			org.apache.commons.io.FileUtils.writeStringToFile(tmp, broSynString.toString(), Charset.forName("UTF-8"));
 			return tmp.getAbsolutePath();
 		} catch (IOException e) {

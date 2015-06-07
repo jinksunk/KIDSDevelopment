@@ -128,7 +128,7 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		}
 		// If no label is present, assume benign
 		//return new Label(EventOccurrence.NONEVENT, false);
-		logme.debug(String.format("Set label for instance %s to event %s",dve.getID(), dve.getLabel().getEventOccurrence()));
+		logme.debug(String.format("Set label for instance %s to event %d",dve.getID(), dve.getLabel().getEventOccurrence().getID()));
 	    return dve.getLabel();
 	}
 

@@ -29,6 +29,8 @@ import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -38,6 +40,8 @@ import org.semanticweb.owlapi.model.IRI;
  *
  */
 public class KIDSAbstractDetector implements KIDSDetector {
+
+	private static final Logger logme = LogManager.getLogger(KIDSAbstractDetector.class.getName());
 
     protected TreeMap<String,Integer> orderMap;
 	protected IRI ourIRI = null;
@@ -63,7 +67,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 		boolean firstSignal = true;
 		for (IRI signal : signals){
 			if (sigMap.containsKey(signal)){
-				System.err.println(String.format("[D] AbstractDetector - Matched signal %s; using %d cached values.",signal,this.sigMap.get(signal).size()));
+				logme.debug(String.format("Matched signal %s; using %d cached values.",signal,this.sigMap.get(signal).size()));
 				// We want the intersection of data instances:
 				if (firstSignal){
 					matches.addAll(sigMap.get(signal));
@@ -72,15 +76,15 @@ public class KIDSAbstractDetector implements KIDSDetector {
 					matches.retainAll(sigMap.get(signal));
 				}
 			} else {
-				System.err.println(String.format("[D] AbstractDetector - No cache entry for signal %s.",signal));
-				System.err.println("\t(Cache consists of:");
+				logme.debug(String.format("- No cache entry for signal %s.",signal));
+				logme.debug("\t(Cache consists of:");
 				for (IRI cEntry : sigMap.keySet()){
-					System.err.println(String.format("\t%s.",cEntry));
+					logme.debug(String.format("\t%s.",cEntry));
 				}
-				System.err.println("\t)");
 				return null;
 			}
 		}
+		logme.debug(String.format("Returning %d instances.",matches.size()));
 		return matches;
 	}
 
@@ -93,7 +97,7 @@ public class KIDSAbstractDetector implements KIDSDetector {
 			KIDSOntologyDatatypeValuesException, InstantiationException,
 			IllegalAccessException, ClassNotFoundException {
 		if (sigMap != null){
-			System.err.println("[W] - Warning, initializing already-initialized detector!");
+			logme.warn("Initializing already-initialized detector!");
 		} else {
 			myGuy = o;
 			ourIRI = detectorIRI;
