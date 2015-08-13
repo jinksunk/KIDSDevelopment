@@ -107,6 +107,8 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
+		} else {
+			toReturn = new HashSet<DataInstance>();
 		}
 		
 		boolean firstSignal = true;
@@ -139,7 +141,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 
 			}
 			if (firstSignal){
-				toReturn = results;
+				toReturn.addAll(results);
 				firstSignal = false;
 			} else {
 				toReturn.retainAll(results);

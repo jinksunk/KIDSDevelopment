@@ -140,6 +140,8 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 		if (toReturn != null){
 			logme.info(String.format("Returning %d values cached for signal set in abstract detector.",toReturn.size()));
 			return toReturn;
+		} else {
+			toReturn = new HashSet<DataInstance>();
 		}
 		boolean firstSignal = true;
 		
@@ -160,7 +162,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 				logme.debug("\t)");
 			}
 			if (firstSignal){
-				toReturn = results;
+				toReturn.addAll(results);
 				firstSignal = false;
 			} else {
 				toReturn.retainAll(results);
@@ -294,7 +296,7 @@ public class KIDSTcpDumpDetector extends KIDSAbstractDetector implements KIDSDet
 			        logme.debug(errout);
 			    }
 		    }
-			//this.sigMap.put(signal, toReturn);
+			this.sigMap.put(signal, toReturn);
 			logme.debug(String.format(" - Used %d / %d cached values (DataInstance pool size now: %d)",cvaluesUsed,icount, KIDSAbstractDetector.getDataInstancePoolSize()));
 			logme.debug(String.format(" - %d duplicate instances found",dvaluesInSet));
 			logme.debug(String.format(" - %d event-related instances found",evaluesInSet));

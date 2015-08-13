@@ -123,6 +123,8 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 		Set<DataInstance> toReturn = super.getMatchingInstances(signals, v);
 		if (toReturn != null){
 			return toReturn;
+		} else {
+			toReturn = new HashSet<DataInstance>();
 		}
 		boolean firstSignal = true;
 		
@@ -142,7 +144,7 @@ TCP TTL:64 TOS:0x0 ID:2 IpLen:20 DgmLen:429
 				logme.debug("\t)");
 			}
 			if (firstSignal){
-				toReturn = results;
+				toReturn.addAll(results);
 				firstSignal = false;
 			} else {
 				toReturn.retainAll(results);

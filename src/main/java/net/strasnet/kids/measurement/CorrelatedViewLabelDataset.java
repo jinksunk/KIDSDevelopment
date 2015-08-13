@@ -258,12 +258,23 @@ public class CorrelatedViewLabelDataset {
 			// Get the set of matching instances from dataset d for this set of signals.  If the set of signals is empty, just
 			// use the empty set.  Just IDs should be sufficient.
 			Set<DataInstance> matchingInstances = d.getMatchingInstances(applicableSignalSubset);
+			StringBuilder sigSB = new StringBuilder();
+			for (IRI iri : applicableSignalSubset){
+				if (iri != null){
+				    sigSB.append(iri.toString());
+				} else {
+				    sigSB.append("null");
+				}
+				sigSB.append(",");
+			}
+			logme.debug(String.format("Got %d matching instances from signal set: %s", matchingInstances.size(), sigSB.toString()));
 
 			// Don't include null if it wasn't specified in the original set of signals.
 			if (applicableSignalSubset.size() == 1 &&
 				applicableSignalSubset.contains(null) &&
 				signalSet.size() != 0 &&
 				! signalSet.contains(null)){
+				logme.debug("Ignoring null signal for this set.");
 				matchingInstances = new HashSet<DataInstance>();
 			}
 			
@@ -279,10 +290,10 @@ public class CorrelatedViewLabelDataset {
 		}
 		// If we can't process all the signals, then none of the CDIs can match, so we may as well bail:
 		if (usedSignals.size() != signalSet.size()){
-			System.err.println("[W]: (CorrelatedViewDataset.getMatchingInstances) Not all signals could be applied, returning empty set.");
-			System.err.println("   : Only the following signals could be used: ");
+			logme.warn("Not all signals could be applied, returning empty set.");
+			logme.warn("   : Only the following signals could be used: ");
 			for (IRI t : usedSignals){
-				System.err.println("   : - " + t.toString());
+				logme.warn("   : - " + t.toString());
 			}
 			return returnDataSet;
 		}
@@ -297,18 +308,30 @@ public class CorrelatedViewLabelDataset {
 			for (DataInstance di : componentInstances){
 				// Lookup data instance in hashmap, and count off all the signals it matched from the set we're considering.
 				if (matchingDISet.containsKey(di.getID())){
+					logme.debug(String.format("Found matching data instance: %s",di.getID()));
 					matchedSignals.addAll(matchingDISet.get(di.getID()));
 				}
-
 			}
 			// If the CDI is covered, the whole thing matches - add it to the return data set.
 			boolean allMatched = true;
 			for (IRI signal : signalSet){
 				if (!matchedSignals.contains(signal )){
+					logme.debug(String.format("Instance did not match signal %s", signal.getFragment()));
 					allMatched = false;
 				}
 			}
 			
+
+			StringBuilder sigSB = new StringBuilder();
+			for (IRI iri : signalSet){
+				if (iri != null){
+				    sigSB.append(iri.getFragment());
+				} else {
+				    sigSB.append("null");
+				}
+				sigSB.append(",");
+			}
+			logme.debug(String.format("Signal set {%s}:", sigSB));
 			if (allMatched){
 				returnDataSet.add(cdi);
 				logme.debug("Matched CDI ["+ cdi + "]");
