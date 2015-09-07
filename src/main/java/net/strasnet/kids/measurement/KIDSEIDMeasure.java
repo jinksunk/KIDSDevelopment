@@ -91,8 +91,7 @@ public class KIDSEIDMeasure {
 		int EInum = 0;               // The total number of event bags (# events)
 		int BInum = 0;               // The total number of benign instances
 		int[] SEInumAry = null;		 // The count of positive instances, by event, matched by s
-		int SDnum = 0;				 // The number of events 'caught' by s
-		int SEInum = 0;				 // The number of event instances matched by s
+		int SEInum = 0;				 // The number of correlated event instances matched by s
 		int SBInum = 0;				 // The number of benign instances matched by s
 		int NBInum = 0;				 // The number of benign instances *not* matched by s
 		int NEInum = 0;				 // The number of event instances not matched by s, but with related instances matched by s - discounted from NInum
@@ -100,7 +99,6 @@ public class KIDSEIDMeasure {
 		int i = 0;					 // Just a counter ;)
 		
 		double pBI = 0;				 // The probability of an instance being benign
-		double pEI = 0;			     // The probability of an instance being associated with some event
 		double pSI = 0;			     // The probability of an instance being detected (or associated with an event
 								 // which is detected.
 		double pNI = 0;				 // The probability of an instance not being detected
@@ -110,6 +108,11 @@ public class KIDSEIDMeasure {
 		double HN = 0; 			     // The entropy of the dataset not matching Signal s
 		
 		double IGS = 0; 			 // The information gain after applying signal s
+		
+		boolean fpDebug = true;
+		boolean fnDebug = true;
+		boolean tnDebug = true;
+		boolean tpDebug = true;
 		
 		RecursiveResult toReturn = new RecursiveResult();
 		toReturn.setSignals(s);
@@ -126,10 +129,12 @@ public class KIDSEIDMeasure {
 		//      dataset, minus the event related instances, plus one for each event.  This implements 'bagging'.
 		// problem (?) - we want to keep the denominator consistent, so we assume that we are only using correlation functions that work over
 		//               all datasets under consideration...
-		Inum += d.numInstances(); // Number of bags in the dataset
-		EInumAry = d.numPositiveInstances();  // Event bags in the dataset
+		Inum += d.numRawBags(); // Number of bags in the dataset
+		EInumAry = d.numPositiveRawInstances();  // Event instances in the dataset; each element of the array is one 'bag'
 			
-		EInum = d.numEventOccurrences(); // Number of event bags
+		EInum = d.numEventOccurrences(); // Number of event bags; should be the same as for (i in EInumAry; i> 0){ count++; }
+		
+		
 		for (i = 0; i < EInum; i++){
 			eventMatches.put(i, false);
 		}
@@ -153,7 +158,7 @@ public class KIDSEIDMeasure {
 		CorrelatedViewLabelDataset dTemp = null;  // These are S+ bags
 		
 		try {
-			dTemp = d.getDataSubset(d.getMatchingInstances(s, false)); // Call without debugging
+			dTemp = d.getDataSubset(d.getMatchingCorrelatedInstances(s, false)); // Call without debugging
 		} catch (net.strasnet.kids.measurement.KIDSUnEvaluableSignalException e){
 			logme.error("Could not evaluate signal set {");
 			StringBuilder sb = new StringBuilder();
@@ -169,44 +174,52 @@ public class KIDSEIDMeasure {
 		}
 		
 //		SInum = dTemp.numCorrelatedInstances(); // # of instances matching s, counting event-related instances once for each event -- I think this needs to change now for bagging
-		SInum = dTemp.numInstances(); // # of instance bags matching s, counting event-related instances once for each event -- STILL NEED TO DISCOUNT FROM S-
-		SBInum = 0;					// # of benign instances matching s
+		SInum = dTemp.numRawBags(); // # of instance bags matching s, counting event-related instances once for each event -- STILL NEED TO DISCOUNT FROM S-
+		SBInum = 0;					// # of benign bags matching s
 		SEInum = 0;					// # of malicious bags matching s
-		SEInumAry = dTemp.numPositiveCorrelatedInstances();
+
+		SEInumAry = dTemp.numPositiveCorrelatedInstances(); // Correlated instances marked as 'positive'
+
 		if ((SEInumAry.length - 1) != dTemp.numEventOccurrences()){
 			logme.warn("Positive instance array length (" + SEInumAry.length + ") != numEventOccurrences (" + dTemp.numEventOccurrences() + ")");
 		}
-		
+
 		// This is the loop where we handle tp credits and fn discounts
 		for (i = 1; i < SEInumAry.length; i++){
 			if (SEInumAry[i] == 0){
 				continue;
 			}
 
-		    SEInum += SEInumAry[i]; // Track the total number of event related instances in the signal selected data subset
+		    SEInum += 1; // Track the total number of event related bags in the signal selected data subset
 			
-		    // Don't count the same bag more than once, even if split across multiple CDIs
-		    // After this look, EInumAry will determine which events were identified by the signal set, and which were not.
-			if (EInumAry[i] > 0){
-			    SDnum += 1; // NOTE: This accounts for a single event being detected, regardless of number of instances.
-			    EInumAry[i] = 0;
+		    // Don't count the same bag more than once, even if split across multiple CDIs -- we only detect or not-detect an event
+		    // After this loop, eventMatches will determine which events were identified by the signal set, and which were not.
+			if (SEInumAry[i] > 0){
+			    SEInumAry[i] = 0;
 			    eventMatches.put(i, true);
 			}
 
-			/*  DELETE - after working
-			if (EInumAry[i] > SEInumAry[i]){  
-				SInum += (EInumAry[i] - SEInumAry[i]); // To make sure that all accounted-for instances are... accounted for :)
-			}
-			if (EInumAry[i] == 0){
-				// If we've already accounted for this event, remove it from SInum:
-				SInum -= SEInumAry[i];
-			}
-			EInumAry[i] = 0; // Ensure we don't double-count positives
-			*/
 		}
+		
+		/**
+		 * Suppose we have 10 instances, three event related, and 7 benign.  There is one event.
+		 * Our correlation function groups the 2 of the event and three other instances together, and the other 
+		 * 4 benign and 1 event related.
+		 * 
+		 * Our signal catches the first correlation group, and not the second.
+		 * 
+		 * Bags = 8
+		 * Correlated Instances = 2
+		 * SInum = 4 (bags)
+		 * SEInum = 1 (bag, there is only 1 event)
+		 * SBInum = 3 (SInum - SEInum -- this should be 3, number of benign raw instances)
+		 * NBInum = 4
+		 * NEInum = 0 (The signal gets credit for the event instance)
+		 */
+
 		SBInum = SInum - SEInum;  // Number of raw benign bags caught by the signal
 		NBInum = BInum - SBInum;  // Number of raw benign bags not caught by the signal
-		NEInum = EInum - SEInum;  // Number of raw benign bags not caught by the signal
+		NEInum = EInum - SEInum;  // Number of raw event bags not caught by the signal
 		
 		// Compute Entropies:
 		if (Inum > 0){
@@ -216,7 +229,6 @@ public class KIDSEIDMeasure {
 			pBI = 0;
 			pSI = 0;
 		}
-		pEI = 1 - pBI;
 		pNI = 1 - pSI;
 		
 		H0 = computeEntropy(BInum, EInum);
@@ -232,19 +244,63 @@ public class KIDSEIDMeasure {
 		} else {
 			E_ID = 0;
 		}
-		logme.debug("\tE_ID:" + E_ID + "\n\t SBINum:" + SBInum + "\n\t NBINum:" + NBInum + "\n\t SEInum:" + SEInum + "\n\t NEInum:" + NEInum + "\n\t SInum:" + SInum + "\n\tBInum:" + BInum + "\n\tInum:" + Inum);
-		/*
-		if (SBInum > 0){
-			int c = 0;
-			Set<CorrelationDataInstance> diT = dTemp.getMatchingInstances(new HashSet<IRI>());
-			for (CorrelationDataInstance cdiT : diT){
-				c = c+1;
-				System.err.println("\tCDI:" + c);
-				for (DataInstance diTemp : cdiT.getInstances()){
-					System.err.println("\t|-\t" + diTemp.getID());
+		StringBuilder sb = new StringBuilder();
+		for (IRI sigiri : s){
+			sb.append(sigiri.toString() + ",");
+		}
+		logme.info("Values for signal set: " + sb.toString() + "\n\tE_ID:" + E_ID + "\n\t FP:" + SBInum + "\n\t TN:" + NBInum + "\n\t TP:" + SEInum + "\n\t FNInum:" + NEInum + "\n\t SInum:" + SInum + "\n\tBInum:" + BInum + "\n\tInum:" + Inum);
+		logme.info(String.format("Starting correlated data set: %s", d));
+		logme.info(String.format("Signal filtered correlated data set: %s", dTemp));
+		if (SBInum > 0 && fpDebug){
+			CorrelationDataInstance FPex = dTemp.getCorrelatedBenignInstance();
+			if (FPex != null){
+			    logme.info(String.format("Correlated FP Example: %s", FPex.toString()));
+			} else {
+				DataInstance FPRaw = dTemp.getRawBenignInstance();
+				if (FPRaw != null){
+					logme.info(String.format("Raw FP Example: %s", FPRaw.toString()));
+				} else {
+				    logme.error(String.format("Odd condition: SBInum == %d, but no FP Examples found...", SBInum));
+				    logme.error(String.format("Dataset: %s", dTemp));
 				}
 			}
-		} */
+			fpDebug = false;
+		}
+		if (SEInum > 0 && tpDebug){
+			CorrelationDataInstance TPex = dTemp.getEventInstance();
+			if (TPex != null){
+			    logme.info(String.format("TP Example: %s", TPex.toString()));
+			} else {
+				logme.error(String.format("Odd condition: SEInum == %d, but no TP Examples found...", SEInum));
+				logme.error(String.format("Dataset: %s", dTemp));
+			}
+			tpDebug = false;
+		}
+		if (NBInum > 0 && tnDebug){
+			CorrelationDataInstance TNex = d.getCorrelatedBenignInstance();
+			if (TNex != null){
+			    logme.info(String.format("TN Example: %s", TNex.toString()));
+			} else {
+				DataInstance TNRaw = dTemp.getRawBenignInstance();
+				if (TNRaw != null){
+					logme.info(String.format("Raw TN Example: %s", TNRaw.toString()));
+				} else {
+				    logme.error(String.format("Odd condition: NBInum == %d, but no TN Examples found...", NBInum));
+				    logme.error(String.format("Dataset: %s", d));
+				}
+			}
+			fnDebug = false;
+		}
+		if (NEInum > 0 && fnDebug){
+			CorrelationDataInstance FNex = d.getEventInstance();
+			if (FNex != null){
+			    logme.info(String.format("TN Example: ", FNex.toString()));
+			} else {
+				logme.error(String.format("Odd condition: NEInum == %d, but no FN Examples found...", NEInum));
+				logme.error(String.format("Dataset: %s", d));
+			}
+			tnDebug = false;
+		}
 		toReturn.setBINum(BInum);
 		toReturn.setSINum(SInum);
 		toReturn.setSBINum(SBInum);

@@ -242,10 +242,10 @@ public class KIDSSignalSelectionInterface {
 				//Dataset ourDS = KIDSDatasetFactory.getViewLabelDataset(IRI.create(DatasetIRI), IRI.create(EventIRI), myGuy);
 				assert(ourDS != null);
 				logme.info("Evaluating CDI with the following properties:");
-				logme.info("Instances:\t" + ourDS.numInstances());
-				logme.info("cInstances:\t" + ourDS.numCorrelatedInstances());
+				logme.info("Raw Instances:\t" + ourDS.numRawInstances());
+				logme.info("Correlated Instances:\t" + ourDS.numCorrelatedInstances());
 				logme.info("Events:\t" + ourDS.numEventOccurrences());
-				logme.info("EvInstances:\t" + (ourDS.numPositiveInstances().length - 1));
+				logme.info("Events:\t" + (ourDS.numPositiveRawInstances().length - 1));
 				logme.info("cEvInstances:\t" + (ourDS.numPositiveCorrelatedInstances().length - 1));
 		
 				// Assess all subsets of available signals, recording the EID values for each:

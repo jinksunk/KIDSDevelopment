@@ -4,6 +4,7 @@
 package net.strasnet.kids.measurement;
 
 import java.io.IOException;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -32,7 +33,7 @@ import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException
  *   applied to each instance of the dataset.
  * - 
  */
-public interface Dataset {
+public interface Dataset{
 	/**
 	 * 
 	 * @return The number of instances in the dataset.

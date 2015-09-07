@@ -33,7 +33,7 @@ import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
  * Represents a set of ViewLabelDatasets correlated by a correlation function.
  * 
  */
-public class CorrelatedViewLabelDataset {
+public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInstance>{
 	
 	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
 	private Map<Dataset, DatasetLabel> constituentDatasets;
@@ -125,37 +125,59 @@ public class CorrelatedViewLabelDataset {
 	}
 	
 	/**
+	/**
 	 * NOTE: this works with *base* instances, not the correlated data instances
-	 * @return - The number of data instances, minus the number of event-related instances, plus the number of events.
+	 * @return - The number of data instances
 	 */
-	public int numInstances(){
-		// logme.debug("CorrelatedViewLabelDataset.numInstances:");
+	public int numRawInstances(){
+		logme.debug("CorrelatedViewLabelDataset.numInstances:");
 		// First, just get a count of all the instances.
 		int totalInstances = 0;
 		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();
+		
+		// Get the number of raw instances
 		while (cii.hasNext()){
 			CorrelationDataInstance ci = cii.next();
-			//logme.debug(" + CDI " + ci.hashCode() + " with " + ci.getInstances().size() + " instances...");
+			logme.debug(" + CDI " + ci.toString() + " with " + ci.getInstances().size() + " instances...");
 			Set<DataInstance> instanceSet = ci.getInstances();
 			totalInstances += instanceSet.size();
 		}
-		// We now have a count of all instances
+		return totalInstances;
+	}
 
-		// Next, remove all the event related instances.
-		int[] eventInstanceCounts = numPositiveInstances(); // We need to determine when there is a positive instance here
-		//int numEvents = eventInstanceCounts.length - 1; // element '0' is normal -not an event
-		int tEvents = 0;
+	/**
+	 * 
+	 * @return - The number of correlated data instances in this data set
+	 */
+	public int numCorrelatedInstances() {
+		logme.debug("CorrelatedViewLabelDataset.numCorrelatedInstances:");
+		return this.ourDataInstances.size();
+	}
+
+    /**
+	 * @return - The number of bags.  Each benign data instance is a bag, and all event related instances in the same event are a bag.
+	 *  We return the number of raw data instances, minus the number of event-related instances, plus the number of events.
+	 */
+	public int numRawBags(){
+		// logme.debug("CorrelatedViewLabelDataset.numRawBags:");
+		// First, just get a count of all the instances.
+		int totalBags = this.numRawInstances();
+		logme.debug(String.format("Starting bags: %d",totalBags));
+
+		// Next, discount all the event related instances.
+		int[] eventInstanceCounts = numPositiveRawInstances(); // We need to determine when there is a positive instance here
+
 		for (int i = 1; i < eventInstanceCounts.length; i++){   // element '0' is normal instances
-			// logme.debug(" - eventInstances " + eventInstanceCounts[i]);
+			logme.debug(" - eventInstances[" + i + "] " + eventInstanceCounts[i] + " + 1");
 			if (eventInstanceCounts[i] > 0){
-				totalInstances -= eventInstanceCounts[i];
-				tEvents++;
+				totalBags -= eventInstanceCounts[i]; // Discount all the bag elements
+				totalBags += 1; // Add one back in for each event bag
 			}
 		}
+
 		// Finally, add back in the number of events.
-		// logme.debug(" + eventCounts " + numEvents);
-		totalInstances += tEvents; // No - we just add back in the number of non-0 ones!
-		return totalInstances;
+		logme.debug(String.format("Total: %d",totalBags));
+		return totalBags;
 	}
 
 	/**
@@ -163,7 +185,7 @@ public class CorrelatedViewLabelDataset {
 	 * this data set.
 	 * NOTE: This returns positive *base* instances, not positive correlated data instances.
 	 */
-	public int[] numPositiveInstances(){
+	public int[] numPositiveRawInstances(){
 		// Iterate through the dataset, keeping track of both the number of instances per event ID, and the largest eventID seen
 		int maxEventID = 0;
 		HashMap<Integer,Integer> eid2count = new HashMap<Integer,Integer>();
@@ -208,13 +230,13 @@ public class CorrelatedViewLabelDataset {
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	Set<CorrelationDataInstance> getMatchingInstances(Set<IRI> signalSet) throws 
+	Set<CorrelationDataInstance> getMatchingCorrelatedInstances(Set<IRI> signalSet) throws 
 		KIDSOntologyObjectValuesException, 
 		KIDSOntologyDatatypeValuesException, 
 		IOException, 
 		KIDSIncompatibleSyntaxException, 
 		KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException{
-		return this.getMatchingInstances(signalSet, false);
+		return this.getMatchingCorrelatedInstances(signalSet, false);
 	}
 
 	/**
@@ -227,7 +249,7 @@ public class CorrelatedViewLabelDataset {
 	 * @return
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
-	public Set<CorrelationDataInstance> getMatchingInstances(Set<IRI> signalSet,
+	public Set<CorrelationDataInstance> getMatchingCorrelatedInstances(Set<IRI> signalSet,
 			boolean debugOutput) throws
 		KIDSOntologyObjectValuesException, 
 		KIDSOntologyDatatypeValuesException, 
@@ -350,6 +372,7 @@ public class CorrelatedViewLabelDataset {
 	public int numEventOccurrences() {
 		if (this.constituentDatasets.size() > 0){
 			Dataset d = this.constituentDatasets.keySet().iterator().next();
+			logme.debug(String.format("Returning %d instances from dataset %s.",d.numEventOccurrences(), d.getIRI()));
 			return d.numEventOccurrences();
 		} else {
 			return 0;
@@ -419,10 +442,61 @@ public class CorrelatedViewLabelDataset {
 
 	/**
 	 * 
-	 * @return - The number of correlated data instances in this data set
+	 * @return - The number of correlated data bags in this data set
+	 * A correlated bag - each correlated data instance is its own bag if it is benign, that is, if it contains *no* event related 
+	 * instances.  All correlated data instances containing an instance belonging to the same event are a single bag. 
+	 * 
+	 * Question: what about CDI's which span multiple bags... this can happen.  A CDI containing event-related instances from 2 (or more) 
+	 * distinct events represents 2 (or more) bags.
+	 * 
 	 */
-	public int numCorrelatedInstances() {
-		return this.ourDataInstances.size();
+	public int numCorrelatedBags() {
+		int instances = this.ourDataInstances.size();
+		// discount by the number of event instances, then add back in the number of events
+		int [] evtInstanceAry = this.numPositiveCorrelatedInstances();
+		for (int i = 0; i < evtInstanceAry.length; i++){
+			instances = instances - evtInstanceAry[i] + 1;
+		}
+		return instances;
+	}
+
+	/**
+	 * 
+	 * @return - An array, one element for each event ID, with the count of correlated
+	 *           data bags associated with that event (this is the same as the number of 
+	 *           events represented in the data set).
+	 *           
+	 *           TODO: Keep track of the number of events in a different way here - we should
+	 *           use the static class variables for this.
+	 */
+	public int[] numPositiveCorrelatedBags() {
+		// Iterate through the dataset, keeping track of both the number of instances per event ID, and the largest eventID seen
+		HashMap<Integer,Integer> eid2count = new HashMap<Integer,Integer>();
+		
+		Iterator<CorrelationDataInstance> cii = this.ourDataInstances.iterator();
+		while (cii.hasNext()){
+			CorrelationDataInstance ci = cii.next();
+			Map<Integer, Set<DataInstance>> eicount = ci.getEventInstances();
+			for (Integer eInstance : eicount.keySet()){
+				if (!eid2count.containsKey(eInstance)){
+					eid2count.put(eInstance, 1);
+				}
+				if (eInstance > maxEventID){
+					maxEventID = eInstance;
+				}
+			}
+		}
+		
+		// Now, create the array:
+		/** TODO: Assuming that the event IDs are a contiguous set of integers. */
+		int[] returnArray = new int[maxEventID+1];
+		for (int i = 1; i <= maxEventID; i++){
+			returnArray[i] = 0;
+		}
+		for (Integer eventID : eid2count.keySet()){
+			returnArray[eventID] = eid2count.get(eventID);
+		}
+		return returnArray;
 	}
 
 	/**
@@ -432,6 +506,9 @@ public class CorrelatedViewLabelDataset {
 	 *           
 	 *           TODO: Keep track of the number of events in a different way here - we should
 	 *           use the static class variables for this.
+	 *           
+	 *           TODO: This assumes that a correlation function will result in event related CDIs with member instances
+	 *           from at most one event.
 	 */
 	public int[] numPositiveCorrelatedInstances() {
 		// Iterate through the dataset, keeping track of both the number of instances per event ID, and the largest eventID seen
@@ -445,7 +522,7 @@ public class CorrelatedViewLabelDataset {
 				if (!eid2count.containsKey(eInstance)){
 					eid2count.put(eInstance, 0);
 				}
-				eid2count.put(eInstance, 1);
+				eid2count.put(eInstance, eid2count.get(eInstance) + 1);
 				if (eInstance > maxEventID){
 					maxEventID = eInstance;
 				}
@@ -469,20 +546,89 @@ public class CorrelatedViewLabelDataset {
 	 */
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
-		// First, report the number of instances in the dataset:
-		sb.append(String.format("Raw Instances: %d",this.numInstances()));
-		sb.append(String.format("Correlated Instances %d",this.numCorrelatedInstances())); 
-		sb.append(String.format(", Num Event Occurrences: %d",this.numEventOccurrences())); 
+
+		// Gather data for the positive raw and positive correlated instances:
 		int totalPositives = 0;
-		int[] posAry = this.numPositiveInstances();
+		int[] posAry = this.numPositiveRawInstances();
 		for (int i = 0; i < posAry.length; i++){
 			totalPositives += posAry[i];
 		}
-		sb.append(String.format(", numPositiveInstances: %d",totalPositives)); 
-		sb.append(String.format(", numPositiveCorrelatedInstances: %d",this.numPositiveCorrelatedInstances()));
+		int[] pciary = this.numPositiveCorrelatedInstances();
+
+		// First, report the number of instances in the dataset:
+		sb.append(String.format("Raw Instances: %d",this.numRawInstances()));
+		sb.append(String.format("Correlated Instances %d",this.numCorrelatedInstances())); 
+		sb.append(String.format(", Num Event Occurrences: %d",this.numEventOccurrences())); 
+		sb.append(String.format(", numPositiveRawInstances: %d",totalPositives)); 
+		sb.append(String.format(", numPositiveCorrelatedInstances: ["));
+		for (int i = 0; i < pciary.length; i++){
+			sb.append(String.format("%d,",pciary[i]));
+		}
+		sb.append("]");
+		
+		if (logme.isDebugEnabled()){
+		    sb.append("\nCorrelated Data Instances: ");
+		    for (CorrelationDataInstance cdi : this.ourDataInstances){
+			    sb.append(cdi.toString());
+		    }
+		}
 		
 		return sb.toString();
 		
 	}
 
+	@Override
+	public Iterator<CorrelationDataInstance> iterator() {
+		return this.ourDataInstances.iterator();
+	}
+
+	/**
+	 * Return an example instance which is event related.
+	 * @return A CorrelationDataInstance which is event related.
+	 */
+	public CorrelationDataInstance getEventInstance() {
+		Iterator<CorrelationDataInstance> i = this.iterator();
+		while (i.hasNext()){
+			CorrelationDataInstance TempI = i.next();
+			if (TempI.isEventRelated()){
+				return TempI;
+			}
+		}
+		logme.info("No event related instances found.");
+		return null;
+	}
+
+	/**
+	 * Return an example instance which is event related.
+	 * @return A CorrelationDataInstance which is event related.
+	 */
+	public CorrelationDataInstance getCorrelatedBenignInstance() {
+		Iterator<CorrelationDataInstance> i = this.iterator();
+		while (i.hasNext()){
+			CorrelationDataInstance TempI = i.next();
+			if (!TempI.isEventRelated()){
+				return TempI;
+			}
+		}
+		logme.info("No event related correlated instances found.");
+		return null;
+	}
+
+	/**
+	 * Return an example instance which is event related.
+	 * @return A CorrelationDataInstance which is event related.
+	 */
+	public DataInstance getRawBenignInstance() {
+		Iterator<CorrelationDataInstance> i = this.iterator();
+		while (i.hasNext()){
+			CorrelationDataInstance TempI = i.next();
+			for (DataInstance rawInstance : TempI.getInstances()){
+			    if (!rawInstance.getLabel().isEvent()){
+				    return rawInstance;
+			    }
+			}
+		}
+		logme.info("No event related raw instances found.");
+		return null;
+	}
 }
