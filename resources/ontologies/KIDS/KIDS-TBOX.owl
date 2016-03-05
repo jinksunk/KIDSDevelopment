@@ -1099,6 +1099,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#ipProtocolNumber"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#nullCorrelationFunction"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#positiveIntegerEquality"/>
     </Declaration>
     <Declaration>
@@ -1106,9 +1109,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#servicePortNumber"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#sharedSourceIPAddressRelation"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#singleBitmaskMatchNonZero"/>
@@ -2901,6 +2901,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#ipProtocolNumber"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#CorrelationRelation"/>
+        <NamedIndividual IRI="#nullCorrelationFunction"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#PositiveIntegerEquality"/>
         <NamedIndividual IRI="#positiveIntegerEquality"/>
     </ClassAssertion>
@@ -3146,11 +3150,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#secondSampleByPacket"/>
         <NamedIndividual IRI="#dport80PacketsPerSecond"/>
     </ObjectPropertyAssertion>
-    <ObjectPropertyAssertion>
-        <ObjectProperty IRI="#relationUsesResource"/>
-        <NamedIndividual IRI="#sharedSourceIPAddressRelation"/>
-        <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
-    </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
         <NamedIndividual IRI="#Grep2.5.1RuleSyntax"/>
@@ -3165,11 +3164,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
         <NamedIndividual IRI="#broEventDetectionSyntax"/>
         <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax</Literal>
-    </DataPropertyAssertion>
-    <DataPropertyAssertion>
-        <DataProperty IRI="#hasCorrelationRelationImplementation"/>
-        <NamedIndividual IRI="#sharedSourceIPAddressRelation"/>
-        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.measurement.correlationfunctions.SourceIPAddressCorrelationFunction</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
@@ -5365,11 +5359,6 @@ Indicates that a signal can be represented by a particular syntactic form.</Lite
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#respondsTo</IRI>
         <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">IRS Responds To Event</Literal>
-    </AnnotationAssertion>
-    <AnnotationAssertion>
-        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
-        <IRI>#sharedSourceIPAddressRelation</IRI>
-        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">Correlates the ten temporally closest instances which share a source IP address.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
