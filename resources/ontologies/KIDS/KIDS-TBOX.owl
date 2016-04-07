@@ -40,10 +40,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#existsInView"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isProducerOfIntrinsicSignal"/>
+        <NamedIndividual IRI="#PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <ObjectProperty IRI="#isProducerOfIntrinsicSignal"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#canSeeManifestation"/>
@@ -55,10 +55,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#producesRepresentation"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <ObjectProperty IRI="#relationUsesResource"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#relationUsesResource"/>
+        <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </Declaration>
     <Declaration>
         <Class IRI="#HostIRS"/>
@@ -70,13 +70,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ICMPSignalDomainContext"/>
+        <Class IRI="#TCPFlags_SingleBitmaskNonZero"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPFlags_SingleBitmaskNonZero"/>
+        <Class IRI="#ICMPSignalDomainContext"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#SignalInManifestation"/>
@@ -115,16 +115,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacket_PacketLengthRepresentation1"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#TCPFlags"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#NetflowRuleSyntax"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ByteEquality"/>
+        <NamedIndividual IRI="#TCPFlags"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPPacketHeader"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ByteEquality"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#HTTPGetParameter"/>
@@ -137,6 +137,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#IntegerEquality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canStop"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#providesResource"/>
@@ -241,10 +244,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Event"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ICMPProtocolResponse"/>
+        <Class IRI="#NetworkFlowDataset"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#NetworkFlowDataset"/>
+        <Class IRI="#ICMPProtocolResponse"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#usedByCorrelationRelation"/>
@@ -352,13 +355,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacketPayload_StringMatch"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#TCPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#MaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
         <Class IRI="#LibPcap_SecondOfPacketsView"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPProtocolResponse"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#IPPacket_IPPacketDataRepresentation1"/>
@@ -397,10 +400,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#TCPPacket"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#intrinsicSigByEvent"/>
+        <Class IRI="#HTTPPacketContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#HTTPPacketContext"/>
+        <ObjectProperty IRI="#intrinsicSigByEvent"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasEncapsulatedContext"/>
@@ -427,10 +430,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isDetectedByIDS"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SnortRule"/>
+        <Class IRI="#SignalValue"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SignalValue"/>
+        <Class IRI="#SnortRule"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isProviderOfResource"/>
@@ -463,10 +466,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isIdentifiedByDetector"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isDetectorFor"/>
+        <Class IRI="#TCPPayloadSize"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPPayloadSize"/>
+        <ObjectProperty IRI="#isDetectorFor"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#integerEquality"/>
@@ -574,10 +577,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#signalConstraintImplementation"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isSupportedByDatasetView"/>
+        <Class IRI="#WindowsIISEventLogEntrySignalContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#WindowsIISEventLogEntrySignalContext"/>
+        <ObjectProperty IRI="#isSupportedByDatasetView"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isIncludedInLabel"/>
@@ -610,10 +613,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#snortRuleSyntax3"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerRangeMembership"/>
+        <Class IRI="#TimePeriod"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TimePeriod"/>
+        <Class IRI="#IPPacketTotalLength_IntegerRangeMembership"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#transientSigByEvent"/>
@@ -631,10 +634,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacket_TCPFlagsRepresentation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPSourcePort"/>
+        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <Class IRI="#TCPSourcePort"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PacketLength_PositiveIntegerEquality"/>
@@ -790,6 +793,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacketID"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#cannotStop"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#IPDestinationAddress_IPRangeSet"/>
     </Declaration>
     <Declaration>
@@ -802,10 +808,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IPAddressValue"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPFlags_BitmaskNonZero"/>
+        <Class IRI="#IPPacket_IPv4SourceIPAddressRepresentation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPPacket_IPv4SourceIPAddressRepresentation"/>
+        <Class IRI="#TCPFlags_BitmaskNonZero"/>
     </Declaration>
     <Declaration>
         <Class IRI="#Dataset"/>
@@ -850,10 +856,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#WindowsEventLogDataset"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isVisibleToDetector"/>
+        <ObjectProperty IRI="#canRepresent"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#canRepresent"/>
+        <ObjectProperty IRI="#isVisibleToDetector"/>
     </Declaration>
     <Declaration>
         <Class IRI="#BroEventDetectionSyntax"/>
@@ -883,10 +889,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#CodeRedWormPropagationEvent"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#HTTPGetRequest"/>
+        <ObjectProperty IRI="#hasSignalValue"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#hasSignalValue"/>
+        <Class IRI="#HTTPGetRequest"/>
     </Declaration>
     <Declaration>
         <Class IRI="#STDDEVThresholdExceeded"/>
@@ -923,6 +929,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#PacketRate_IntegerInequality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canBeRespondedTo"/>
     </Declaration>
     <Declaration>
         <Class IRI="#BitMaskMatchNonZero"/>
@@ -988,10 +997,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#positiveIntegerEquality"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#includesTimePeriod"/>
+        <Class IRI="#DetectorSyntax"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#DetectorSyntax"/>
+        <ObjectProperty IRI="#includesTimePeriod"/>
     </Declaration>
     <Declaration>
         <Class IRI="#UDPResource"/>
@@ -1036,10 +1045,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isViewableAs"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#StringSignalValue"/>
+        <NamedIndividual IRI="#SnortIDS1.7"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#SnortIDS1.7"/>
+        <Class IRI="#StringSignalValue"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#WindowsLogEntry"/>
@@ -1069,13 +1078,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPort"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#ICMPResource"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ByteSet"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPResource"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ICMPResource"/>
+        <ObjectProperty IRI="#cannotBeRespondedTo"/>
     </Declaration>
     <Declaration>
         <Class IRI="#TemporalView"/>
@@ -1120,10 +1132,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#PCREGrammar"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ReconMaliciousActivityEvent"/>
+        <NamedIndividual IRI="#nullCorrelationFunction"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#nullCorrelationFunction"/>
+        <Class IRI="#ReconMaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isExpressibleInSyntax"/>
@@ -3255,6 +3267,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
+        <ObjectProperty IRI="#canBeRespondedTo"/>
+        <ObjectProperty IRI="#canStop"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
         <ObjectProperty IRI="#canDetectEvent"/>
         <ObjectProperty IRI="#isDetectedByIDS"/>
     </InverseObjectProperties>
@@ -3269,6 +3285,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <InverseObjectProperties>
         <ObjectProperty IRI="#canSeeManifestation"/>
         <ObjectProperty IRI="#isVisibleToDetector"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#cannotBeRespondedTo"/>
+        <ObjectProperty IRI="#cannotStop"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#coincidesWithDatasetLabel"/>
@@ -4625,6 +4645,11 @@ This propery is established through the property chain hasSyntax o canRepresentF
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">DetectorSyntax Can Apply SignalValue</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#canBeRespondedTo</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Signal can be responded to</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#canDetectEvent</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A property defined by a property chain which indicates that the specified IDS is able to detect the given Event.  An IDS can detect an event if it contains a Detector which is an identifier for the Event.</Literal>
@@ -4668,6 +4693,31 @@ This propery is established through the property chain hasSyntax o canRepresentF
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#canSeeManifestation</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Detector Can See SignalManifestation </Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#canStop</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Means that the CVE-ID can be stopped from having any effect by responding to this signal. In other words, It means that we are not too late in respoding to an event(CVE-ID) and that we can still prevent the attack because its in the early stages of an attack</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#canStop</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">CVE-ID can be stopped by responding to signal</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#cannotBeRespondedTo</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Signal cannot to be responded to</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#cannotStop</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Means that the CVE-ID cannot be stopped. In other words, It means that we  too late in respoding to an event(CVE-ID) and that we cannot prevent the attack from happening. We can use the information gathered for forensics and other threat analysis/ passive responses</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:label"/>
+        <IRI>#cannotStop</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">CVE-ID cannot be stopped by responding to signal</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
