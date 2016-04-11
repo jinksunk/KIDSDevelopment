@@ -949,7 +949,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ByteIntegerValue"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
     </Declaration>
     <Declaration>
         <Class IRI="#TCPDestinationPort"/>
@@ -3232,11 +3232,11 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#isProducerOfIntrinsicSignal"/>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#isProducerOfTransientSignal"/>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#requiresResource"/>
@@ -3420,7 +3420,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#producedbyCVE"/>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#providedByDatasetView"/>
@@ -3679,7 +3679,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DatasetView"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
         <Class IRI="#CVE-ID"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -3903,7 +3903,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Resource"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
-        <ObjectProperty IRI="#relatedToCVE"/>
+        <ObjectProperty IRI="#isProducerOfSignal"/>
         <Class IRI="#Signal"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
@@ -5448,7 +5448,7 @@ Indicates that a signal can be represented by a particular syntactic form.</Lite
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
-        <IRI>#relatedToCVE</IRI>
+        <IRI>#isProducerOfSignal</IRI>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">CVE-ID producer of Signal</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
