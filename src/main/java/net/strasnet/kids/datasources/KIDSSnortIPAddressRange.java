@@ -110,7 +110,11 @@ public class KIDSSnortIPAddressRange {
 		int cidr = 0;
 		InetAddress nm;
 		try {
-			nm = InetAddress.getByName(string);
+            String addr = string;
+            if (string.startsWith("/")){
+                addr = string.substring(1);
+            }
+			nm = InetAddress.getByName(addr);
 		
 			int nm_long = (int)byte2long(nm.getAddress());
 		
@@ -133,7 +137,7 @@ public class KIDSSnortIPAddressRange {
 	
 	/**
 	 * Return true if the given IP address lies in the range represented here:
-	 * @param args
+	 * @param c
 	 * @throws UnknownHostException 
 	 */
 	public boolean inRange(String c) throws UnknownHostException{

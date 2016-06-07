@@ -10,15 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.semanticweb.owlapi.model.IRI;
-import org.semanticweb.owlapi.model.OWLClassExpression;
-import org.semanticweb.owlapi.model.OWLDataFactory;
-import org.semanticweb.owlapi.model.OWLDataProperty;
-import org.semanticweb.owlapi.model.OWLIndividual;
-import org.semanticweb.owlapi.model.OWLLiteral;
-import org.semanticweb.owlapi.model.OWLNamedIndividual;
-import org.semanticweb.owlapi.model.OWLNamedObject;
-import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.*;
 import org.semanticweb.owlapi.reasoner.NodeSet;
 
 import net.strasnet.kids.KIDSCanonicalRepresentation;
@@ -79,7 +71,8 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	public static final String viewClassDataProperty = kidsTBOXLocation + "#viewProductionImplementation";
 	public static final String viewDetectorRelation = kidsTBOXLocation + "#isMonitoredBy";
 	public static final String viewLabelRelation = kidsTBOXLocation + "#hasDatasetLabel";
-	
+	public static final String resourceProviderRelation = kidsTBOXLocation + "#isProviderOfResource";
+
 	/**********************************/
 	/** Ontology Interaction Methods **/
 	/**********************************/
@@ -1104,6 +1097,38 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		return ourDSSet.iterator().next().getIRI();
 			
 	}
-	
-	
+
+	public Set<OWLNamedIndividual> getResourcesProvidedBySignalDomainContext (IRI context){
+		OWLNamedIndividual ourCtxt = odf.getOWLNamedIndividual(context);
+		return r.getObjectPropertyValues(ourCtxt, odf.getOWLObjectProperty(IRI.create(KIDSMeasurementOracle.resourceProviderRelation))).getFlattened();
+	}
+
+	public HashSet<OWLNamedIndividual> getResourcesProvidedBySignal(IRI signal) throws KIDSOntologyObjectValuesException{
+		HashSet<OWLNamedIndividual> returnValue = new HashSet<>();
+		Set<IRI> contexts = this.getSignalContexts(signal);
+		for(IRI context : contexts){
+			returnValue.addAll(this.getResourcesProvidedBySignalDomainContext(context));
+		}
+		return returnValue;
+	}
+
+
+	public boolean isResourcesAvailable(Set<IRI> signals,Set<OWLNamedIndividual> resources) throws KIDSOntologyObjectValuesException {
+		HashSet<String> availableResources = new HashSet<>();
+		HashSet<String> requiredResources = new HashSet<>();
+		for(IRI signal : signals){
+			for(OWLNamedIndividual resource : getResourcesProvidedBySignal(signal)){
+				availableResources.add(this.getTypeOfIndividual(resource).toString());
+			}
+		}
+		for(OWLNamedIndividual resource : resources){
+			requiredResources.add(this.getTypeOfIndividual(resource).toString());
+		}
+		for(String reqd : requiredResources){
+			if(!availableResources.contains(reqd)){
+				return false;
+			}
+		}
+		return true;
+	}
 }

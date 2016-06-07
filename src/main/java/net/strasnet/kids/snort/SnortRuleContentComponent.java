@@ -12,8 +12,6 @@ import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException
 import net.strasnet.kids.gui.KIDSAddEventOracle;
 import net.strasnet.nfa.GNFA;
 import net.strasnet.nfa.ThompsonNFA;
-import net.strasnet.nfa.parseCanonicalREStringLexer;
-import net.strasnet.nfa.parseCanonicalREStringParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;

@@ -429,4 +429,14 @@ public class KIDSOracle {
 		return candidates.iterator().next();
 	}
 
+	public OWLObject getTypeOfIndividual(OWLNamedIndividual response_instance){
+		NodeSet<OWLClass> types = r.getTypes(response_instance,true);
+		OWLObject responseType = null;
+		for(Node type : types.getNodes()){
+			responseType = type.getRepresentativeElement();
+			break;
+		}
+		return responseType;
+	}
+
 }

@@ -365,6 +365,67 @@ public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInsta
 		return returnDataSet;
 	}
 
+public HashMap<Set<IRI>,Set<DataInstance>> getMatchingDataInstances(Set<IRI> signalSet) throws
+		KIDSOntologyObjectValuesException,
+		KIDSOntologyDatatypeValuesException,
+		IOException,
+		KIDSIncompatibleSyntaxException,
+		KIDSUnEvaluableSignalException, UnimplementedIdentifyingFeatureException {
+		Set<CorrelationDataInstance> returnDataSet = new HashSet<CorrelationDataInstance>();
+
+		Set<IRI> usedSignals = new HashSet<IRI>(); // At the end of the method, if we have not used
+												   // all the signals, fail.
+
+		HashMap<Set<IRI>,Set<DataInstance>> matchingDISet = new HashMap<Set<IRI>,Set<DataInstance>>();
+
+		// For each dataset in our constituent datasets, get the set of matching instance IDs
+		// for the subset of the given signals which can be evaluated on that dataset.
+		for (Dataset d : this.constituentDatasets.keySet()){
+			// Get the subset of signals which can be applied to this dataset
+			Set<IRI> appSignals = d.getKnownApplicableSignals();
+
+			Set<IRI> applicableSignalSubset = new HashSet<IRI>();
+			for (IRI sIRI : appSignals){
+				if (signalSet.contains(sIRI)){
+					applicableSignalSubset.add(sIRI);
+					usedSignals.add(sIRI);
+				}
+			}
+
+			// Get the set of matching instances from dataset d for this set of signals.  If the set of signals is empty, just
+			// use the empty set.  Just IDs should be sufficient.
+			Set<DataInstance> matchingInstances = d.getMatchingInstances(applicableSignalSubset);
+			StringBuilder sigSB = new StringBuilder();
+			for (IRI iri : applicableSignalSubset){
+				if (iri != null){
+				    sigSB.append(iri.toString());
+				} else {
+				    sigSB.append("null");
+				}
+				sigSB.append(",");
+			}
+			logme.debug(String.format("Got %d matching instances from signal set: %s", matchingInstances.size(), sigSB.toString()));
+
+			// Don't include null if it wasn't specified in the original set of signals.
+			if (applicableSignalSubset.size() == 1 &&
+				applicableSignalSubset.contains(null) &&
+				signalSet.size() != 0 &&
+				! signalSet.contains(null)){
+				logme.debug("Ignoring null signal for this set.");
+				matchingInstances = new HashSet<DataInstance>();
+			}
+
+			// What we really want to know is which signals from the original signal set are covered by a given CDI
+			// Key points:
+			// 1) Signals are evaluated as a conjunction in a single dataset, so we only need to track the set of signals that is
+			//    included in matches from that dataset.
+			// 2) We only reject the CDI if there exists a non-matching signal within that CDI
+			matchingDISet.put(applicableSignalSubset,matchingInstances);
+
+		}
+		return matchingDISet;
+	}
+
 	/**
 	 * Assumption: all contained datasets share the same view of the number of event occurrences.  This should always be true.
 	 * @return - The number of event occurrences represented by this correlated data set.
