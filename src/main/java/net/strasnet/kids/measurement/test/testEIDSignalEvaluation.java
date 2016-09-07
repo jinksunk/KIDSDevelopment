@@ -8,6 +8,8 @@
  * 
  * Determine the CID value for the signal in the data set.
  * 
+ *TODO: *Deprecated* - this whole thing should probably be removed and re-written
+ * 
  */
 package net.strasnet.kids.measurement.test;
 
@@ -38,6 +40,8 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * @author chrisstrasburg
+ * 
+ * This needs to be completely revamped to use the new dataset structure.
  *
  */
 public class testEIDSignalEvaluation {

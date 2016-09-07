@@ -14,10 +14,10 @@ test data. More details are available below, and in the docs/ directory.
 Quick Start
 -----------
 
-# Install prerequisites (see below)
-# Checkout the latest version of S-MAIDs from GitHub
-# Execute self-tests; resolve issues
-# Define a model including attacks (events), detectors, and responses
+1. Install prerequisites (see below)
+2. Checkout the latest version of S-MAIDs from GitHub
+3. Execute self-tests; resolve issues
+4. Define a model including attacks (events), detectors, and responses
 
 Installation
 ------------
@@ -92,4 +92,6 @@ Classes in this package include basic representations of concepts from the ontol
 
 `net.strasnet.kids.snort` - This package contains code which, given a set of signal values, will produce a snort rule that matches that set of signal values. It is used to dynamically build snort rules from signals associated with an event in the ABOX.
 
-`net.strasnew.kids.nfa` - The NFA package provides an implementation of a non-deterministic finite automata. The purpose of this implementation is to support the regular expression syntax used in Snort rules (which differs from the semantics of the Java regex syntax) to reconstitute signals. It is used (the GNFA class) by the net.strasnet.kids.snort.SnortRuleContentComponent class.
+`net.strasnet.kids.nfa` - The NFA package provides an implementation of a non-deterministic finite automata. The purpose of this implementation is to support the regular expression syntax used in Snort rules (which differs from the semantics of the Java regex syntax) to reconstitute signals. It is used (the GNFA class) by the net.strasnet.kids.snort.SnortRuleContentComponent class.
+
+`net.strasnet.kids.ui` - The UI components for KIDS - main classes, GUI entry points are under this package.

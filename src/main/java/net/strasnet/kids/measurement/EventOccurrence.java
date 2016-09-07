@@ -22,7 +22,7 @@ public class EventOccurrence implements Comparable<EventOccurrence> {
 	private int eventID;
 	private IRI myEventOntologyInstance;
 
-	private EventOccurrence (IRI eventIRepresent, Integer eventID){
+	EventOccurrence (IRI eventIRepresent, Integer eventID){
 		this.eventID = eventID;
 		myEventOntologyInstance = eventIRepresent;
 		numberOfEvents++;

@@ -20,6 +20,7 @@ public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implemen
 	static {
 		myIDs.add(IRI.create(featureIRI + "PacketID"));
 		//myIDs.add(IRI.create(featureIRI + "instanceTimestamp"));
+		//TODO: Why is the above commented out?
 		myIDs.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "ObservationOrder"));

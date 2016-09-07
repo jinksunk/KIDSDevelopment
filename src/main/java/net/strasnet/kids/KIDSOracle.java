@@ -10,8 +10,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -23,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.PrefixManager;
 import org.semanticweb.owlapi.reasoner.ConsoleProgressMonitor;
@@ -74,6 +78,9 @@ public class KIDSOracle {
 	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
 	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
 	
+	/** Logging */
+	private static final Logger logme = LogManager.getLogger(KIDSOracle.class.getName());
+	
 	/**
 	 * @param ourIRI the ourIRI to set
 	 */
@@ -86,6 +93,14 @@ public class KIDSOracle {
 	 */
 	public IRI getOurIRI() {
 		return ourIRI;
+	}
+	
+	/**
+	 * 
+	 * @return The prefix manager used to initialize this oracle
+	 */
+	public PrefixManager getPrefixManager(){
+		return p;
 	}
 
 	/**
@@ -153,18 +168,36 @@ public class KIDSOracle {
 	}
 
 	/**
-	 * Attempt to load the ontology; if no IRI is given, try our default location first.
+	 * Attempt to load the ontology using the provided IRI and IRI Mapper; if no IRI is given, try 
+	 * our default location first. Note that both the ABOX and TBOX mappings should be provided.
+	 * TODO: Need to figure out how to specify this so that no network connection is required for
+	 * local loading.
+	 * 
+	 * Example usage:
+	 * 
+	 * <pre>
+	 * {@code
+	 * myGuy = new KIDSMeasurementOracle();
+	 * List<SimpleIRIMapper> m = new LinkedList<SimpleIRIMapper>();
+	 * m.add(new SimpleIRIMapper(IRI.create(ABOXIRI), IRI.create(ABOXFile)));
+	 * m.add(new SimpleIRIMapper(IRI.create(TBOXIRI), IRI.create(TBOXFile)));
+	 * myGuy.loadKIDS(IRI.create(ABOXIRI), m);
+	 * }
+	 * </pre>
+	 * 
+	 * @param kidskb - The IRI of this ontology
 	 * @param m A Simple IRI Mapper with the true location of the ontology (e.g. file:/// or something).
-	 * @param IRI - The IRI of this ontology
+	 * @throws OWLOntologyCreationException - If the ontology causes an error when loading 
 	 * @throws Exception - If the ontology cannot be loaded.
 	 */
-	public void loadKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws Exception{
+	public void loadKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
 		setOurIRI(kidskb);
-		System.out.println("[loadKIDS] Loading from IRI " + getOurIRI());
+		logme.info("[loadKIDS] Loading from IRI " + getOurIRI());
 		ourIRIMap = m;
 		IRI fileIRI = null;
 
-		p = new DefaultPrefixManager("https://solomon.cs.iastate.edu/ontologies/KIDS.owl#");
+//		p = new DefaultPrefixManager("https://solomon.cs.iastate.edu/ontologies/KIDS.owl#");
+		p = new DefaultPrefixManager();
 
 		setOntologyManager(OWLManager.createOWLOntologyManager());
 		if (m != null){
@@ -186,14 +219,11 @@ public class KIDSOracle {
 			setOntology(manager.loadOntology(fileIRI));
 
 			// Initialize a reasoner:
-			ConsoleProgressMonitor progressMonitor = new ConsoleProgressMonitor();
-			OWLReasonerConfiguration config = new SimpleConfiguration(progressMonitor);
 			OWLReasonerFactory rf = new PelletReasonerFactory();
-//			OWLReasoner reasoner = rf.createReasoner(o, config);
 			setReasoner(rf.createReasoner(o));
 			r.precomputeInferences();
-			r.isConsistent();
-		} catch (Exception e) {
+			assert r.isConsistent();
+		} catch (OWLOntologyCreationException e) {
 			System.out.println("Failed to load ontology: " + e);
 			e.printStackTrace();
 			throw e;

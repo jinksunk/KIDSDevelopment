@@ -313,7 +313,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 								} else {
 									// We need a feature according to the view that we don't support
 									// in this detector:
-									throw new UnimplementedIdentifyingFeatureException(String.format("Identifying Feature %s not currently supported by KIDSBroDetector",identFeature.toString()));
+									throw new UnimplementedIdentifyingFeatureException("Identifying Feature not currently supported by KIDSBroDetector",identFeature.toString());
 								}
 							}
 

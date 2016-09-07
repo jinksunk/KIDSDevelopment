@@ -1,0 +1,17 @@
+#
+# The physical and definitive locations of the ABOX
+#
+ABoxIRI = http\://www.semantiknit.com/ontologies/2015/03/28/KIDS-CodeRedTest.owl
+ABoxFile = file\:///Users/cstras/Box%20Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/ontology/ABOX-Test-CodeRed.owl
+
+#
+# The physical and definitive locations of the TBOX
+#
+TBoxFile = file\:///Users/cstras/Box%20Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/ontology/KIDS-TBOX.owl
+TBoxIRI = http\://solomon.cs.iastate.edu/ontologies/KIDS.owl
+
+#
+# The IRI of the event to evaluate, and the dataset to use in evaluation
+#
+EventIRI = http\://www.semantiknit.com/ontologies/2015/03/28/KIDS-CodeRedTest.owl\#CodeRedPropagationAttempt
+TimePeriodIRI = http\://www.semantiknit.com/ontologies/2015/03/28/KIDS-CodeRedTest.owl\#CodeRedExperimentTimePeriod1

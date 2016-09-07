@@ -1,9 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<catalog id="XML Catalog File (see http://www.oasis-open.org/committees/entity/spec-2001-08-06.html) - Created By Protege 4" prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
-    <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=1" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1343868882129" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testKIDSLibpcap.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1355009760549" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="experiment1-ss.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1357101015833" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="experiment0-ss.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1359227479064" name="http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testKIDSEIDMeasure-1.owl"/>
+<catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
+    <uri id="User Entered Import Resolution" name="https://www.semantiknit.com/ontologies/KIDS-TBOX.owl" uri="file:/Users/cstras/Box%20Sync/Academic/research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/KIDS/resources/ontologies/KIDS/KIDS-TBOX.owl"/>
+    <group id="Folder Repository, directory=file:/Users/cstras/Box%20Sync/Academic/research/projects/2010-PhD-SignalBasedSemanticIDRSMeasurement/KIDS/resources/ontologies/testOntologies/, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="experiment0-ss.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="experiment1-ss.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testKIDSEIDMeasure-1.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://solomon.cs.iastate.edu/ontologies/KIDS.owl" uri="testKIDSLibpcap.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://www.semantiknit.com/ontologies/2016/08/04/testKIDSStreamingTCPDetector.owl" uri="testKIDSStreamingEventViewerDetector.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1472838002101" name="duplicate:http://www.semantiknit.com/ontologies/2016/08/04/testKIDSStreamingTCPDetector.owl" uri="testKIDSStreamingTCPDetector.owl"/>
     </group>
 </catalog>

@@ -253,10 +253,8 @@ public class KIDSTestSingleSignal {
 				//}
 			//}
 			//KTSS.setCorrelatedViewLabelDataset(new CorrelatedViewLabelDataset(cf,CDSes));
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
 		} catch (Exception e){
+			//TODO - More granular excpetion handling here!
 			logme.error(e);
 			e.printStackTrace();
 			System.exit(1);
@@ -335,7 +333,7 @@ public class KIDSTestSingleSignal {
 		logme.info("\tCorrelated Data Instances: " + numCIs);
 		for (CorrelatedViewLabelDataset cd : cdsList){
 		    logme.debug(cd);
-		    for (CorrelationDataInstance cdi : cd.getMatchingInstances(new HashSet<IRI>(), true)){
+		    for (CorrelationDataInstance cdi : cd.getMatchingCorrelatedInstances(new HashSet<IRI>(), true)){
 		    	logme.debug(cdi);
 		    }
 		}

@@ -916,6 +916,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#hasValue"/>
     </Declaration>
     <Declaration>
+        <DataProperty IRI="#responseImplementation"/>
+    </Declaration>
+    <Declaration>
         <DataProperty IRI="#signalConstraintImplementation"/>
     </Declaration>
     <Declaration>
@@ -4009,6 +4012,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <DataPropertyDomain>
         <DataProperty IRI="#hasValue"/>
         <Class IRI="#SignalValue"/>
+    </DataPropertyDomain>
+    <DataPropertyDomain>
+        <DataProperty IRI="#responseImplementation"/>
+        <Class IRI="#Response"/>
     </DataPropertyDomain>
     <DataPropertyDomain>
         <DataProperty IRI="#signalConstraintImplementation"/>

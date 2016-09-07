@@ -34,6 +34,11 @@ public class CorrelationDataInstance {
 		eInstances = new HashMap<Integer, Set<DataInstance>>();
 		correlationFeature =  cFeature;
 		correlationFeatureValue =  cValue;
+		
+		if (initialComponents == null || initialComponents.size() == 0){
+			logme.warn("Cannot create without constituent data instances; aborting");
+			// TODO: create and throw an exception here
+		}
 
 		int bi = 0; int ei = 0;
 		for (DataInstance i : initialComponents){
@@ -56,7 +61,12 @@ public class CorrelationDataInstance {
 				benignInstances.add(i);
 			}
 		}
-		logme.debug("Created benign CDI [" + bi + "," + ei + "] (including base instance " + this.getInstances().iterator().next().getID() + " )");
+		StringBuilder debugString = new StringBuilder();
+		debugString.append("Created benign CDI [" + bi + "," + ei + "] ");
+		if (initialComponents.size() > 0){
+		    debugString.append("(including base instance " + this.getInstances().iterator().next().getID() + " )");
+		}
+		logme.debug(debugString);
 		
 	}
 

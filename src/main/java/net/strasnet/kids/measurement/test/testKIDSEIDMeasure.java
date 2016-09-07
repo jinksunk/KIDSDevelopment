@@ -6,6 +6,8 @@
  * 
  * Determine the CID value for the signal in the data set.
  * 
+ * TODO: Probably needs to be re-written / replaced with something that uses the correlation datasets.
+ * 
  */
 package net.strasnet.kids.measurement.test;
 

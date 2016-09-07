@@ -33,7 +33,7 @@ public class testLabel {
 	 */
 	@Test
 	public void testIsEvent(){
-		EventOccurrence t1 = new EventOccurrence(testOccurenceIRI);
+		EventOccurrence t1 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
 		Label tl1 = new Label(t1, true);
 		assertTrue(tl1.isEvent());
 		tl1 = new Label(t1, false);
@@ -45,7 +45,7 @@ public class testLabel {
 	 */
 	@Test
 	public void testGetEventOccurence(){
-		EventOccurrence t1 = new EventOccurrence(testOccurenceIRI);
+		EventOccurrence t1 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
 		Label tl1 = new Label(t1, true);
 		assertTrue(tl1.getEventOccurrence().equals(tl1));
 	}

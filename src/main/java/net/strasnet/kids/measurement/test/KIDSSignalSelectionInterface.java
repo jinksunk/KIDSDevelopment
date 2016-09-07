@@ -37,7 +37,6 @@ import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.RecursiveResult;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
-import net.strasnet.kids.measurement.correlationfunctions.SourceIPAddressCorrelationFunction;
 
 /**
  * @author chrisstrasburg
@@ -56,7 +55,7 @@ public class KIDSSignalSelectionInterface {
 	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
 
 	private Set<IRI> signals = null;
-	private static final HashMap<String,String> configFileValues = new HashMap<String,String>();
+	public static final HashMap<String,String> configFileValues = new HashMap<String,String>();
 	static {
 		configFileValues.put("ABoxFile", "/dev/null");
 		configFileValues.put("ABoxIRI", "/dev/null");
@@ -195,9 +194,6 @@ public class KIDSSignalSelectionInterface {
 	            m.add(new SimpleIRIMapper(IRI.create(ABOXIRI), IRI.create(ABOXFile)));
 	            m.add(new SimpleIRIMapper(IRI.create(TBOXIRI), IRI.create(TBOXFile)));
 				myGuy.loadKIDS(IRI.create(ABOXIRI), m);
-			} catch (IOException e) {
-				e.printStackTrace();
-				System.exit(1);
 			} catch (Exception e){
 				logme.error(e);
 				e.printStackTrace();
@@ -364,7 +360,6 @@ public class KIDSSignalSelectionInterface {
 			HashMap<String,String> cVals = KIDSSignalSelectionInterface.loadPropertiesFromFile(args[0], KIDSSignalSelectionInterface.configFileValues.keySet());
 		
 			KIDSSignalSelectionInterface kss = new KIDSSignalSelectionInterface();
-			//TODO: Populate ABOX File
 			kss.testSignalSet(cVals.get("ABoxFile"), 
 							  cVals.get("ABoxIRI"), 
 							  cVals.get("TBoxFile"), 

@@ -4,9 +4,6 @@
  * * Each domain / constraint pair produce a different bro function to be called from the context
  * * Multiple signals within a single context are 'and'ed together
  *    
- */
-/**
- * @author cstras
- *
+ * @author Chris Strasburg
  */
 package net.strasnet.kids.bro;
