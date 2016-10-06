@@ -56,7 +56,8 @@ public class KIDSOracle {
 	protected OWLDataFactory odf = null;
 	protected OWLOntology o = null;
 	protected PrefixManager p = null;
-	public static final String TBOXIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
+	public static final String DEFAULTTBOXIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
+	protected IRI TBOXIRI = null;
 	protected String ABOXIRI = null;
 	protected List<SimpleIRIMapper> ourIRIMap = null;
 	
@@ -165,6 +166,58 @@ public class KIDSOracle {
 	 */
 	public List<SimpleIRIMapper> getIRIMapperList(){
 		return this.ourIRIMap;
+	}
+	
+	/**
+	 * Create a new ABOX from scratch. Load the TBOX from the given IRI.
+	 * 
+	 * @param kidskb - ABOX Ontology IRI
+	 * @param m
+	 * @throws OWLOntologyCreationException
+	 */
+	public void createKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
+		this.createKIDS(kidskb, null, m);
+	}
+
+	/**
+	 * Create a new ABOX from scratch. Load the TBOX from the given IRI.
+	 * 
+	 * @param kidskb
+	 * @param kidsTBOXIRI - the IRI of the TBOX Ontology
+	 * @param m
+	 * @throws OWLOntologyCreationException
+	 */
+	public void createKIDS(IRI kidskb, IRI kidsTBOXIRI, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
+		setOurIRI(kidskb);
+		logme.info("[createKIDS] Creating with IRI " + getOurIRI());
+		this.TBOXIRI = kidsTBOXIRI;
+		if (this.TBOXIRI == null){
+			logme.debug("[createKIDS] No TBOX IRI given, using default " + KIDSOracle.DEFAULTTBOXIRI);
+			this.TBOXIRI = IRI.create(KIDSOracle.DEFAULTTBOXIRI);
+		}
+		p = new DefaultPrefixManager();
+		
+		setOntologyManager(OWLManager.createOWLOntologyManager());
+		if (m != null){
+			for (SimpleIRIMapper imap : m){
+			    manager.addIRIMapper(imap);
+			}
+		}
+
+		setOwlDataFactory(manager.getOWLDataFactory());
+		try {
+			setOntology(manager.createOntology(kidskb));
+
+			// Initialize a reasoner:
+			OWLReasonerFactory rf = new PelletReasonerFactory();
+			setReasoner(rf.createReasoner(o));
+			r.precomputeInferences();
+			assert r.isConsistent();
+		} catch (OWLOntologyCreationException e) {
+			System.out.println("Failed to create ontology: " + e);
+			e.printStackTrace();
+			throw e;
+		}
 	}
 
 	/**
