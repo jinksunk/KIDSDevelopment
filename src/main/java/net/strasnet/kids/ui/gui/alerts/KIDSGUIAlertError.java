@@ -12,8 +12,8 @@ import java.awt.Color;
 public class KIDSGUIAlertError extends KIDSGUIAlertAbstract {
 
 	public KIDSGUIAlertError(String m){
-		this.myMessage = m;
-		this.myColor = Color.red;
+		setText(m);
+		setColor(Color.red);
 	}
 
 }

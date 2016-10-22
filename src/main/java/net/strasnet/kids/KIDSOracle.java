@@ -3,6 +3,7 @@
  */
 package net.strasnet.kids;
 
+import java.io.File;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -15,20 +16,26 @@ import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresen
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
+import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.PrefixManager;
+import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.ConsoleProgressMonitor;
 import org.semanticweb.owlapi.reasoner.Node;
 import org.semanticweb.owlapi.reasoner.NodeSet;
@@ -42,6 +49,7 @@ import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
 /**
  * @author chrisstrasburg
@@ -51,7 +59,8 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 public class KIDSOracle {
 
 	protected IRI ourIRI = null;
-	protected OWLReasoner r = null;
+//	protected OWLReasoner r = null;
+	protected PelletReasoner r = null;
 	protected OWLOntologyManager manager = null;
 	protected OWLDataFactory odf = null;
 	protected OWLOntology o = null;
@@ -78,22 +87,63 @@ public class KIDSOracle {
 	public static final IRI eventClass = IRI.create(TBOXPrefix + "#Event");
 	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
 	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
+	public static final IRI datasetClass = IRI.create(TBOXPrefix + "#DataSet");
+	public static final IRI timeperiodClass = IRI.create(TBOXPrefix + "#TimePeriod");
+	public static final IRI datasetViewClass = IRI.create(TBOXPrefix + "#DatasetView");
+	public static final IRI datasetLabelClass = IRI.create(TBOXPrefix + "#DatasetLabel");
+	public static final IRI detectorClass = IRI.create(TBOXPrefix + "#Detector");
+	public static final IRI signalManifestationClass = IRI.create(TBOXPrefix + "#SignalManifestation");
+	public static final IRI signalDomainClass = IRI.create(TBOXPrefix + "#SignalDomain");
+	public static final IRI signalDomainRepresentationClass = IRI.create(TBOXPrefix + "#SignalDomainRepresentation");
+	public static final IRI signalDomainContextClass = IRI.create(TBOXPrefix + "#SignalDomainContext");
+	public static final IRI responseClass = IRI.create(TBOXPrefix + "#Response");
+	public static final IRI signalValueClass = IRI.create(TBOXPrefix + "#SignalValue");
+	public static final IRI resourceClass = IRI.create(TBOXPrefix + "#Resource");
 	
 	/** Logging */
 	private static final Logger logme = LogManager.getLogger(KIDSOracle.class.getName());
 	
 	/**
+	 * Static method to extract the IRI from an ontology given a file:
+	 * @throws OWLOntologyCreationException 
+	 */
+	public static IRI getOntologyIRI(IRI ontoFile) throws OWLOntologyCreationException{
+		OWLOntologyManager ourman = OWLManager.createOWLOntologyManager();
+		OWLOntology localo = ourman.loadOntology(ontoFile);
+		return localo.getOntologyID().getOntologyIRI();
+	}
+	
+	/**
 	 * @param ourIRI the ourIRI to set
 	 */
-	private void setOurIRI(IRI ourIRI) {
+	private void setABOXIRI(IRI ourIRI) {
+		logme.debug(String.format("Set KIDSOracle ABOX IRI to: %s", ourIRI.toString()));
 		this.ourIRI = ourIRI;
+	}
+
+	/**
+	 * @param ourIRI the ourIRI to set
+	 */
+	private void setTBOXIRI(IRI ourIRI) {
+		logme.debug(String.format("Set KIDSOracle ABOX IRI to: %s", ourIRI.toString()));
+		if (ourIRI.equals(IRI.create(this.DEFAULTTBOXIRI))){
+			logme.warn(String.format("Non-default TBOX IRI specified (%s) - this may cause problems...", ourIRI));
+		}
+		this.TBOXIRI = ourIRI;
 	}
 
 	/**
 	 * @return the ourIRI
 	 */
-	public IRI getOurIRI() {
+	public IRI getABOXIRI() {
 		return ourIRI;
+	}
+
+	/**
+	 * @return the TBOXIRI
+	 */
+	public IRI getTBOXIRI() {
+		return TBOXIRI;
 	}
 	
 	/**
@@ -107,8 +157,12 @@ public class KIDSOracle {
 	/**
 	 * @param r the r to set
 	 */
-	protected void setReasoner(OWLReasoner r) {
+	protected void setReasoner(PelletReasoner r) {
+		logme.debug(String.format("Set reasoner (BufferingMode: %s, Name: %s, Version: %s, Root Ontology: %s, isConsistent: %b)",
+				r.getBufferingMode(), r.getReasonerName(), r.getReasonerVersion(),
+				r.getRootOntology().getOntologyID().getOntologyIRI(), r.isConsistent()));
 		this.r = r;
+		this.getOntologyManager().addOntologyChangeListener(this.r);
 	}
 
 	/**
@@ -174,8 +228,9 @@ public class KIDSOracle {
 	 * @param kidskb - ABOX Ontology IRI
 	 * @param m
 	 * @throws OWLOntologyCreationException
+	 * @throws OWLOntologyStorageException 
 	 */
-	public void createKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
+	public void createKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException, OWLOntologyStorageException {
 		this.createKIDS(kidskb, null, m);
 	}
 
@@ -185,16 +240,19 @@ public class KIDSOracle {
 	 * @param kidskb
 	 * @param kidsTBOXIRI - the IRI of the TBOX Ontology
 	 * @param m
-	 * @throws OWLOntologyCreationException
+	 * @throws OWLOntologyCreationException - If the ontology cannot be created for some reason
+	 * @throws OWLOntologyStorageException - If there is a problem writing to the location specified in the mapper m
 	 */
-	public void createKIDS(IRI kidskb, IRI kidsTBOXIRI, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
-		setOurIRI(kidskb);
-		logme.info("[createKIDS] Creating with IRI " + getOurIRI());
-		this.TBOXIRI = kidsTBOXIRI;
+	public void createKIDS(IRI kidskb, IRI kidsTBOXIRI, List<SimpleIRIMapper> m) throws OWLOntologyCreationException, OWLOntologyStorageException {
+		setABOXIRI(kidskb);
+		setTBOXIRI(kidsTBOXIRI);
+		logme.debug(String.format("[createKIDS] Creating with ABOX [%s] (TBOX [%s])", getABOXIRI(), kidsTBOXIRI));
+
 		if (this.TBOXIRI == null){
-			logme.debug("[createKIDS] No TBOX IRI given, using default " + KIDSOracle.DEFAULTTBOXIRI);
-			this.TBOXIRI = IRI.create(KIDSOracle.DEFAULTTBOXIRI);
+			logme.info("[createKIDS] No TBOX IRI given, using default " + KIDSOracle.DEFAULTTBOXIRI);
+			setTBOXIRI(IRI.create(KIDSOracle.DEFAULTTBOXIRI));
 		}
+
 		p = new DefaultPrefixManager();
 		
 		setOntologyManager(OWLManager.createOWLOntologyManager());
@@ -205,14 +263,29 @@ public class KIDSOracle {
 		}
 
 		setOwlDataFactory(manager.getOWLDataFactory());
+
 		try {
+
 			setOntology(manager.createOntology(kidskb));
+			OWLImportsDeclaration importDeclaration=manager.getOWLDataFactory().getOWLImportsDeclaration(getTBOXIRI());
+			manager.applyChange(new AddImport(o, importDeclaration));
+			// Save and re-load the ontology:
+			manager.loadOntology(getTBOXIRI());
+			manager.saveOntology(getOntology());
+			this.loadKIDS(kidskb, this.TBOXIRI, m);
+			
+			/*
+			if (! this.TBOXImported()){
+				logme.error("TBOX is not correctly imported, aborting.");
+			}
 
 			// Initialize a reasoner:
-			OWLReasonerFactory rf = new PelletReasonerFactory();
-			setReasoner(rf.createReasoner(o));
+			PelletReasonerFactory rf = new PelletReasonerFactory();
+			setReasoner(rf.createNonBufferingReasoner(o));
+			r.
 			r.precomputeInferences();
 			assert r.isConsistent();
+			*/
 		} catch (OWLOntologyCreationException e) {
 			System.out.println("Failed to create ontology: " + e);
 			e.printStackTrace();
@@ -220,6 +293,9 @@ public class KIDSOracle {
 		}
 	}
 
+	public void loadKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
+		loadKIDS(kidskb, null, m);
+	}
 	/**
 	 * Attempt to load the ontology using the provided IRI and IRI Mapper; if no IRI is given, try 
 	 * our default location first. Note that both the ABOX and TBOX mappings should be provided.
@@ -243,9 +319,15 @@ public class KIDSOracle {
 	 * @throws OWLOntologyCreationException - If the ontology causes an error when loading 
 	 * @throws Exception - If the ontology cannot be loaded.
 	 */
-	public void loadKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
-		setOurIRI(kidskb);
-		logme.info("[loadKIDS] Loading from IRI " + getOurIRI());
+	public void loadKIDS(IRI kidskb, IRI kidsTBOXkb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException {
+		setABOXIRI(kidskb);
+		setTBOXIRI(kidsTBOXkb);
+
+		if (getTBOXIRI() == null){
+			setTBOXIRI(IRI.create(KIDSOracle.DEFAULTTBOXIRI));
+		}
+
+		logme.info("[loadKIDS] Loading from IRI " + getABOXIRI());
 		ourIRIMap = m;
 		IRI fileIRI = null;
 
@@ -265,15 +347,23 @@ public class KIDSOracle {
 		if (fileIRI == null){
 			System.err.println("Could not identify file IRI for " + kidskb + "!");
 			System.exit(1);
+		} else {
+			logme.info(String.format("Loading from file %s", fileIRI));
 		}
 		
 		setOwlDataFactory(manager.getOWLDataFactory());
 		try {
 			setOntology(manager.loadOntology(fileIRI));
+			if (! this.TBOXImported()){
+				logme.warn("TBOX was not imported correctly; adding import.");
+				OWLImportsDeclaration importDeclaration=manager.getOWLDataFactory().getOWLImportsDeclaration(getTBOXIRI());
+					manager.applyChange(new AddImport(o, importDeclaration));
+					manager.loadOntology(getTBOXIRI());
+			}
 
 			// Initialize a reasoner:
-			OWLReasonerFactory rf = new PelletReasonerFactory();
-			setReasoner(rf.createReasoner(o));
+			PelletReasonerFactory rf = new PelletReasonerFactory();
+			setReasoner(rf.createNonBufferingReasoner(o));
 			r.precomputeInferences();
 			assert r.isConsistent();
 		} catch (OWLOntologyCreationException e) {
@@ -329,11 +419,26 @@ public class KIDSOracle {
 	}
 	
 	/**
+	 * Get the set of all OWLNamedIndividuals indicated by this class expression.
+	 * @param c - an OWL Class expression
+	 * @return An iterator over all individuals
+	 */
+	public Set<OWLNamedIndividual> getIndividualSet(OWLClassExpression c){
+		NodeSet <OWLNamedIndividual> events = r.getInstances(c,false);
+		Set <OWLNamedIndividual> eventSet = events.getFlattened();
+		logme.debug(String.format("Reasoner query for members of class %s returned %d results.", 
+				c.toString(), eventSet.size()));
+		return eventSet;
+	}
+
+	/**
 	 * Get an iterator over all OWLNamedIndividuals indicated by this class expression.
 	 * @param c - an OWL Class expression
 	 * @return An iterator over all individuals
 	 */
 	public Iterator<OWLNamedIndividual> getIndividuals(OWLClassExpression c){
+		return r.getInstances(c,false).getFlattened().iterator();
+		/*
 		NodeSet <OWLNamedIndividual> events = r.getInstances(c,false);
 		Iterator <Node<OWLNamedIndividual>> i = events.iterator();
 					
@@ -352,6 +457,7 @@ public class KIDSOracle {
 			}
 		}
 		return ns.iterator();
+		*/
 	}
 	
 	private OWLClassExpression getIDSDetectableEvents(String idsName){
@@ -510,6 +616,46 @@ public class KIDSOracle {
 		}
 		
 		return candidates.iterator().next();
+	}
+	
+	/**
+	 * 
+	 * @param source - A set of OWLNamedIndividuals
+	 * @return - A corresponding set of IRIs
+	 */
+	public Set<IRI> getIRISetFromNamedIndividualSet(Set<OWLNamedIndividual> source){
+		Set<IRI> toReturn = new HashSet<IRI>();
+		for (OWLNamedIndividual i : source){
+			toReturn.add(i.getIRI());
+		}
+		return toReturn;
+	}
+	
+	/**
+	 * Determine if the TBOX is correctly imported:
+	 * @return true if the TBOX is imported and referenced correctly; false otherwise.
+	 */
+	public boolean TBOXImported(){
+		boolean toReturn = false;
+		
+		Set<OWLOntology> directImportSet = o.getDirectImports();
+		logme.debug(String.format("Found %d direct imports of %s.", directImportSet.size(), o.getOntologyID().getOntologyIRI()));
+		for (OWLOntology ontoImport : directImportSet){
+			if (ontoImport.getOntologyID().getOntologyIRI().equals(getTBOXIRI())){
+				logme.debug("Found matching ontology in direct imports.");
+				toReturn = true;
+			}
+		}
+		Set<OWLOntology> totalImportSet = o.getImports();
+		logme.debug(String.format("Found %d total imports of %s.", directImportSet.size(), o.getOntologyID().getOntologyIRI()));
+		for (OWLOntology ontoImport : totalImportSet){
+			if (ontoImport.getOntologyID().getOntologyIRI().equals(getTBOXIRI())){
+				logme.debug("Found matching ontology in total imports.");
+				toReturn = true;
+			}
+		}
+		
+		return toReturn;
 	}
 
 }

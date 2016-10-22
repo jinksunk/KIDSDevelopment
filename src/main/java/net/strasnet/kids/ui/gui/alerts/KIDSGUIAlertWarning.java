@@ -12,8 +12,8 @@ import java.awt.Color;
 public class KIDSGUIAlertWarning extends KIDSGUIAlertAbstract {
 
 	public KIDSGUIAlertWarning(String m){
-		this.myMessage = m;
-		this.myColor = Color.yellow;
+		setText(m);
+		setColor(Color.yellow);
 	}
 
 }

@@ -36,6 +36,7 @@ public interface KIDSGUIAlert {
 	 * A string representation of this alert. Should generally just return the text.
 	 * @return The text of the alert, e.g. as supplied via setText.
 	 */
+	@Override
 	public String toString();
 	
 	/**
