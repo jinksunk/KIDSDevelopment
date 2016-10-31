@@ -27,13 +27,14 @@ import javax.swing.JFrame;
 
 import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
-import net.strasnet.kids.ui.KIDSUIComponent;
-import net.strasnet.kids.ui.KIDSUIEventComponent;
-import net.strasnet.kids.ui.KIDSUIProblem;
 import net.strasnet.kids.ui.RunStreamingKIDSDetector;
+import net.strasnet.kids.ui.components.KIDSUIComponent;
+import net.strasnet.kids.ui.components.KIDSUIEventComponent;
+import net.strasnet.kids.ui.components.KIDSUIAbstractComponent.KIDSDatatypeClass;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlert;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertError;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertInfo;
+import net.strasnet.kids.ui.problems.KIDSUIProblem;
 
 import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -78,25 +79,90 @@ public class ABOXBuilderController {
 	private static final List <IRI> supportedClasses = new ArrayList<IRI>();
 	private static final Map <IRI, Class<? extends KIDSAddIndividualJDialog>> dialogDispatcher = new HashMap<IRI, Class<? extends KIDSAddIndividualJDialog>>();
 	private static final Map <IRI, Class<? extends KIDSUIComponent>> iriToComponentMap = new HashMap<IRI, Class<? extends KIDSUIComponent>>();
+	private static final Map <KIDSDatatypeClass, Class<? extends KIDSAddDataJDialog>> datatypeClassDispatcher = new HashMap<KIDSDatatypeClass, Class<? extends KIDSAddDataJDialog>>();
 	
 	static {
+		datatypeClassDispatcher.put(KIDSDatatypeClass.JAVA, KIDSAddJavaClassJDialog.class);
+		datatypeClassDispatcher.put(KIDSDatatypeClass.FILEPATH, KIDSAddFilepathDataJDialog.class);
+		datatypeClassDispatcher.put(KIDSDatatypeClass.STRING, KIDSAddStringDataJDialog.class);
+		
 		dialogDispatcher.put(EVENTCLASSIRI, 
-							 net.strasnet.kids.ui.gui.AddEventJDialog.class);
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
 		iriToComponentMap.put(EVENTCLASSIRI, 
-							 net.strasnet.kids.ui.KIDSUIEventComponent.class);
+							 net.strasnet.kids.ui.components.KIDSUIEventComponent.class);
 		supportedClasses.add(EVENTCLASSIRI);
 
 		dialogDispatcher.put(SIGNALCLASSIRI, 
-							 net.strasnet.kids.ui.gui.AddSignalJDialog.class);
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
 		iriToComponentMap.put(SIGNALCLASSIRI, 
-							 net.strasnet.kids.ui.KIDSUISignalComponent.class);
+							 net.strasnet.kids.ui.components.KIDSUISignalComponent.class);
 		supportedClasses.add(SIGNALCLASSIRI);
 
 		dialogDispatcher.put(DATASETCLASSIRI, 
-							 net.strasnet.kids.ui.gui.AddDatasetJDialog.class);
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
 		iriToComponentMap.put(DATASETCLASSIRI, 
-							 net.strasnet.kids.ui.KIDSUIDatasetComponent.class);
+							 net.strasnet.kids.ui.components.KIDSUIDatasetComponent.class);
 		supportedClasses.add(DATASETCLASSIRI);
+		
+		dialogDispatcher.put(SIGNALVALUECLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALVALUECLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalValueComponent.class);
+		supportedClasses.add(SIGNALVALUECLASSIRI);
+		
+		dialogDispatcher.put(TIMEPERIODCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(TIMEPERIODCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUITimePeriodComponent.class);
+		supportedClasses.add(TIMEPERIODCLASSIRI);
+
+		dialogDispatcher.put(SIGNALMANIFESTATIONCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALMANIFESTATIONCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalManifestationComponent.class);
+		supportedClasses.add(SIGNALMANIFESTATIONCLASSIRI);
+
+		dialogDispatcher.put(SIGNALDOMAINREPRESENTATIONCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALDOMAINREPRESENTATIONCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalDomainRepresentationComponent.class);
+		supportedClasses.add(SIGNALDOMAINREPRESENTATIONCLASSIRI);
+
+		dialogDispatcher.put(RESOURCECLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(RESOURCECLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIResourceComponent.class);
+		supportedClasses.add(RESOURCECLASSIRI);
+
+		dialogDispatcher.put(RESPONSECLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(RESPONSECLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIResponseComponent.class);
+		supportedClasses.add(RESPONSECLASSIRI);
+
+		dialogDispatcher.put(SIGNALDOMAINCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALDOMAINCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalDomainComponent.class);
+		supportedClasses.add(SIGNALDOMAINCLASSIRI);
+
+		dialogDispatcher.put(SIGNALDOMAINCONTEXTCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALDOMAINCONTEXTCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalDomainContextComponent.class);
+		supportedClasses.add(SIGNALDOMAINCONTEXTCLASSIRI);
+
+		dialogDispatcher.put(DATASETVIEWCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(DATASETVIEWCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIDatasetViewComponent.class);
+		supportedClasses.add(DATASETVIEWCLASSIRI);
+
+		dialogDispatcher.put(DATASETLABELCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(DATASETLABELCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIDatasetLabelComponent.class);
+		supportedClasses.add(DATASETLABELCLASSIRI);
 	};
 	
 	/* Enable Logging */
@@ -107,7 +173,7 @@ public class ABOXBuilderController {
 	List <KIDSGUIStatus> statusList = null;
 	
 	private List<AddEventListener> addEventListeners = new LinkedList<AddEventListener>();
-	private List<OntologyLoadedListener> ontologyLoadedListeners = new LinkedList<OntologyLoadedListener>();
+	private List<OntologyModifiedListener> ontologyModifiedListeners = new LinkedList<OntologyModifiedListener>();
 	private Map<IRI, KIDSUIComponent> loadedComponents = new HashMap<IRI, KIDSUIComponent>();
 	
 	public ABOXBuilderController(BlockingQueue<KIDSGUIAlert> logMessages){
@@ -119,6 +185,38 @@ public class ABOXBuilderController {
 		statusList.add((KIDSGUIStatus) this.new OntologyLoadedGUIStatus());
 
 		logappend(new KIDSGUIAlertInfo("KIDS Controller initialized."));
+	}
+	
+	/** ************************************************************************************************
+	 *  Methods that manage the ontology itself (saving, loading, initializing, etc...
+	 ** ***********************************************************************************************/
+
+
+	/**
+	 * Will write the ontology to a file.
+	 * @return true
+	 * @throws OWLOntologyStorageException
+	 */
+	public boolean save() throws OWLOntologyStorageException{
+		OWLOntologyManager om = o.getOntologyManager();
+		OWLOntology onto = o.getOntology();
+		logme.debug(String.format("Saving ontology to %s in format %s (%d axioms)", 
+				om.getOntologyDocumentIRI(onto),
+				om.getOntologyFormat(onto),
+				onto.getAxiomCount()));
+		BufferedOutputStream outfile;
+		try {
+			File ofile = new File(om.getOntologyDocumentIRI(onto).toURI().getPath());
+			outfile = new BufferedOutputStream(new FileOutputStream(ofile));
+			om.saveOntology(onto, 
+				om.getOntologyFormat(onto),
+				outfile);
+		} catch (FileNotFoundException e) {
+			logme.warn(String.format("Could not save file %s: %s", om.getOntologyDocumentIRI(onto), e.getMessage()));
+			return false;
+		}
+
+		return true;
 	}
 	
 	/*
@@ -199,40 +297,31 @@ public class ABOXBuilderController {
 			getKnownIndividuals(supportedClass);
 		}
 		
-		fireOntologyLoadedEvent(o);
+		fireOntologyModifiedEvent(o);
 		
 		return true;
 	}
 	
-	public synchronized void addOntologyLoadedListener(OntologyLoadedListener l){
-		ontologyLoadedListeners.add(l);
+	/** ************************************************************************************************
+	 *  Methods that handle controller events / listeners
+	 ** ***********************************************************************************************/
+
+	/* Ontology modified event handling */
+	public synchronized void addOntologyModifiedListener(OntologyModifiedListener l){
+		ontologyModifiedListeners.add(l);
 	}
 
-	public synchronized void removeOntologyLoadedListener(OntologyLoadedListener l){
-		ontologyLoadedListeners.remove(l);
+	public synchronized void removeOntologyModifiedListener(OntologyModifiedListener l){
+		ontologyModifiedListeners.remove(l);
 	}
 	
-	public synchronized void fireOntologyLoadedEvent(KIDSGUIOracle o){
-		for (OntologyLoadedListener l : ontologyLoadedListeners){
-			l.ontologyLoaded(o);
+	public synchronized void fireOntologyModifiedEvent(KIDSGUIOracle o){
+		for (OntologyModifiedListener l : ontologyModifiedListeners){
+			l.ontologyModified(o);
 		}
 	}
 
-	/**
-	 * Add a new event to the ontology / model:
-	 * @return
-	 * @throws OWLOntologyStorageException
-	 */
-	public void addEvent(IRI evIRI){
-		int preAddAxiomCount = o.getOntology().getAxiomCount();
-		o.addEvent(evIRI);
-		logme.debug(String.format("Added event %s to the ontology (Pre-add count %d, post-add count %d).",
-				evIRI, preAddAxiomCount, o.getOntology().getAxiomCount()));
-		addComponentToList(evIRI, new KIDSUIEventComponent(evIRI, o));
-
-		this.fireIndividualAddedEvent(evIRI);
-	}
-	
+	/* Individual added event handling */
 	public synchronized void addIndividualAddedListener(AddEventListener l){
 		addEventListeners.add(l);
 	}
@@ -241,53 +330,39 @@ public class ABOXBuilderController {
 		addEventListeners.remove(l);
 	}
 	
-	public synchronized void fireIndividualAddedEvent(IRI newEvent){
+	public synchronized void fireIndividualAddedEvent(IRI newIndividual){
 		for (AddEventListener l : addEventListeners){
-			l.newEventReceived(newEvent);
+			l.newEventReceived(newIndividual);
 		}
 	}
 
-	/**
-	 * Will write the ontology to a file.
-	 * @return true
-	 * @throws OWLOntologyStorageException
-	 */
-	public boolean save() throws OWLOntologyStorageException{
-		OWLOntologyManager om = o.getOntologyManager();
-		OWLOntology onto = o.getOntology();
-		logme.debug(String.format("Saving ontology to %s in format %s (%d axioms)", 
-				om.getOntologyDocumentIRI(onto),
-				om.getOntologyFormat(onto),
-				onto.getAxiomCount()));
-		BufferedOutputStream outfile;
-		try {
-			File ofile = new File(om.getOntologyDocumentIRI(onto).toURI().getPath());
-			outfile = new BufferedOutputStream(new FileOutputStream(ofile));
-			om.saveOntology(onto, 
-				om.getOntologyFormat(onto),
-				outfile);
-		} catch (FileNotFoundException e) {
-			logme.warn(String.format("Could not save file %s: %s", om.getOntologyDocumentIRI(onto), e.getMessage()));
-			return false;
-		}
+	/** ************************************************************************************************
+	 *  Methods that query the knowledge base:
+	 ** ***********************************************************************************************/
 
-		return true;
-	}
-	
 	/**
 	 *  Will query the ontology for the current list of all known individuals of the given class; returns a list of IRIs.
 	 * @param indClass - The IRI of the class we want individuals of
 	 * @return The list of all known event; an empty list is possible.
 	 * @throws InstantiationException 
 	 */
-	public Set<IRI> getKnownIndividuals(IRI indClass){
-		Set<IRI> toReturn = new HashSet<IRI>();
+	public Set<KIDSUIComponent> getKnownIndividuals(IRI indClass){
+		Set<KIDSUIComponent> toReturn = new HashSet<KIDSUIComponent>();
 
 		Iterator<OWLNamedIndividual> individuals = o.getIndividuals(o.getOwlDataFactory().getOWLClass(indClass));
+		
 		
 		IRI i = null;
 		while (individuals.hasNext()){
 			i = individuals.next().getIRI();
+			try {
+				// TODO: Is the second argument necessary?
+				toReturn.add(this.getUIComponentForClass(indClass, i));
+			} catch (InstantiationException e){
+				logme.error(String.format("Could not instantiate component for %s (%s): %s", i, indClass, e.getMessage()));
+			}
+
+			/*
 			if (!this.loadedComponents.containsKey(i)){
 				logme.warn(String.format("Individual %s from ontology not known to controller; adding", i.getFragment()));
 				try {
@@ -297,14 +372,25 @@ public class ABOXBuilderController {
 				}
 			}
 			toReturn.add(i);
+			*/
 		}
 
 		logme.debug(String.format("Found %d individuals from class %s.", toReturn.size(), indClass));
 		return toReturn;
 	}
 	
+	/** ************************************************************************************************
+	 *  Methods that manage dynamic UI components
+	 ** ***********************************************************************************************/
+
 	protected KIDSUIComponent getUIComponentForClass(IRI indClass, IRI i) throws InstantiationException{
 		Class<? extends KIDSUIComponent> cclass = iriToComponentMap.get(indClass);
+
+		if (cclass == null){
+			logme.warn(String.format("No constructor defined in IRI->Component map for class %s", indClass));
+			return null;
+		}
+		
 		Constructor<? extends KIDSUIComponent> classCon;
 		logme.debug(String.format("Getting UI component for %s (%s)", i, indClass));
 		
@@ -335,33 +421,105 @@ public class ABOXBuilderController {
 		
 		return null;
 	}
-	
-	public List<KIDSGUIStatus> getStatus(){
-		return this.statusList;
-	}
-	
-	private void addComponentToList(IRI newObjIRI, KIDSUIComponent newUIC){
-		if (loadedComponents.containsKey(newObjIRI)){
-			logme.warn(String.format("Object %s already loaded; replacing.", 
-				newObjIRI.getFragment()));
+
+	/**
+	 * Given the KIDSdatatype, will return an instance of JDialog to create an instance of it.
+	 * @param KIDSDatatype - the datatype to instantiate
+	 * @param frame - the GUI parent
+	 * @param subjectIRI - the IRI of the subject
+	 * @param propertyIRI - the IRI of the property we are adding to
+	 * @return - an instance of KIDSAddDataJDialog to add this data element
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
+	 */
+	public KIDSAddDataJDialog getAddDataValueDialogForClass(KIDSDatatypeClass ourClass, JFrame frame,
+			IRI subjectIRI, IRI propertyIRI) throws InstantiationException, IllegalAccessException {
+		logme.debug(String.format("Getting add data value dialog for data value class %s", ourClass));
+		if (ABOXBuilderController.datatypeClassDispatcher.containsKey(ourClass)){
+			Class<? extends KIDSAddDataJDialog> dialog = ABOXBuilderController.datatypeClassDispatcher.get(ourClass);
+			Constructor<? extends KIDSAddDataJDialog> ctor;
+			try {
+				ctor = dialog.getConstructor(JFrame.class, 
+						IRI.class, // ABOXIRI
+						IRI.class, // SubjectIRI
+						IRI.class, // PropertyIRI
+						this.getClass());
+				KIDSAddDataJDialog ourDialog = (KIDSAddDataJDialog)ctor.newInstance(frame, 
+						o.getABOXIRI(), 
+						subjectIRI,
+						propertyIRI,
+						this);
+				return ourDialog;
+			} catch (NoSuchMethodException e) {
+				logme.error(String.format("No constructor available with JFrame argument: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (SecurityException e) {
+				logme.error(String.format("Security exception: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (IllegalArgumentException e) {
+				logme.error(String.format("Illegal argument exception: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (InvocationTargetException e) {
+				logme.error(String.format("Invocation target exception: %s", e.getCause().getMessage()));
+				e.getCause().printStackTrace();
+				throw new InstantiationException(e.getMessage());
 			}
-		loadedComponents.put(newObjIRI, new KIDSUIEventComponent(newObjIRI, o));
+		} else {
+			logme.warn(String.format("No class mapping for class %s", ourClass));
+		    return null;
+		}
 	}
 	
 	/**
-	 * 
+	 * Given the class IRI, will return an instance of JDialog to create an instance of it.
+	 * @param ourClass
+	 * @param frame
+	 * @return
+	 * @throws IllegalAccessException 
+	 * @throws InstantiationException 
 	 */
-	public List<KIDSUIProblem> getProblems(IRI KIDSComponentIRI){
-		List<KIDSUIProblem> toReturn = new LinkedList<KIDSUIProblem>();
-		
-		if (loadedComponents.containsKey(KIDSComponentIRI)){
-			KIDSUIComponent kuc = loadedComponents.get(KIDSComponentIRI);
-			toReturn.addAll(kuc.getComponentProblems());
+	public KIDSAddIndividualJDialog getAddInstanceDialogForClass(IRI ourClass, JFrame frame) throws InstantiationException, IllegalAccessException {
+		logme.debug(String.format("Getting add individual dialog for class %s", ourClass));
+		if (ABOXBuilderController.dialogDispatcher.containsKey(ourClass)){
+			Class<? extends KIDSAddIndividualJDialog> dialog = ABOXBuilderController.dialogDispatcher.get(ourClass);
+			Constructor<? extends KIDSAddIndividualJDialog> ctor;
+			try {
+				ctor = dialog.getConstructor(JFrame.class, IRI.class, IRI.class, this.getClass());
+				logme.debug(String.format("Adding %s as the parent of %s...", frame, dialog));
+				KIDSAddIndividualJDialog ourDialog = (KIDSAddIndividualJDialog)ctor.newInstance(
+						frame, 
+						o.getABOXIRI(), 
+						ourClass,
+						this);
+				return ourDialog;
+			} catch (NoSuchMethodException e) {
+				logme.error(String.format("No constructor available with JFrame argument: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (SecurityException e) {
+				logme.error(String.format("Security exception: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (IllegalArgumentException e) {
+				logme.error(String.format("Illegal argument exception: %s", e.getMessage()));
+				throw new InstantiationException(e.getMessage());
+			} catch (InvocationTargetException e) {
+				logme.error(String.format("Invocation target exception: %s", e.getCause().getMessage()));
+				e.getCause().printStackTrace();
+				throw new InstantiationException(e.getMessage());
+			}
+		} else {
+			logme.warn(String.format("No class mapping for class %s", ourClass));
+		    return null;
 		}
-		
-		logme.debug(String.format("Identified %d problems for %s.", toReturn.size(), KIDSComponentIRI.getFragment()));
+	}
+	
+	
+	
+	/** ************************************************************************************************
+	 *  Methods that handle logging and status management
+	 ** ***********************************************************************************************/
 
-		return toReturn;
+	public List<KIDSGUIStatus> getStatus(){
+		return this.statusList;
 	}
 	
 	/**
@@ -451,67 +609,6 @@ public class ABOXBuilderController {
 	}
 
 	/**
-	 * Add the specified relation to the ontology (using the oracle), and fire an 
-	 * 'ontologyModified' event (?)
-	 * @param thisEvent
-	 * @param relation
-	 * @param object
-	 */
-	public void addRelation(IRI subject, IRI predicate, IRI object) {
-		boolean subexists = o.containsIndividual(subject);
-		boolean objexists = o.containsIndividual(object);
-		o.addRelation(subject, predicate, object);
-
-		// If either the subject or object are not known, fire an individualAdded event:
-		if (! subexists){
-			logme.debug(String.format("New individual in relation: adding %s...", subject));
-			this.fireIndividualAddedEvent(subject);
-		}
-		
-		if (! objexists){
-			logme.debug(String.format("New individual in relation: adding %s...", object));
-			this.fireIndividualAddedEvent(object);
-		}
-	}
-
-	/**
-	 * Given the class IRI, will return an instance of JDialog to create an instance of it.
-	 * @param ourClass
-	 * @param frame
-	 * @return
-	 * @throws IllegalAccessException 
-	 * @throws InstantiationException 
-	 */
-	public KIDSAddIndividualJDialog getAddInstanceDialogForClass(IRI ourClass, JFrame frame) throws InstantiationException, IllegalAccessException {
-		if (ABOXBuilderController.dialogDispatcher.containsKey(ourClass)){
-			Class<? extends KIDSAddIndividualJDialog> dialog = ABOXBuilderController.dialogDispatcher.get(ourClass);
-			Constructor<? extends KIDSAddIndividualJDialog> ctor;
-			try {
-				ctor = dialog.getConstructor(JFrame.class, IRI.class, this.getClass());
-				logme.debug(String.format("Adding %s as the parent of %s...", frame, dialog));
-				KIDSAddIndividualJDialog ourDialog = (KIDSAddIndividualJDialog)ctor.newInstance(frame, o.getABOXIRI(), this);
-				return ourDialog;
-			} catch (NoSuchMethodException e) {
-				logme.error(String.format("No constructor available with JFrame argument: %s", e.getMessage()));
-				throw new InstantiationException(e.getMessage());
-			} catch (SecurityException e) {
-				logme.error(String.format("Security exception: %s", e.getMessage()));
-				throw new InstantiationException(e.getMessage());
-			} catch (IllegalArgumentException e) {
-				logme.error(String.format("Illegal argument exception: %s", e.getMessage()));
-				throw new InstantiationException(e.getMessage());
-			} catch (InvocationTargetException e) {
-				logme.error(String.format("Invocation target exception: %s", e.getCause().getMessage()));
-				e.getCause().printStackTrace();
-				throw new InstantiationException(e.getMessage());
-			}
-		} else {
-			logme.warn(String.format("No class mapping for class %s", ourClass));
-		    return null;
-		}
-	}
-	
-	/**
 	 * Return an absolute ABOX IRI:
 	 */
 	public IRI getAbsoluteIRI(IRI docIRI, IRI source){
@@ -574,5 +671,70 @@ public class ABOXBuilderController {
 		}
 		return toReturn;
 	}
+	
+	/** ************************************************************************************************
+	 *  Methods that modify the Ontology go here - each should fire events to ensure that listeners are
+	 *  notified when the ontology changes.
+	 ** ***********************************************************************************************/
+
+	/**
+	 * Adds the provided data value to the given data property for the given individual
+	 * @param relation - the Data property to add the value for
+	 * @param subjectIRI - the subject individual we are adding data to
+	 * @param value - the value to add
+	 */
+	public void addDataValueForIndividual(IRI relation, IRI subjectIRI, String value) {
+		logme.debug(String.format("Adding tuple (%s, %s, %s) to kb.", subjectIRI, relation, value));
+		o.addDataPropertyToIndividual(subjectIRI, relation, value);
+	}
+
+	/**
+	 * Add a new event to the ontology / model:
+	 * @return
+	 * @throws OWLOntologyStorageException
+	 */
+	public void addIndividual(IRI indIRI, IRI classIRI){
+		int preAddAxiomCount = o.getOntology().getAxiomCount();
+		o.addIndividual(indIRI, classIRI);
+		logme.debug(String.format("Added individual %s, class %S (Pre-add count %d, post-add count %d).",
+				indIRI, classIRI, preAddAxiomCount, o.getOntology().getAxiomCount()));
+
+		this.fireIndividualAddedEvent(indIRI);
+	}
+	
+	/**
+	 * A convenience method to hide the necessity of working with IRIs from the GUI.
+	 * @param evIRI - the IRI of the event to add.
+	 */
+	public void addEvent(IRI evIRI){
+		addIndividual(evIRI, KIDSOracle.eventClass);
+	}
+	
+	/**
+	 * Add the specified relation to the ontology (using the oracle), and fire an 
+	 * 'ontologyModified' event (?)
+	 * @param thisEvent
+	 * @param relation
+	 * @param object
+	 */
+	public void addRelation(IRI subject, IRI predicate, IRI object) {
+		boolean subexists = o.containsIndividual(subject);
+		boolean objexists = o.containsIndividual(object);
+		o.addRelation(subject, predicate, object);
+
+		// If either the subject or object are not known, fire an individualAdded event:
+		if (! subexists){
+			logme.debug(String.format("New individual in relation: adding %s...", subject));
+			this.fireIndividualAddedEvent(subject);
+		}
+		
+		if (! objexists){
+			logme.debug(String.format("New individual in relation: adding %s...", object));
+			this.fireIndividualAddedEvent(object);
+		}
+		
+		this.fireOntologyModifiedEvent(o);
+	}
+
 
 }

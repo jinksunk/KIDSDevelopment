@@ -1,9 +1,12 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.problemfixes;
 
 import org.semanticweb.owlapi.model.IRI;
+
+import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix.KIDSUIPossibleFixType;
+import net.strasnet.kids.ui.problems.KIDSUIProblem;
 
 /**
  * @author cstras

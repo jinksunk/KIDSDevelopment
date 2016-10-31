@@ -2,21 +2,23 @@ package net.strasnet.kids.ui;
 
 import org.semanticweb.owlapi.model.IRI;
 
+import net.strasnet.kids.ui.components.KIDSUIAbstractComponent.KIDSDatatypeClass;
+
 public class KIDSUIRequiredDataProperty extends KIDSUIConstraint {
 
 	IRI PropertyIRI;
-	IRI ObjectClassIRI;
+	KIDSDatatypeClass DatatypeClass;
 	
-	public KIDSUIRequiredDataProperty(IRI PropertyIRI, IRI ObjectClassIRI){
+	public KIDSUIRequiredDataProperty(IRI PropertyIRI, KIDSDatatypeClass kidsDatatypeClass){
 		this.PropertyIRI = PropertyIRI;
-		this.ObjectClassIRI = ObjectClassIRI;
+		this.DatatypeClass = kidsDatatypeClass;
 	}
 
 	public IRI getProperty(){
 		return PropertyIRI;
 	}
 
-	public IRI getObjectClass(){
-		return ObjectClassIRI;
+	public KIDSDatatypeClass getObjectClass(){
+		return DatatypeClass;
 	}
 }

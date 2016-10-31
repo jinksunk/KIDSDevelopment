@@ -29,32 +29,28 @@ import net.strasnet.kids.ui.gui.KIDSGUIOracle;
  * 
  * This class represents an Event for UI purposes in KIDS.
  */
-public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KIDSUIComponent {
+public class KIDSUIDetectorComponent extends KIDSUIAbstractComponent implements KIDSUIComponent {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUISignalComponent.class.getName());
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUIDetectorComponent.class.getName());
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#hasSignalValue","#SignalValue");
-		reqProps.put("#isEvaluableWithDataset","#Dataset");
+		reqProps.put("#canSeeManifestation","#SignalManifestation");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
-		infProps.put("#hasDomain","#SignalDomain");
-		infProps.put("#isAppliedByDetector","#Detector");
-		infProps.put("#isRepresentedBy","#SignalDomainRepresentation");
-		infProps.put("#hasConstraint","#SignalConstraint");
-		infProps.put("#isExpressibleInSyntax","#DetectorSyntax");
-		infProps.put("#SignalInManifestation","#DatasetLabel");
-		infProps.put("#isProducedBy","#Event");
+		infProps.put("#hasSyntax","#DetectorSyntax");
+		infProps.put("#canMonitor","#DatasetView");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
 	static {
+		datProps.put("#detectorExecutionCommand",KIDSDatatypeClass.FILEPATH);
+		datProps.put("#hasImplementationClass",KIDSDatatypeClass.JAVA);
 	};
 	
-	public KIDSUISignalComponent(IRI myID, KIDSGUIOracle o){
+	public KIDSUIDetectorComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
 		
 		for (String p : reqProps.keySet()){
@@ -79,9 +75,9 @@ public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KI
 
 		}
 		
-		requiredSubclassOf = IRI.create(TBOXIRI + "#Signal");
+		requiredSubclassOf = IRI.create(TBOXIRI + "#Detector");
 		
-		logme.debug(String.format("Initialized Signal UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
+		logme.debug(String.format("Initialized Detector UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
 				myID,
 				reqProps.size(),
 				infProps.size(),

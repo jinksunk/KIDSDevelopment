@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.components;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +19,9 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 
+import net.strasnet.kids.ui.KIDSUIInferredProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredDataProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredProperty;
 import net.strasnet.kids.ui.gui.KIDSGUIOracle;
 
 /**
@@ -31,24 +34,21 @@ public class KIDSUIDatasetComponent extends KIDSUIAbstractComponent implements K
 	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUIDatasetComponent.class.getName());
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
-	static {
-		reqProps.put("isProducerOf","Signal");
-	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
-		infProps.put("isEvaluatedBy","Dataset");
-		infProps.put("isRepresentedInDataset","Dataset");
-		infProps.put("isAffectedBy","Response");
-		infProps.put("isIncludedInLabel","DatasetLabel");
+		infProps.put("#includesTimePeriod","#TimePeriod");
+		infProps.put("#isCompatibleDatasetForSignal","#Signal");
+		infProps.put("#hasEventIncluded","#Event");
+		infProps.put("#isEvaluationOf","#Event");
+		infProps.put("#isContainerOf","#SignalDomainContext");
+		infProps.put("#isViewableAs","#DatasetView");
 	};
 
-	private static final Map<String, String> datProps = new HashMap<String, String>();
+	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
 	static {
-		infProps.put("isEvaluatedBy","Dataset");
-		infProps.put("isRepresentedInDataset","Dataset");
-		infProps.put("isAffectedBy","Response");
-		infProps.put("isIncludedInLabel","DatasetLabel");
+		datProps.put("#datasetLocation", KIDSDatatypeClass.FILEPATH);
+		datProps.put("#datasetParserImplementation",KIDSDatatypeClass.JAVA);
 	};
 	
 	public KIDSUIDatasetComponent(IRI myID, KIDSGUIOracle o){
@@ -71,7 +71,7 @@ public class KIDSUIDatasetComponent extends KIDSUIAbstractComponent implements K
 		for (String p : datProps.keySet()){
 			myDataProps.add(new KIDSUIRequiredDataProperty(
 					IRI.create(TBOXIRI + p), 
-					IRI.create(TBOXIRI + datProps.get(p))
+					datProps.get(p)
 					));
 
 		}

@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDataProperty;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
@@ -87,7 +88,7 @@ public class KIDSOracle {
 	public static final IRI eventClass = IRI.create(TBOXPrefix + "#Event");
 	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
 	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
-	public static final IRI datasetClass = IRI.create(TBOXPrefix + "#DataSet");
+	public static final IRI datasetClass = IRI.create(TBOXPrefix + "#Dataset");
 	public static final IRI timeperiodClass = IRI.create(TBOXPrefix + "#TimePeriod");
 	public static final IRI datasetViewClass = IRI.create(TBOXPrefix + "#DatasetView");
 	public static final IRI datasetLabelClass = IRI.create(TBOXPrefix + "#DatasetLabel");
@@ -125,11 +126,15 @@ public class KIDSOracle {
 	 * @param ourIRI the ourIRI to set
 	 */
 	private void setTBOXIRI(IRI ourIRI) {
-		logme.debug(String.format("Set KIDSOracle ABOX IRI to: %s", ourIRI.toString()));
-		if (ourIRI.equals(IRI.create(this.DEFAULTTBOXIRI))){
+		if (ourIRI == null){
+			logme.info(String.format("Received null TBOX IRI; setting to %s", this.DEFAULTTBOXIRI));
+			ourIRI = IRI.create(this.DEFAULTTBOXIRI);
+		} else if (!ourIRI.equals(IRI.create(this.DEFAULTTBOXIRI))){
 			logme.warn(String.format("Non-default TBOX IRI specified (%s) - this may cause problems...", ourIRI));
 		}
+
 		this.TBOXIRI = ourIRI;
+		logme.debug(String.format("Set KIDSOracle TBOX IRI to: %s", ourIRI.toString()));
 	}
 
 	/**
@@ -623,9 +628,9 @@ public class KIDSOracle {
 	 * @param source - A set of OWLNamedIndividuals
 	 * @return - A corresponding set of IRIs
 	 */
-	public Set<IRI> getIRISetFromNamedIndividualSet(Set<OWLNamedIndividual> source){
+	public Set<IRI> getIRISetFromNamedIndividualSet(Set<? extends OWLEntity> source){
 		Set<IRI> toReturn = new HashSet<IRI>();
-		for (OWLNamedIndividual i : source){
+		for (OWLEntity i : source){
 			toReturn.add(i.getIRI());
 		}
 		return toReturn;

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.components;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,6 +19,9 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 
+import net.strasnet.kids.ui.KIDSUIInferredProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredDataProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredProperty;
 import net.strasnet.kids.ui.gui.KIDSGUIOracle;
 
 /**
@@ -43,12 +46,8 @@ public class KIDSUIEventComponent extends KIDSUIAbstractComponent implements KID
 		infProps.put("#isIncludedInLabel","#DatasetLabel");
 	};
 
-	private static final Map<String, String> datProps = new HashMap<String, String>();
+	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
 	static {
-		infProps.put("#isEvaluatedBy","#Dataset");
-		infProps.put("#isRepresentedInDataset","#Dataset");
-		infProps.put("#isAffectedBy","#Response");
-		infProps.put("#isIncludedInLabel","#DatasetLabel");
 	};
 	
 	public KIDSUIEventComponent(IRI myID, KIDSGUIOracle o){
@@ -71,10 +70,16 @@ public class KIDSUIEventComponent extends KIDSUIAbstractComponent implements KID
 		for (String p : datProps.keySet()){
 			myDataProps.add(new KIDSUIRequiredDataProperty(
 					IRI.create(TBOXIRI + p), 
-					IRI.create(TBOXIRI + datProps.get(p))
+					datProps.get(p)
 					));
 
 		}
+
+		logme.debug(String.format("Initialized Event UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
+				myID,
+				reqProps.size(),
+				infProps.size(),
+				datProps.size()));
 	}
 
 }

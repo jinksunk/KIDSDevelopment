@@ -19,15 +19,15 @@ import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix;
  * @author cstras
  *
  */
-public class KIDSMissingRelationUIProblem extends KIDSUIProblem {
+public class KIDSMissingInferredRelationUIProblem extends KIDSUIProblem {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSMissingRelationUIProblem.class.getName());
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSMissingInferredRelationUIProblem.class.getName());
 	
 	IRI missingProperty;
 	IRI missingObjectClass;
 	KIDSGUIOracle o;
 	
-	public KIDSMissingRelationUIProblem(String message, ProblemType p, IRI missingProperty, IRI missingClass, KIDSGUIOracle kgo){
+	KIDSMissingInferredRelationUIProblem(String message, ProblemType p, IRI missingProperty, IRI missingClass, KIDSGUIOracle kgo){
 		super(message, p);
 		ourClass = ProblemClass.MissingRelation;
 		this.missingProperty = missingProperty;

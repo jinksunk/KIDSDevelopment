@@ -1,10 +1,12 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.problems;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix;
 
 /**
  * @author cstras
@@ -20,7 +22,8 @@ public class KIDSUIProblem {
 	public enum ProblemClass {
 		MissingRelation,
 		MissingSubclassSpecification,
-		UnspecifiedClass
+		UnspecifiedClass, 
+		MissingDataProperty
 	}
 
 	private String msg;

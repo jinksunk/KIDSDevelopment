@@ -3222,16 +3222,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#bringsIntoExistence"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#canApplySignal"/>
         <ObjectProperty IRI="#isAppliedByDetector"/>
+        <ObjectProperty IRI="#canApplySignal"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canApplySignalValue"/>
         <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#canDetectEvent"/>
         <ObjectProperty IRI="#isDetectedByIDS"/>
+        <ObjectProperty IRI="#canDetectEvent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#canMonitor"/>
@@ -3302,8 +3302,8 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isAbleToRepresent"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
-        <ObjectProperty IRI="#isAffectedBy"/>
         <ObjectProperty IRI="#isResponseFor"/>
+        <ObjectProperty IRI="#isAffectedBy"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
@@ -3426,6 +3426,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isEncapsulatedInContext"/>
     </TransitiveObjectProperty>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#SignalManifestationIncludesSignal"/>
+        <Class IRI="#SignalManifestation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#canApplySignal"/>
         <Class IRI="#Detector"/>
     </ObjectPropertyDomain>
@@ -3448,6 +3452,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#canSeeManifestation"/>
         <Class IRI="#Detector"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#coincidesWithDatasetLabel"/>
+        <Class IRI="#TimePeriod"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#compatibleWith"/>
@@ -3546,6 +3554,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalDomain"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isIncludedInDataset"/>
+        <Class IRI="#TimePeriod"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#isIncludedInIDS"/>
         <Class IRI="#Detector"/>
     </ObjectPropertyDomain>
@@ -3594,6 +3606,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalConstraint"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isRepresentationOfSignal"/>
+        <Class IRI="#SignalDomainRepresentation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
+        <Class IRI="#SignalDomainRepresentation"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#isRepresentedBy"/>
         <Class IRI="#Signal"/>
     </ObjectPropertyDomain>
@@ -3616,6 +3636,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#providesResource"/>
         <Class IRI="#DatasetView"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#realizesSignalRepresentation"/>
+        <Class IRI="#SignalManifestation"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#relationUsesResource"/>
@@ -3642,6 +3666,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Response"/>
     </ObjectPropertyDomain>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#SignalManifestationIncludesSignal"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#canApplySignal"/>
         <Class IRI="#Signal"/>
     </ObjectPropertyRange>
@@ -3664,6 +3692,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyRange>
         <ObjectProperty IRI="#canSeeManifestation"/>
         <Class IRI="#SignalManifestation"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#coincidesWithDatasetLabel"/>
+        <Class IRI="#DatasetLabel"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#compatibleWith"/>
@@ -3762,6 +3794,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalDomainContext"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#isIncludedInDataset"/>
+        <Class IRI="#Dataset"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#isIncludedInIDS"/>
         <Class IRI="#IDS"/>
     </ObjectPropertyRange>
@@ -3810,6 +3846,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Detector"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#isRepresentationOfSignal"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
+        <Class IRI="#SignalDomain"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#isRepresentedBy"/>
         <Class IRI="#SignalDomainRepresentation"/>
     </ObjectPropertyRange>
@@ -3832,6 +3876,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyRange>
         <ObjectProperty IRI="#providesResource"/>
         <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#realizesSignalRepresentation"/>
+        <Class IRI="#SignalDomainRepresentation"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#relationUsesResource"/>

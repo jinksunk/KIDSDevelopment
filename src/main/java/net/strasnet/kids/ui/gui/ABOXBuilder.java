@@ -25,16 +25,24 @@ import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
-import net.strasnet.kids.ui.KIDSUIAddRelationPossibleFix;
-import net.strasnet.kids.ui.KIDSUIPossibleFix;
-import net.strasnet.kids.ui.KIDSUIPossibleFix.KIDSUIPossibleFixType;
-import net.strasnet.kids.ui.KIDSUIProblem;
-import net.strasnet.kids.ui.KIDSUIProblem.ProblemClass;
-import net.strasnet.kids.ui.KIDSMissingRelationUIProblem;
+import net.strasnet.kids.KIDSOracle;
+import net.strasnet.kids.ui.components.KIDSUIComponent;
+import net.strasnet.kids.ui.components.KIDSUIDataRelationComponent;
+import net.strasnet.kids.ui.components.KIDSUIObjectRelationComponent;
+import net.strasnet.kids.ui.components.KIDSUIRelation;
+import net.strasnet.kids.ui.components.KIDSUIRelation.RelationType;
 import net.strasnet.kids.ui.gui.ABOXBuilderModel.ABOXBuilderGUIState;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlert;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertError;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertInfo;
+import net.strasnet.kids.ui.problemfixes.KIDSUIAddDatatypePropertyPossibleFix;
+import net.strasnet.kids.ui.problemfixes.KIDSUIAddRelationPossibleFix;
+import net.strasnet.kids.ui.problemfixes.KIDSUIAddToSubclassPossibleFix;
+import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix;
+import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix.KIDSUIPossibleFixType;
+import net.strasnet.kids.ui.problems.KIDSMissingRelationUIProblem;
+import net.strasnet.kids.ui.problems.KIDSUIProblem;
+import net.strasnet.kids.ui.problems.KIDSUIProblem.ProblemClass;
 
 import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -218,7 +226,10 @@ public class ABOXBuilder {
 				
 				if (model.getState() != ABOXBuilderGUIState.UNINITIALIZED){
 					// Create the AddEventJDialog to create the event
-					AddEventJDialog newEvent = new AddEventJDialog(frame, controller.getABOXPrefix(), controller);
+					KIDSAddIndividualJDialog newEvent = new KIDSAddIndividualJDialog(frame, 
+							controller.getABOXPrefix(), 
+							KIDSOracle.eventClass, 
+							controller);
 					newEvent.setModal(true);
 					newEvent.setVisible(true);
 				
@@ -359,7 +370,7 @@ public class ABOXBuilder {
 		 */
 		private static final long serialVersionUID = -5930357945561781477L;
 
-		public KIDSProblemsJScrollPane(final JList<IRI> individualsJList){
+		public KIDSProblemsJScrollPane(final JList<KIDSUIComponent> individualsJList){
 
 			final DefaultListModel<KIDSUIProblem> problemJListModel = new DefaultListModel<KIDSUIProblem>();
 			final JList<KIDSUIProblem> ProblemsJList = new JList<KIDSUIProblem>(problemJListModel);
@@ -367,14 +378,14 @@ public class ABOXBuilder {
 				@Override
 				public void mousePressed(MouseEvent e) {
 
-					logme.debug(String.format("Mouse button %d clicked.", e.getButton()));
+					logme.debug(String.format("Mouse button %d clicked in problemsJList.", e.getButton()));
 				
 
 					// Only respond to right-clicks
 					if (e.getButton() == MouseEvent.BUTTON3){
 					
 						// First, get the JList item that was clicked, if any:
-						final IRI problemSourceIndividual = individualsJList.getSelectedValue();
+						final KIDSUIComponent problemSourceIndividual = individualsJList.getSelectedValue();
 						logme.debug(String.format("Loading solutions for individual %s", problemSourceIndividual));
 
 						int index = ProblemsJList.locationToIndex(e.getPoint());
@@ -382,17 +393,21 @@ public class ABOXBuilder {
 					
 						if (index > -1){
 							// We clicked on a list item; populate the popup menu and display it
-							KIDSUIProblem ourProblem = problemJListModel.getElementAt(index);
+							final KIDSUIProblem ourProblem = problemJListModel.getElementAt(index);
+							logme.debug(String.format("Building solutions for problem class %s, type %s",
+									ourProblem.getClassOfProblem(),
+									ourProblem.getType()
+									));
 							JPopupMenu eventProblemPopupMenu = new JPopupMenu();
 						
 							// If it is a missing relation problem, we can assume that 'quick fixes' involve
 							// adding the relation:
-							if (ourProblem.getClassOfProblem() == ProblemClass.MissingRelation){
-								logme.debug(String.format("Problem is an instance of missing relation"));
-						    	final KIDSMissingRelationUIProblem MRProb = (KIDSMissingRelationUIProblem)ourProblem;
+							//if (ourProblem.getClassOfProblem() == ProblemClass.MissingRelation){
+							//	logme.debug(String.format("Problem is an instance of missing relation"));
+						    //	final KIDSMissingRelationUIProblem MRProb = (KIDSMissingRelationUIProblem)ourProblem;
 
 						    	// Add an item for the problem
-						    	List<KIDSUIPossibleFix> fixes = MRProb.getPossibleFixes();
+						    	List<KIDSUIPossibleFix> fixes = ourProblem.getPossibleFixes();
 						    	final Map<String, KIDSUIPossibleFix> fixmap = new HashMap<String, KIDSUIPossibleFix>();
 								logme.debug(String.format("%d solutions available.", fixes.size()));
 						    	for (KIDSUIPossibleFix f : fixes){
@@ -417,14 +432,15 @@ public class ABOXBuilder {
 										    	IRI object = typedFix.getObject();
 									   	    	if (chosenFix.getType() == KIDSUIPossibleFixType.ADDRELATIONTONEW){
 										   	    	// Dispatch the correct dialog
-										   	    	IRI ourClass = MRProb.getMissingObjectClass();
+										   	    	IRI ourClass = 
+										   	    			((KIDSMissingRelationUIProblem)ourProblem).getMissingObjectClass();
 										   	    	KIDSAddIndividualJDialog ourDialog;
 													try {
 														ourDialog = controller.getAddInstanceDialogForClass(ourClass, frame);
 														if (ourDialog == null){
-															controller.logappend(
-																	new KIDSGUIAlertError(
-																	"Could not load dialog to add relation."));
+															controller.logappendError(
+																	String.format(
+																	"Could not load dialog to add individual of class %s.",ourClass));
 															return;
 														}
 
@@ -442,32 +458,77 @@ public class ABOXBuilder {
 														e1.printStackTrace();
 														return;
 													}
-									   		}
-											// Add a relation
-											controller.addRelation(
-												problemSourceIndividual,
-												predicate,
-												object);
-											controller.logappend(
+									   	    	}
+									   	    	// Add a relation
+											    controller.addRelation(
+											    		problemSourceIndividual.getIRI(),
+											    		predicate,
+												   		object);
+											    controller.logappend(
 												new KIDSGUIAlertInfo(String.format("Added relation (%s, %s, %s)", 
-													problemSourceIndividual,
+													problemSourceIndividual.getIRI(),
 													predicate,
 													object))
 												);
-											model.setState(ABOXBuilderGUIState.ABOXModified);
-								       		} else {
-								    	   		logme.warn(String.format("Unknown fix type %s.", 
-								    	   			chosenFix.getType()));
-								       		}
-								    	}
+											    model.setState(ABOXBuilderGUIState.ABOXModified);
+									   		} else if (chosenFix.getType() == KIDSUIPossibleFixType.DEFINESUBCLASSFORINDIVIDUAL){
+									   			// All we need to do is provide the class to map to:
+										    	KIDSUIAddToSubclassPossibleFix typedFix =((KIDSUIAddToSubclassPossibleFix)chosenFix); 
+									   			logme.debug(String.format("Creating entry for fix type %s (map %s -> %s)", 
+									   					chosenFix.getType(),
+									   					typedFix.getIndividualIRI(),
+									   					typedFix.getSubclassIRI()
+									   					));
+										    	controller.addIndividual(typedFix.getIndividualIRI(), typedFix.getSubclassIRI());
+										    	controller.logappendInfo(String.format("Added %s to class %s", typedFix.getIndividualIRI(),
+										    			typedFix.getSubclassIRI()));
+									   		} else if (chosenFix.getType() == KIDSUIPossibleFixType.ADDDATATYPEVALUE){
+									   			logme.debug(String.format("Creating dialog for fix type %s", chosenFix.getType()));
+										    	KIDSUIAddDatatypePropertyPossibleFix typedFix =
+										    			((KIDSUIAddDatatypePropertyPossibleFix)chosenFix); 
+												try {
+													KIDSAddDataJDialog ourDialog = controller.getAddDataValueDialogForClass(
+															typedFix.getDatatypeClass(), frame,
+															typedFix.getSubjectIRI(), typedFix.getRelation());
+													if (ourDialog == null){
+														controller.logappendError(
+																String.format(
+																"Could not load dialog to add data of class %s.",typedFix.getDatatypeClass()));
+														return;
+													}
+
+									   	    		// Open a JDialog which prompts for TBOX location, IRI, and desired ABOX IRI; initiate a new ABOX
+									   	    		ourDialog.setModal(true);
+									   	    		ourDialog.setVisible(true);
+			
+									   	    		// We need the data back from the dialog:
+									   	    		String dv = ourDialog.getAddedData();
+
+									   	    		// Add via the controller:
+									   	    		controller.addDataValueForIndividual(
+									   	    				typedFix.getRelation(), 
+									   	    				typedFix.getSubjectIRI(),
+									   	    				dv);
+												} catch (InstantiationException | IllegalAccessException e1) {
+													controller.logappend(new KIDSGUIAlertError(
+															String.format("Could not load dialog listed for %s",typedFix.getDatatypeClass())
+															));
+													logme.error(e1.getMessage());
+													e1.printStackTrace();
+													return;
+												}
+									   		} else {
+									   			logme.error(String.format("Unknown fix type %s.", chosenFix.getType()));
+									   		}
+								       	}
 							    	});
 							    	eventProblemPopupMenu.add(thisFix);
 						    	}
 								processMessageQueue();
-							}
 							eventProblemPopupMenu.show(e.getComponent(), e.getX(), e.getY());
 						}
 					}
+					processMessageQueue();
 				}
 			});
 
@@ -477,15 +538,17 @@ public class ABOXBuilder {
 				public void valueChanged(ListSelectionEvent e) {
 					if (!e.getValueIsAdjusting()){
 						problemJListModel.removeAllElements();
-						IRI individual = ((JList<IRI>)e.getSource()).getSelectedValue();
+						KIDSUIComponent individual = ((JList<KIDSUIComponent>)e.getSource()).getSelectedValue();
 						if (individual != null){
-						    logme.debug(String.format("New item selected in JList (%s)", individual.getFragment()));
-							List<KIDSUIProblem> thisIndividualsProblems = controller.getProblems(individual);
+						    logme.debug(String.format("New item selected in JList (%s)", 
+						    		individual.getIRI().getFragment()));
+							Set<KIDSUIProblem> thisIndividualsProblems = individual.getComponentProblems();
 							for (KIDSUIProblem kup : thisIndividualsProblems){
 								problemJListModel.addElement(kup);
 							}
 						}
 					}
+					processMessageQueue();
 				}
 			});
 
@@ -502,15 +565,20 @@ public class ABOXBuilder {
 		private static final long serialVersionUID = -7014620571608951624L;
 		private final IRI ourClass;
 		
-		private void repopulateList(DefaultListModel<IRI> target){
-			Set<IRI> knownIndividuals = controller.getKnownIndividuals(ourClass);
-			logme.debug(String.format("Controller found %d individuals of class %s", knownIndividuals.size(), ourClass));
+		private void repopulateList(DefaultListModel<KIDSUIComponent> target){
+			Set<KIDSUIComponent> knownIndividuals = controller.getKnownIndividuals(ourClass);
+			logme.debug(String.format("Listing %d individuals of class %s", knownIndividuals.size(), ourClass));
 			target.removeAllElements();
-			for (IRI ind : knownIndividuals){
+			for (KIDSUIComponent ind : knownIndividuals){
 				target.addElement(ind);
 			}
 		}
 
+		/**
+		 * This panel will display the individuals known to the KB that are members of ourClass (or a subclass).
+		 * 
+		 * @param ourClass - The class of individuals shown in this panel.
+		 */
 		public KIDSIndividualProblemsJPanel(final IRI ourClass){
 			this.ourClass = ourClass;
 			JSplitPane KIDSSplitPane = new JSplitPane();
@@ -519,8 +587,225 @@ public class ABOXBuilder {
 			JScrollPane IndividualScrollPane = new JScrollPane();
 			KIDSSplitPane.setLeftComponent(IndividualScrollPane);
 		
-			final DefaultListModel<IRI> individualJListModel = new DefaultListModel<IRI>();
-			final JList<IRI> IndividualJList = new JList<IRI>(individualJListModel);
+			final DefaultListModel<KIDSUIComponent> individualJListModel = new DefaultListModel<KIDSUIComponent>();
+			final JList<KIDSUIComponent> IndividualJList = new JList<KIDSUIComponent>(individualJListModel);
+			IndividualJList.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e) {
+
+					logme.debug(String.format("Mouse button %d clicked in IndividualJList.", e.getButton()));
+
+					// Only respond to right-clicks
+					if (e.getButton() == MouseEvent.BUTTON3){
+					
+						// First, get the JList item that was clicked, if any:
+						int index = IndividualJList.locationToIndex(e.getPoint());
+						logme.debug(String.format("Mouse clicked on menu item index %d.", index));
+						if (index > -1 && IndividualJList.getCellBounds(index, index).contains(e.getPoint())){
+							final KIDSUIComponent ourComponent = individualJListModel.getElementAt(index);
+							logme.debug(String.format("Loading menu for individual %s", ourComponent));
+							JPopupMenu getIndividualInfoPopupMenu = new JPopupMenu();
+							JMenuItem getInfo = new JMenuItem("Get details...");
+							getIndividualInfoPopupMenu.add(getInfo);
+
+							getInfo.addActionListener(new ActionListener(){
+								@Override
+								public void actionPerformed(ActionEvent e) {
+									// Popup a dialog displaying the details of the individual
+									logme.debug(String.format("Generating details for component %s", ourComponent));
+									
+									// Get class membership
+
+									// Get object properties
+
+									// Get data properties
+									
+									// Get problems
+
+									processMessageQueue();
+								}
+							});
+
+							JMenu addRelation = new JMenu("Add relation ...");
+							getIndividualInfoPopupMenu.add(addRelation);
+							
+							List <KIDSUIRelation> itemRelations = ourComponent.getRelations();
+							
+							for (final KIDSUIRelation kur : itemRelations){
+								JMenu ouritem = new JMenu(String.format("Add %s ...", kur.getRelationIRI().getFragment()));
+								if (kur.getType() == RelationType.Data){
+									final KIDSUIDataRelationComponent kdr = (KIDSUIDataRelationComponent)kur;
+									JMenuItem dataitem = new JMenuItem(String.format(
+											"New %s data", kdr.getDatatypeClass()));
+								
+								    dataitem.addActionListener(new ActionListener(){
+								    	@Override
+									   	public void actionPerformed(ActionEvent e){
+										   	// Load the component:
+										   	try {
+										   	    KIDSAddDataJDialog ourDialog = 
+												controller.getAddDataValueDialogForClass(
+												    kdr.getDatatypeClass(), frame, 
+													kdr.getSubjectIRI(), kdr.getRelationIRI());
+												if (ourDialog == null){
+													controller.logappendError(
+																String.format(
+																"Could not load dialog to add individual of class %s.",ourClass));
+												} else {
+										   	    	// Open a JDialog which prompts for TBOX location, IRI, and desired ABOX IRI; initiate a new ABOX
+										   	    	ourDialog.setModal(true);
+										   	    	ourDialog.setVisible(true);
+				
+										   	    	// We need the IRI back from the dialog:
+										   	    	String data = ourDialog.getAddedData();
+										   	        controller.addDataValueForIndividual(kdr.getRelationIRI(), 
+										   	    		kdr.getSubjectIRI(), data);
+										   	        controller.logappendInfo(String.format(
+										   	    		    "Added relation (%s, %s, %s)", 
+										   	    		    kdr.getSubjectIRI(),
+										   	    		    kdr.getRelationIRI(),
+										   	    		    data));
+												}
+										   	} catch (InstantiationException | IllegalAccessException e1) {
+											   	controller.logappend(new KIDSGUIAlertError(
+												   	String.format("Could not load dialog for %s",
+														kur.getRelationIRI())));
+											   	logme.error(e1.getMessage());
+											   	e1.printStackTrace();
+										   	} finally {
+											   	processMessageQueue();
+										   	}
+								    	}
+								    });
+								} else if (kur.getType() == RelationType.Object){
+									final KIDSUIObjectRelationComponent kdr = (KIDSUIObjectRelationComponent) kur;
+									
+									Set<KIDSUIComponent> candidates = controller.getKnownIndividuals(kdr.getObjectClass());
+									
+									for (final KIDSUIComponent c : candidates){
+										JMenuItem dataitem = new JMenuItem(String.format(
+											"%s", c.getIRI()));
+										dataitem.addActionListener(new ActionListener(){
+											public void actionPerformed(ActionEvent e){
+												controller.addRelation(kdr.getSubjectIRI(), 
+														kdr.getRelationIRI(), 
+														c.getIRI());
+												controller.logappendInfo(String.format(
+														"Added relation (%s, %s, %s)", 
+														kdr.getSubjectIRI(),
+														kdr.getRelationIRI(),
+														c.getIRI()));
+											}
+										});
+										ouritem.add(dataitem);
+									}
+
+									JMenuItem dataitem = new JMenuItem(String.format(
+											"New %s instance...", kdr.getObjectClass().getFragment()));
+								
+								    dataitem.addActionListener(new ActionListener(){
+								    	
+								    	public void actionPerformed(ActionEvent e){
+
+								    		try {
+										   		KIDSAddIndividualJDialog ourDialog = 
+											   		controller.getAddInstanceDialogForClass(
+												   		kdr.getObjectClass(),
+												   		frame);
+										   		if (ourDialog == null){
+											   		controller.logappendError(
+												   		String.format(
+												   		"Could not load dialog to add individual of class %s.",ourClass));
+										   		} else {
+											   		// Open a JDialog which prompts for TBOX location, IRI, and desired ABOX IRI; initiate a new ABOX
+											   		ourDialog.setModal(true);
+											   		ourDialog.setVisible(true);
+					   		
+											   		// We need the IRI back from the dialog:
+											   		IRI object = ourDialog.getAddedElementIRI();
+											   		controller.addRelation(kdr.getSubjectIRI(), 
+										    	   		kdr.getRelationIRI(), object);
+											   		controller.logappendInfo(String.format(
+										   		   		"Added relation (%s, %s, %s)", 
+										   		   		kdr.getSubjectIRI(),
+										   		   		kdr.getRelationIRI(),
+										   		   		object));
+										   		}
+									   		} catch (InstantiationException | IllegalAccessException e1) {
+										   		controller.logappend(new KIDSGUIAlertError(
+												   		String.format("Could not load dialog for %s",
+														   		kur.getRelationIRI())));
+										   		logme.error(e1.getMessage());
+										   		e1.printStackTrace();
+									   		} finally {
+										   		processMessageQueue();
+									   		}
+								    	}
+								   	});
+								addRelation.add(ouritem);
+								}
+							}
+
+							getIndividualInfoPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+						} else {
+							// Clicked on an empty area; build a popup menu to add a new Individual:
+							JPopupMenu newIndividualPopupMenu = new JPopupMenu();
+							JMenuItem newIndividual = new JMenuItem("Add new...");
+							newIndividualPopupMenu.add(newIndividual);
+							logme.debug(String.format("Loading menu to add a new %s",ourClass));
+							newIndividual.addActionListener(new ActionListener(){
+								
+								@Override
+								public void actionPerformed(ActionEvent e){
+									// Trigger the appropriate new Individual dialog:
+									try {
+										KIDSAddIndividualJDialog addOne = controller.getAddInstanceDialogForClass(ourClass, frame);
+
+										if (addOne == null){
+											controller.logappendError(
+												String.format(
+												"Could not load dialog to add individual of class %s.",ourClass));
+											return;
+										}
+
+									   	// Open a JDialog which prompts for TBOX location, IRI, and desired ABOX IRI; initiate a new ABOX
+									   	addOne.setModal(true);
+									   	addOne.setVisible(true);
+			
+									   	// We need the data back from the dialog:
+									   	IRI newIndividual = addOne.getAddedElementIRI();
+
+									   	// Add via the controller:
+									   	controller.addIndividual(newIndividual, ourClass);
+									   	controller.logappendInfo(String.format("Added individual %s to class %s", 
+									   			newIndividual,
+									   			ourClass));
+									} catch (InstantiationException e1) {
+										controller.logappend(new KIDSGUIAlertError(
+											String.format("Could not load dialog listed for %s",ourClass)
+											));
+										logme.error(e1.getMessage());
+										e1.printStackTrace();
+										return;
+									} catch (IllegalAccessException e1) {
+										controller.logappend(new KIDSGUIAlertError(
+											String.format("Could not access dialog class for %s",ourClass)
+											));
+										logme.error(e1.getMessage());
+										e1.printStackTrace();
+										return;
+									} finally {
+										processMessageQueue();
+									}
+								}
+
+							});
+							newIndividualPopupMenu.show(e.getComponent(), e.getX(), e.getY());
+						}
+					}
+				}
+			});
+
 			controller.addIndividualAddedListener(new AddEventListener(){
 				@Override
 				public void newEventReceived(IRI ind) {
@@ -528,11 +813,11 @@ public class ABOXBuilder {
 					repopulateList(individualJListModel);
 				}
 			});
-			controller.addOntologyLoadedListener(new OntologyLoadedListener(){
+			controller.addOntologyModifiedListener(new OntologyModifiedListener(){
 				@Override
-				public void ontologyLoaded(KIDSGUIOracle o){
+				public void ontologyModified(KIDSGUIOracle o){
 					// Get list of known events from ontology and populate our model:
-					logme.debug(String.format("Received ontology loaded event; repopulating list for class %s", ourClass));
+					logme.debug(String.format("Received ontology modified event; repopulating list for class %s", ourClass));
 					repopulateList(individualJListModel);
 				}
 			});

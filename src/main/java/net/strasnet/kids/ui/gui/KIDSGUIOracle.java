@@ -36,20 +36,6 @@ public class KIDSGUIOracle extends KIDSOracle {
 
 	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSGUIOracle.class.getName());
 	
-	/**
-	 * Adds an event to the ontology, to the correct subclass
-	 * @param eventIRI
-	 */
-	public void addEvent(IRI eventIRI){
-		OWLClass evtClass = this.odf.getOWLClass(eventClass);
-		OWLNamedIndividual event = this.odf.getOWLNamedIndividual(eventIRI);
-		OWLAxiom toAdd = this.odf.getOWLClassAssertionAxiom(evtClass, event);
-		
-		this.manager.applyChanges(
-		    this.manager.addAxiom(this.o, toAdd)
-		);
-		r.flush();
-	}
 
 	/**
 	 * 
@@ -168,5 +154,85 @@ public class KIDSGUIOracle extends KIDSOracle {
 			classSet.add(oce.getClassesInSignature().iterator().next().getIRI());
 		}
 		return classSet;
+	}
+
+	/**
+	 * Will return * true if the given individual is a member of a strict subclass of the given class,
+	 * false otherwise.
+	 * 
+	 * @param parentClass - The class to use as the base parent class
+	 * @param individualToCheck - The individual to check
+	 * 
+	 * @return true if the given individual is a member of a strict subclass of the given class,
+	 * false otherwise.
+	 */
+	public boolean isMemberOfStrictSubclass(IRI parentClass, IRI individualToCheck) {
+		OWLNamedIndividual ind = odf.getOWLNamedIndividual(individualToCheck);
+		OWLClass cls = odf.getOWLClass(parentClass);
+		
+		Set<OWLClass> membership = r.getTypes(ind, false).getFlattened();
+		Set<OWLClass> subclasses = r.getSubClasses(cls, false).getFlattened();
+		
+		logme.debug(String.format("Found %d subclasses of %s, and %d class memberships for individual %s.",
+				subclasses.size(), parentClass, membership.size(), individualToCheck));
+		
+		for (OWLClass c : membership){
+			if (subclasses.contains(c)){
+				logme.debug("Found subclass %s for individual %s", c.getIRI(), individualToCheck);
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+
+	/**
+	 * Returns the set of classes which are identified as sublcasses of the given parent class
+	 * @param parentClass - the root from which to get subclasses
+	 * @return the set of classes which are identified as sublcasses of the given parent class
+	 */
+	public Set<IRI> getStrictSubclasses(IRI parentClass) {
+		OWLClass cls = odf.getOWLClass(parentClass);
+		
+		Set<OWLClass> subclasses = r.getSubClasses(cls, false).getFlattened();
+		
+		logme.debug(String.format("Found %d subclasses of parent class %s.", subclasses.size(), parentClass));
+
+		return this.getIRISetFromNamedIndividualSet(subclasses);
+	}
+
+	/**
+	 * Adds an event to the ontology, to the correct subclass
+	 * @param eventIRI
+	 */
+	public void addIndividual(IRI indIRI, IRI classIRI) {
+		OWLClass indClass = this.odf.getOWLClass(classIRI);
+		OWLNamedIndividual ind = this.odf.getOWLNamedIndividual(indIRI);
+		OWLAxiom toAdd = this.odf.getOWLClassAssertionAxiom(indClass, ind);
+		
+		this.manager.applyChanges(
+		    this.manager.addAxiom(this.o, toAdd)
+		);
+		r.flush();
+		
+		logme.debug(String.format("Added individual %s to class %s.", indIRI, classIRI));
+	}
+
+	public void addDataPropertyToIndividual(IRI subjectIRI, IRI relation, String value) {
+		OWLNamedIndividual oni = odf.getOWLNamedIndividual(subjectIRI);
+		OWLDataProperty odp = odf.getOWLDataProperty(relation);
+		
+		this.manager.applyChanges(
+		this.manager.addAxiom(o, 
+				this.odf.getOWLDataPropertyAssertionAxiom(
+						odp, 
+						oni, 
+						value))
+		);
+
+		logme.debug(String.format("Added tuple (%s, %s, %s)", subjectIRI, relation, value));
+		r.flush();
+		
 	}
 }

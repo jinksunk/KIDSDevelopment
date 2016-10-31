@@ -29,32 +29,25 @@ import net.strasnet.kids.ui.gui.KIDSGUIOracle;
  * 
  * This class represents an Event for UI purposes in KIDS.
  */
-public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KIDSUIComponent {
+public class KIDSUITimePeriodComponent extends KIDSUIAbstractComponent implements KIDSUIComponent {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUISignalComponent.class.getName());
+	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUITimePeriodComponent.class.getName());
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#hasSignalValue","#SignalValue");
-		reqProps.put("#isEvaluableWithDataset","#Dataset");
+		reqProps.put("#coincidesWithDatasetLabel","#DatasetLabel");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
-		infProps.put("#hasDomain","#SignalDomain");
-		infProps.put("#isAppliedByDetector","#Detector");
-		infProps.put("#isRepresentedBy","#SignalDomainRepresentation");
-		infProps.put("#hasConstraint","#SignalConstraint");
-		infProps.put("#isExpressibleInSyntax","#DetectorSyntax");
-		infProps.put("#SignalInManifestation","#DatasetLabel");
-		infProps.put("#isProducedBy","#Event");
+		infProps.put("#isIncludedInDataset","#Dataset");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
 	static {
 	};
 	
-	public KIDSUISignalComponent(IRI myID, KIDSGUIOracle o){
+	public KIDSUITimePeriodComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
 		
 		for (String p : reqProps.keySet()){
@@ -78,8 +71,6 @@ public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KI
 					));
 
 		}
-		
-		requiredSubclassOf = IRI.create(TBOXIRI + "#Signal");
 		
 		logme.debug(String.format("Initialized Signal UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
 				myID,

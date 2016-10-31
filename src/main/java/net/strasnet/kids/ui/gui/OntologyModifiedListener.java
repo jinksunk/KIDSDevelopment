@@ -10,8 +10,8 @@ import org.semanticweb.owlapi.model.IRI;
  *
  * Objects wishing to receive events when new Events are added should implement this interface.
  */
-public interface OntologyLoadedListener {
+public interface OntologyModifiedListener {
 	
-	public void ontologyLoaded(KIDSGUIOracle o);
+	public void ontologyModified(KIDSGUIOracle o);
 
 }

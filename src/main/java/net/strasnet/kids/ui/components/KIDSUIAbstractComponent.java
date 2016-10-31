@@ -1,10 +1,12 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.components;
 
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -12,7 +14,14 @@ import org.apache.logging.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 
+import net.strasnet.kids.ui.KIDSUIInferredProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredDataProperty;
+import net.strasnet.kids.ui.KIDSUIRequiredProperty;
 import net.strasnet.kids.ui.gui.KIDSGUIOracle;
+import net.strasnet.kids.ui.problems.KIDSMissingDataPropertyUIProblem;
+import net.strasnet.kids.ui.problems.KIDSMissingRelationUIProblem;
+import net.strasnet.kids.ui.problems.KIDSSubclassRequiredUIProblem;
+import net.strasnet.kids.ui.problems.KIDSUIProblem;
 
 /**
  * @author cstras
@@ -22,6 +31,12 @@ import net.strasnet.kids.ui.gui.KIDSGUIOracle;
 public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 
 	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUIAbstractComponent.class.getName());
+	
+	public enum KIDSDatatypeClass {
+		STRING,
+		JAVA, 
+		FILEPATH
+	};
 
 	protected IRI myIRI = null;
 	protected Set<KIDSUIInferredProperty> myInfProps;
@@ -31,6 +46,7 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 	protected IRI TBOXIRI;
 	protected KIDSGUIOracle o;
 	protected OWLDataFactory owldf;
+	protected IRI requiredSubclassOf;
 
 	public KIDSUIAbstractComponent(IRI myID, KIDSGUIOracle o){
 		myIRI = myID;
@@ -38,6 +54,7 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		ABOXIRI = myIRI.getStart();
 		this.o = o;
 		this.owldf = o.getOwlDataFactory();
+		this.requiredSubclassOf = null;
 		
 		myReqProps = new HashSet<KIDSUIRequiredProperty>();
 		myInfProps = new HashSet<KIDSUIInferredProperty>();
@@ -100,24 +117,81 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 
 		// Check that each specified data property has a target; if not, add to problems.
 		for (KIDSUIRequiredDataProperty rprop : myDataProps){
+			
+			Set<String> values = o.getDataPropertyValues(myIRI, rprop.getProperty());
+			
+			if (values.size() == 0){
 
-			Set<String> propvals = o.getDataPropertyValues(myIRI, 
-					rprop.getProperty());
-
-			if (propvals.size() == 0){
 				// Well, we have a problem:
-				toReturn.add(new KIDSUIProblem(
-						String.format("Data property not defined: (%s, %s, %s)", 
-								myIRI, 
-								rprop.getProperty(), 
-								rprop.getObjectClass()), 
-						KIDSUIProblem.ProblemType.REQUIRED
+				toReturn.add(new KIDSMissingDataPropertyUIProblem(
+					String.format("Data property not defined: (%s, %s, %s)", 
+							myIRI,
+							rprop.getProperty(), 
+							rprop.getObjectClass()), 
+					KIDSUIProblem.ProblemType.REQUIRED,
+					myIRI,
+					rprop.getObjectClass(),
+					rprop.getProperty(),
+					o
+					)
+				);
+			}
+		}
+		
+		// If subclass membership is required, ensure that we are a member of a strict subclass:
+		if (requiredSubclassOf != null){
+			if (!o.isMemberOfStrictSubclass(requiredSubclassOf, myIRI)){
+				toReturn.add(new KIDSSubclassRequiredUIProblem(
+						String.format("%s must be a member of a subclass of %s", myIRI, requiredSubclassOf),
+						KIDSUIProblem.ProblemType.REQUIRED,
+						requiredSubclassOf,
+						myIRI,
+						o
 						)
 				);
 			}
+			
 		}
 
 		logme.debug(String.format("Found %d problems for %s.", toReturn.size(), myIRI.getFragment()));
 		return toReturn;
 	}
+	
+	/**
+	 * @return - The IRI as defined for the individual represented by this class.
+	 */
+	@Override
+	public IRI getIRI(){
+		return this.myIRI;
+	}
+	
+	/**
+	 * @return - The IRI of the individual this UI component encapsulates. 
+	 */
+	@Override
+	public String toString(){
+		return this.myIRI.toString();
+	}
+	
+	@Override
+	public List<KIDSUIRelation> getRelations(){
+		List <KIDSUIRelation> toReturn = new LinkedList<KIDSUIRelation>();
+		
+		// Add object relations
+		for (KIDSUIRequiredProperty p : this.myReqProps){
+			toReturn.add(new KIDSUIObjectRelationComponent(this.getIRI(),
+					p.getProperty(),
+					p.getObjectClass()));
+		}
+		
+		// Add data relations
+		for (KIDSUIRequiredDataProperty p : this.myDataProps){
+			toReturn.add(new KIDSUIDataRelationComponent(this.getIRI(), 
+					p.getProperty(), 
+					p.getObjectClass()));
+		}
+		
+		return toReturn;
+	}
+
 }

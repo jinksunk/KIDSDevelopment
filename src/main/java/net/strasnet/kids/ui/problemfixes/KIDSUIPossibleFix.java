@@ -1,7 +1,9 @@
 /**
  * 
  */
-package net.strasnet.kids.ui;
+package net.strasnet.kids.ui.problemfixes;
+
+import net.strasnet.kids.ui.problems.KIDSUIProblem;
 
 /**
  * @author cstras
@@ -15,7 +17,9 @@ public class KIDSUIPossibleFix {
 	public enum KIDSUIPossibleFixType {
 		ADDRELATIONTOEXISTING,
 		ADDRELATIONTONEW,
-		MANUAL;
+		MANUAL, 
+		ADDDATATYPEVALUE, 
+		DEFINESUBCLASSFORINDIVIDUAL;
 	};
 	
 	private String displayMsg;
