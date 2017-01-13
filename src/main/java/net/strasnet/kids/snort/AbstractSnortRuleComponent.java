@@ -56,7 +56,7 @@ public abstract class AbstractSnortRuleComponent {
 		myF = ko.getOwlDataFactory();
 		myR = ko.getReasoner();
 		mySS = currentSigSet;
-		myOIri = ko.getOurIRI();
+		myOIri = ko.getABOXIRI();
 	}
 	
 	/**

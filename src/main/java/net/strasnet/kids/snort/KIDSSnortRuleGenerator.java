@@ -92,7 +92,7 @@ public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 		o = ko.getOntology();
 		f = ko.getOwlDataFactory();
 		r = ko.getReasoner();
-		oIri = ko.getOurIRI();	
+		oIri = ko.getABOXIRI();	
 	}
 	
 	/**
