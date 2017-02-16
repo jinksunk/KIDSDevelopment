@@ -10,8 +10,8 @@ import java.util.Set;
 
 import net.strasnet.kids.measurement.DataInstance;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

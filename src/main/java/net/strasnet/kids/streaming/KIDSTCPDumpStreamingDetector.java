@@ -35,8 +35,8 @@ import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 public class KIDSTCPDumpStreamingDetector extends StreamingDetectorAbstractClass implements

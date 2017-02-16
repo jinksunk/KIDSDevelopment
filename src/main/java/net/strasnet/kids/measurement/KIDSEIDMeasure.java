@@ -12,7 +12,7 @@ import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
@@ -72,7 +72,7 @@ public class KIDSEIDMeasure {
 	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSEIDMeasure.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSEIDMeasure.class.getName());
 	
 	//TODO: Rather than just return the EID value, modify to return a suite of metrics, including fpr, fnr, and list of events matched / missed
 	public static RecursiveResult getKIDSEIDMeasureValue(KIDSMeasurementOracle kmo, Set<IRI> s, CorrelatedViewLabelDataset d) throws 

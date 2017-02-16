@@ -24,7 +24,7 @@ import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSSnortDataInstance;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -39,7 +39,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements DatasetLabel {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSNativeLibpcapTruthFile2.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSNativeLibpcapTruthFile2.class.getName());
 //	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
 	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-\\.]+),(?<dip>[\\d-\\.]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
     private Pattern rexp;

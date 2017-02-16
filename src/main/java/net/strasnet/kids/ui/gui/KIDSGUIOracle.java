@@ -9,7 +9,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
@@ -34,7 +34,7 @@ import net.strasnet.kids.KIDSOracle;
  */
 public class KIDSGUIOracle extends KIDSOracle {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSGUIOracle.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSGUIOracle.class.getName());
 	
 
 	/**
@@ -121,7 +121,7 @@ public class KIDSGUIOracle extends KIDSOracle {
 		OWLNamedIndividual ourobject = this.odf.getOWLNamedIndividual(object);
 		OWLObjectPropertyAssertionAxiom axiom = this.odf.getOWLObjectPropertyAssertionAxiom(ourprop, oursubject, ourobject);
 		
-		this.manager.applyChanges(this.manager.addAxiom(o, axiom));
+		this.manager.addAxiom(o, axiom);
 
 		logme.debug(String.format("Before flush, reasoner has %d pending changes.", this.r.getPendingChanges().size()));
 		this.r.precomputeInferences();
@@ -178,7 +178,7 @@ public class KIDSGUIOracle extends KIDSOracle {
 		
 		for (OWLClass c : membership){
 			if (subclasses.contains(c)){
-				logme.debug("Found subclass %s for individual %s", c.getIRI(), individualToCheck);
+				logme.debug(String.format("Found subclass %s for individual %s", c.getIRI(), individualToCheck));
 				return true;
 			}
 		}
@@ -211,9 +211,7 @@ public class KIDSGUIOracle extends KIDSOracle {
 		OWLNamedIndividual ind = this.odf.getOWLNamedIndividual(indIRI);
 		OWLAxiom toAdd = this.odf.getOWLClassAssertionAxiom(indClass, ind);
 		
-		this.manager.applyChanges(
-		    this.manager.addAxiom(this.o, toAdd)
-		);
+		this.manager.addAxiom(this.o, toAdd);
 		r.flush();
 		
 		logme.debug(String.format("Added individual %s to class %s.", indIRI, classIRI));
@@ -223,13 +221,11 @@ public class KIDSGUIOracle extends KIDSOracle {
 		OWLNamedIndividual oni = odf.getOWLNamedIndividual(subjectIRI);
 		OWLDataProperty odp = odf.getOWLDataProperty(relation);
 		
-		this.manager.applyChanges(
 		this.manager.addAxiom(o, 
 				this.odf.getOWLDataPropertyAssertionAxiom(
 						odp, 
 						oni, 
-						value))
-		);
+						value));
 
 		logme.debug(String.format("Added tuple (%s, %s, %s)", subjectIRI, relation, value));
 		r.flush();

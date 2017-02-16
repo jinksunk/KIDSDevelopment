@@ -37,8 +37,8 @@ import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 import net.strasnet.kids.measurement.test.TestOracleFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 

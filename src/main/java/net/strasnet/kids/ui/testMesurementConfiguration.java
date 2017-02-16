@@ -13,7 +13,7 @@ import org.apache.commons.cli.BasicParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
 /**
@@ -27,7 +27,7 @@ import org.semanticweb.owlapi.model.OWLOntologyCreationException;
  */
 public class testMesurementConfiguration {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(testMesurementConfiguration.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(testMesurementConfiguration.class.getName());
 
 	/**
 	 * @param args - args[1] - String indicating the location of the configuration file to evaluate.

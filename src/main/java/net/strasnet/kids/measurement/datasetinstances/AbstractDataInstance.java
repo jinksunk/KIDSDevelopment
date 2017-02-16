@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
@@ -24,7 +24,7 @@ import net.strasnet.kids.measurement.Label;
  *
  */
 public class AbstractDataInstance implements DataInstance {
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(AbstractDataInstance.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(AbstractDataInstance.class.getName());
 	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	protected Label myLabel = null;
 	private List<IRI> identifiers = new LinkedList<IRI>();

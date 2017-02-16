@@ -35,8 +35,8 @@ import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNTEventLogDataInstance;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -168,10 +168,11 @@ public class KIDSGrepStreamingDetector extends StreamingDetectorAbstractClass
 		// 3. If the grep process dies, get the error and end the loop
 		// So - We can make a filtered output stream -> grep -> if grep matches, write to given input stream
 		
+		/*
 		try {
 		    // Setup the socket connection:
 		    oursock = new ServerSocket(monitorport);
-		    logme.debug("Server listening on %s:%d", monitorhost, monitorport);
+		    logme.debug(String.format("Server listening on %s:%d", monitorhost, monitorport));
 		    Socket client = null;
 			client = oursock.accept();
 			logme.debug("Client connected...");
@@ -181,7 +182,7 @@ public class KIDSGrepStreamingDetector extends StreamingDetectorAbstractClass
 		    logme.debug("Executing command [" + StringUtils.join(toExec," ") + "] ...");
 			BufferedReader in = new BufferedReader(
 										new InputStreamReader(
-											new KIDSProcessFilterInputStream(
+											new KIDSProcessFilterReader(
 												client.getInputStream()
 											)
 										)
@@ -246,7 +247,7 @@ public class KIDSGrepStreamingDetector extends StreamingDetectorAbstractClass
 			    	    }
 			    	    myStore.addStreamingInstance(sdi, signals);
 			        } catch (IOException e) {
-			    	    logme.warn("Couldn't parse line: %s", matchedLine); 
+			    	    logme.warn(String.format("Couldn't parse line: %s", matchedLine)); 
 			        }
                 }
 		    }
@@ -283,7 +284,7 @@ public class KIDSGrepStreamingDetector extends StreamingDetectorAbstractClass
 		    }
 		} catch (UnimplementedIdentifyingFeatureException e) {
 			logme.error("Cannot process data elements, unimplemented identfying feature: " + e.getFeature());
-		}
+		}*/
 		logme.debug("Fell out of the read loop");
 	}
 

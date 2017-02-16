@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 
@@ -30,7 +30,7 @@ import net.strasnet.kids.ui.problems.KIDSUIProblem;
  */
 public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUIAbstractComponent.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSUIAbstractComponent.class.getName());
 	
 	public enum KIDSDatatypeClass {
 		STRING,
@@ -51,7 +51,7 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 	public KIDSUIAbstractComponent(IRI myID, KIDSGUIOracle o){
 		myIRI = myID;
 		TBOXIRI = o.getTBOXIRI();
-		ABOXIRI = myIRI.getStart();
+		ABOXIRI = myIRI.getNamespace();
 		this.o = o;
 		this.owldf = o.getOwlDataFactory();
 		this.requiredSubclassOf = null;

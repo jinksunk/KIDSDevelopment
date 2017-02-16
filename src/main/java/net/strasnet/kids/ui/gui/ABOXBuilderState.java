@@ -17,7 +17,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 
 import org.json.simple.JSONObject;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.ParseException;
 
@@ -48,7 +48,7 @@ import org.json.simple.parser.JSONParser;
  */
 public class ABOXBuilderState {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(ABOXBuilderState.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(ABOXBuilderState.class.getName());
 	
 	JSONObject rootmap = null;
 	private File st8file = null;

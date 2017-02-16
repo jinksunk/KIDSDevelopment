@@ -4,6 +4,10 @@
 package net.strasnet.kids;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Calendar;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -14,8 +18,8 @@ import java.util.Set;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -33,6 +37,7 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.PrefixManager;
@@ -111,7 +116,8 @@ public class KIDSOracle {
 	public static IRI getOntologyIRI(IRI ontoFile) throws OWLOntologyCreationException{
 		OWLOntologyManager ourman = OWLManager.createOWLOntologyManager();
 		OWLOntology localo = ourman.loadOntology(ontoFile);
-		return localo.getOntologyID().getOntologyIRI();
+		IRI toReturn = localo.getOntologyID().getOntologyIRI().get();
+		return toReturn;
 	}
 	
 	/**
@@ -263,7 +269,7 @@ public class KIDSOracle {
 		setOntologyManager(OWLManager.createOWLOntologyManager());
 		if (m != null){
 			for (SimpleIRIMapper imap : m){
-			    manager.addIRIMapper(imap);
+			    manager.getIRIMappers().add(imap);
 			}
 		}
 
@@ -275,7 +281,37 @@ public class KIDSOracle {
 			OWLImportsDeclaration importDeclaration=manager.getOWLDataFactory().getOWLImportsDeclaration(getTBOXIRI());
 			manager.applyChange(new AddImport(o, importDeclaration));
 			// Save and re-load the ontology:
-			manager.loadOntology(getTBOXIRI());
+			IRI ontologyFile = getTBOXIRI();
+			for (OWLOntologyIRIMapper mpr : manager.getIRIMappers()){
+				if (mpr.getDocumentIRI(getTBOXIRI()) != null){
+					ontologyFile = mpr.getDocumentIRI(getTBOXIRI());
+					/*
+					try{
+						File t = new File(ontologyFile.toString());
+						this.logme.debug(String.format("1a. IRI: %s",ontologyFile.toString()));
+						this.logme.debug(String.format("1b. IRI-URI: %s",ontologyFile.toURI()));
+						this.logme.debug(String.format("1c. IRI-Parts: Scheme: %s ; Namespace: %s ; Fragment: %s",ontologyFile.getScheme(), ontologyFile.getNamespace(), ontologyFile.getRemainder()));
+						this.logme.debug(String.format("2. File Path: %s",t.getPath()));
+						this.logme.debug(String.format("3. File ABS Path: %s",t.getAbsolutePath()));
+						this.logme.debug(String.format("4. File Can Path: %s",t.getCanonicalPath()));
+						this.logme.debug(String.format("5. File URI: %s",t.toURI()));
+						this.logme.debug(String.format("6. File URL: %s",t.toURI().toURL()));
+						this.logme.debug(String.format("7. File URL XForm: %s",t.toURI().toURL().toExternalForm()));
+						this.logme.debug(String.format("8. File IRI: %s",IRI.create(t.toURI()).toString()));
+						this.logme.debug(String.format("9. Valid URI: %s",this.getValidFileURI(t)));
+						this.logme.debug(String.format("Loading %s from location %s.", getTBOXIRI(), new File(ontologyFile.toString()).toURI().toURL()));
+					} catch (IOException | URISyntaxException e){
+						logme.error(String.format("Cannot load ontology %s from location %s:",getTBOXIRI(), ontologyFile.toString()), e);
+					}
+					*/
+				}
+			}
+			//try {
+				manager.loadOntologyFromOntologyDocument(ontologyFile);
+//				manager.loadOntologyFromOntologyDocument(IRI.create(getValidFileURI(new File(ontologyFile.toString()))));
+			//} catch (URISyntaxException e){
+						//logme.error(String.format("Cannot load ontology %s from location %s:",getTBOXIRI(), ontologyFile.toString()), e);
+			//}
 			manager.saveOntology(getOntology());
 			this.loadKIDS(kidskb, this.TBOXIRI, m);
 			
@@ -342,7 +378,7 @@ public class KIDSOracle {
 		setOntologyManager(OWLManager.createOWLOntologyManager());
 		if (m != null){
 			for (SimpleIRIMapper imap : m){
-			    manager.addIRIMapper(imap);
+			    manager.getIRIMappers().add(imap);
 			    if (imap.getDocumentIRI(kidskb) != null){
 			    	fileIRI = imap.getDocumentIRI(kidskb);
 			    }
@@ -352,13 +388,19 @@ public class KIDSOracle {
 		if (fileIRI == null){
 			System.err.println("Could not identify file IRI for " + kidskb + "!");
 			System.exit(1);
-		} else {
-			logme.info(String.format("Loading from file %s", fileIRI));
-		}
+		} 
+		//else {
+			//try {
+		//		fileIRI = IRI.create(this.getValidFileURI(new File(fileIRI.toString())));
+			//} catch (URISyntaxException e) {
+				//logme.error(String.format("Could not load ontology from %s:", fileIRI.toString()),e);
+			//}
+		logme.info(String.format("Loading from file %s", fileIRI.toString()));
+		//}
 		
 		setOwlDataFactory(manager.getOWLDataFactory());
 		try {
-			setOntology(manager.loadOntology(fileIRI));
+			setOntology(manager.loadOntologyFromOntologyDocument(fileIRI));
 			if (! this.TBOXImported()){
 				logme.warn("TBOX was not imported correctly; adding import.");
 				OWLImportsDeclaration importDeclaration=manager.getOWLDataFactory().getOWLImportsDeclaration(getTBOXIRI());
@@ -634,6 +676,18 @@ public class KIDSOracle {
 			toReturn.add(i.getIRI());
 		}
 		return toReturn;
+	}
+	
+	/**
+	 * Given a local file, will evaluate the file path and ensure that a valid URI is returned, e.g.:
+	 *  ./test.txt -> file:///home/cstras/test.txt
+	 *  file:/tmp/test.ico -> file:///tmp/test.ico
+	 * @param target
+	 * @return
+	 * @throws URISyntaxException 
+	 */
+	public URI getValidFileURI(File target) throws URISyntaxException{
+		return new URI(String.format("file://%s", target.getAbsolutePath()));
 	}
 	
 	/**

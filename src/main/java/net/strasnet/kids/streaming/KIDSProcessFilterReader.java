@@ -21,8 +21,8 @@ import java.net.Socket;
 import java.util.concurrent.ArrayBlockingQueue;
 import java.util.concurrent.BlockingQueue;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 /**
  * @author Chris Strasburg
@@ -272,7 +272,7 @@ public class KIDSProcessFilterReader extends BufferedReader {
 	public long skip(long n) throws IOException{
 		long retVal = super.skip(n);
 		logme.debug(String.format("Begin skip (%d)", n));
-		logme.debug("End skip (%d); returning %d", n, retVal);
+		logme.debug(String.format("End skip (%d); returning %d", n, retVal));
 		return retVal;
 	}
 	

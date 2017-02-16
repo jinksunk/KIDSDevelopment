@@ -3,8 +3,8 @@
  */
 package net.strasnet.kids.responses;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import net.strasnet.kids.streaming.StreamingAlertHandler;
 import net.strasnet.kids.streaming.StreamingAlertHandlerFactory;

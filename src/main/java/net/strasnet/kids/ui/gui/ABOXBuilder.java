@@ -44,7 +44,7 @@ import net.strasnet.kids.ui.problems.KIDSMissingRelationUIProblem;
 import net.strasnet.kids.ui.problems.KIDSUIProblem;
 import net.strasnet.kids.ui.problems.KIDSUIProblem.ProblemClass;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
@@ -75,7 +75,7 @@ import javax.swing.JPopupMenu;
 
 public class ABOXBuilder {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(ABOXBuilder.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(ABOXBuilder.class.getName());
 
 	private JFrame frame;
 	private JTextPane logLines; // Make this visible to other methods.
@@ -168,8 +168,10 @@ public class ABOXBuilder {
 					model.setState(ABOXBuilderGUIState.ABOXLoaded);
 				} catch (OWLOntologyCreationException e1) {
 					controller.logappend(new KIDSGUIAlertError("Uh-oh - an exception occurred when loading the ontology: " + e1.getMessage()));
+					logme.error("Could not load ontology: ", e1);
 				} catch (OWLOntologyStorageException e1) {
 					controller.logappendError("Uh-oh - an exception occurred when writing the ontology: " + e1.getMessage());
+					logme.error("Could not write ontology: ", e1);
 				}
 				processMessageQueue();
 			}

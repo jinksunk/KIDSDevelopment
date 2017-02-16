@@ -9,7 +9,7 @@ import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 
 /**
  * @author Chris Strasburg
@@ -26,7 +26,7 @@ import org.apache.logging.log4j.LogManager;
  */
 public class RunStreamingKIDSDetector {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(RunStreamingKIDSDetector.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(RunStreamingKIDSDetector.class.getName());
 
 
 	/**

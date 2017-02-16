@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
@@ -35,7 +35,7 @@ import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
  */
 public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInstance>{
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;

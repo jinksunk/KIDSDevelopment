@@ -19,7 +19,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -32,7 +32,7 @@ public class KIDSAddFilepathDataJDialog extends KIDSAddDataJDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = 5851375089243455872L;
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSAddFilepathDataJDialog.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSAddFilepathDataJDialog.class.getName());
 
 	/**
 	 * 

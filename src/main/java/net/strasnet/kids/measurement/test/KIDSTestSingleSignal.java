@@ -35,8 +35,8 @@ import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.Logger;
+import org.apache.log4j.LogManager;
 
 /**
  * This class will read a configuration file which specifies:

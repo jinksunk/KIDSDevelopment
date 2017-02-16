@@ -26,7 +26,7 @@ import net.strasnet.kids.gui.KIDSAddEventOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -68,7 +68,7 @@ import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
  */
 public class KIDSSnortRuleGenerator implements KIDSSyntacticFormGenerator {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSnortRuleGenerator.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSSnortRuleGenerator.class.getName());
 	public static final String defaultPrefix = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	public static final IRI ourIdentity = IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#snortRuleSyntax3");
 	private KIDSAddEventOracle ko;

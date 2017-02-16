@@ -26,8 +26,8 @@ import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInsta
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**

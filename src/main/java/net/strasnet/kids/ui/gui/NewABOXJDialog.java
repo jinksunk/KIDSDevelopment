@@ -14,7 +14,7 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.border.EtchedBorder;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 
@@ -44,7 +44,7 @@ public class NewABOXJDialog extends JDialog {
 	/**
 	 * 
 	 */
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(NewABOXJDialog.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(NewABOXJDialog.class.getName());
 	protected static final long serialVersionUID = -7218598300316325074L;
 	protected static final String st8ID = "NewABOXConfig"; /* Used to identify the ABOX state section */
 

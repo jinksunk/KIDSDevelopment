@@ -20,12 +20,29 @@ The abox file should be completed with local detector descriptions using the GUI
 
 == Data Preparation ==
 The data was prepared using the following steps:
-1) Generate the PCAP file: tcpdump -r $DATA/DARPA-1999/Training/w1/Thursday/outside.tcpdump -c 100 -w ./smallStartSample.pcap ip
-3) Generate loglines from the PCAP file:
-   * Every telnet 3-way handshake produces a log entry
-   * Every e-mail session produces a log entry
-4) Generate attack data / labels according to the following signals:
-5) Generate the netflow data from the PCAP file:
-6) Review combined data files and label files
-7) Generate the properties file using the GUI tool
-*) Complete the ABOX for detectors using the GUI
+1) Generate the PCAP file: 
+```bash
+tcpdump -r $DATA/DARPA-1999/Training/w1/Thursday/outside.tcpdump -c 10000 -w ./smallStartSample.pcap ip
+```
+2) Generate loglines from the PCAP file:
+   * Every TCP 3-way handshake produces a log entry
+   * Every HTTP session produces a log entry
+```bash
+$ bro -b -r ./smallStartSample.pcap http_w3c.bro > loglines.txt
+```
+3) Generate attack packets / labels according to the following signals:
+```bash
+$ python3 gen_events.py -f ./smallStartSample.pcap -o attacktmp.pcap \
+    -l ./attacktmp.txt -n 10 -t CodeRed 
+```
+4 -SKIP-) Generate the netflow data from the PCAP file:
+```bash
+$ bro -b -r ./smallStartSample.pcap genNetFlowlog.bro
+```
+5) Combine pcap files and log files:
+```bash
+$ mergecap -w packets.pcap -F pcap ./attacktmp.pcap ./smallStartSample.pcap 
+$ python3 w3clogmerge.py loglines.txt attacktmp.txt > logs.txt
+```
+6) Generate the properties file using the GUI tool
+

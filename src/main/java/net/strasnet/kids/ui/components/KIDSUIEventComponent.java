@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassExpression;
@@ -31,7 +31,7 @@ import net.strasnet.kids.ui.gui.KIDSGUIOracle;
  */
 public class KIDSUIEventComponent extends KIDSUIAbstractComponent implements KIDSUIComponent {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSUIEventComponent.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSUIEventComponent.class.getName());
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {

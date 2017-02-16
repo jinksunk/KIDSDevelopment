@@ -10,7 +10,7 @@ import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implements DataInstance {
@@ -26,7 +26,7 @@ public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implemen
 		myIDs.add(IRI.create(featureIRI + "ObservationOrder"));
 	};
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
 	
 	public KIDSNativeLibpcapDataInstance (HashMap<IRI, String> resourceValues) throws UnimplementedIdentifyingFeatureException{
 		super(resourceValues, KIDSNativeLibpcapDataInstance.myIDs);

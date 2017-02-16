@@ -141,8 +141,8 @@ public class addFeatureDialog extends JDialog {
 				selectedContexts.add((OWLNamedIndividual) cStrings[i]);
 			}
 			
-			ko.addFeatureToKB(ko.getOwlDataFactory().getOWLNamedIndividual(IRI.create(ko.getOurIRI().toString() + "#" + txtFeaturenamefield.getText())), 
-					          ko.getOwlDataFactory().getOWLClass(IRI.create(ko.getOurIRI().toString() + "#" + "SignalDomain")),
+			ko.addFeatureToKB(ko.getOwlDataFactory().getOWLNamedIndividual(IRI.create(ko.getABOXIRI().toString() + "#" + txtFeaturenamefield.getText())), 
+					          ko.getOwlDataFactory().getOWLClass(IRI.create(ko.getTBOXIRI().toString() + "#" + "SignalDomain")),
 					          selectedContexts);
 			
 			pa.processWindowEvent(new WindowEvent(pa, WindowEvent.WINDOW_CLOSING));

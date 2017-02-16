@@ -36,7 +36,7 @@ import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertError;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertInfo;
 import net.strasnet.kids.ui.problems.KIDSUIProblem;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -166,7 +166,7 @@ public class ABOXBuilderController {
 	};
 	
 	/* Enable Logging */
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(ABOXBuilderController.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(ABOXBuilderController.class.getName());
 	
 	KIDSGUIOracle o = null;
 	BlockingQueue <KIDSGUIAlert> ourLog = null;
@@ -615,8 +615,8 @@ public class ABOXBuilderController {
 		
 		if (!docIRI.equals(this.getABOXPrefix()) && 
 		    !docIRI.equals(this.getTBOXPrefix())){
-			logme.warn("Given document IRI %s doesn't match the loaded ABOX (%s) or TBOX(%s)",
-					docIRI, getABOXPrefix(), getTBOXPrefix());
+			logme.warn(String.format("Given document IRI %s doesn't match the loaded ABOX (%s) or TBOX(%s)",
+					docIRI, getABOXPrefix(), getTBOXPrefix()));
 		}
 		
 		IRI toReturn = source;
@@ -643,9 +643,9 @@ public class ABOXBuilderController {
 		String prefix = String.format("%s ->", toReturn);
 		logme.debug(String.format("Properties of IRI %s:", toReturn));
 	
-		logme.debug(String.format("%s Start: %s", prefix, toReturn.getStart()));
+		logme.debug(String.format("%s Start: %s", prefix, toReturn.getNamespace()));
 		logme.debug(String.format("%s Scheme: %s", prefix, toReturn.getScheme()));
-		logme.debug(String.format("%s Fragment: %s", prefix, toReturn.getFragment()));
+		logme.debug(String.format("%s Fragment: %s", prefix, toReturn.getShortForm()));
 		logme.debug(String.format("%s Source: %s", prefix, source));
 		logme.debug(String.format("%s Is absolute: %s", prefix, toReturn.isAbsolute()));
 		logme.debug(String.format("%s length: %d", prefix, toReturn.length()));

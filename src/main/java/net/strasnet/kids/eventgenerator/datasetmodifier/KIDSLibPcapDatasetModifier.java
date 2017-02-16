@@ -3,7 +3,7 @@
  */
 package net.strasnet.kids.eventgenerator.datasetmodifier;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 
 import net.strasnet.kids.eventgenerator.dataelement.KIDSDataElement;
 import net.strasnet.kids.eventgenerator.dataelement.KIDSDataElement.KIDSDataElementType;
@@ -16,7 +16,7 @@ import net.strasnet.kids.ui.gui.ABOXBuilderController;
  */
 public class KIDSLibPcapDatasetModifier extends KIDSAbstractDatasetModifier implements KIDSDatasetModifier {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSLibPcapDatasetModifier.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSLibPcapDatasetModifier.class.getName());
 	
 	public KIDSLibPcapDatasetModifier(){
 		

@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.ui.gui.ABOXBuilderController;
@@ -22,7 +22,7 @@ import net.strasnet.kids.ui.problemfixes.KIDSUIPossibleFix;
  */
 public class KIDSSubclassRequiredUIProblem extends KIDSUIProblem {
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSubclassRequiredUIProblem.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSSubclassRequiredUIProblem.class.getName());
 	
 	IRI parentClass;
 	IRI problemIndividual;

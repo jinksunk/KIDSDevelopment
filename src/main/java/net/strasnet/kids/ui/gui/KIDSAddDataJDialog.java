@@ -8,7 +8,7 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -23,7 +23,7 @@ public abstract class KIDSAddDataJDialog extends JDialog {
 	 * 
 	 */
 	private static final long serialVersionUID = -7583670328100419398L;
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSAddDataJDialog.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSAddDataJDialog.class.getName());
 	protected IRI ourAboxIRI = null;
 	protected IRI ourIndIRI = null;
 	protected IRI ourDataPropIRI = null;

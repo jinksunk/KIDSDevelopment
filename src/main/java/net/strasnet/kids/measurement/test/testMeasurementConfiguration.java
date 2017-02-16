@@ -6,10 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.Marker;
-import org.apache.logging.log4j.MarkerManager;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -39,7 +37,7 @@ import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 
 public class testMeasurementConfiguration {
 
-    public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
+    public static final Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
     
     private Map<String, String> pMap = null;
     private KIDSMeasurementOracle myGuy = null;
@@ -174,9 +172,9 @@ public class testMeasurementConfiguration {
     	 */
     	logme.info("Testing signals produced by event " + pMap.get("EventIRI"));
     	for (OWLNamedIndividual signal : signals){
-    		logme.info(MarkerManager.getMarker("TESTING"), "TESTING SIGNAL " + signal.getIRI() + " ...");
+    		logme.info("TESTING SIGNAL " + signal.getIRI() + " ...");
     		testSignalRelations(signal);
-    		logme.info(MarkerManager.getMarker("SUCCESS"), " ... SUCCESS.");
+    		logme.info(" ... SUCCESS.");
     	}
     }
     
