@@ -4,9 +4,11 @@
 package net.strasnet.kids.ui.gui;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.log4j.LogManager;
@@ -35,8 +37,11 @@ import net.strasnet.kids.KIDSOracle;
 public class KIDSGUIOracle extends KIDSOracle {
 
 	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSGUIOracle.class.getName());
+	final String tboxpref = "kids:";
+	final String aboxpref = "abox:";
 	
-
+	Map<String, String> prefMap = null;
+	
 	/**
 	 * 
 	 * @return - The set of IRIs representing all known events in the ontology.
@@ -230,5 +235,27 @@ public class KIDSGUIOracle extends KIDSOracle {
 		logme.debug(String.format("Added tuple (%s, %s, %s)", subjectIRI, relation, value));
 		r.flush();
 		
+	}
+
+	/**
+	 * 
+	 * @param myIRI - The IRI of a Named Component for which we would like a
+	 *                short form (if possible).
+	 * @return A string of the form <prefix>:<fragment> if a prefix exists, or
+	 *         IRI.toString() if not.
+	 */
+	public String getShortIRIString(IRI myIRI) {
+		if (this.prefMap == null){
+			this.prefMap = new HashMap<String, String>();
+			this.prefMap.put(this.TBOXIRI.toString() + "#", this.tboxpref);
+			this.prefMap.put(this.getABOXIRI().toString() + "#", this.aboxpref);
+		}
+		if (this.prefMap.containsKey(myIRI.getNamespace())){
+			logme.debug(String.format("Found prefix match for namespace: %s",myIRI.getNamespace()));
+			return this.prefMap.get(myIRI.getNamespace()) + myIRI.getShortForm();
+		} else {
+			logme.debug(String.format("No prefix match found for namespace: %s",myIRI.getNamespace()));
+			return myIRI.toString();
+		}
 	}
 }

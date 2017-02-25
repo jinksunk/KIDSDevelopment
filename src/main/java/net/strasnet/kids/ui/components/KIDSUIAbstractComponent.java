@@ -166,11 +166,11 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 	}
 	
 	/**
-	 * @return - The IRI of the individual this UI component encapsulates. 
+	 * @return - A short-form version of the IRI for a component.
 	 */
 	@Override
 	public String toString(){
-		return this.myIRI.toString();
+		return this.o.getShortIRIString(this.myIRI);
 	}
 	
 	@Override
