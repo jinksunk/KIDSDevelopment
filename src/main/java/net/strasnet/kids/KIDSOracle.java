@@ -23,6 +23,7 @@ import org.apache.log4j.Logger;
 import org.mindswap.pellet.utils.Namespaces;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.apibinding.OWLManager;
+import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.model.AddImport;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
@@ -37,10 +38,12 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyID;
 import org.semanticweb.owlapi.model.OWLOntologyIRIMapper;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.PrefixManager;
+import org.semanticweb.owlapi.model.SetOntologyID;
 import org.semanticweb.owlapi.reasoner.BufferingMode;
 import org.semanticweb.owlapi.reasoner.ConsoleProgressMonitor;
 import org.semanticweb.owlapi.reasoner.Node;
@@ -55,6 +58,7 @@ import org.semanticweb.owlapi.util.DefaultPrefixManager;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
+import com.google.common.base.Optional;
 import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
 
 /**
@@ -78,6 +82,8 @@ public class KIDSOracle {
 	
 	/** Static ontology nomenclature */
 	public static final String TBOXPrefix = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
+	
+	// Relation constants:
 	public static final IRI evtSignalRelation = IRI.create(TBOXPrefix + "#isProducedBy");
 	public static final IRI detectorSignalRelation = IRI.create(TBOXPrefix + "#isAppliedByDetector");
 	public static final IRI signalRepRelation = IRI.create(TBOXPrefix + "#hasCanonicalRepresentation");
@@ -90,21 +96,25 @@ public class KIDSOracle {
 	public static final IRI syntacticFormDataProperty = IRI.create(TBOXPrefix + "#eventSyntacticFormGeneratorImplementation");
 	public static final IRI syntacticFormObjectProperty = IRI.create(TBOXPrefix + "#hasSyntacticForm");
 	public static final IRI idsSynformObjProp = IRI.create(TBOXPrefix + "#hasSupportedSyntacticForm");
-	public static final IRI eventClass = IRI.create(TBOXPrefix + "#Event");
-	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
 	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
+	
+	// Class constants:
 	public static final IRI datasetClass = IRI.create(TBOXPrefix + "#Dataset");
-	public static final IRI timeperiodClass = IRI.create(TBOXPrefix + "#TimePeriod");
-	public static final IRI datasetViewClass = IRI.create(TBOXPrefix + "#DatasetView");
 	public static final IRI datasetLabelClass = IRI.create(TBOXPrefix + "#DatasetLabel");
+	public static final IRI datasetViewClass = IRI.create(TBOXPrefix + "#DatasetView");
 	public static final IRI detectorClass = IRI.create(TBOXPrefix + "#Detector");
-	public static final IRI signalManifestationClass = IRI.create(TBOXPrefix + "#SignalManifestation");
-	public static final IRI signalDomainClass = IRI.create(TBOXPrefix + "#SignalDomain");
-	public static final IRI signalDomainRepresentationClass = IRI.create(TBOXPrefix + "#SignalDomainRepresentation");
-	public static final IRI signalDomainContextClass = IRI.create(TBOXPrefix + "#SignalDomainContext");
-	public static final IRI responseClass = IRI.create(TBOXPrefix + "#Response");
-	public static final IRI signalValueClass = IRI.create(TBOXPrefix + "#SignalValue");
+	public static final IRI detectorSyntaxClass = IRI.create(TBOXPrefix + "#DetectorSyntax");
+	public static final IRI eventClass = IRI.create(TBOXPrefix + "#Event");
 	public static final IRI resourceClass = IRI.create(TBOXPrefix + "#Resource");
+	public static final IRI responseClass = IRI.create(TBOXPrefix + "#Response");
+	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
+	public static final IRI signalConstraintClass = IRI.create(TBOXPrefix + "#SignalConstraint");
+	public static final IRI signalDomainClass = IRI.create(TBOXPrefix + "#SignalDomain");
+	public static final IRI signalDomainContextClass = IRI.create(TBOXPrefix + "#SignalDomainContext");
+	public static final IRI signalDomainRepresentationClass = IRI.create(TBOXPrefix + "#SignalDomainRepresentation");
+	public static final IRI signalManifestationClass = IRI.create(TBOXPrefix + "#SignalManifestation");
+	public static final IRI signalValueClass = IRI.create(TBOXPrefix + "#SignalValue");
+	public static final IRI timeperiodClass = IRI.create(TBOXPrefix + "#TimePeriod");
 	
 	/** Logging */
 	private static final Logger logme = LogManager.getLogger(KIDSOracle.class.getName());
@@ -237,20 +247,25 @@ public class KIDSOracle {
 	 * Create a new ABOX from scratch. Load the TBOX from the given IRI.
 	 * 
 	 * @param kidskb - ABOX Ontology IRI
-	 * @param m
+	 * @param m - a list of SimpleIRI mappers that includes a mapping from the abox IRI to the document location IRI, and
+	 *            the TBOX IRI to the document location IRI.
 	 * @throws OWLOntologyCreationException
 	 * @throws OWLOntologyStorageException 
 	 */
-	public void createKIDS(IRI kidskb, List<SimpleIRIMapper> m) throws OWLOntologyCreationException, OWLOntologyStorageException {
+	public void createKIDS(IRI kidskb, 
+			List<SimpleIRIMapper> m) throws OWLOntologyCreationException, OWLOntologyStorageException {
 		this.createKIDS(kidskb, null, m);
 	}
 
 	/**
 	 * Create a new ABOX from scratch. Load the TBOX from the given IRI.
 	 * 
-	 * @param kidskb
+	 * @param kidskb - the IRI of the ABOX Ontology
+	 * @param kidsDOCkb - the IRI of the ABOX Ontology Document (physical location)
 	 * @param kidsTBOXIRI - the IRI of the TBOX Ontology
-	 * @param m
+	 * @param kidsTBOXDOCIRI - the IRI of the TBOX Ontology Document (physical location)
+	 * @param m - a list of SimpleIRI mappers that includes a mapping from the abox IRI to the document location IRI, and
+	 *            the TBOX IRI to the document location IRI.
 	 * @throws OWLOntologyCreationException - If the ontology cannot be created for some reason
 	 * @throws OWLOntologyStorageException - If there is a problem writing to the location specified in the mapper m
 	 */
@@ -264,12 +279,25 @@ public class KIDSOracle {
 			setTBOXIRI(IRI.create(KIDSOracle.DEFAULTTBOXIRI));
 		}
 
-		p = new DefaultPrefixManager();
-		
+		//p = new DefaultPrefixManager();
 		setOntologyManager(OWLManager.createOWLOntologyManager());
+		IRI ABOXFile = kidskb;
+		IRI TBOXFile = getTBOXIRI();
+
 		if (m != null){
 			for (SimpleIRIMapper imap : m){
 			    manager.getIRIMappers().add(imap);
+			    if (imap.getDocumentIRI(kidskb) != null){
+			    	ABOXFile = imap.getDocumentIRI(kidskb);
+			    	logme.debug(String.format("Mapping %s -> %s...", 
+			    			kidskb.toString(),
+			    			ABOXFile.toString()));
+			    } else if (imap.getDocumentIRI(getTBOXIRI()) != null){
+			    	TBOXFile = imap.getDocumentIRI(getTBOXIRI());
+			    	logme.debug(String.format("Mapping %s -> %s...", 
+			    			getTBOXIRI().toString(),
+			    			TBOXFile.toString()));
+			    }
 			}
 		}
 
@@ -280,12 +308,19 @@ public class KIDSOracle {
 			setOntology(manager.createOntology(kidskb));
 			OWLImportsDeclaration importDeclaration=manager.getOWLDataFactory().getOWLImportsDeclaration(getTBOXIRI());
 			manager.applyChange(new AddImport(o, importDeclaration));
+			
+			OWLOntologyID nuid = new OWLOntologyID(Optional.of(kidskb), Optional.of(ABOXFile));
+			SetOntologyID setid = new SetOntologyID(this.o, nuid);
+			manager.applyChange(setid);
+
+			// We should not need this, unless we are doing a 'save as' type of thing.
+			//manager.setOntologyDocumentIRI(this.o, kidsDOCkb);
+
+					/*
 			// Save and re-load the ontology:
-			IRI ontologyFile = getTBOXIRI();
 			for (OWLOntologyIRIMapper mpr : manager.getIRIMappers()){
 				if (mpr.getDocumentIRI(getTBOXIRI()) != null){
 					ontologyFile = mpr.getDocumentIRI(getTBOXIRI());
-					/*
 					try{
 						File t = new File(ontologyFile.toString());
 						this.logme.debug(String.format("1a. IRI: %s",ontologyFile.toString()));
@@ -303,16 +338,16 @@ public class KIDSOracle {
 					} catch (IOException | URISyntaxException e){
 						logme.error(String.format("Cannot load ontology %s from location %s:",getTBOXIRI(), ontologyFile.toString()), e);
 					}
-					*/
 				}
 			}
+					*/
 			//try {
-				manager.loadOntologyFromOntologyDocument(ontologyFile);
+			//manager.loadOntology(ontologyFile);
 //				manager.loadOntologyFromOntologyDocument(IRI.create(getValidFileURI(new File(ontologyFile.toString()))));
 			//} catch (URISyntaxException e){
 						//logme.error(String.format("Cannot load ontology %s from location %s:",getTBOXIRI(), ontologyFile.toString()), e);
 			//}
-			manager.saveOntology(getOntology());
+			manager.saveOntology(getOntology(), new OWLXMLDocumentFormat());
 			this.loadKIDS(kidskb, this.TBOXIRI, m);
 			
 			/*

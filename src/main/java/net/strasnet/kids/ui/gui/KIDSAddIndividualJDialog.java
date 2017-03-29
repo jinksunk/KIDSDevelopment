@@ -60,7 +60,7 @@ public class KIDSAddIndividualJDialog extends JDialog {
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		{
-			JLabel lblSignalIri = new JLabel(String.format("%s IRI: %s",ourClassIRI.getFragment(), ourAboxIRI.toString()));
+			JLabel lblSignalIri = new JLabel(String.format("%s IRI: %s",ourClassIRI.getShortForm(), ourAboxIRI.toString()));
 			contentPanel.add(lblSignalIri);
 		}
 		{
@@ -99,6 +99,7 @@ public class KIDSAddIndividualJDialog extends JDialog {
 		if (addedElementProcessedIRI == null){
 			addedElementProcessedIRI = controller.getAbsoluteIRI(ourAboxIRI, IRI.create(addedElementIRI));
 		}
+		logme.debug(String.format("Returning added element IRI %s", addedElementProcessedIRI));
 		return addedElementProcessedIRI;
 	}
 	

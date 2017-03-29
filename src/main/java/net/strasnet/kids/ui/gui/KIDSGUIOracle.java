@@ -251,7 +251,7 @@ public class KIDSGUIOracle extends KIDSOracle {
 			this.prefMap.put(this.getABOXIRI().toString() + "#", this.aboxpref);
 		}
 		if (this.prefMap.containsKey(myIRI.getNamespace())){
-			logme.debug(String.format("Found prefix match for namespace: %s",myIRI.getNamespace()));
+			//logme.debug(String.format("Found prefix match for namespace: %s",myIRI.getNamespace()));
 			return this.prefMap.get(myIRI.getNamespace()) + myIRI.getShortForm();
 		} else {
 			logme.debug(String.format("No prefix match found for namespace: %s",myIRI.getNamespace()));

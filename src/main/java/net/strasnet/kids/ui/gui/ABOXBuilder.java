@@ -1,6 +1,7 @@
 package net.strasnet.kids.ui.gui;
 
 import java.awt.Dialog;
+import java.awt.Dimension;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
@@ -20,6 +21,7 @@ import javax.swing.JList;
 import javax.swing.JSplitPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultTreeModel;
@@ -283,6 +285,7 @@ public class ABOXBuilder {
 		gbc_tabbedPane.fill = GridBagConstraints.BOTH;
 		gbc_tabbedPane.gridx = 0;
 		gbc_tabbedPane.gridy = 0;
+		tabbedPane.setPreferredSize(new Dimension(1000,500));
 		frame.getContentPane().add(tabbedPane, gbc_tabbedPane);
 		
 		JPanel EventPanel = new KIDSIndividualProblemsJPanel(ABOXBuilderController.EVENTCLASSIRI);
@@ -317,6 +320,12 @@ public class ABOXBuilder {
 		
 		JPanel SignalDomainPanel = new KIDSIndividualProblemsJPanel(ABOXBuilderController.SIGNALDOMAINCLASSIRI);
 		tabbedPane.addTab("SignalDomains", null, SignalDomainPanel, null);
+		
+		JPanel DetectorSyntaxPanel = new KIDSIndividualProblemsJPanel(ABOXBuilderController.DETECTORSYNTAXCLASSIRI);
+		tabbedPane.addTab("DetectorSyntax", null, DetectorSyntaxPanel, null);
+		
+		JPanel SignalConstraintPanel = new KIDSIndividualProblemsJPanel(ABOXBuilderController.SIGNALCONSTRAINTCLASSIRI);
+		tabbedPane.addTab("SignalConstraints", null, SignalConstraintPanel, null);
 		
 		JPanel SignalValuePanel = new KIDSIndividualProblemsJPanel(ABOXBuilderController.SIGNALVALUECLASSIRI);
 		tabbedPane.addTab("SignalValues", null, SignalValuePanel, null);
@@ -368,7 +377,8 @@ public class ABOXBuilder {
 	class KIDSProblemsJScrollPane extends JScrollPane{
 
 		/**
-		 * 
+		 *  This scroll pane is on the right side of the GUI, and contains the problems identified for the
+		 *  selected individual on the left side of the split pane.
 		 */
 		private static final long serialVersionUID = -5930357945561781477L;
 
@@ -534,7 +544,7 @@ public class ABOXBuilder {
 				}
 			});
 
-			// When an event is selected in the events list, populate the problems list:
+			// When an individual is selected in the individuals list, populate the problems list:
 			individualsJList.addListSelectionListener(new ListSelectionListener(){
 				@Override
 				public void valueChanged(ListSelectionEvent e) {
@@ -543,12 +553,14 @@ public class ABOXBuilder {
 						KIDSUIComponent individual = ((JList<KIDSUIComponent>)e.getSource()).getSelectedValue();
 						if (individual != null){
 						    logme.debug(String.format("New item selected in JList (%s)", 
-						    		individual.getIRI().getFragment()));
+						    		individual.getIRI().getShortForm()));
 							Set<KIDSUIProblem> thisIndividualsProblems = individual.getComponentProblems();
 							for (KIDSUIProblem kup : thisIndividualsProblems){
 								problemJListModel.addElement(kup);
 							}
 						}
+						logme.debug("Repacking frame due to list selection event...");
+						((JFrame) SwingUtilities.getWindowAncestor(ProblemsJList)).pack();
 					}
 					processMessageQueue();
 				}
@@ -587,6 +599,8 @@ public class ABOXBuilder {
 			this.add(KIDSSplitPane);
 		
 			JScrollPane IndividualScrollPane = new JScrollPane();
+			IndividualScrollPane.setPreferredSize(new Dimension(300,300));
+			IndividualScrollPane.setMinimumSize(new Dimension(300,300));
 			KIDSSplitPane.setLeftComponent(IndividualScrollPane);
 		
 			final DefaultListModel<KIDSUIComponent> individualJListModel = new DefaultListModel<KIDSUIComponent>();
@@ -634,7 +648,7 @@ public class ABOXBuilder {
 							List <KIDSUIRelation> itemRelations = ourComponent.getRelations();
 							
 							for (final KIDSUIRelation kur : itemRelations){
-								JMenu ouritem = new JMenu(String.format("Add %s ...", kur.getRelationIRI().getFragment()));
+								JMenu ouritem = new JMenu(String.format("Add %s ...", kur.getRelationIRI().getShortForm()));
 								if (kur.getType() == RelationType.Data){
 									final KIDSUIDataRelationComponent kdr = (KIDSUIDataRelationComponent)kur;
 									JMenuItem dataitem = new JMenuItem(String.format(
@@ -703,7 +717,7 @@ public class ABOXBuilder {
 									}
 
 									JMenuItem dataitem = new JMenuItem(String.format(
-											"New %s instance...", kdr.getObjectClass().getFragment()));
+											"New %s instance...", kdr.getObjectClass().getShortForm()));
 								
 								    dataitem.addActionListener(new ActionListener(){
 								    	
@@ -828,6 +842,8 @@ public class ABOXBuilder {
 		
 			KIDSProblemsJScrollPane ProblemScrollPane = 
 				new KIDSProblemsJScrollPane(IndividualJList);
+			//ProblemScrollPane.setPreferredSize(new Dimension(300,300));
+			ProblemScrollPane.setMinimumSize(new Dimension(300,300));
 			KIDSSplitPane.setRightComponent(ProblemScrollPane);
 		
 			/**

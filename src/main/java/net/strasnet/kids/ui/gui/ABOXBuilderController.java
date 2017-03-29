@@ -72,6 +72,8 @@ public class ABOXBuilderController {
 	public static final IRI RESPONSECLASSIRI = KIDSGUIOracle.responseClass;
 	public static final IRI SIGNALVALUECLASSIRI = KIDSGUIOracle.signalValueClass;
 	public static final IRI RESOURCECLASSIRI = KIDSGUIOracle.resourceClass;
+	public static final IRI DETECTORSYNTAXCLASSIRI = KIDSGUIOracle.detectorSyntaxClass;
+	public static final IRI SIGNALCONSTRAINTCLASSIRI = KIDSGUIOracle.signalConstraintClass;
 
 	/**
 	 * 
@@ -163,6 +165,12 @@ public class ABOXBuilderController {
 		iriToComponentMap.put(DATASETLABELCLASSIRI, 
 							 net.strasnet.kids.ui.components.KIDSUIDatasetLabelComponent.class);
 		supportedClasses.add(DATASETLABELCLASSIRI);
+
+		dialogDispatcher.put(DETECTORCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(DETECTORCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIDetectorComponent.class);
+		supportedClasses.add(DETECTORCLASSIRI);
 	};
 	
 	/* Enable Logging */

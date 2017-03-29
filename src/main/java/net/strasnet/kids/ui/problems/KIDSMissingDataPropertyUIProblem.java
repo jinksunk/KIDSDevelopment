@@ -55,7 +55,7 @@ public class KIDSMissingDataPropertyUIProblem extends KIDSUIProblem {
 		// The only real option here is to add the property with a new value:
 		// Add an 'add new...' fix:
 		KIDSUIAddDatatypePropertyPossibleFix fix = new KIDSUIAddDatatypePropertyPossibleFix(
-					String.format("Add new %s value...", getMissingProperty().getFragment()),
+					String.format("Add new %s value...", getMissingProperty().getShortForm()),
 					this, ourInd
 					);
 		logme.debug(String.format("Adding fix to add new %s value", 
