@@ -53,6 +53,7 @@ public class KIDSUIDatasetComponent extends KIDSUIAbstractComponent implements K
 	
 	public KIDSUIDatasetComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(
@@ -75,6 +76,7 @@ public class KIDSUIDatasetComponent extends KIDSUIAbstractComponent implements K
 					));
 
 		}
+		requiredSubclassOf = IRI.create(TBOXIRI + "#Dataset");
 	}
 
 }

@@ -22,6 +22,7 @@ import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import net.strasnet.kids.ui.KIDSUIInferredProperty;
 import net.strasnet.kids.ui.KIDSUIRequiredDataProperty;
 import net.strasnet.kids.ui.KIDSUIRequiredProperty;
+import net.strasnet.kids.ui.components.KIDSUIAbstractComponent.KIDSComponentDefinition;
 import net.strasnet.kids.ui.gui.KIDSGUIOracle;
 
 /**
@@ -36,11 +37,11 @@ public class KIDSUIDatasetLabelComponent extends KIDSUIAbstractComponent impleme
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
 		reqProps.put("#isLabelForEvent","#Event");
+		reqProps.put("#isLabelerForDatasetView","#DatasetView");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
-		infProps.put("#isLabelerForDatasetView","#DatasetView");
 		infProps.put("#isLabelForTimePeriod","#TimePeriod");
 	};
 
@@ -52,6 +53,7 @@ public class KIDSUIDatasetLabelComponent extends KIDSUIAbstractComponent impleme
 	
 	public KIDSUIDatasetLabelComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 		
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(
@@ -74,6 +76,8 @@ public class KIDSUIDatasetLabelComponent extends KIDSUIAbstractComponent impleme
 					));
 
 		}
+
+		requiredSubclassOf = IRI.create(TBOXIRI + "#DatasetLabel");
 		
 		logme.debug(String.format("Initialized DatasetLabel UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
 				myID,

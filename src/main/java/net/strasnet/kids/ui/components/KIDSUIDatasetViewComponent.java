@@ -36,15 +36,15 @@ public class KIDSUIDatasetViewComponent extends KIDSUIAbstractComponent implemen
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
 		reqProps.put("#bringsIntoExistence","#SignalManifestation");
-		reqProps.put("#providesViewOf","#Dataset");
-		reqProps.put("#hasDatasetLabel","#DatasetLabel");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
+		infProps.put("#providesViewOf","#Dataset");
 		infProps.put("#isMonitoredBy","#Detector");
 		infProps.put("#exposesContext","#SignalDomainContext");
 		infProps.put("#providesResource","#Resource");
+		infProps.put("#hasDatasetLabel","#DatasetLabel");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
@@ -75,6 +75,8 @@ public class KIDSUIDatasetViewComponent extends KIDSUIAbstractComponent implemen
 					));
 
 		}
+		requiredSubclassOf = IRI.create(TBOXIRI + "#DatasetViewImplementationSubclasses");
+
 		
 		logme.debug(String.format("Initialized DatasetView UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
 				myID,

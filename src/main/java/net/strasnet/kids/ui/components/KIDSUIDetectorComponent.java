@@ -35,13 +35,15 @@ public class KIDSUIDetectorComponent extends KIDSUIAbstractComponent implements 
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#canSeeManifestation","#SignalManifestation");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
 		infProps.put("#hasSyntax","#DetectorSyntax");
 		infProps.put("#canMonitor","#DatasetView");
+		infProps.put("#canSeeManifestation","#SignalManifestation");
+		infProps.put("#canApplySignal","#Signal");
+		infProps.put("#canRepresent","#SignalConstraint");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
@@ -52,6 +54,7 @@ public class KIDSUIDetectorComponent extends KIDSUIAbstractComponent implements 
 	
 	public KIDSUIDetectorComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 		
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(

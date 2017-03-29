@@ -37,6 +37,11 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		JAVA, 
 		FILEPATH
 	};
+	
+	public enum KIDSComponentDefinition {
+		TBOX,
+		ABOX
+	};
 
 	protected IRI myIRI = null;
 	protected Set<KIDSUIInferredProperty> myInfProps;
@@ -47,6 +52,7 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 	protected KIDSGUIOracle o;
 	protected OWLDataFactory owldf;
 	protected IRI requiredSubclassOf;
+	protected KIDSComponentDefinition deflocation;
 
 	public KIDSUIAbstractComponent(IRI myID, KIDSGUIOracle o){
 		myIRI = myID;
@@ -59,6 +65,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		myReqProps = new HashSet<KIDSUIRequiredProperty>();
 		myInfProps = new HashSet<KIDSUIInferredProperty>();
 		myDataProps = new HashSet<KIDSUIRequiredDataProperty>();
+		
+		// By default, set defining component location to the TBOX:
+		this.deflocation = KIDSComponentDefinition.TBOX;
 		
 	}
 	
@@ -79,9 +88,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 				// Well, we have a problem:
 				toReturn.add(new KIDSMissingRelationUIProblem(
 						String.format("Required property not satisfied: (%s, %s, %s)", 
-								myIRI, 
-								rprop.getProperty(), 
-								rprop.getObjectClass()), 
+								o.getShortIRIString(myIRI), 
+								o.getShortIRIString(rprop.getProperty()), 
+								o.getShortIRIString(rprop.getObjectClass())), 
 						KIDSUIProblem.ProblemType.REQUIRED,
 						rprop.getProperty(),
 						rprop.getObjectClass(),
@@ -90,9 +99,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 				);
 			} else {
 				logme.debug(String.format("Property requirement satisfied by (%s, %s, %s)",
-						myIRI,
-						rprop.getProperty(),
-						propvals.iterator().next()));
+						o.getShortIRIString(myIRI),
+						o.getShortIRIString(rprop.getProperty()),
+						o.getShortIRIString(propvals.iterator().next())));
 			}
 		}
 
@@ -106,9 +115,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 				// Well, we have a problem:
 				toReturn.add(new KIDSUIProblem(
 						String.format("Inferred property not defined: (%s, %s, %s)", 
-								myIRI, 
-								rprop.getProperty(), 
-								rprop.getObjectClass()), 
+								o.getShortIRIString(myIRI), 
+								o.getShortIRIString(rprop.getProperty()), 
+								o.getShortIRIString(rprop.getObjectClass())), 
 						KIDSUIProblem.ProblemType.REQUIRED
 						)
 				);
@@ -125,8 +134,8 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 				// Well, we have a problem:
 				toReturn.add(new KIDSMissingDataPropertyUIProblem(
 					String.format("Data property not defined: (%s, %s, %s)", 
-							myIRI,
-							rprop.getProperty(), 
+							o.getShortIRIString(myIRI),
+							o.getShortIRIString(rprop.getProperty()), 
 							rprop.getObjectClass()), 
 					KIDSUIProblem.ProblemType.REQUIRED,
 					myIRI,
@@ -142,7 +151,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		if (requiredSubclassOf != null){
 			if (!o.isMemberOfStrictSubclass(requiredSubclassOf, myIRI)){
 				toReturn.add(new KIDSSubclassRequiredUIProblem(
-						String.format("%s must be a member of a subclass of %s", myIRI, requiredSubclassOf),
+						String.format("%s must be a member of a subclass of %s", 
+								o.getShortIRIString(myIRI), 
+								o.getShortIRIString(requiredSubclassOf)),
 						KIDSUIProblem.ProblemType.REQUIRED,
 						requiredSubclassOf,
 						myIRI,
@@ -192,6 +203,14 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		}
 		
 		return toReturn;
+	}
+	
+	@Override
+	public KIDSComponentDefinition getDefiningLocation(){
+		if (this.deflocation == null){
+			logme.error(String.format("Component %s does not provide a defining location.", this.getIRI()));
+		}
+		return this.deflocation;
 	}
 
 }

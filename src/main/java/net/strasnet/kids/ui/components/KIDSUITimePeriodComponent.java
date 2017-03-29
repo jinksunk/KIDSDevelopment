@@ -49,6 +49,7 @@ public class KIDSUITimePeriodComponent extends KIDSUIAbstractComponent implement
 	
 	public KIDSUITimePeriodComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 		
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(

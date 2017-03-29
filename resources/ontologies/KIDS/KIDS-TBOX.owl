@@ -22,34 +22,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#hasConstraint"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#DNSResource"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isProducedBy"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#instanceTimestamp"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isLabelForEvent"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#integerLessThan"/>
+        <NamedIndividual IRI="#fixedTimePeriodSignalDomainContext"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#existsInView"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#canSeeManifestation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IRS"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#producesRepresentation"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#relationUsesResource"/>
@@ -58,19 +37,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#HostIRS"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HTTPSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#TCPFlags_SingleBitmaskNonZero"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ICMPSignalDomainContext"/>
@@ -79,46 +46,22 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#SignalInManifestation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PositiveIntegerLessThan"/>
+        <Class IRI="#NativePcapTruthFileDatasetLabel"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#dport80PacketsPerSecond"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isAppliedByDetector"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#NetworkResponse"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PacketsPerSecond"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPDestinationPort_IntegerRangeSet"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HostResource"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#providesViewOf"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#IPPacket_PacketLengthRepresentation1"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#NetflowRuleSyntax"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPFlags"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketHeader"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ByteEquality"/>
@@ -130,25 +73,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#HTTPProtocolResponse"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#NetworkSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IntegerEquality"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#providesResource"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isIncludedInIDS"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#IISEventLogMessageContext_HTTPGetParameterRepresentation1"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RegularGrammar"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Detector"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#compatibleWith"/>
@@ -157,16 +82,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#UDPProtocolResponse"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#providedByDatasetView"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PacketsPerMinute"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketSignalDomainContext"/>
     </Declaration>
     <Declaration>
         <Class IRI="#DNSIRS"/>
@@ -176,9 +92,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isCompatibleDatasetForSignal"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#SourceIPAddressRepresentation1_CodeRedEvalSYSLOGDataset1ViewManifestation"/>
     </Declaration>
     <Declaration>
         <Class IRI="#UniqueIPAddressCountThreshold"/>
@@ -199,85 +112,25 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isMonitoredBy"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isLabelForTimePeriod"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IntegerInequality"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#detectorExecutionCommand"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AttackMaliciousActivityEvent"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#hasLabelDataLocation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Response"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPPacketPayload_RegEx"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isProducedByContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPResource"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#respondsTo"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#byteAsIntegerEquality"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Event"/>
     </Declaration>
     <Declaration>
         <Class IRI="#NetworkFlowDataset"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ICMPProtocolResponse"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#usedByCorrelationRelation"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isExposedIn"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CorrelationRelation"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isProducerOf"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerInequality"/>
     </Declaration>
     <Declaration>
         <Class IRI="#VirusAttackMaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#representsDetector"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isRepresentedBy"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isResponseFor"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerLessThan"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#UniqueDestinationIPAddressCountThreshold"/>
     </Declaration>
     <Declaration>
         <Class IRI="#HTTPIRS"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPSignalDomainContext"/>
+        <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasDomain"/>
@@ -289,37 +142,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#datasetParserImplementation"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#PerlCompatibleRegularExpression"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IDS"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPPacketContext"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#usesResource"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isRepresentationOfSignal"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasSignalDomainRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPacket_TCPFlagsRepresentation1"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isContainedIn"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasCorrelationRelationImplementation"/>
@@ -331,70 +160,25 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacket_TCPDestinationPortNumberRepresentation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SubstringMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#BroCompatibleIDS"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#TCPPacketPayload_StringMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPProtocolResponse"/>
     </Declaration>
     <Declaration>
         <Class IRI="#MaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#LibPcap_SecondOfPacketsView"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#IPPacket_IPPacketDataRepresentation1"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HTTPGetRequestResource_StringMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacket_PacketLengthRepresentation"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#viewProductionImplementation"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isEvaluatedBy"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ApplicationResponse"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#usedByResponse"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WindowsEventLogEntrySignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CountTimeBracketValue"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#SignalConstraint"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPAddressCountThreshold"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPacket"/>
     </Declaration>
     <Declaration>
         <Class IRI="#HTTPPacketContext"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#hasEncapsulatedContext"/>
-    </Declaration>
-    <Declaration>
         <DataProperty IRI="#hasLabelFunction"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HostResponse"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PositiveIntegerInequality"/>
@@ -406,31 +190,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#NetworkResource"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#destinationPortSet"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isDetectedByIDS"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SignalValue"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SnortRule"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isProviderOfResource"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#HTTPGetRequestStringValue"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#singleBitmaskMatchNonZero"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isRepresentableBy"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPFlagsSet"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SingleBitMaskMatchNonZero"/>
@@ -439,43 +205,22 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#HostSignalDomainContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#WindowsEventLog_TextFileView"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PositiveIntegerGreaterThan"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isIdentifiedByDetector"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPPayloadSize"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isDetectorFor"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#integerEquality"/>
+        <Class IRI="#WindowsEventLogTruthFileDatasetLabel"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SnortRuleSyntax"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isInContext"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#IPPacketDataResource"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ByteSubsequenceMatch"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IPPacketTotalLength_IntegerComparison"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#ipPacketSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IntegerRangeSetValue"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#supportCorrelationRelation"/>
@@ -484,28 +229,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IPProtocolResponse"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#LibPcapFilterDefinition"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#UDPPacketContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPFlags_SnortFlagsExpressionMatch"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isMitigatedByIRS"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PacketView"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPProtocolNumber"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#bitmaskMatchNonZero"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#PacketLengthSignalDomain"/>
@@ -514,25 +241,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DatasetLabel"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#canApplySignal"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Resource"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#NTEventLogRecordID"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SignalManifestation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#bpfFilterSyntax"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isContextOfSignalDomain"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IntegerRangeValue"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SecondOfPacketsSignalDomainContext"/>
@@ -553,12 +265,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ContextSensitiveGrammar"/>
     </Declaration>
     <Declaration>
-        <DataProperty IRI="#signalConstraintImplementation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#WindowsIISEventLogEntrySignalContext"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isSupportedByDatasetView"/>
     </Declaration>
     <Declaration>
@@ -568,22 +274,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DoubleValue"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#sourceIPAddressSignalDomain"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IntegerGreaterThan"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isEventIdentifierFor"/>
     </Declaration>
     <Declaration>
         <Class IRI="#RealInequality"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPPacketData_StringMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PacketLength"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PacketsPerMinutePort80"/>
@@ -598,37 +295,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TimePeriod"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerRangeMembership"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LibPCAPDataset"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isManifestedBy"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#IPPacket"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPPacket_TCPFlagsRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#TCPSourcePort"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PacketLength_PositiveIntegerEquality"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPIRS"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#UniqueDstIPPerSrcPerMin"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ComponentFailureEvent"/>
+        <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isConstraintOf"/>
@@ -643,28 +313,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#WormAttackMaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#realizesSignalRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IISEventLogMessage_IPv4SourceIPAddressRepresentation"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#LogAnalysisRuleSyntax"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#HTTPGetParameterRepresentation1_IISEventLogDatasetTextViewManifestation"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#IISEventLogMessageContext"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#HTTPResource"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#secondSampleByPacket"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#DatasetView"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPSourceAddress_UniqueSourceIPAddressCountThreshold"/>
@@ -673,37 +328,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacketSignalDomainContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#DNSSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#integerGreaterThan"/>
+        <Class IRI="#Bro25IDS"/>
     </Declaration>
     <Declaration>
         <Class IRI="#NetflowDataset"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IntegerLessThan"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IPProtocolNumberSignal_ByteRangeSet"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#LibPcap_IPPacketView"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#NetworkPacketSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasDetector"/>
-    </Declaration>
-    <Declaration>
-        <DataProperty IRI="#datasetLocation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPacket_TCPPacketDataRepresentation1"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#canRepresentFeatureWithConstraint"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#IPPacket_IPPacketProtocolRepresentation1"/>
@@ -712,37 +343,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#canDetectEvent"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#WindowsEventLogAnalysisRuleSyntax"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#ApplicationIRS"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isDetectedBy"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#canMonitor"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IPAddressRange"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isEncapsulatedInContext"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#TCPPayloadSizeDomain"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPProtocolNumber_ByteEquality"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IISEventLogDataset"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PositiveIntegerEquality"/>
@@ -757,46 +367,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#hasResponse"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IntegerRangeSet"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SnortCompatibleIDS"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#UDPSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerEquality"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#IPPacketID"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPDestinationAddress_IPRangeSet"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#IPv4DestinationAddressSignalDomain"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPPacket_IPPacketDataRepresentation"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IPAddressValue"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacket_IPv4SourceIPAddressRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPFlags_BitmaskNonZero"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#Dataset"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPPacket_TCPDestinationPortNumberRepresentation1"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacket_IPPacketProtocolNumberRepresentation"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasSyntax"/>
@@ -808,13 +382,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ByteRange"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#BroIDSPolicy"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#ManualAttackMaliciousActivityEvent"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#DNSProtocolResponse"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#exposesContext"/>
@@ -844,25 +412,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#broEventDetectionSyntax"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SignalDomain"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#HTTPGetRequestResource"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#PositiveIntegerRangeSet"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isProvidedBy"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isIncludedInDataset"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#RealRangeSet"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#CodeRedWormPropagationEvent"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#hasSignalValue"/>
@@ -871,13 +424,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#HTTPGetRequest"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#STDDEVThresholdExceeded"/>
+        <Class IRI="#UniqueSourceIPAddressCount"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isAbleToRepresent"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerGreaterThan"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPv4SourceAddress"/>
@@ -892,16 +442,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacket_IPPacketTotalLengthRepresentation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#SignalDomainRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ICMPIRS"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#HTTPGetRequestParameter"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isRepresentedInDataset"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#servicePortNumber"/>
@@ -913,52 +454,19 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#BitMaskMatchNonZero"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#HTTPGetRequestParameter_StringMatch"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#IPv4AddressRangeSetSignalConstraint"/>
     </Declaration>
     <Declaration>
         <Class IRI="#SnortTCPFlagsValue"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ByteIntegerValue"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TCPDestinationPort"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isAffectedBy"/>
-    </Declaration>
-    <Declaration>
         <NamedIndividual IRI="#snortFlagsExpressionMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#SnortFlagsExpressionMatch"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IPSourceAddress_IPRangeSet"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ApplicationResource"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isDomainOfSignal"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#uniqueIPThreshold"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketLength"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPPacketContext_SignalDomain"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#integerRangeSet"/>
@@ -970,16 +478,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#positiveIntegerEquality"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#DetectorSyntax"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#UDPResource"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#includesTimePeriod"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#PacketsPerMinutePort80SampledEachPacket"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isValueOfSignal"/>
@@ -994,25 +493,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IPIRS"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#Signal"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#ByteHexDelimitedValue"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isIncludedInIRS"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#PacketRate"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#IntegerValue"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#IPPacketProtocolRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#TCPDestinationPort"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isViewableAs"/>
@@ -1027,19 +511,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#WindowsLogEntry"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ContextFreeGrammar"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#TemporalSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
     </Declaration>
     <Declaration>
         <DataProperty IRI="#hasImplementationClass"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#ipProtocolNumber"/>
     </Declaration>
     <Declaration>
         <Class IRI="#UniqueSourceIPAddressCountThreshold"/>
@@ -1049,6 +524,612 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#TCPPort"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Grep2.5.1RuleSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IISEventLogMessage_HTTPGetParameterRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPv4DestinationAddress"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#requiresResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkFlowSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isContainerOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#nullCorrelationFunction"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isExpressibleInSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEventIncluded"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FixedTimePeriodView"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instancesWithinOneMinute"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSResource"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducedBy"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#instanceTimestamp"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isLabelForEvent"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#integerLessThan"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#producesRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacket_TCPPayloadSizeRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PositiveIntegerLessThan"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAppliedByDetector"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacket_TCPPayloadSizeRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPDestinationPort_IntegerRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResource"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPPacket_PacketLengthRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPFlags"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketHeader"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerEquality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#providesResource"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IISEventLogMessageContext_HTTPGetParameterRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RegularGrammar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Detector"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#providedByDatasetView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SourceIPAddressRepresentation1_CodeRedEvalSYSLOGDataset1ViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TimeWindowSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isLabelForTimePeriod"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerInequality"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#detectorExecutionCommand"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#hasLabelDataLocation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Response"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacketPayload_RegEx"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PCAPFixedTimePeriodView"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducedByContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DatasetViewImplementationSubclasses"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPResource"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#byteAsIntegerEquality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NativeLibPCAPDatasetView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Event"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#usedByCorrelationRelation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CorrelationRelation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProducerOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketTotalLength_IntegerInequality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#representsDetector"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isResponseFor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketTotalLength_IntegerLessThan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UniqueDestinationIPAddressCountThreshold"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacketContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasSignalDomainRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacket_TCPFlagsRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isContainedIn"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPv4SourceAddressSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SubstringMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BroCompatibleIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LibPcap_SecondOfPacketsView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPGetRequestResource_StringMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacket_PacketLengthRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEvaluatedBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResponse"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#usedByResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WindowsEventLogEntrySignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CountTimeBracketValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPAddressCountThreshold"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacket"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEncapsulatedContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HostResponse"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#destinationPortSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalValue"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isProviderOfResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPGetRequestStringValue"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRepresentableBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPFlagsSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WindowsEventLog_TextFileView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PositiveIntegerGreaterThan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPayloadSize"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#integerEquality"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isInContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ByteSubsequenceMatch"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ipPacketSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerRangeSetValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LibPcapFilterDefinition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPFlags_SnortFlagsExpressionMatch"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isMitigatedByIRS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolNumber"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bitmaskMatchNonZero"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canApplySignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Resource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalManifestation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#bpfFilterSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerRangeValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EventLogTextFileDatasetView"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#signalConstraintImplementation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WindowsIISEventLogEntrySignalContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#sourceIPAddressSignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEventIdentifierFor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PacketLength"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketTotalLength_IntegerRangeMembership"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LibPCAPDataset"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isManifestedBy"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPPacket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPPacket_TCPFlagsRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PacketLength_PositiveIntegerEquality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPIRS"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#UniqueDstIPPerSrcPerMin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ComponentFailureEvent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#realizesSignalRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IISEventLogMessage_IPv4SourceIPAddressRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PCAPFixedTimePeriodView1Label"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IISEventLogMessageContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#secondSampleByPacket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DatasetView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#integerGreaterThan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerLessThan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LibPcap_IPPacketView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NetworkPacketSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDetector"/>
+    </Declaration>
+    <Declaration>
+        <DataProperty IRI="#datasetLocation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacket_TCPPacketDataRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canRepresentFeatureWithConstraint"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WindowsEventLogAnalysisRuleSyntax"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDetectedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canMonitor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEncapsulatedInContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPProtocolNumber_ByteEquality"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IISEventLogDataset"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IntegerRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SnortCompatibleIDS"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketTotalLength_IntegerEquality"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPPacketID"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPDestinationAddress_IPRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacket_IPPacketDataRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacket_IPv4SourceIPAddressRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPFlags_BitmaskNonZero"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Dataset"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacket_IPPacketProtocolNumberRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BroIDSPolicy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DNSProtocolResponse"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#PositiveIntegerRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isIncludedInDataset"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#RealRangeSet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CodeRedWormPropagationEvent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#STDDEVThresholdExceeded"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketTotalLength_IntegerGreaterThan"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SignalDomainRepresentation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ICMPIRS"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRepresentedInDataset"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPGetRequestParameter_StringMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ByteIntegerValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPDestinationPort"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAffectedBy"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SnortFlagsExpressionMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ApplicationResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDomainOfSignal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#uniqueIPThreshold"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketLength"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#IPPacketContext_SignalDomain"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DetectorSyntax"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UDPResource"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PacketsPerMinutePort80SampledEachPacket"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Signal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ByteHexDelimitedValue"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PacketRate"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#IPPacketProtocolRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#TCPDestinationPort"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ContextFreeGrammar"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TemporalSignalDomainContext"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ipProtocolNumber"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ICMPResource"/>
@@ -1061,15 +1142,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#TemporalView"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#Grep2.5.1RuleSyntax"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IISEventLogMessage_HTTPGetParameterRepresentation"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPv4DestinationAddress"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#byteSubsequenceMatch"/>
@@ -1090,40 +1162,22 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isLabelerForDatasetView"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#requiresResource"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#NetworkFlowSignalDomainContext"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#isContainerOf"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#PCREGrammar"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#nullCorrelationFunction"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ReconMaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isExpressibleInSyntax"/>
-    </Declaration>
-    <Declaration>
         <Class IRI="#TCPSignalDomainContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#NetworkIRS"/>
-    </Declaration>
-    <Declaration>
-        <ObjectProperty IRI="#hasEventIncluded"/>
-    </Declaration>
-    <Declaration>
-        <NamedIndividual IRI="#instancesWithinOneMinute"/>
+        <NamedIndividual IRI="#uniqueSourceIPAddressCount"/>
     </Declaration>
     <Declaration>
         <Class IRI="#StringMatch"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UniqueSourceIPAddressCountValue"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#ApplicationIRS"/>
@@ -1137,10 +1191,17 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#BroIDSPolicy"/>
-        <ObjectSomeValuesFrom>
+        <ObjectHasValue>
             <ObjectProperty IRI="#hasSyntax"/>
-            <Class IRI="#BroEventDetectionSyntax"/>
-        </ObjectSomeValuesFrom>
+            <NamedIndividual IRI="#broEventDetectionSyntax"/>
+        </ObjectHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#BroIDSPolicy"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasImplementationClass"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectors.KIDSBroDetector</Literal>
+        </DataHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#DNSIRS"/>
@@ -1165,6 +1226,26 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#isProducerOf"/>
             <Class IRI="#Signal"/>
         </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#EventLogTextFileDatasetView"/>
+        <DataHasValue>
+            <DataProperty IRI="#viewProductionImplementation"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.datasetviews.EventLogTextFileView</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation"/>
+        <ObjectIntersectionOf>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#isProducedByContext"/>
+                <NamedIndividual IRI="#fixedTimePeriodSignalDomainContext"/>
+            </ObjectHasValue>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
+                <NamedIndividual IRI="#uniqueSourceIPAddressCount"/>
+            </ObjectHasValue>
+        </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#HTTPGetRequestParameter_StringMatch"/>
@@ -1378,7 +1459,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             </ObjectHasValue>
             <ObjectHasValue>
                 <ObjectProperty IRI="#hasDomain"/>
-                <NamedIndividual IRI="#sourceIPAddressSignalDomain"/>
+                <NamedIndividual IRI="#uniqueSourceIPAddressCount"/>
             </ObjectHasValue>
         </ObjectIntersectionOf>
     </EquivalentClasses>
@@ -1390,10 +1471,31 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         </ObjectHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#LibPcapFilterDefinition"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasImplementationClass"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectors.KIDSTcpDumpDetector</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
         <Class IRI="#LibPcap_IPPacketView"/>
         <DataHasValue>
             <DataProperty IRI="#viewProductionImplementation"/>
             <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NativeLibPCAPDatasetView"/>
+        <DataHasValue>
+            <DataProperty IRI="#viewProductionImplementation"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.datasetviews.NativeLibPCAPView</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#NativePcapTruthFileDatasetLabel"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasLabelFunction"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.datasetlabels.KIDSNativeLibpcapTruthFile2</Literal>
         </DataHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
@@ -1415,6 +1517,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
                 <Class IRI="#NetworkResource"/>
             </ObjectSomeValuesFrom>
         </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#PCAPFixedTimePeriodView1Label"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isLabelerForDatasetView"/>
+            <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
+        </ObjectHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#PacketLength_PositiveIntegerEquality"/>
@@ -1455,6 +1564,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#hasSyntax"/>
             <Class IRI="#SnortRuleSyntax"/>
         </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#SnortRule"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasImplementationClass"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectors.KIDSSnortDetector</Literal>
+        </DataHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#TCPDestinationPort_IntegerRangeSet"/>
@@ -1611,6 +1727,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
+        <Class IRI="#WindowsEventLogTruthFileDatasetLabel"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasLabelFunction"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.datasetlabels.KIDSWindowsEventLogTruthFile</Literal>
+        </DataHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
         <Class IRI="#WindowsEventLog_TextFileView"/>
         <DataHasValue>
             <DataProperty IRI="#viewProductionImplementation"/>
@@ -1623,6 +1746,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#hasSyntax"/>
             <Class IRI="#WindowsEventLogAnalysisRuleSyntax"/>
         </ObjectSomeValuesFrom>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WindowsLogAnalysis"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasImplementationClass"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectors.KIDSGrepDetector</Literal>
+        </DataHasValue>
     </EquivalentClasses>
     <SubClassOf>
         <Class IRI="#ApplicationResource"/>
@@ -1656,6 +1786,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalConstraint"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#Bro25IDS"/>
+        <Class IRI="#BroCompatibleIDS"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#BroCompatibleIDS"/>
         <Class IRI="#IDS"/>
     </SubClassOf>
@@ -1673,6 +1807,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#BroIDSPolicy"/>
         <Class IRI="#Detector"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BroIDSPolicy"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
+        </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#ByteEquality"/>
@@ -1739,8 +1880,38 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#UDPSignalDomainContext"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#DatasetViewImplementationSubclasses"/>
+        <Class IRI="#DatasetView"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#DoubleValue"/>
         <Class IRI="#SignalValue"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EventLogTextFileDatasetView"/>
+        <Class IRI="#DatasetViewImplementationSubclasses"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FixedTimePeriodView"/>
+        <Class IRI="#TemporalView"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FixedTimePeriodView"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#exposesContext"/>
+            <NamedIndividual IRI="#fixedTimePeriodSignalDomainContext"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation"/>
+        <Class IRI="#SignalDomainRepresentation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isManifestedBy"/>
+            <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
+        </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#GrepRuleSyntax"/>
@@ -2133,6 +2304,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IntegerRangeSetValue"/>
         <ObjectHasValue>
             <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
+            <NamedIndividual IRI="#broEventDetectionSyntax"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IntegerRangeSetValue"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
             <NamedIndividual IRI="#snortRuleSyntax3"/>
         </ObjectHasValue>
     </SubClassOf>
@@ -2160,6 +2338,20 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectHasValue>
             <ObjectProperty IRI="#isContainerOf"/>
             <NamedIndividual IRI="#TCPPacket"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LibPCAPDataset"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isContainerOf"/>
+            <NamedIndividual IRI="#fixedTimePeriodSignalDomainContext"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LibPCAPDataset"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isViewableAs"/>
+            <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
         </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
@@ -2225,6 +2417,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#ManualAttackMaliciousActivityEvent"/>
         <Class IRI="#AttackMaliciousActivityEvent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NativeLibPCAPDatasetView"/>
+        <Class IRI="#DatasetViewImplementationSubclasses"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NativePcapTruthFileDatasetLabel"/>
+        <Class IRI="#DatasetLabel"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#NetflowDataset"/>
@@ -2310,6 +2510,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#NetworkSignalDomainContext"/>
         <Class IRI="#SignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PCAPFixedTimePeriodView"/>
+        <Class IRI="#FixedTimePeriodView"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PCAPFixedTimePeriodView1Label"/>
+        <Class IRI="#DatasetLabel"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#PCREGrammar"/>
@@ -2629,6 +2837,17 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DatasetView"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#TimeWindowSignalDomainContext"/>
+        <Class IRI="#TemporalSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TimeWindowSignalDomainContext"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isContextOfSignalDomain"/>
+            <NamedIndividual IRI="#uniqueSourceIPAddressCount"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#UDPPacketContext"/>
         <Class IRI="#UDPSignalDomainContext"/>
     </SubClassOf>
@@ -2653,8 +2872,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IPAddressCountThreshold"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#UniqueSourceIPAddressCount"/>
+        <Class IRI="#SignalDomain"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#UniqueSourceIPAddressCountThreshold"/>
         <Class IRI="#UniqueIPAddressCountThreshold"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UniqueSourceIPAddressCountValue"/>
+        <Class IRI="#IntegerValue"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#UserMasqueradeAttackMaliciousActivityEvent"/>
@@ -2675,6 +2902,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#WindowsEventLogEntrySignalDomainContext"/>
         <Class IRI="#ApplicationSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WindowsEventLogTruthFileDatasetLabel"/>
+        <Class IRI="#DatasetLabel"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#WindowsEventLog_TextFileView"/>
@@ -2736,6 +2967,24 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#MaliciousActivityEvent"/>
     </DisjointClasses>
     <DisjointClasses>
+        <Class IRI="#CorrelationRelation"/>
+        <Class IRI="#DatasetLabel"/>
+        <Class IRI="#DatasetView"/>
+        <Class IRI="#Detector"/>
+        <Class IRI="#DetectorSyntax"/>
+        <Class IRI="#IDS"/>
+        <Class IRI="#IRS"/>
+        <Class IRI="#Resource"/>
+        <Class IRI="#Response"/>
+        <Class IRI="#Signal"/>
+        <Class IRI="#SignalConstraint"/>
+        <Class IRI="#SignalDomainContext"/>
+        <Class IRI="#SignalDomainRepresentation"/>
+        <Class IRI="#SignalManifestation"/>
+        <Class IRI="#SignalValue"/>
+        <Class IRI="#TimePeriod"/>
+    </DisjointClasses>
+    <DisjointClasses>
         <Class IRI="#ICMPIRS"/>
         <Class IRI="#TCPIRS"/>
         <Class IRI="#UDPIRS"/>
@@ -2759,6 +3008,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#VirusAttackMaliciousActivityEvent"/>
         <Class IRI="#WormAttackMaliciousActivityEvent"/>
     </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation"/>
+        <NamedIndividual IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation1"/>
+    </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#GrepRuleSyntax"/>
         <NamedIndividual IRI="#Grep2.5.1RuleSyntax"/>
@@ -2896,6 +3149,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#dport80PacketsPerSecond"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#TimeWindowSignalDomainContext"/>
+        <NamedIndividual IRI="#fixedTimePeriodSignalDomainContext"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#NetworkResponse"/>
         <NamedIndividual IRI="#hostFWBlock"/>
     </ClassAssertion>
@@ -2932,6 +3189,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#nullCorrelationFunction"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#PCAPFixedTimePeriodView"/>
+        <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#PositiveIntegerEquality"/>
         <NamedIndividual IRI="#positiveIntegerEquality"/>
     </ClassAssertion>
@@ -2966,6 +3227,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ClassAssertion>
         <Class IRI="#UniqueIPAddressCountThreshold"/>
         <NamedIndividual IRI="#uniqueIPThreshold"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#UniqueSourceIPAddressCount"/>
+        <NamedIndividual IRI="#uniqueSourceIPAddressCount"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SignalManifestation"/>
+        <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
     </ClassAssertion>
     <SameIndividual>
         <NamedIndividual IRI="#IPPacket"/>
@@ -3177,9 +3446,19 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacket"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#bringsIntoExistence"/>
+        <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
+        <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
         <ObjectProperty IRI="#isContextOfSignalDomain"/>
         <NamedIndividual IRI="#secondSampleByPacket"/>
         <NamedIndividual IRI="#dport80PacketsPerSecond"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#producesRepresentation"/>
+        <NamedIndividual IRI="#secondSampleByPacket"/>
+        <NamedIndividual IRI="#FixedTimeWindow_IPSourceAddressCountRepresentation1"/>
     </ObjectPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
@@ -3232,6 +3511,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#isInContext"/>
         <ObjectProperty IRI="#isProvidedBy"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
+        <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isUsableByDetectorSyntax"/>
+        <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#requiresResource"/>
@@ -3467,7 +3754,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#canApplySignalValue"/>
-        <Class IRI="#SignalValue"/>
+        <Class IRI="#DetectorSyntax"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#canDetectEvent"/>
@@ -3747,7 +4034,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#canApplySignalValue"/>
-        <Class IRI="#DetectorSyntax"/>
+        <Class IRI="#SignalValue"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#canDetectEvent"/>
@@ -3783,7 +4070,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#exposesContext"/>
-        <Class IRI="#SignalValue"/>
+        <Class IRI="#SignalDomainContext"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#hasConstraint"/>
@@ -4249,7 +4536,7 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#Dataset</IRI>
-        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A collection of contexts, all of the same type, used for IDRS evaluation.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A collection of contexts, all of the same type, used for IDRS evaluation. Dataset instances represent environment specific data collections and should be declared in the ABOX.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -4269,14 +4556,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#DatasetView</IRI>
-        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A DatasetView is an extraction of Contexts from a specific Dataset.  Examples may include:
+        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A DatasetView is an extraction of Contexts from a specific Dataset.  Examples may include:
 * Packets from a LibPcap dataset
 * Second-long aggregations of packets from a LibPcap dataset
 * Minute-long aggregations of log records from a Syslog dataset
 
 The DatasetView is related to Detectors by the ability of the detector to construct such a view.
 
-The DatasetView is a &apos;glue&apos; class, allowing properties to be related to a specific representation of a context within a dataset.</Literal>
+The DatasetView is a &apos;glue&apos; class, allowing properties to be related to a specific representation of a context within a dataset.
+
+Instances of DatasetView are schematic and should be declared in the TBOX (or an extension thereof)</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -4687,6 +4976,11 @@ Dataset Labels with the same TimePeriod can be evaluated as part of the same mul
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TimeWindowSignalDomainContext</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">A time-based context, representing a fixed period of time during which observations are made. Thresholds per unit time would use this context.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#bringsIntoExistence</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Indicates that the object (a signal manifestation) is brought into existence, or realized, by the named dataset view.  For example, the manifestation of a tcp destination port number as an integer is realized by an ascii view of a libpcap file.</Literal>
     </AnnotationAssertion>
@@ -4766,7 +5060,7 @@ This propery is established through the property chain hasSyntax o canRepresentF
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#canApplySignalValue</IRI>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
-    &quot;type&quot;: &quot;Manual&quot;,
+    &quot;type&quot;: &quot;Inverse&quot;,
     &quot;refs&quot;: []
     }
 }</Literal>
@@ -4966,7 +5260,7 @@ Indicates that the given detector is capable of detecting a signal, but may or m
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#hasCorrelationRelationImplementation</IRI>
-        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Identifies the Java class which implements this correlation relation.</Literal>
+        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Identifies the Java class which implements this correlation relation. This should be an implementation of net.strasnet.kids.measurement.CorrelationFunction (e.g. those found in the package net.strasnet.kids.measurement.correlationfunctions).</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
@@ -5067,6 +5361,16 @@ Indicates that the given detector is capable of detecting a signal, but may or m
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#hasEventIncluded</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Dataset Has Event Included</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasImplementationClass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Identifies the Java class that implements the IDS. This should be an implementation of net.strasnet.kids.detectors.KIDSDetector (subclass of net.strasnet.kids.detectors.KIDSAbstractDetector).</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasLabelFunction</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Identifies the Java class that processes the label format. This should be an implementation of net.strasnet.kids.measurement.datasetlabels (subclass of net.strasnet.kids.datasetlabels.AbstractDatasetLabel).</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -5327,8 +5631,8 @@ Note that ranges are inclusive on both ends.</Literal>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#isContextOfSignalDomain</IRI>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
-    &quot;type&quot;: &quot;Inverse&quot;,
-    &quot;refs&quot;: []
+    &quot;type&quot;: &quot;Subclass Definition&quot;,
+    &quot;refs&quot;: [&quot;SignalDomainContext&quot;]
     }
 }</Literal>
     </AnnotationAssertion>
@@ -5573,7 +5877,7 @@ Indicates that a detector can spot a given signal.</Literal>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#isInContext</IRI>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
-    &quot;type&quot;: &quot;Manual&quot;,
+    &quot;type&quot;: &quot;Inverse&quot;,
     &quot;refs&quot;: []
     }
 }</Literal>
@@ -6034,8 +6338,8 @@ I believe this is used by the KIDS oracle to determine when a detector syntax ca
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#isUsableByDetectorSyntax</IRI>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
-    &quot;type&quot;: &quot;Inverse&quot;,
-    &quot;refs&quot;: []
+    &quot;type&quot;: &quot;Subclass Definition&quot;,
+    &quot;refs&quot;: [&quot;Signal Value&quot;]
     }
 }</Literal>
     </AnnotationAssertion>
@@ -6100,6 +6404,11 @@ I believe this is used by the KIDS oracle to determine when a detector syntax ca
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#isVisibleToDetector</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">SignalManifestation Is Visible To Detector</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#pCAPfixedTimePeriodDatasetView1</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Represents a fixed time period in a PCAP data source, e.g. a live network capture a la tcpdump, or a time slice from a pcap file.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -6361,6 +6670,11 @@ I believe this is used by the KIDS oracle to determine when a detector syntax ca
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#usesResource</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Response Uses Resource</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#viewProductionImplementation</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Identifies the Java class that implements the production of a particular dataset view. This should be an implementation of net.strasnet.kids.measurement.datasetviews.DatasetView (subclass of net.strasnet.kids.measurement.datasetviews.AbstractDatasetView)</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>

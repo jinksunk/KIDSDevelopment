@@ -36,7 +36,6 @@ public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KI
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
 		reqProps.put("#hasSignalValue","#SignalValue");
-		reqProps.put("#isEvaluableWithDataset","#Dataset");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
@@ -46,8 +45,9 @@ public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KI
 		infProps.put("#isRepresentedBy","#SignalDomainRepresentation");
 		infProps.put("#hasConstraint","#SignalConstraint");
 		infProps.put("#isExpressibleInSyntax","#DetectorSyntax");
-		infProps.put("#SignalInManifestation","#DatasetLabel");
+		infProps.put("#SignalInManifestation","#SignalManifestation");
 		infProps.put("#isProducedBy","#Event");
+		infProps.put("#isEvaluableWithDataset","#Dataset");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
@@ -56,6 +56,7 @@ public class KIDSUISignalComponent extends KIDSUIAbstractComponent implements KI
 	
 	public KIDSUISignalComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 		
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(

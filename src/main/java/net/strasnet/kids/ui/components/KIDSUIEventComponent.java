@@ -52,6 +52,7 @@ public class KIDSUIEventComponent extends KIDSUIAbstractComponent implements KID
 	
 	public KIDSUIEventComponent(IRI myID, KIDSGUIOracle o){
 		super(myID, o);
+		this.deflocation = KIDSComponentDefinition.ABOX;
 
 		for (String p : reqProps.keySet()){
 			myReqProps.add(new KIDSUIRequiredProperty(

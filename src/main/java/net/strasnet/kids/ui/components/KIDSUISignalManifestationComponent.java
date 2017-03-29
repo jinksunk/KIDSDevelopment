@@ -35,7 +35,6 @@ public class KIDSUISignalManifestationComponent extends KIDSUIAbstractComponent 
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#realizesSignalRepresentation","#SignalDomainRepresentation");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
@@ -43,6 +42,7 @@ public class KIDSUISignalManifestationComponent extends KIDSUIAbstractComponent 
 		infProps.put("#existsInView","#DatasetView");
 		infProps.put("#isVisibleToDetector","#Detector");
 		infProps.put("#SignalManifestationIncludesSignal","#Signal");
+		reqProps.put("#realizesSignalRepresentation","#SignalDomainRepresentation");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();

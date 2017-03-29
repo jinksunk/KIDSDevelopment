@@ -35,7 +35,6 @@ public class KIDSUISignalDomainContextComponent extends KIDSUIAbstractComponent 
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#isProviderOfResource","#Resource");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
@@ -44,6 +43,7 @@ public class KIDSUISignalDomainContextComponent extends KIDSUIAbstractComponent 
 		infProps.put("#isExposedIn","#DatasetView");
 		infProps.put("#isContextOfSignalDomain","#SignalDomain");
 		infProps.put("#producesRepresentation","#SignalDomainRepresentation");
+		infProps.put("#isProviderOfResource","#Resource");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
@@ -74,6 +74,8 @@ public class KIDSUISignalDomainContextComponent extends KIDSUIAbstractComponent 
 					));
 
 		}
+		
+		requiredSubclassOf = IRI.create(TBOXIRI + "#SignalDomainContext");
 		
 		logme.debug(String.format("Initialized Signal Domain Context UI component for %s with: ReqPropChecks: %d, InfPropChecks: %d, ReqDataChecks: %d.", 
 				myID,

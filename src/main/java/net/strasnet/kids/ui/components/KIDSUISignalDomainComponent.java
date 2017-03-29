@@ -35,14 +35,15 @@ public class KIDSUISignalDomainComponent extends KIDSUIAbstractComponent impleme
 
 	private static final Map<String, String> reqProps = new HashMap<String, String>();
 	static {
-		reqProps.put("#isInContext","#SignalDomainContext");
 	};
 
 	private static final Map<String, String> infProps = new HashMap<String, String>();
 	static {
 		infProps.put("#hasSignalDomainRepresentation","#SignalDomainRepresentation");
 		infProps.put("#isDomainOfSignal","#Signal");
-		infProps.put("#isInSignalDomainContext","#SignalDomainContext");
+		infProps.put("#isProvidedByDatasetView","#DatasetView");
+		//infProps.put("#isInSignalDomainContext","#SignalDomainContext");
+		infProps.put("#isInContext","#SignalDomainContext");
 	};
 
 	private static final Map<String, KIDSDatatypeClass> datProps = new HashMap<String, KIDSDatatypeClass>();
