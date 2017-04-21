@@ -23,18 +23,30 @@ Note: this section *only* covers the ontology elements needed for the A-BOX, and
 
 -----
 
-* *Detector Instance* A detector instance represents an actual IDS executable implementation. Examples include Snort IDS, or BroIDS. An instance needs the following explicitly defined:
+* *IDS* An IDS instance represents an actual IDS executable implementation. Examples include Snort IDS, or BroIDS. An instance needs the following explicitly defined:
+
+    * *[OP] IDS Can Execute Detectorn* -> the IDS is able to execute the 
+indicated detector. This should be inferred by the class definition of the
+IDS.
+
+    * *[DP] detectorExecutionCommand* -> The path to the executable which launches the detector on the system the tests will be run on.
+
+**Example:** A Snort IDS installation
+
+-----
+
+* *Detector Instance* A detector instance represents a filter, expressed in a 
+specific syntax, that is able to produce sets of instances according to a 
+DatasetView.
 
     * *[OP] Detector Can See SignalManifestation* -> the manifestation individual from the TBOX which represents the view and representation combinations this detector can evaluate.
 
     * *[OP] Detector Has Syntax DetectorSyntax* -> the detector syntax individual from the TBOX which represents the specific syntax version/definition that the detector uses. This impacts both how to produce signal specifications and what types of signals can be represented by the detector.
 
-    * *[DP] detectorExecutionCommand* -> The path to the executable which launches the detector on the system the tests will be run on.
-
     * *[DP] hasImplementationClass* -> a package reference to the java class which manages the detector. This class is responsible for executing and processing the results produced by the detector.
 
-**Example:** A Snort IDS installation
-    
+**Example:** A Snort Rule
+
 -----
 
 * *Dataset Instance* A dataset instance represents a corpus of data instances which will be included in the evaluation of a detector. 

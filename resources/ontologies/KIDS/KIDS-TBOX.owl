@@ -97,10 +97,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#UniqueIPAddressCountThreshold"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#ByteRangeSet"/>
+        <NamedIndividual IRI="#TCPPacketDataLength"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#TCPPacketDataLength"/>
+        <Class IRI="#ByteRangeSet"/>
     </Declaration>
     <Declaration>
         <Class IRI="#DDOSAttackMaliciousActivityEvent"/>
@@ -163,6 +163,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TCPPacketPayload_StringMatch"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#TCPClientPort"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#MaliciousActivityEvent"/>
     </Declaration>
     <Declaration>
@@ -220,6 +223,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacketDataResource"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#UniqueSourceIPAddressCountValue"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#IPPacketTotalLength_IntegerComparison"/>
     </Declaration>
     <Declaration>
@@ -251,6 +257,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#IPPacketData"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#canMonitorDataset"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ApplicationSignalDomainContext"/>
@@ -323,6 +332,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#IPSourceAddress_UniqueSourceIPAddressCountThreshold"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isExposedToDetector"/>
     </Declaration>
     <Declaration>
         <Class IRI="#TCPPacketSignalDomainContext"/>
@@ -400,10 +412,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#WindowsEventLogDataset"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#canRepresent"/>
+        <ObjectProperty IRI="#isVisibleToDetector"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isVisibleToDetector"/>
+        <ObjectProperty IRI="#canRepresent"/>
     </Declaration>
     <Declaration>
         <Class IRI="#BroEventDetectionSyntax"/>
@@ -466,6 +478,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#IPSourceAddress_IPRangeSet"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#includesEventDuring"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
     </Declaration>
     <Declaration>
@@ -482,6 +497,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isValueOfSignal"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPGetRequestQueryString"/>
     </Declaration>
     <Declaration>
         <Class IRI="#WindowsLogAnalysis"/>
@@ -502,10 +520,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isViewableAs"/>
     </Declaration>
     <Declaration>
-        <NamedIndividual IRI="#SnortIDS1.7"/>
+        <Class IRI="#StringSignalValue"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#StringSignalValue"/>
+        <NamedIndividual IRI="#SnortIDS1.7"/>
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#WindowsLogEntry"/>
@@ -569,6 +587,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <NamedIndividual IRI="#instanceTimestamp"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPClientUsername"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#isLabelForEvent"/>
@@ -658,6 +679,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#TimeWindowSignalDomainContext"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#sourceIPAddressCorrelationFunction"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#isLabelForTimePeriod"/>
     </Declaration>
     <Declaration>
@@ -709,10 +733,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#CorrelationRelation"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#isProducerOf"/>
+        <Class IRI="#IPPacketTotalLength_IntegerInequality"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IPPacketTotalLength_IntegerInequality"/>
+        <ObjectProperty IRI="#isProducerOf"/>
     </Declaration>
     <Declaration>
         <ObjectProperty IRI="#representsDetector"/>
@@ -760,10 +784,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#BroCompatibleIDS"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#TCPProtocolResponse"/>
+        <Class IRI="#LibPcap_SecondOfPacketsView"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#LibPcap_SecondOfPacketsView"/>
+        <Class IRI="#TCPProtocolResponse"/>
     </Declaration>
     <Declaration>
         <Class IRI="#HTTPGetRequestResource_StringMatch"/>
@@ -778,10 +802,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ApplicationResponse"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#usedByResponse"/>
+        <Class IRI="#WindowsEventLogEntrySignalDomainContext"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#WindowsEventLogEntrySignalDomainContext"/>
+        <ObjectProperty IRI="#usedByResponse"/>
     </Declaration>
     <Declaration>
         <Class IRI="#CountTimeBracketValue"/>
@@ -907,6 +931,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isManifestedBy"/>
     </Declaration>
     <Declaration>
+        <ObjectProperty IRI="#isEvaluableDuringTimePeriod"/>
+    </Declaration>
+    <Declaration>
         <NamedIndividual IRI="#IPPacket"/>
     </Declaration>
     <Declaration>
@@ -928,10 +955,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ComponentFailureEvent"/>
     </Declaration>
     <Declaration>
-        <ObjectProperty IRI="#realizesSignalRepresentation"/>
+        <Class IRI="#IISEventLogMessage_IPv4SourceIPAddressRepresentation"/>
     </Declaration>
     <Declaration>
-        <Class IRI="#IISEventLogMessage_IPv4SourceIPAddressRepresentation"/>
+        <ObjectProperty IRI="#realizesSignalRepresentation"/>
     </Declaration>
     <Declaration>
         <Class IRI="#PCAPFixedTimePeriodView1Label"/>
@@ -944,6 +971,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#DatasetView"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TCPServerPort"/>
     </Declaration>
     <Declaration>
         <Class IRI="#DNSSignalDomainContext"/>
@@ -992,6 +1022,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#IISEventLogDataset"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HTTPClientUserAgent"/>
     </Declaration>
     <Declaration>
         <Class IRI="#IntegerRangeSet"/>
@@ -1063,6 +1096,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#ICMPIRS"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#HTTPServerResponseCode"/>
+    </Declaration>
+    <Declaration>
         <ObjectProperty IRI="#isRepresentedInDataset"/>
     </Declaration>
     <Declaration>
@@ -1132,13 +1168,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#ipProtocolNumber"/>
     </Declaration>
     <Declaration>
+        <Class IRI="#IPResource"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#ICMPResource"/>
     </Declaration>
     <Declaration>
         <Class IRI="#ByteSet"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#IPResource"/>
     </Declaration>
     <Declaration>
         <Class IRI="#TemporalView"/>
@@ -1175,9 +1211,6 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </Declaration>
     <Declaration>
         <Class IRI="#StringMatch"/>
-    </Declaration>
-    <Declaration>
-        <Class IRI="#UniqueSourceIPAddressCountValue"/>
     </Declaration>
     <EquivalentClasses>
         <Class IRI="#ApplicationIRS"/>
@@ -1263,13 +1296,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <EquivalentClasses>
         <Class IRI="#HTTPGetRequestResource_StringMatch"/>
         <ObjectIntersectionOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="#hasDomain"/>
-                <Class IRI="#HTTPGetRequest"/>
-            </ObjectSomeValuesFrom>
             <ObjectHasValue>
                 <ObjectProperty IRI="#hasConstraint"/>
                 <NamedIndividual IRI="#stringMatch"/>
+            </ObjectHasValue>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#hasDomain"/>
+                <NamedIndividual IRI="#HTTPGetRequestResource"/>
             </ObjectHasValue>
         </ObjectIntersectionOf>
     </EquivalentClasses>
@@ -1349,26 +1382,26 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <EquivalentClasses>
         <Class IRI="#IPPacketData_ByteSubsequenceMatch"/>
         <ObjectIntersectionOf>
-            <ObjectSomeValuesFrom>
+            <ObjectHasValue>
                 <ObjectProperty IRI="#hasConstraint"/>
-                <Class IRI="#ByteSubsequenceMatch"/>
-            </ObjectSomeValuesFrom>
-            <ObjectSomeValuesFrom>
+                <NamedIndividual IRI="#byteSubsequenceMatch"/>
+            </ObjectHasValue>
+            <ObjectHasValue>
                 <ObjectProperty IRI="#hasDomain"/>
-                <Class IRI="#IPPacketData"/>
-            </ObjectSomeValuesFrom>
+                <NamedIndividual IRI="#IPPacketDataResource"/>
+            </ObjectHasValue>
         </ObjectIntersectionOf>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#IPPacketData_StringMatch"/>
         <ObjectIntersectionOf>
-            <ObjectSomeValuesFrom>
-                <ObjectProperty IRI="#hasDomain"/>
-                <Class IRI="#IPPacketData"/>
-            </ObjectSomeValuesFrom>
             <ObjectHasValue>
                 <ObjectProperty IRI="#hasConstraint"/>
                 <NamedIndividual IRI="#stringMatch"/>
+            </ObjectHasValue>
+            <ObjectHasValue>
+                <ObjectProperty IRI="#hasDomain"/>
+                <NamedIndividual IRI="#IPPacketDataResource"/>
             </ObjectHasValue>
         </ObjectIntersectionOf>
     </EquivalentClasses>
@@ -1524,6 +1557,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#isLabelerForDatasetView"/>
             <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
         </ObjectHasValue>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#PCAPFixedTimePeriodView1Label"/>
+        <DataHasValue>
+            <DataProperty IRI="#hasLabelFunction"/>
+            <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.datasetlabels.KIDSNativeLibpcapTruthFile2</Literal>
+        </DataHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#PacketLength_PositiveIntegerEquality"/>
@@ -1824,6 +1864,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalValue"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#ByteHexDelimitedValue"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isRepresentableInDetectorSyntax"/>
+            <NamedIndividual IRI="#snortRuleSyntax3"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#ByteIntegerValue"/>
         <Class IRI="#SignalValue"/>
     </SubClassOf>
@@ -1880,6 +1927,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#UDPSignalDomainContext"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#DatasetView"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#supportCorrelationRelation"/>
+            <NamedIndividual IRI="#nullCorrelationFunction"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#DatasetViewImplementationSubclasses"/>
         <Class IRI="#DatasetView"/>
     </SubClassOf>
@@ -1925,6 +1979,14 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         </ObjectSomeValuesFrom>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#HTTPClientUserAgent"/>
+        <Class IRI="#IPPacketData"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPClientUsername"/>
+        <Class IRI="#IPPacketData"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#HTTPGetRequest"/>
         <Class IRI="#IPPacketData"/>
     </SubClassOf>
@@ -1952,6 +2014,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#HTTPGetRequestQueryString"/>
+        <Class IRI="#IPPacketData"/>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#HTTPGetRequestResource_StringMatch"/>
         <Class IRI="#IPPacketData_StringMatch"/>
     </SubClassOf>
@@ -1977,6 +2043,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#HTTPResource"/>
         <Class IRI="#TCPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HTTPServerResponseCode"/>
+        <Class IRI="#IPPacketData"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#HTTPSignalDomainContext"/>
@@ -2201,6 +2271,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#IPSignalDomainContext"/>
         <Class IRI="#NetworkSignalDomainContext"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#IPSignalDomainContext"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#isContextOfSignalDomain"/>
+            <NamedIndividual IRI="#IPPacketDataResource"/>
+        </ObjectHasValue>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#IPSignalDomainContext"/>
@@ -2649,6 +2726,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#SnortRule"/>
         <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SnortRule"/>
+        <ObjectHasValue>
             <ObjectProperty IRI="#hasSyntax"/>
             <NamedIndividual IRI="#snortRuleSyntax3"/>
         </ObjectHasValue>
@@ -2700,6 +2784,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#SubstringMatch"/>
         <Class IRI="#RegularGrammar"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPClientPort"/>
+        <Class IRI="#TCPPort"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#TCPDestinationPort"/>
@@ -2819,6 +2907,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <SubClassOf>
         <Class IRI="#TCPResource"/>
         <Class IRI="#IPResource"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TCPServerPort"/>
+        <Class IRI="#TCPPort"/>
     </SubClassOf>
     <SubClassOf>
         <Class IRI="#TCPSignalDomainContext"/>
@@ -3189,6 +3281,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#nullCorrelationFunction"/>
     </ClassAssertion>
     <ClassAssertion>
+        <Class IRI="#NativeLibPCAPDatasetView"/>
+        <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
+    </ClassAssertion>
+    <ClassAssertion>
         <Class IRI="#PCAPFixedTimePeriodView"/>
         <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
     </ClassAssertion>
@@ -3211,6 +3307,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ClassAssertion>
         <Class IRI="#SnortRuleSyntax"/>
         <NamedIndividual IRI="#snortRuleSyntax3"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#CorrelationRelation"/>
+        <NamedIndividual IRI="#sourceIPAddressCorrelationFunction"/>
     </ClassAssertion>
     <ClassAssertion>
         <Class IRI="#IPv4SourceAddress"/>
@@ -3448,6 +3548,11 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyAssertion>
         <ObjectProperty IRI="#bringsIntoExistence"/>
         <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
+        <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#bringsIntoExistence"/>
+        <NamedIndividual IRI="#pCAPfixedTimePeriodDatasetView1"/>
         <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
     </ObjectPropertyAssertion>
     <ObjectPropertyAssertion>
@@ -3476,9 +3581,19 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
+        <DataProperty IRI="#hasCorrelationRelationImplementation"/>
+        <NamedIndividual IRI="#nullCorrelationFunction"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.correlationfunctions.NullCorrelationFunction</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
         <NamedIndividual IRI="#snortRuleSyntax3"/>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.KIDSSnortDetectorSyntax</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCorrelationRelationImplementation"/>
+        <NamedIndividual IRI="#sourceIPAddressCorrelationFunction"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.correlationfunctions.sourceIPAddressCorrelationFunction</Literal>
     </DataPropertyAssertion>
     <SubObjectPropertyOf>
         <ObjectProperty IRI="#canRepresent"/>
@@ -3553,6 +3668,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <ObjectProperty IRI="#isMonitoredBy"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
+        <ObjectProperty IRI="#canMonitorDataset"/>
+        <ObjectProperty IRI="#isExposedToDetector"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
         <ObjectProperty IRI="#canRepresentFeatureWithConstraint"/>
         <ObjectProperty IRI="#isExpressibleInSyntax"/>
     </InverseObjectProperties>
@@ -3607,6 +3726,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <InverseObjectProperties>
         <ObjectProperty IRI="#hasSyntax"/>
         <ObjectProperty IRI="#representsDetector"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#includesEventDuring"/>
+        <ObjectProperty IRI="#isEvaluableDuringTimePeriod"/>
     </InverseObjectProperties>
     <InverseObjectProperties>
         <ObjectProperty IRI="#includesTimePeriod"/>
@@ -3765,6 +3888,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Detector"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#canMonitorDataset"/>
+        <Class IRI="#Detector"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#canRepresent"/>
         <Class IRI="#Detector"/>
     </ObjectPropertyDomain>
@@ -3833,6 +3960,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Detector"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#includesEventDuring"/>
+        <Class IRI="#TimePeriod"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#includesTimePeriod"/>
         <Class IRI="#Dataset"/>
     </ObjectPropertyDomain>
@@ -3881,8 +4012,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalDomainContext"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEvaluableDuringTimePeriod"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
-        <Class IRI="#Dataset"/>
+        <Class IRI="#Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isEvaluatedBy"/>
+        <Class IRI="#Event"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#isEvaluationOf"/>
@@ -3895,6 +4034,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#isExposedIn"/>
         <Class IRI="#SignalDomainContext"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#isExposedToDetector"/>
+        <Class IRI="#Dataset"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#isIdentifiedByDetector"/>
@@ -3990,6 +4133,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
         <ObjectProperty IRI="#providesResource"/>
+        <Class IRI="#DatasetView"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#providesViewOf"/>
         <Class IRI="#DatasetView"/>
     </ObjectPropertyDomain>
     <ObjectPropertyDomain>
@@ -4045,6 +4192,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DatasetView"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#canMonitorDataset"/>
+        <Class IRI="#Dataset"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#canRepresent"/>
         <Class IRI="#SignalConstraint"/>
     </ObjectPropertyRange>
@@ -4113,6 +4264,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#DetectorSyntax"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#includesEventDuring"/>
+        <Class IRI="#Event"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#includesTimePeriod"/>
         <Class IRI="#TimePeriod"/>
     </ObjectPropertyRange>
@@ -4161,8 +4316,16 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalDomainContext"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEvaluableDuringTimePeriod"/>
+        <Class IRI="#TimePeriod"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
         <ObjectProperty IRI="#isEvaluableWithDataset"/>
-        <Class IRI="#Signal"/>
+        <Class IRI="#Dataset"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isEvaluatedBy"/>
+        <Class IRI="#Dataset"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#isEvaluationOf"/>
@@ -4175,6 +4338,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyRange>
         <ObjectProperty IRI="#isExposedIn"/>
         <Class IRI="#DatasetView"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isExposedToDetector"/>
+        <Class IRI="#Detector"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#isIdentifiedByDetector"/>
@@ -4271,6 +4438,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     <ObjectPropertyRange>
         <ObjectProperty IRI="#providesResource"/>
         <Class IRI="#Resource"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#providesViewOf"/>
+        <Class IRI="#Dataset"/>
     </ObjectPropertyRange>
     <ObjectPropertyRange>
         <ObjectProperty IRI="#realizesSignalRepresentation"/>
@@ -4373,6 +4544,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#isProviderOfResource"/>
         </ObjectPropertyChain>
         <ObjectProperty IRI="#isProviderOfResource"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#isEvaluatedBy"/>
+            <ObjectProperty IRI="#includesTimePeriod"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#isEvaluableDuringTimePeriod"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectPropertyChain>
@@ -5110,6 +5288,20 @@ This propery is established through the property chain hasSyntax o canRepresentF
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#canMonitorDataset</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Indicates that the detector is able to monitor at least one view of this dataset.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#canMonitorDataset</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
+    &quot;type&quot;: &quot;Inference Chain&quot;,
+    &quot;refs&quot;: [&quot;canMonitor&quot;, &quot;providesViewOf&quot;]
+    }
+}</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#canRepresent</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">No longer needed?</Literal>
     </AnnotationAssertion>
@@ -5460,6 +5652,15 @@ etc...</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#includesEventDuring</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
+    &quot;type&quot;: &quot;Inverse&quot;,
+    &quot;refs&quot;: []
+    }
+}</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#includesTimePeriod</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Associates a Dataset with the time periods it includes.  A Dataset may include multiple time periods, and a time period may be included in multiple datasets.  Additionally, each DatasetLabel associated with a view of a Dataset *must* indicate a TimePeriod which this Dataset includes.  Thus, this can be inferred from that relation structure.</Literal>
     </AnnotationAssertion>
@@ -5506,7 +5707,9 @@ Note that ranges are inclusive on both ends.</Literal>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#isAbleToRepresent</IRI>
-        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Detector Is Able To Represent SignalConstraint</Literal>
+        <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">No longer needed?
+
+Detector Is Able To Represent SignalConstraint</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -5737,6 +5940,15 @@ Indicates that a detector can spot a given signal.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isEvaluableDuringTimePeriod</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
+    &quot;type&quot;: &quot;Inference Chain&quot;,
+    &quot;refs&quot;: [&quot;isEvaluatedBy&quot;,&quot;includesTimePeriod&quot;]
+    }
+}</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#isEvaluableWithDataset</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">Indicates that the given Signal is evaluable with the dataset</Literal>
     </AnnotationAssertion>
@@ -5829,6 +6041,15 @@ Indicates that a detector can spot a given signal.</Literal>
         <AnnotationProperty abbreviatedIRI="rdfs:label"/>
         <IRI>#isExposedIn</IRI>
         <Literal xml:lang="en" datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">SignalDomainContext Is Exposed In DatasetView</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isExposedToDetector</IRI>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">{ &quot;defined&quot;: {
+    &quot;type&quot;: &quot;Inverse&quot;,
+    &quot;refs&quot;: []
+    }
+}</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
@@ -6584,7 +6805,9 @@ I believe this is used by the KIDS oracle to determine when a detector syntax ca
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
         <IRI>#signalConstraintImplementation</IRI>
-        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">This datatype should specify a java class in the current classpath which can be instantiated via reflection to parse, verify, and produce the canonical representation it is associated with.</Literal>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">No longer needed?
+
+This datatype should specify a java class in the current classpath which can be instantiated via reflection to parse, verify, and produce the canonical representation it is associated with.</Literal>
     </AnnotationAssertion>
     <AnnotationAssertion>
         <AnnotationProperty abbreviatedIRI="rdfs:comment"/>

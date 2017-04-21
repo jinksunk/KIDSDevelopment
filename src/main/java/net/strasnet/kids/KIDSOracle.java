@@ -36,6 +36,9 @@ import org.semanticweb.owlapi.model.OWLImportsDeclaration;
 import org.semanticweb.owlapi.model.OWLLiteral;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectHasValue;
+import org.semanticweb.owlapi.model.OWLObjectMinCardinality;
+import org.semanticweb.owlapi.model.OWLObjectOneOf;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyID;
@@ -83,20 +86,62 @@ public class KIDSOracle {
 	/** Static ontology nomenclature */
 	public static final String TBOXPrefix = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	
+	//TODO: This is horrible; it should be revamped to either load at runtime from the actual TBOX, or at least be
+	// built and imported via a script?
+
 	// Relation constants:
-	public static final IRI evtSignalRelation = IRI.create(TBOXPrefix + "#isProducedBy");
+	public static final IRI contextDomainRelation = IRI.create(TBOXPrefix + "#isContextOfSignalDomain");
+	public static final IRI correlationFunctionImplementationDataProperty = IRI.create(TBOXPrefix + "#hasCorrelationRelationImplementation");
+	public static final IRI correlationRelationDatasetViewRelation = IRI.create(TBOXPrefix + "#isSupportedByDatasetView");
+	public static final IRI datasetContextRelation = IRI.create(TBOXPrefix + "#isContainerOfContext");
+	public static final IRI datasetDetectorRelation = IRI.create(TBOXPrefix + "#isExposedToDetector");
+	public static final IRI datasetInstanceResourceProp = IRI.create(TBOXPrefix + "#datasetLocation");
+	public static final IRI datasetLabelResourceProp = IRI.create(TBOXPrefix + "#datasetLabelLocation");
+	public static final IRI datasetParserImplementationProp = IRI.create(TBOXPrefix + "#datasetParserImplementation");
+	public static final IRI datasetSignalRelation = IRI.create(TBOXPrefix + "#isCompatibleDatasetForSignal");
+	public static final IRI datasetTimeperiodRelation = IRI.create(TBOXPrefix + "#includesTimePeriod");
+	public static final IRI datasetViewCorrelationRelation = IRI.create(TBOXPrefix + "#supportCorrelationRelation");
+	public static final IRI datasetViewIsViewOfDatasetRelation = IRI.create(TBOXPrefix + "#providesViewOf");
+	public static final IRI datasetViewRelation = IRI.create(TBOXPrefix + "#isViewableAs");
+	public static final IRI datasetViewSignalManifestationRelation = IRI.create(TBOXPrefix + "#bringsIntoExistence");
+	public static final IRI detectorDatasetRelation = IRI.create(TBOXPrefix + "#canMonitorDataset");
+	public static final IRI detectorExecutionDataProperty = IRI.create(TBOXPrefix + "#detectorExecutionCommand");
+	public static final IRI detectorImplementationDataProperty = IRI.create(TBOXPrefix + "#hasImplementationClass");
 	public static final IRI detectorSignalRelation = IRI.create(TBOXPrefix + "#isAppliedByDetector");
-	public static final IRI signalRepRelation = IRI.create(TBOXPrefix + "#hasCanonicalRepresentation");
-	public static final IRI repImplementationProp = IRI.create(TBOXPrefix + "#signalCanonicalRepresentationImplementation");
-	public static final IRI signalValueObjectProperty = IRI.create(TBOXPrefix + "#hasSignalValue");
-	public static final IRI signalValueDataProp = IRI.create(TBOXPrefix + "#hasValue");
-	public static final IRI signalDomainObjProp = IRI.create(TBOXPrefix + "#hasDomain");
+	public static final IRI detectorSyntaxImplementationDataProperty = IRI.create(TBOXPrefix + "#hasSyntaxProductionImplementation");
+	public static final IRI detectorSyntaxRelation = IRI.create(TBOXPrefix + "#hasSyntax");
+	public static final IRI detectorSyntaxSignalRelation = IRI.create(TBOXPrefix + "#canRepresentFeatureWithConstraint");
+	public static final IRI domainContextRelation = IRI.create(TBOXPrefix + "#isInContext");
+	public static final IRI domainSignalRelation = IRI.create(TBOXPrefix + "#isDomainOfSignal");
+	public static final IRI eventDatasetRelation = IRI.create(TBOXPrefix + "#isEvaluatedBy");
+	public static final IRI eventLabelRelation = IRI.create(TBOXPrefix + "#isIncludedInLabel");
+	public static final IRI eventSignalRelation = IRI.create(TBOXPrefix + "#isProducedBy");
+	public static final IRI eventTimePeriodRelation = IRI.create(TBOXPrefix + "#isEvaluableDuringTimePeriod");
 	public static final IRI featureContextObjProp = IRI.create(TBOXPrefix + "#hasSignalDomainContext");
 	public static final IRI idsDetectorObjProp = IRI.create(TBOXPrefix + "#hasDetector");
+	public static final IRI idsSynformObjProp = IRI.create(TBOXPrefix + "#hasSupportedSyntacticForm");
+	public static final IRI labelClassDataProperty = IRI.create(TBOXPrefix + "#hasLabelFunction");
+	public static final IRI labelLocationDataProperty = IRI.create(TBOXPrefix + "#hasLabelDataLocation");
+	public static final IRI labelViewRelation = IRI.create(TBOXPrefix + "#isLabelerForDatasetView");
+	public static final IRI manifestationSignalRelation = IRI.create(TBOXPrefix + "#SignalManifestationIncludesSignal");
+	public static final IRI repImplementationProp = IRI.create(TBOXPrefix + "#signalCanonicalRepresentationImplementation");
+	public static final IRI signalConstraintSignalRelation = IRI.create(TBOXPrefix + "#hasConstraint");
+	public static final IRI signalDatasetRelation = IRI.create(TBOXPrefix + "#isEvaluableWithDataset");
+	public static final IRI signalDetectorRelation = IRI.create(TBOXPrefix + "#isAppliedByDetector");
+	public static final IRI signalDomainObjProp = IRI.create(TBOXPrefix + "#hasDomain");
+	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
+	public static final IRI signalManifestationRelation = IRI.create(TBOXPrefix + "#SignalInManifestation");
+	public static final IRI signalRepRelation = IRI.create(TBOXPrefix + "#hasCanonicalRepresentation");
+	public static final IRI signalRepresentationRelation = IRI.create(TBOXPrefix + "#isRepresentedBy");
+	public static final IRI signalValueDataProp = IRI.create(TBOXPrefix + "#hasValue");
+	public static final IRI signalValueObjectProperty = IRI.create(TBOXPrefix + "#hasSignalValue");
 	public static final IRI syntacticFormDataProperty = IRI.create(TBOXPrefix + "#eventSyntacticFormGeneratorImplementation");
 	public static final IRI syntacticFormObjectProperty = IRI.create(TBOXPrefix + "#hasSyntacticForm");
-	public static final IRI idsSynformObjProp = IRI.create(TBOXPrefix + "#hasSupportedSyntacticForm");
-	public static final IRI signalEventRelation = IRI.create(TBOXPrefix + "#isProducerOf");
+	public static final IRI timePeriodDatasetRelation = IRI.create(TBOXPrefix + "#isIncludedInDataset");
+	public static final IRI viewClassDataProperty = IRI.create(TBOXPrefix + "#viewProductionImplementation");
+	public static final IRI viewDetectorRelation = IRI.create(TBOXPrefix + "#isMonitoredBy");
+	public static final IRI viewLabelRelation = IRI.create(TBOXPrefix + "#hasDatasetLabel");
+	
 	
 	// Class constants:
 	public static final IRI datasetClass = IRI.create(TBOXPrefix + "#Dataset");
@@ -105,6 +150,12 @@ public class KIDSOracle {
 	public static final IRI detectorClass = IRI.create(TBOXPrefix + "#Detector");
 	public static final IRI detectorSyntaxClass = IRI.create(TBOXPrefix + "#DetectorSyntax");
 	public static final IRI eventClass = IRI.create(TBOXPrefix + "#Event");
+	public static final IRI HTTPClientUserAgentClass = IRI.create(TBOXPrefix + "#HTTPClientUserAgent");
+	public static final IRI HTTPClientUsernameClass = IRI.create(TBOXPrefix + "#HTTPClientUsername");
+	public static final IRI HTTPGetRequestClass = IRI.create(TBOXPrefix + "#HTTPGetRequest");
+	public static final IRI HTTPGetRequestParameterClass = IRI.create(TBOXPrefix + "#HTTPGetRequestParameter");
+	public static final IRI HTTPGetRequestQueryStringClass = IRI.create(TBOXPrefix + "#HTTPGetRequestQueryString");
+	public static final IRI HTTPServerResponseCode = IRI.create(TBOXPrefix + "#HTTPServerResponseCode");
 	public static final IRI resourceClass = IRI.create(TBOXPrefix + "#Resource");
 	public static final IRI responseClass = IRI.create(TBOXPrefix + "#Response");
 	public static final IRI signalClass = IRI.create(TBOXPrefix + "#Signal");
@@ -114,6 +165,7 @@ public class KIDSOracle {
 	public static final IRI signalDomainRepresentationClass = IRI.create(TBOXPrefix + "#SignalDomainRepresentation");
 	public static final IRI signalManifestationClass = IRI.create(TBOXPrefix + "#SignalManifestation");
 	public static final IRI signalValueClass = IRI.create(TBOXPrefix + "#SignalValue");
+	public static final IRI TCPServerPort = IRI.create(TBOXPrefix + "#TCPServerPort");
 	public static final IRI timeperiodClass = IRI.create(TBOXPrefix + "#TimePeriod");
 	
 	/** Logging */
@@ -620,7 +672,6 @@ public class KIDSOracle {
 		// get the library string value for the given Class
 		// The value is a data property of the individual:
 		OWLDataProperty representationImpl = odf.getOWLDataProperty(IRI.create(ourIRI.toString() + repImplementationProp.toString()));
-		//System.err.println("DEBUG: " + representationImpl);
 		Set<OWLLiteral> oaSet = r.getDataPropertyValues(ourRep, representationImpl);
 		if (oaSet.size() != 1){
 			throw new KIDSOntologyObjectValuesException("Wrong set size for signal canonical representation: " + oaSet.size() + " ; " + ourRep.toString());
@@ -750,6 +801,119 @@ public class KIDSOracle {
 		}
 		
 		return toReturn;
+	}
+
+	/**
+	 * Returns the set of detectors that can be evaluated given the event and time period. To qualify, a detector must:
+	 * * Be able to detect at least one signal produced by the event;
+	 * * Be able to monitor at least one dataset evaluable by event and time period;
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of Detectors that will be included in an evaluation of the event in the time period.
+	 */
+	public Set<IRI> getEvaluableDetectorsForEventTimePeriod(IRI eventIRI, IRI timePeriodIRI) {
+		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
+		
+		// First, get the set of signals evaluable over the event and time period;
+		Set<IRI> evalSigSet = getEvaluableSignalsForEventTimePeriod(eventIRI, timePeriodIRI);
+		
+		// Next, get the set of datasets evaluable for the event and time period;
+		Set<IRI> evalDataSet = getEvaluableDatasetsForEventTimePeriod(eventIRI, timePeriodIRI);
+		
+		// Finally, extract the set of detectors related to both:
+		// - isAppliedByDetector // canApplySignal ;
+		Set<OWLNamedIndividual> detSetForSignals = new HashSet<OWLNamedIndividual>();
+		for (IRI s : evalSigSet){
+			Set<OWLNamedIndividual> detectorsForSignal = r.getObjectPropertyValues(
+					odf.getOWLNamedIndividual(s), 
+					odf.getOWLObjectProperty(KIDSOracle.signalDetectorRelation)).getFlattened();
+			detSetForSignals.addAll(detectorsForSignal);
+		}
+		logme.debug(String.format("Found %d detectors able to evaluate signals",detSetForSignals.size()));
+
+		// - canMonitor o providesViewOf
+		
+		Set<OWLNamedIndividual> detSetForDatasets = new HashSet<OWLNamedIndividual>();
+		
+		for (IRI d : evalDataSet){
+			Set<OWLNamedIndividual> detectorsForDataset = r.getObjectPropertyValues(
+					odf.getOWLNamedIndividual(d),
+					odf.getOWLObjectProperty(KIDSOracle.datasetDetectorRelation)).getFlattened();
+			detSetForDatasets.addAll(detectorsForDataset);
+		}
+		logme.debug(String.format("Found %d detectors able to evaluate datasets",detSetForDatasets.size()));
+
+		// Find the set intersecton:
+		for (OWLNamedIndividual ds: detSetForSignals){
+			if (detSetForDatasets.contains(ds)){
+				toReturn.add(ds);
+				logme.debug(String.format("Found dataset %s for both %s and %s.", ds.getIRI().getShortForm(), 
+					eventIRI.getShortForm(), timePeriodIRI.getShortForm()));
+			}
+		}
+		
+		logme.debug(String.format("Found %d detectors compatible with time period %s and produced by event %s.", 
+				toReturn.size(), timePeriodIRI.getShortForm(), eventIRI.getShortForm()));
+
+		return this.getIRISetFromNamedIndividualSet(toReturn);
+	}
+	/**
+	 * Returns the set of datasets which can be evaluated given the event and time period. To qualify, a dataset must:
+	 * * Contain at least one signal produced by the event;
+	 * * Coincide with the time-period under evaluation
+	 * 
+	 * Because the time period is included in the inference defining the property isEvaluationOf, we only need to look at
+	 * values for that property.
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of Dataset IRIs that will be included in an evaluation of the event in the time period.
+	 */
+	public Set<IRI> getEvaluableDatasetsForEventTimePeriod(IRI eventIRI, IRI timePeriodIRI) {
+		Set<OWLNamedIndividual> toReturn = r.getObjectPropertyValues(
+				odf.getOWLNamedIndividual(eventIRI), 
+				odf.getOWLObjectProperty(KIDSOracle.eventDatasetRelation)).getFlattened();
+
+		logme.debug(String.format("Found %d datasets compatible with time period %s and produced by event %s.", 
+				toReturn.size(), timePeriodIRI.getShortForm(), eventIRI.getShortForm()));
+
+		return this.getIRISetFromNamedIndividualSet(toReturn);
+	}
+	/**
+	 * Returns the set of signals which can be evaluated given the event and time period. To qualify, a signal must:
+	 * * Be produced by the event;
+	 * * Be present in at least one dataset which includes the time period.
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of KIDSUISignalComponents that will be included of an evaluation of the event in the time period.
+	 */
+	public Set<IRI> getEvaluableSignalsForEventTimePeriod(IRI eventIRI, IRI timePeriodIRI) {
+		Set<OWLNamedIndividual> toReturn = new HashSet<OWLNamedIndividual>();
+
+		OWLObjectHasValue signalsProducedByEvent = odf.getOWLObjectHasValue(odf.getOWLObjectProperty(KIDSOracle.eventSignalRelation), odf.getOWLNamedIndividual(eventIRI));
+		OWLObjectHasValue datasetsIncludingTimePeriod = odf.getOWLObjectHasValue(odf.getOWLObjectProperty(KIDSOracle.datasetTimeperiodRelation), odf.getOWLNamedIndividual(timePeriodIRI));
+		
+		Set<OWLNamedIndividual> eventSigSet = r.getInstances(signalsProducedByEvent, false).getFlattened();
+		Set<OWLNamedIndividual> debugDatSet = r.getInstances(datasetsIncludingTimePeriod, false).getFlattened();
+		
+		// TODO: This is terrible; need to revisit and find a more OWL-ish way to derive this set:
+		for (OWLNamedIndividual ds: debugDatSet){
+			Set<OWLNamedIndividual>datSigSet = r.getObjectPropertyValues(ds, odf.getOWLObjectProperty(KIDSOracle.datasetSignalRelation)).getFlattened();
+			for (OWLNamedIndividual candidateSig : datSigSet){
+				if (eventSigSet.contains(candidateSig)){
+					toReturn.add(candidateSig);
+					logme.debug(String.format("Found signal %s compatible with data set %s and produced by event.", candidateSig.getIRI(), 
+							ds.getIRI().getShortForm()));
+				}
+			}
+		}
+		
+		logme.debug(String.format("Found %d signals compatible with time period %s and produced by event %s.", 
+				toReturn.size(), timePeriodIRI.getShortForm(), eventIRI.getShortForm()));
+
+		return this.getIRISetFromNamedIndividualSet(toReturn);
 	}
 
 }

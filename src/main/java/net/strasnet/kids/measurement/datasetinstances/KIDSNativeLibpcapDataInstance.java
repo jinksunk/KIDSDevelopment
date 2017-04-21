@@ -20,7 +20,8 @@ public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implemen
 	static {
 		myIDs.add(IRI.create(featureIRI + "PacketID"));
 		//myIDs.add(IRI.create(featureIRI + "instanceTimestamp"));
-		//TODO: Why is the above commented out?
+		//TODO: Why is the above commented out? - because Snort was not able to deal with producing timestamps
+		//      in the required format.
 		myIDs.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "ObservationOrder"));

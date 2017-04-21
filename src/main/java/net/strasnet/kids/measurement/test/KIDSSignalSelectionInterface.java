@@ -37,6 +37,7 @@ import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
 import net.strasnet.kids.measurement.RecursiveResult;
 import net.strasnet.kids.measurement.correlationfunctions.IncompatibleCorrelationValueException;
+import net.strasnet.kids.ui.gui.KIDSGUIOracle;
 
 /**
  * @author chrisstrasburg
@@ -194,36 +195,41 @@ public class KIDSSignalSelectionInterface {
 	            m.add(new SimpleIRIMapper(IRI.create(ABOXIRI), IRI.create(ABOXFile)));
 	            m.add(new SimpleIRIMapper(IRI.create(TBOXIRI), IRI.create(TBOXFile)));
 				myGuy.loadKIDS(IRI.create(ABOXIRI), m);
+				testSignalSet(myGuy, IRI.create(EventIRI), IRI.create(TimePeriodIRI));
 			} catch (Exception e){
 				logme.error(e);
 				e.printStackTrace();
 				System.exit(1);
 			}
+	}
+
+	/**
+	 * Test the signal set returned from the ontology.
+	 * Changes to support correlation -- Done
+	 * @throws UnimplementedIdentifyingFeatureException 
+	 */
+	public void testSignalSet(KIDSMeasurementOracle myGuy, IRI EventIRI, IRI TimePeriodIRI) {
 			
 		try {
 			// If we have a time-period, get datasets from the time period.  Otherwise (for backward compatibility), load
 			// the specified dataset.
 			Set<String> ourDSIRIList = new HashSet<String>();
-			if (TimePeriodIRI == null){
-				ourDSIRIList.add(DatasetIRI);
-			} else {
-				//      Okay, so the Oracle should just return the list, and the Factory should
-				//      have a 'Get All Datasets' method which returns individual + correlated ones.
-				//      Hmm, so are we using this to check multiple correlation functions?
-				ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(IRI.create(EventIRI), IRI.create(TimePeriodIRI));
-			}
+			//      Okay, so the Oracle should just return the list, and the Factory should
+			//      have a 'Get All Datasets' method which returns individual + correlated ones.
+			//      Hmm, so are we using this to check multiple correlation functions?
+			ourDSIRIList = myGuy.getDatasetListForEventAndTimePeriod(EventIRI, TimePeriodIRI);
 			
 			// For each dataset, get the set of signals evaluable with that dataset and this event:
 			StringBuilder dsStringList = new StringBuilder();
 			for (String dsIRI : ourDSIRIList){
 				dsStringList.append("dsIRI,");
-				signals.addAll(myGuy.getSignalsForDatasetAndEvent(IRI.create(dsIRI), IRI.create(EventIRI)));
+				signals.addAll(myGuy.getSignalsForDatasetAndEvent(IRI.create(dsIRI), EventIRI));
 			}
 			logme.info(String.format("Evaluating signals which are evaluable against event %s with a dataset from [%s] ",EventIRI,dsStringList.toString()));
 			logme.info(String.format("Evaluating %d signals",signals.size()));
 			StringBuilder signalList = new StringBuilder();
 			for (IRI sigString : signals){
-				signalList.append(sigString.getFragment() + ","); 
+				signalList.append(sigString.getShortForm() + ","); 
 			}
 			logme.debug(String.format("[%s]",signalList.toString()));
 			
@@ -231,7 +237,7 @@ public class KIDSSignalSelectionInterface {
 			//      When returning the datasets, return a <Dataset,Set<SignalIRI>> map, where the signal set is
 			//      the set of signals which can actually be evaluated over the data set.  Should be the union of
 			//      individual signal sets for individual datasets.
-			List<CorrelatedViewLabelDataset> DSOBJList = KIDSDatasetFactory.getCorrelatedDatasets(ourDSIRIList, IRI.create(EventIRI), myGuy);
+			List<CorrelatedViewLabelDataset> DSOBJList = KIDSDatasetFactory.getCorrelatedDatasets(ourDSIRIList, EventIRI, myGuy);
 
 			for (CorrelatedViewLabelDataset ourDS: DSOBJList){
 				// For each of these signals, we need to map to a dataset and detector
@@ -294,6 +300,9 @@ public class KIDSSignalSelectionInterface {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IncompatibleCorrelationValueException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (UnimplementedIdentifyingFeatureException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -367,8 +376,8 @@ public class KIDSSignalSelectionInterface {
 							  cVals.get("EventIRI"), 
 							  cVals.get("DatasetIRI"),
 							  cVals.get("TimePeriodIRI"));
-			
 		
 	}
+
 
 }

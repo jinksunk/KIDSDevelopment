@@ -29,7 +29,12 @@ import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.ui.RunStreamingKIDSDetector;
 import net.strasnet.kids.ui.components.KIDSUIComponent;
+import net.strasnet.kids.ui.components.KIDSUIComponentFactory;
+import net.strasnet.kids.ui.components.KIDSUIDatasetComponent;
+import net.strasnet.kids.ui.components.KIDSUIDetectorComponent;
 import net.strasnet.kids.ui.components.KIDSUIEventComponent;
+import net.strasnet.kids.ui.components.KIDSUISignalComponent;
+import net.strasnet.kids.ui.components.KIDSUITimePeriodComponent;
 import net.strasnet.kids.ui.components.KIDSUIAbstractComponent.KIDSDatatypeClass;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlert;
 import net.strasnet.kids.ui.gui.alerts.KIDSGUIAlertError;
@@ -171,6 +176,18 @@ public class ABOXBuilderController {
 		iriToComponentMap.put(DETECTORCLASSIRI, 
 							 net.strasnet.kids.ui.components.KIDSUIDetectorComponent.class);
 		supportedClasses.add(DETECTORCLASSIRI);
+
+		dialogDispatcher.put(DETECTORSYNTAXCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(DETECTORSYNTAXCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUIDetectorSyntaxComponent.class);
+		supportedClasses.add(DETECTORSYNTAXCLASSIRI);
+
+		dialogDispatcher.put(SIGNALCONSTRAINTCLASSIRI, 
+							 net.strasnet.kids.ui.gui.KIDSAddIndividualJDialog.class);
+		iriToComponentMap.put(SIGNALCONSTRAINTCLASSIRI, 
+							 net.strasnet.kids.ui.components.KIDSUISignalConstraintComponent.class);
+		supportedClasses.add(SIGNALCONSTRAINTCLASSIRI);
 	};
 	
 	/* Enable Logging */
@@ -386,6 +403,84 @@ public class ABOXBuilderController {
 		logme.debug(String.format("Found %d individuals from class %s.", toReturn.size(), indClass));
 		return toReturn;
 	}
+
+	/**
+	 * Returns the set of signals which can be evaluated given the event and time period. To qualify, a signal must:
+	 * * Be produced by the event;
+	 * * Be present in at least one dataset which includes the time period.
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of KIDSUISignalComponents that will be included of an evaluation of the event in the time period.
+	 */
+	public Set<KIDSUISignalComponent> getEvaluableSignals(KIDSUIEventComponent eventUIC,
+			KIDSUITimePeriodComponent timeUIC) {
+		// First get the set of signals produced by the event:
+		Set<IRI> signalSet = o.getEvaluableSignalsForEventTimePeriod(eventUIC.getIRI(), timeUIC.getIRI());
+		Set<KIDSUISignalComponent> signalUICSet = new HashSet<KIDSUISignalComponent>();
+		
+		for (IRI s : signalSet){
+			try {
+				signalUICSet.add((KIDSUISignalComponent) KIDSUIComponentFactory.getUIComponent(s, KIDSUISignalComponent.class, o));
+			} catch (InstantiationException e) {
+				logme.warn(String.format("Could not create component for signal %s: (%s); skipping...", s.getShortForm(), e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+		return signalUICSet;
+	}
+
+	/**
+	 * Returns the set of signals which can be evaluated given the event and time period. To qualify, a signal must:
+	 * * Be produced by the event;
+	 * * Be present in at least one dataset which includes the time period.
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of KIDSUISignalComponents that will be included of an evaluation of the event in the time period.
+	 */
+	public Set<KIDSUIDatasetComponent> getEvaluableDatasets(KIDSUIEventComponent eventUIC,
+			KIDSUITimePeriodComponent timeUIC) {
+		// First get the set of signals produced by the event:
+		Set<IRI> datasetSet = o.getEvaluableDatasetsForEventTimePeriod(eventUIC.getIRI(), timeUIC.getIRI());
+		Set<KIDSUIDatasetComponent> datasetUICSet = new HashSet<KIDSUIDatasetComponent>();
+		
+		for (IRI s : datasetSet){
+			try {
+				datasetUICSet.add((KIDSUIDatasetComponent) KIDSUIComponentFactory.getUIComponent(s, KIDSUIDatasetComponent.class, o));
+			} catch (InstantiationException e) {
+				logme.warn(String.format("Could not create component for dataset %s: (%s); skipping...", s.getShortForm(), e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+		return datasetUICSet;
+	}
+	/**
+	 * Returns the set of signals which can be evaluated given the event and time period. To qualify, a signal must:
+	 * * Be produced by the event;
+	 * * Be present in at least one dataset which includes the time period.
+	 * 
+	 * @param eventUIC - The event component we are querying
+	 * @param timeUIC - The time period component we are querying
+	 * @return - a set of KIDSUISignalComponents that will be included of an evaluation of the event in the time period.
+	 */
+	public Set<KIDSUIDetectorComponent> getEvaluableDetectors(KIDSUIEventComponent eventUIC,
+			KIDSUITimePeriodComponent timeUIC) {
+		// First get the set of signals produced by the event:
+		Set<IRI> detectorSet = o.getEvaluableDetectorsForEventTimePeriod(eventUIC.getIRI(), timeUIC.getIRI());
+		Set<KIDSUIDetectorComponent> detectorUICSet = new HashSet<KIDSUIDetectorComponent>();
+		
+		for (IRI s : detectorSet){
+			try {
+				detectorUICSet.add((KIDSUIDetectorComponent) KIDSUIComponentFactory.getUIComponent(s, KIDSUIDetectorComponent.class, o));
+			} catch (InstantiationException e) {
+				logme.warn(String.format("Could not create component for detector %s: (%s); skipping...", s.getShortForm(), e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+		return detectorUICSet;
+	}
+
 	
 	/** ************************************************************************************************
 	 *  Methods that manage dynamic UI components

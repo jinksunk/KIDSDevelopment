@@ -136,7 +136,7 @@ public class KIDSAddEventOracle extends KIDSOracle {
 			OWLNamedIndividual sd, KIDSCanonicalRepresentation scr) {
 
 		// Get the property isProducedBy for the signal:
-		OWLObjectProperty producedBy = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + evtSignalRelation));
+		OWLObjectProperty producedBy = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + eventSignalRelation));
 		
 		// Get the object property hasCanonicalRepresentation
 		OWLObjectProperty hasRep = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + signalRepRelation));
@@ -346,7 +346,7 @@ public class KIDSAddEventOracle extends KIDSOracle {
 		r.getInstances(
 				odf.getOWLObjectIntersectionOf(
 						odf.getOWLObjectHasValue(
-								odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + KIDSOracle.evtSignalRelation)), 
+								odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + KIDSOracle.eventSignalRelation)), 
 								event
 							),
 						odf.getOWLObjectHasValue(

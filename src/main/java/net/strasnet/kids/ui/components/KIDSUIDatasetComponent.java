@@ -3,11 +3,15 @@
  */
 package net.strasnet.kids.ui.components;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
@@ -19,6 +23,8 @@ import org.semanticweb.owlapi.model.OWLObjectOneOf;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 
+import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
+import net.strasnet.kids.KIDSOracle;
 import net.strasnet.kids.ui.KIDSUIInferredProperty;
 import net.strasnet.kids.ui.KIDSUIRequiredDataProperty;
 import net.strasnet.kids.ui.KIDSUIRequiredProperty;
@@ -77,6 +83,33 @@ public class KIDSUIDatasetComponent extends KIDSUIAbstractComponent implements K
 
 		}
 		requiredSubclassOf = IRI.create(TBOXIRI + "#Dataset");
+	}
+	
+	@Override
+	public DefaultMutableTreeNode getComponentDetails(DefaultMutableTreeNode root){
+		super.getComponentDetails(root);
+		
+		DefaultMutableTreeNode datasetStats = new DefaultMutableTreeNode("Dataset Details:");
+		root.add(datasetStats);
+
+		// We will need to instantiate the dataset for this, if possible:
+		String location;
+		try {
+			location = o.getDatasetLocation(myIRI);
+			File dsFile = new File(location);
+			datasetStats.add(new DefaultMutableTreeNode(String.format("Canonical filename: %s", dsFile.getCanonicalFile())));
+			datasetStats.add(new DefaultMutableTreeNode(String.format("Can read/write/execute: %s/%s/%s", 
+					dsFile.canRead(), dsFile.canWrite(), dsFile.canExecute())));
+			datasetStats.add(new DefaultMutableTreeNode(String.format("Size (bytes): %s", dsFile.length())));
+		} catch (KIDSOntologyDatatypeValuesException e) {
+			logme.info("Could not load file details about dataset: %s", e);
+		} catch (IOException e) {
+			logme.info("Could not access file details: %s", e);
+		}
+		
+		return root;
+		
+
 	}
 
 }

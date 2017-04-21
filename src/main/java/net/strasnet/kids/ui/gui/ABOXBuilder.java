@@ -3,6 +3,7 @@ package net.strasnet.kids.ui.gui;
 import java.awt.Dialog;
 import java.awt.Dimension;
 import java.awt.EventQueue;
+import java.awt.FlowLayout;
 
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
@@ -24,6 +25,8 @@ import javax.swing.JTree;
 import javax.swing.SwingUtilities;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.event.TreeExpansionEvent;
+import javax.swing.event.TreeExpansionListener;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -54,6 +57,8 @@ import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.HierarchyEvent;
+import java.awt.event.HierarchyListener;
 import java.awt.event.ActionEvent;
 import java.util.HashMap;
 import java.util.List;
@@ -258,6 +263,48 @@ public class ABOXBuilder {
 		JMenuItem mntmValidateModel = new JMenuItem("Validate Model");
 		mnModelActions.add(mntmValidateModel);
 		
+		JMenuItem mntmEvalEvent = new JMenuItem("Evaluate...");
+		mntmEvalEvent.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (model.getState() != ABOXBuilderGUIState.UNINITIALIZED){
+					// Execute the measurement code and return results.
+					KIDSRunMeasurementEvalJDialog getEventInd = new KIDSRunMeasurementEvalJDialog(frame, controller);
+					logme.debug(String.format("KIDSRunMeasurementEvalJDialog loaded..."));
+					getEventInd.setModal(true);
+					logme.debug(String.format("KIDSRunMeasurementEvalJDialog set modal..."));
+					getEventInd.setVisible(true);
+					logme.debug(String.format("KIDSRunMeasurementEvalJDialog visible..."));
+				} else {
+					controller.logappendInfo("ABOX uninitialized; create new or open existing.");
+				}
+
+				processMessageQueue();
+			}
+		});
+		mnModelActions.add(mntmEvalEvent);
+		
+		JMenuItem mntmEvalDatasets = new JMenuItem("Evaluate datasets...");
+		mntmEvalDatasets.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				
+				if (model.getState() != ABOXBuilderGUIState.UNINITIALIZED){
+					// Execute the measurement code and return results.
+					KIDSEvalDatasetViewsJDialog getDatasetViewD = new KIDSEvalDatasetViewsJDialog(frame, controller);
+					logme.debug(String.format("KIDSEvalDatasetViewsJDialog loaded..."));
+					getDatasetViewD.setModal(true);
+					logme.debug(String.format("KIDSEvalDatasetViewsJDialog set modal..."));
+					getDatasetViewD.setVisible(true);
+					logme.debug(String.format("KIDSEvalDatasetViewsJDialog visible..."));
+				} else {
+					controller.logappendInfo("ABOX uninitialized; create new or open existing.");
+				}
+
+				processMessageQueue();
+			}
+		});
+		mnModelActions.add(mntmEvalDatasets);
+		
 		JMenu mnModelInfo = new JMenu("Model Info");
 		menuBar.add(mnModelInfo);
 		
@@ -372,6 +419,56 @@ public class ABOXBuilder {
 			newText.append(String.format("%s\n", m.toString()));
 		}
 		logLines.setText(newText.toString());
+	}
+	
+	class KIDSComponentDetailsJScrollPane extends JScrollPane{
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 3804024214398440319L;
+
+		/**
+		 * This scroll pane is on the far right of the GUI, and displays the tree of component details for the
+		 * selected individual on the far left.
+		 */
+		
+		public KIDSComponentDetailsJScrollPane (final JList<KIDSUIComponent> individualsJList){
+			final DefaultMutableTreeNode root = new DefaultMutableTreeNode("Details:");
+			final JTree detailJTree = new JTree(root);
+			
+			detailJTree.addTreeExpansionListener(new TreeExpansionListener() {
+
+				@Override
+				public void treeCollapsed(TreeExpansionEvent arg0) {
+					// No need to process.
+				}
+
+				@Override
+				public void treeExpanded(TreeExpansionEvent arg0) {
+					// Repaint parent window:
+					KIDSComponentDetailsJScrollPane.this.repaint();
+				}
+
+			}
+			);
+
+			
+			individualsJList.addMouseListener(new MouseAdapter() {
+				@Override
+				public void mousePressed(MouseEvent e){
+					logme.debug("Processing mouse pressed event for details tree...");
+					root.removeAllChildren();
+					if (!individualsJList.isSelectionEmpty()){
+						KIDSUIComponent selected = individualsJList.getSelectedValue();
+						selected.getComponentDetails(root);
+					}
+				}
+				
+			});
+			this.setViewportView(detailJTree);
+		}
+		
+		
 	}
 	
 	class KIDSProblemsJScrollPane extends JScrollPane{
@@ -595,13 +692,15 @@ public class ABOXBuilder {
 		 */
 		public KIDSIndividualProblemsJPanel(final IRI ourClass){
 			this.ourClass = ourClass;
-			JSplitPane KIDSSplitPane = new JSplitPane();
-			this.add(KIDSSplitPane);
+			this.setLayout(new FlowLayout());
+			//JSplitPane KIDSSplitPane = new JSplitPane();
+			//this.add(KIDSSplitPane);
 		
 			JScrollPane IndividualScrollPane = new JScrollPane();
 			IndividualScrollPane.setPreferredSize(new Dimension(300,300));
 			IndividualScrollPane.setMinimumSize(new Dimension(300,300));
-			KIDSSplitPane.setLeftComponent(IndividualScrollPane);
+			this.add(IndividualScrollPane);
+			//KIDSSplitPane.setLeftComponent(IndividualScrollPane);
 		
 			final DefaultListModel<KIDSUIComponent> individualJListModel = new DefaultListModel<KIDSUIComponent>();
 			final JList<KIDSUIComponent> IndividualJList = new JList<KIDSUIComponent>(individualJListModel);
@@ -842,9 +941,17 @@ public class ABOXBuilder {
 		
 			KIDSProblemsJScrollPane ProblemScrollPane = 
 				new KIDSProblemsJScrollPane(IndividualJList);
-			//ProblemScrollPane.setPreferredSize(new Dimension(300,300));
+			ProblemScrollPane.setPreferredSize(new Dimension(300,300));
 			ProblemScrollPane.setMinimumSize(new Dimension(300,300));
-			KIDSSplitPane.setRightComponent(ProblemScrollPane);
+			this.add(ProblemScrollPane);
+			//KIDSSplitPane.setRightComponent(ProblemScrollPane);
+			
+			KIDSComponentDetailsJScrollPane DetailsScrollPane = 
+					new KIDSComponentDetailsJScrollPane(IndividualJList);
+			DetailsScrollPane.setPreferredSize(new Dimension(300,300));
+			DetailsScrollPane.setMinimumSize(new Dimension(300,300));
+			this.add(DetailsScrollPane);
+			//KIDSSplitPane.add(DetailsScrollPane);
 		
 			/**
 			// Someday we may want to put this back

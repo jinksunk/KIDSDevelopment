@@ -41,7 +41,7 @@ $ bro -b -r ./smallStartSample.pcap genNetFlowlog.bro
 ```
 5) Combine pcap files and log files:
 ```bash
-$ mergecap -w packets.pcap -F pcap ./attacktmp.pcap ./smallStartSample.pcap 
+$ mergecap -w packets.pcap -F pcap ./attacktmp.pcap ./smallStartSample.pcapng ./smallStartSample.pcap 
 $ python3 w3clogmerge.py loglines.txt attacktmp.txt > logs.txt
 ```
 6) Generate the properties file using the GUI tool

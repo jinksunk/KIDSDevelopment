@@ -83,4 +83,46 @@ public class KIDSUIEventComponent extends KIDSUIAbstractComponent implements KID
 				datProps.size()));
 	}
 
+	/**
+	 * To be eligable as an evaluation time period, the time period must.
+	 * 
+	 * @return - A set (possibly empty) of time periods over which this event can be evaluated in the current setup.
+	 */
+	public Set<KIDSUITimePeriodComponent> getAvailableTimePeriods() {
+		Set<IRI> compatibleTimePeriods = o.getTimePeriodsForEvent(getIRI());
+		Set<KIDSUITimePeriodComponent> toReturn = new HashSet<KIDSUITimePeriodComponent>();
+		
+		for (IRI t : compatibleTimePeriods){
+			try {
+				toReturn.add((KIDSUITimePeriodComponent) KIDSUIComponentFactory.getUIComponent(t, KIDSUITimePeriodComponent.class, o));
+			} catch (InstantiationException e) {
+				logme.warn(String.format("Could not instantiate component: %s (%s) ... skipping.", t, e.getMessage()));
+			}
+		}
+
+		return toReturn;
+	}
+
+	/**
+	 * Return the list of dataset views by which this event can be evaluated. - Note: there may be multiple views for a single
+	 * dataset.
+	 * @return - A set of dataset view components.
+	 */
+	public Set<KIDSUIDatasetViewComponent> getAvailableDatasetViews() {
+		Set<IRI> dvSet = o.getDatasetViewsForEvent(getIRI());
+		Set<KIDSUIDatasetViewComponent> toReturn = new HashSet<KIDSUIDatasetViewComponent>();
+
+		
+		for (IRI dv : dvSet){
+			try {
+				toReturn.add((KIDSUIDatasetViewComponent) KIDSUIComponentFactory.getUIComponent(dv, KIDSUIDatasetViewComponent.class, o));
+			} catch (InstantiationException e) {
+				logme.warn(String.format("Could not instantiate component for %s (class %s): %s", dv, KIDSUIDatasetViewComponent.class, e.getMessage()));
+				e.printStackTrace();
+			}
+		}
+
+		return toReturn;
+	}
+
 }

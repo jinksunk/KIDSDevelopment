@@ -4,7 +4,10 @@
 package net.strasnet.kids.ui.components;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
+
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import org.semanticweb.owlapi.model.IRI;
 
@@ -44,5 +47,12 @@ public interface KIDSUIComponent {
 	 * @return - The self-identified defining location for this component.
 	 */
 	KIDSComponentDefinition getDefiningLocation();
+	
+	/**
+	 * @param root - The root of the tree to populate with details.
+	 * 
+	 * @return - A hierarchy of strings that provide details about the individual
+	 */
+	public DefaultMutableTreeNode getComponentDetails(DefaultMutableTreeNode root);
 
 }

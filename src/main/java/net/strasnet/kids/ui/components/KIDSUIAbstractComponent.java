@@ -10,6 +10,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.swing.tree.DefaultMutableTreeNode;
+
 import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -149,7 +151,9 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		
 		// If subclass membership is required, ensure that we are a member of a strict subclass:
 		if (requiredSubclassOf != null){
+			logme.debug(String.format("Checking that individual %s is a member of a subclass of %s...",getIRI().getShortForm(), requiredSubclassOf.getShortForm()));
 			if (!o.isMemberOfStrictSubclass(requiredSubclassOf, myIRI)){
+				logme.debug(String.format("Individual %s is not a member of a subclass of %s; adding as a problem...",getIRI().getShortForm(), requiredSubclassOf.getShortForm()));
 				toReturn.add(new KIDSSubclassRequiredUIProblem(
 						String.format("%s must be a member of a subclass of %s", 
 								o.getShortIRIString(myIRI), 
@@ -212,5 +216,64 @@ public abstract class KIDSUIAbstractComponent implements KIDSUIComponent {
 		}
 		return this.deflocation;
 	}
+	
+	@Override
+	/**
+	 * 	 * @param root - The root of the tree to populate with details.
+	 * 
+	 * @return - A tree node hierarchy of values that provide details about the individual. All components will provide at least:
+	 *            + Object Property Values 
+	 *              + Property IRI: 
+	 *                + individual IRI 1
+	 *                ...
+	 *            + Data Property Values   
+	 *              + Property IRI: 
+	 *                + string value 1
+	 *                ...
+	 *            + Class Memberships:
+	 *              + Class IRI
+	 */
+	public DefaultMutableTreeNode getComponentDetails(DefaultMutableTreeNode root){
+		
+		// First, get all of the object properties associated with this individual:
+		DefaultMutableTreeNode objectProperties = new DefaultMutableTreeNode("Object Properties:");
+		Map<IRI, List<IRI>> objProps = o.getObjectPropertyValues(myIRI);
+		for (IRI oprop : objProps.keySet()){
+			DefaultMutableTreeNode opropNode = new DefaultMutableTreeNode(oprop.getShortForm());
+			for (IRI val : objProps.get(oprop)){
+				DefaultMutableTreeNode opropValNode = new DefaultMutableTreeNode(val.getShortForm());
+				opropNode.add(opropValNode);
+			}
+			objectProperties.add(opropNode);
+		}
+		root.add(objectProperties);
+		
+		// Next, get all of the data property values:
+		DefaultMutableTreeNode dataProperties = new DefaultMutableTreeNode("Data Properties:");
+		Map<IRI, List<String>> datProps = o.getDataPropertyValues(myIRI);
+		for (IRI dprop : datProps.keySet()){
+			DefaultMutableTreeNode dpropNode = new DefaultMutableTreeNode(dprop.getShortForm());
+			for (String val : datProps.get(dprop)){
+				DefaultMutableTreeNode dpropValNode = new DefaultMutableTreeNode(val);
+				dpropNode.add(dpropValNode);
+			}
+			dataProperties.add(dpropNode);
+		}
+		root.add(dataProperties);
+		
+		// Next, get all of the subclasses:
+		DefaultMutableTreeNode subclassMemberships = new DefaultMutableTreeNode("Subclass Memberships:");
+		List<IRI> subclasses = o.getClassMemberships(myIRI);
+		
+		for (IRI sub : subclasses){
+			DefaultMutableTreeNode subNode = new DefaultMutableTreeNode(sub.getShortForm());
+			subclassMemberships.add(subNode);
+		}
+		root.add(subclassMemberships);
+		
+		return root;
+
+	}
+
 
 }

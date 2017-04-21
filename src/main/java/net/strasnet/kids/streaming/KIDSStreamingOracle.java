@@ -60,7 +60,7 @@ public class KIDSStreamingOracle extends KIDSMeasurementOracle {
 		    // Next, query on the http://solomon.cs.iastate.edu/ontologies/KIDS.owl#isProducerOf property to associate signals with the events
 		    // they could possibly produce; we want a map from signals -> events. 
 			for (OWLNamedIndividual event : evMembers){
-				OWLObjectPropertyExpression isProducerOfEx = odf.getOWLObjectProperty(IRI.create(this.eventSignalRelation));
+				OWLObjectPropertyExpression isProducerOfEx = odf.getOWLObjectProperty(this.eventSignalRelation);
 				Set<OWLNamedIndividual> sigMembers = r.getObjectPropertyValues(event, isProducerOfEx).getFlattened();
 				// Well, now we need to build a set of IRIs from the OWLNamedIndividuals
 				Set<IRI> sigMemberIRIs = new HashSet<IRI>();
@@ -80,7 +80,7 @@ public class KIDSStreamingOracle extends KIDSMeasurementOracle {
 		for (Set<IRI> key : eventMap.keySet()){
 			if (checkEvent(key, currentSignalSet)){
 				matchedEvents.add(eventMap.get(key));
-				logme.debug(String.format("Event %s matched %d signals...", eventMap.get(key).getFragment(), key.size()));
+				logme.debug(String.format("Event %s matched %d signals...", eventMap.get(key).getShortForm(), key.size()));
 			}
 		}
 		
@@ -97,19 +97,19 @@ public class KIDSStreamingOracle extends KIDSMeasurementOracle {
 		StringBuilder dbug = new StringBuilder();
 		dbug.append("Known signals include: (");
 		for (IRI i1 : knownSigSet){
-			dbug.append(String.format("%s, ", i1.getFragment()));
+			dbug.append(String.format("%s, ", i1.getShortForm()));
 		}
 		dbug.append(")");
 		
 		dbug.append("; Event signals include: (");
 		for (IRI i2 : eventSigSet){
-			dbug.append(String.format("%s, ", i2.getFragment()));
+			dbug.append(String.format("%s, ", i2.getShortForm()));
 		}
 		dbug.append(")");
 
 		for (IRI i : eventSigSet){
 			if (!knownSigSet.contains(i)){
-				logme.debug(String.format("Event failed to match signal %s", i.getFragment()));
+				logme.debug(String.format("Event failed to match signal %s", i.getShortForm()));
 				logme.debug(dbug);
 				return false;
 			}
@@ -118,10 +118,10 @@ public class KIDSStreamingOracle extends KIDSMeasurementOracle {
 	}
 
 	public Set<IRI> getSignalsForEvent(IRI event) {
-		logme.debug(String.format("Getting signals for event %s", event.getFragment()));
+		logme.debug(String.format("Getting signals for event %s", event.getShortForm()));
 		Set<IRI> toReturn = new HashSet<IRI>();
 		Set<OWLNamedIndividual> oniSet = r.getObjectPropertyValues(odf.getOWLNamedIndividual(event), 
-				                                                   odf.getOWLObjectProperty(IRI.create(KIDSStreamingOracle.eventSignalRelation))).getFlattened();
+				                                                   odf.getOWLObjectProperty(KIDSStreamingOracle.eventSignalRelation)).getFlattened();
 		logme.debug(String.format("Executing query (%s, %s, ?)", event, KIDSStreamingOracle.eventSignalRelation));
 		for (OWLNamedIndividual i : oniSet){
 			toReturn.add(i.getIRI());

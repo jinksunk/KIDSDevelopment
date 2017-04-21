@@ -113,6 +113,8 @@ public class KIDSEIDMeasure {
 		boolean fnDebug = true;
 		boolean tnDebug = true;
 		boolean tpDebug = true;
+
+		logme.debug(String.format("Evaluating EID over %d dataset instances and %d signals.", d.numCorrelatedInstances(), s.size()));
 		
 		RecursiveResult toReturn = new RecursiveResult();
 		toReturn.setSignals(s);
@@ -140,6 +142,8 @@ public class KIDSEIDMeasure {
 		}
 		
 		BInum = Inum - EInum; // Benign bags (instances) (non-event related)
+		
+		logme.debug(String.format("Bagged Instances: %d ; Event bags: %d ; Benign bags: %d", Inum, EInum, BInum));
 		
 		/*** Numerators - Based on IDS correlated data ***/
 		// To get the overall performance of a set of signals, we need to determine:
@@ -187,6 +191,7 @@ public class KIDSEIDMeasure {
 		// This is the loop where we handle tp credits and fn discounts
 		for (i = 1; i < SEInumAry.length; i++){
 			if (SEInumAry[i] == 0){
+				logme.debug(String.format("No signals for event %d detected.", i));
 				continue;
 			}
 
@@ -198,9 +203,10 @@ public class KIDSEIDMeasure {
 			    SEInumAry[i] = 0;
 			    eventMatches.put(i, true);
 			}
+			logme.debug(String.format("Detected event %d.", i));
 
 		}
-		
+
 		/**
 		 * Suppose we have 10 instances, three event related, and 7 benign.  There is one event.
 		 * Our correlation function groups the 2 of the event and three other instances together, and the other 
@@ -220,6 +226,9 @@ public class KIDSEIDMeasure {
 		SBInum = SInum - SEInum;  // Number of raw benign bags caught by the signal
 		NBInum = BInum - SBInum;  // Number of raw benign bags not caught by the signal
 		NEInum = EInum - SEInum;  // Number of raw event bags not caught by the signal
+		
+		logme.debug(String.format("Signal set identified %d total instances, with %d true positives, %d false positive.", 
+				SInum, SEInum, SBInum));
 		
 		// Compute Entropies:
 		if (Inum > 0){
@@ -318,7 +327,7 @@ public class KIDSEIDMeasure {
 	 * @param c2 - The count of instances of class 2
 	 * @return The entropy H(c) = - (p(c1)*log_2(p(c1)) + p(c2)*log_2(p(c2)))
 	 */
-	private static double computeEntropy(int c1, int c2){
+	static double computeEntropy(int c1, int c2){
 		if (c1 == 0 || c2 == 0){
 			return 0;
 		}

@@ -23,10 +23,13 @@ import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.datasetviews.KIDSUnsupportedSchemeException;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
 public class ViewLabelDataset implements Dataset {
+	
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(ViewLabelDataset.class.getName());
 	
 	private DatasetView dv;
 	private DatasetView positiveOnlyView;
@@ -60,9 +63,9 @@ public class ViewLabelDataset implements Dataset {
 			DatasetLabel dl, 
 			KIDSMeasurementOracle o,
 			IRI eventIRI) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
-		this.datasetLocation = o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI));
+		this.datasetLocation = o.getDatasetLocation(this.ourIRI);
 		this.dv = dv;
-		dv.generateView(o.getDatasetLocation(o.getOwlDataFactory().getOWLNamedIndividual(this.ourIRI)), 
+		dv.generateView(o.getDatasetLocation(this.ourIRI), 
 				o, 
 				dl.getIdentifyingFeatures());
 		this.dl = dl;
@@ -276,6 +279,29 @@ public class ViewLabelDataset implements Dataset {
 
 	public DatasetLabel getDatasetLabel() {
 		return this.dl;
+	}
+
+	/**
+	 * This should be computed as part of the viewLabelDataset, since it includes the data *and* the label function.
+	 * @return - The entropy of the dataset according to the label function.
+	 */
+	public double getEntropy() {
+		try {
+			int[] class2ary = this.numPositiveInstances();
+			int class2 = 0;
+			for (int i = 0; i < class2ary.length; i++){
+				class2 += class2ary[i];
+			}
+
+			int class1 = this.numInstances() - class2;
+			logme.debug(String.format("Computing entropy of %d positive instances and %d negative instances.", class2, class1));
+			return KIDSEIDMeasure.computeEntropy(class1, class2);
+		} catch (KIDSUnEvaluableSignalException | UnimplementedIdentifyingFeatureException | KIDSOntologyDatatypeValuesException | KIDSOntologyObjectValuesException | InstantiationException | IllegalAccessException | ClassNotFoundException | IOException | KIDSIncompatibleSyntaxException e) {
+			logme.error(String.format("Could not compute entropy of dataset: %s", e.getMessage()), e);
+			e.printStackTrace();
+			return 0;
+		}
+		
 	}
 
 }
