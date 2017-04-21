@@ -12,13 +12,14 @@ options {
 @header {
   package net.strasnet.nfa;
   import java.util.LinkedList;
+  import java.util.List;
   import java.util.Iterator;
   import java.util.HashMap;
   }
   
-@lexer::header {
-  package net.strasnet.nfa;
-}
+//@lexer::header {
+ // package net.strasnet.nfa;
+//}
 
 @members {
   List <Character> opStack;
@@ -39,7 +40,7 @@ options {
 //   * a signature
 //   * an IP context, including all features
 nfa returns [ThompsonNFA result]
-  @init { opStack = new LinkedList<Character>(); argStack = new LinkedList<ThompsonNFA>();}
+  @init { ThompsonNFA result; opStack = new LinkedList<Character>(); argStack = new LinkedList<ThompsonNFA>();}
   @after { result = argStack.remove(0); if (argStack.size() > 0){ System.err.println("Parsing incorrect!");}}
   : SLASH expression SLASH modifiers*
   ;
@@ -135,7 +136,7 @@ op
   ;
 
 qrange returns [List<Integer> range]
-  @init {range = new LinkedList<Integer>();}
+  @init {List<Integer> range = new LinkedList<Integer>();}
   : '{' fd=DIGIT+ ',' sd=DIGIT+ '}' {range.add(new Integer($fd.text)); range.add(new Integer($sd.text));}
   | '{' fd=DIGIT+ ',' '}' {range.add(new Integer($fd.text)); range.add(new Integer(-1));}
   | '{' ',' sd=DIGIT+ '}' {range.add(new Integer(0)); range.add(new Integer($sd.text));}

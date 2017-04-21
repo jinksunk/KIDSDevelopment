@@ -1,0 +1,492 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semantiknit.com/ontologies/2016/08/04/testKIDSStreamingTCPDetector.owl"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.semantiknit.com/ontologies/2016/08/04/testKIDSStreamingTCPDetector.owl">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="ABOX" IRI="http://www.semantiknit.com/ontologies/2015/03/28/KIDS-CodeRedTest.owl#"/>
+    <Prefix name="TBOX" IRI="http://solomon.cs.iastate.edu/ontologies/KIDS.owl#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>https://www.semantiknit.com/ontologies/KIDS-TBOX.owl</Import>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal xml:lang="en" datatypeIRI="&rdf;PlainLiteral">This ontology is a small test sample for exercising some of the KIDS code.</Literal>
+    </Annotation>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedExperimentTimePeriod1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedPropagationAttempt"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:DefaultIDASignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:Integer80"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:MaliciousByteSequenceSignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:MaliciousSourceIPSignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:PacketLengthGreaterThan239SignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:STDDEVThresholdExceededDoubleValue3"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignalValue"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+    </Declaration>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:BroIDSPolicy"/>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:LibPcap_IPPacketView"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:DatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:IISEventLogDataset"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:WindowsEventLog_TextFileView"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:IntegerValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:Integer80"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:ByteHexDelimitedValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:MaliciousByteSequenceSignalValue"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:SnortRule"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:TCPDestinationPort_IntegerRangeSet"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="TBOX:LibPcapFilterDefinition"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacket_SourceIPAddressRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalSYSLOGDataset1ViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IISEventLogMessageContext_IPv4SourceAddressSignalDomainRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:SignalManifestationIncludesSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPDestinationPortNumberRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:realizesSignalRepresentation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPacket_TCPFlagsRepresentation1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSyntax"/>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+        <NamedIndividual abbreviatedIRI="TBOX:broEventDetectionSyntax"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPPayloadSizeRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:providesViewOf"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isLabelForEvent"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedPropagationAttempt"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:HTTPGetParameterRepresentation1_IISEventLogDatasetTextViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalSYSLOGDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:providesViewOf"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1View1"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isLabelForEvent"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedPropagationAttempt"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isLabelForTimePeriod"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedExperimentTimePeriod1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:coincidesWithDatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedExperimentTimePeriod1"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isProducerOf"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedPropagationAttempt"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:HTTPGetParameterRepresentation1_IISEventLogDatasetTextViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalSYSLOGDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSyntax"/>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:Grep2.5.1RuleSyntax"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasConstraint"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:singleBitmaskMatchNonZero"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasDomain"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlags"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignal"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignalValue"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:hasSignalValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+        <NamedIndividual abbreviatedIRI="ABOX:Integer80"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:isEvaluableWithDataset"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPDestinationPort80Signal"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPDestinationPortNumberRepresentation1_CodeRedEvalPCAPDataset1View1Manifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:TCPFlagsRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="TBOX:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <NamedIndividual abbreviatedIRI="TBOX:PacketLengthRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:responseImplementation"/>
+        <NamedIndividual abbreviatedIRI="TBOX:hostFWBlock"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.responses.hostFWBlock</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">/opt/bro/bin/bro</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual abbreviatedIRI="ABOX:BroIDSDetector"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectors.KIDSBroDetector</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1"/>
+        <Literal datatypeIRI="&rdfs;Literal">/Users/cstras/Box Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/test/ssmerged.pcap</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:datasetParserImplementation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPDataset1"/>
+        <Literal datatypeIRI="&rdfs;Literal">net.strasnet.kids.measurement.ViewLabelDataset</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasLabelDataLocation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+        <Literal datatypeIRI="&xsd;string">/Users/cstras/Box Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/test/test2.pcap.txt</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasLabelFunction"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalPCAPLabelFile"/>
+        <Literal datatypeIRI="&xsd;string">net.strasnet.kids.measurement.datasetlabels.KIDSNativeLibpcapTruthFile2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:datasetLocation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1"/>
+        <Literal datatypeIRI="&xsd;string">/Users/cstras/Box Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/test/test2.log</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:datasetParserImplementation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGDataset1"/>
+        <Literal datatypeIRI="&xsd;string">net.strasnet.kids.measurement.ViewLabelDataset</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasLabelDataLocation"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+        <Literal datatypeIRI="&xsd;string">/Users/cstras/Box Sync/Academic/research/papers/2013-MeasurementPaper/experiments/CodeRedEvent-Dataset1/test/test2.log.txt</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasLabelFunction"/>
+        <NamedIndividual abbreviatedIRI="ABOX:CodeRedEvalSYSLOGLabelFile"/>
+        <Literal datatypeIRI="&xsd;string">net.strasnet.kids.measurement.datasetlabels.KIDSWindowsEventLogTruthFile</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:DefaultIDASignalValue"/>
+        <Literal datatypeIRI="&xsd;string">default.ida</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+        <Literal datatypeIRI="&xsd;string">/usr/bin/grep</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual abbreviatedIRI="ABOX:IISLogGrepRuleForCodeRed"/>
+        <Literal datatypeIRI="&xsd;string">net.strasnet.kids.detectors.KIDSGrepDetector</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:Integer80"/>
+        <Literal datatypeIRI="&xsd;string">[80:80]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:MaliciousByteSequenceSignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">|20646566 61756C74 2E696461 3F4E4E4E|</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:MaliciousSourceIPSignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">[111.111.111.112/32,111.111.111.45/32,111.111.111.33/32]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:PacketLengthGreaterThan239SignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">[239:65535]</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:STDDEVThresholdExceededDoubleValue3"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">3.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+        <Literal datatypeIRI="&xsd;string">/usr/local/bin/snort</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual abbreviatedIRI="ABOX:SnortRuleForCodeRed"/>
+        <Literal datatypeIRI="&xsd;string">net.strasnet.kids.detectors.KIDSSnortDetector</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasValue"/>
+        <NamedIndividual abbreviatedIRI="ABOX:TCPACKFlagSetSignalValue"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">0x10</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:detectorExecutionCommand"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">/usr/sbin/tcpdump</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="TBOX:hasImplementationClass"/>
+        <NamedIndividual abbreviatedIRI="ABOX:tcpdumpFilterCommandForCodeRed"/>
+        <Literal datatypeIRI="&rdf;PlainLiteral">net.strasnet.kids.detectors.KIDSTcpDumpDetector</Literal>
+    </DataPropertyAssertion>
+    <ObjectPropertyDomain>
+        <ObjectProperty abbreviatedIRI="TBOX:isAppliedByDetector"/>
+        <Class abbreviatedIRI="TBOX:Signal"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty abbreviatedIRI="TBOX:isAppliedByDetector"/>
+        <Class abbreviatedIRI="TBOX:Detector"/>
+    </ObjectPropertyRange>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AbbreviatedIRI>ABOX:CodeRedEvalPCAPDataset1View1</AbbreviatedIRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">aaarg</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <AbbreviatedIRI>ABOX:IISLogGrepRuleForCodeRed</AbbreviatedIRI>
+        <Literal datatypeIRI="&rdf;PlainLiteral">A (simple, i.e. not extended) grep rule in the 2.5.1 file-glob syntax.</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+

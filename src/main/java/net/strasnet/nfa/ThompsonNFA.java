@@ -12,9 +12,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 
-import org.antlr.runtime.ANTLRStringStream;
-import org.antlr.runtime.CommonTokenStream;
-import org.antlr.runtime.RecognitionException;
+import org.antlr.v4.runtime.CommonTokenStream;
+import org.antlr.v4.runtime.RecognitionException;
+
+import net.strasnet.nfa.parseThompsonREParser.NfaContext;
+
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.ANTLRInputStream;
 
 
 /**
@@ -48,14 +52,14 @@ public class ThompsonNFA {
 			ThompsonNFA newMe = null;
 			if (string.startsWith("/") && string.endsWith("/")){
 				// Load our Lexer:
-				parseThompsonRELexer lexer = new parseThompsonRELexer();
-				lexer = new parseThompsonRELexer(new ANTLRStringStream(string));
+				parseThompsonRELexer lexer = new parseThompsonRELexer((CharStream) new ANTLRInputStream(string));
+				lexer = new parseThompsonRELexer(new ANTLRInputStream(string));
 			
 				// Load our parser:
 				CommonTokenStream rulesStream = new CommonTokenStream(lexer);
 				parseThompsonREParser parser = new parseThompsonREParser(rulesStream);
 				try {
-					newMe = parser.nfa();
+					newMe = parser.nfa().result;
 				} catch (RecognitionException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -65,13 +69,13 @@ public class ThompsonNFA {
 				// Assume we are doing a canonical form rebuild:
 				// Load our Lexer:
 				parseCanonicalREStringLexer lexer;
-				lexer = new parseCanonicalREStringLexer(new ANTLRStringStream(string));
+				lexer = new parseCanonicalREStringLexer(new ANTLRInputStream(string));
 			
 				// Load our parser:
 				CommonTokenStream rulesStream = new CommonTokenStream(lexer);
 				parseCanonicalREStringParser parser = new parseCanonicalREStringParser(rulesStream);
 				try {
-					newMe = parser.nfa();
+					newMe = parser.nfa().result;
 				} catch (RecognitionException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

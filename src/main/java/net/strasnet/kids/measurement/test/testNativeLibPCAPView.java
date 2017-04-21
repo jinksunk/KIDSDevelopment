@@ -7,7 +7,7 @@
  * 
  * In addition, this test class also tests KIDSLibpcapDataInstance inner class.
  */
-package net.strasnet.kids.measurement.datasetviews.test;
+package net.strasnet.kids.measurement.test;
 
 import java.io.File;
 import java.io.IOException;
@@ -26,6 +26,7 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import net.strasnet.kids.KIDSOntologyDatatypeValuesException;
 import net.strasnet.kids.KIDSOntologyObjectValuesException;
 import net.strasnet.kids.KIDSOracle;
+import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
 import net.strasnet.kids.detectorsyntaxproducers.KIDSIncompatibleSyntaxException;
 import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Dataset;
@@ -138,9 +139,10 @@ public class testNativeLibPCAPView {
 	 * @throws KIDSOntologyDatatypeValuesException 
 	 * @throws KIDSUnEvaluableSignalException 
 	 * @throws KIDSIncompatibleSyntaxException 
+	 * @throws UnimplementedIdentifyingFeatureException 
 	 */
 	@Test
-	public void testNumInstances() throws IOException, KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException{
+	public void testNumInstances() throws IOException, KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, InstantiationException, IllegalAccessException, ClassNotFoundException, KIDSUnEvaluableSignalException, KIDSIncompatibleSyntaxException, UnimplementedIdentifyingFeatureException{
 
 		System.out.println("Testing " + testSet1InstanceCount + " == " + testSet1.numInstances());
 		assertTrue(testSet1InstanceCount == testSet1.numInstances());

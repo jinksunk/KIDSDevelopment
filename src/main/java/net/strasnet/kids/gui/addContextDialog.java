@@ -160,8 +160,8 @@ public class addContextDialog extends JDialog {
 		public void actionPerformed(ActionEvent e) {
 			String selectedContextClass = (String)list.getSelectedValue();
 			
-			ko.addContextToKB(ko.getOwlDataFactory().getOWLNamedIndividual(IRI.create(ko.getOurIRI().toString() + "#" + contextNameTextField.getText())), 
-					          ko.getOwlDataFactory().getOWLClass(IRI.create(ko.getOurIRI().toString() + "#" + selectedContextClass)));
+			ko.addContextToKB(ko.getOwlDataFactory().getOWLNamedIndividual(IRI.create(ko.getABOXIRI().toString() + "#" + contextNameTextField.getText())), 
+					          ko.getOwlDataFactory().getOWLClass(IRI.create(ko.getTBOXIRI().toString() + "#" + selectedContextClass)));
 			
 			pa.processWindowEvent(new WindowEvent(pa, WindowEvent.WINDOW_CLOSING));
 

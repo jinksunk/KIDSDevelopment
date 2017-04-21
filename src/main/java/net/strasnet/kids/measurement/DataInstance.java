@@ -14,6 +14,8 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 /**
  * The DataInstance interface abstracts out the general methods and parameters of 
  * @author chrisstrasburg
+ * 
+ * TODO: Add signal set to the data instance; any matched signals are stored as a set of IRIs.
  *
  */
 public interface DataInstance {

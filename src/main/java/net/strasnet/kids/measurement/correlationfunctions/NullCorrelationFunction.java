@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 public class NullCorrelationFunction implements CorrelationFunction {
@@ -27,7 +27,7 @@ public class NullCorrelationFunction implements CorrelationFunction {
 	/*
 	public static final IRI relatedResource = IRI.create(kidsTbox + "#IPv4SourceAddressSignalDomain"); // What should we set this to?  Do we need it?
 	*/
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(NullCorrelationFunction.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(NullCorrelationFunction.class.getName());
 	
 	/**
 	 * 

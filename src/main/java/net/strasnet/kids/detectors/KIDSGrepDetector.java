@@ -26,8 +26,8 @@ import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInsta
 import net.strasnet.kids.measurement.datasetviews.DatasetView;
 import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -234,7 +234,7 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 		
 		// Look for each other resource in the line:
 		String[] commaFields = dataLine.split(",",5);
-		returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#instanceTimestamp"), commaFields[1]);
+		returnValue.put(IRI.create(KIDSAbstractDetector.featureIRI + "#instanceTimestamp"), commaFields[1]);
 	   	logme.debug(String.format("Read value for timestamp = %s",commaFields[1]));
 
 		//TODO: Extract LogLine ID from the line:
@@ -245,10 +245,10 @@ public class KIDSGrepDetector extends KIDSAbstractDetector implements KIDSDetect
 			// Extract known keys from the kvpair part of the log entry
 			String[] kvPair = kvField.split("=");
 			if (kvPair[0].equals("SRC")){
-				returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#IPv4SourceAddressSignalDomain"), kvPair[1]);
+				returnValue.put(IRI.create(KIDSAbstractDetector.featureIRI + "#IPv4SourceAddressSignalDomain"), kvPair[1]);
 				logme.debug(String.format("Read value for IPv4SourceAddressSignalDomain = %s",commaFields[1]));
 			} else if (kvPair[0].equals("HTTPGetParameter")){
-				returnValue.put(IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#HTTPGetParameterSignalDomain"), kvPair[1]);
+				returnValue.put(IRI.create(KIDSAbstractDetector.featureIRI + "#HTTPGetParameterSignalDomain"), kvPair[1]);
 				logme.debug(String.format("Read value for HTTPGetParameter = %s",commaFields[1]));
 			}
 		}

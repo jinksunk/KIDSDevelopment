@@ -18,6 +18,9 @@ import net.strasnet.nfa.parseCanonicalREStringParser;
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CommonTokenStream;
 import org.antlr.runtime.RecognitionException;
+import org.antlr.runtime.TokenSource;
+import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.TokenStream;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -103,23 +106,25 @@ public class SnortRuleContentComponent extends AbstractSnortRuleComponent {
 			// Assume we are doing a canonical form rebuild:
 			// Load our Lexer:
 			parseCanonicalREStringLexer lexer;
-			lexer = new parseCanonicalREStringLexer(new ANTLRStringStream(an));
+			lexer = new parseCanonicalREStringLexer((CharStream) new ANTLRStringStream(an));
 		
 			// Load our parser:
-			CommonTokenStream rulesStream = new CommonTokenStream(lexer);
-			parseCanonicalREStringParser parser = new parseCanonicalREStringParser(rulesStream);
-			try {
-				newMe = parser.nfa();
+			CommonTokenStream rulesStream = new CommonTokenStream((TokenSource) lexer);
+			parseCanonicalREStringParser parser = new parseCanonicalREStringParser((TokenStream) rulesStream);
+			/*try {*/
+				newMe = parser.nfa().result;
 //				System.out.println("newMe:\n" + newMe);
 				GNFA backToRegex = new GNFA(newMe);
 //				System.out.println("GNFAMe:\n" + backToRegex);
 				return "pcre:\"" + backToRegex.generateRegex() + "\";";
-			} catch (RecognitionException e) {
+			/*} 
+			catch (RecognitionException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				System.exit(1);
 			}
 			return "";
+			*/
 		}
 	}
 	

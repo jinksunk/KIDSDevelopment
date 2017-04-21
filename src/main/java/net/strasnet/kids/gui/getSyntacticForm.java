@@ -134,7 +134,9 @@ public class getSyntacticForm extends JDialog implements ActionListener {
 		}
 		
 		// Ask the KO for the syntactic form:
-		String sf = ko.getSyntacticForm(sForm);
+		//String sf = ko.getSyntacticForm(sForm);
+		//TODO: Update the syntactic form production method in the oracle.
+		String sf = null;
 		
 		// Update the text box with the correct form:
 		textArea.setText(sf);

@@ -24,7 +24,7 @@ import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance;
 import net.strasnet.kids.measurement.datasetinstances.KIDSSnortDataInstance;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 /**
@@ -39,7 +39,7 @@ import org.semanticweb.owlapi.model.IRI;
  */
 public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements DatasetLabel {
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSNativeLibpcapTruthFile2.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSNativeLibpcapTruthFile2.class.getName());
 //	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-]+),(?<dip>[\\d-]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
 	private static String regexPattern = "(?<timestamp>[\\d-]+),(?<pid>[\\d-]+),(?<sip>[\\d-\\.]+),(?<dip>[\\d-\\.]+),(?<oid>\\d+)\\s+(?<eid>\\d+)";
     private Pattern rexp;
@@ -70,9 +70,11 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 		// Read in file and build the labelKey
 		logme.info(String.format("Reading labels from file: %s", labelFileIRI));
 		BufferedReader r = new BufferedReader(new FileReader(new File(labelFileIRI)));
+		int lineCount = 0;
 		
 		String line;
 		while ((line = r.readLine()) != null){
+			lineCount += 1;
 			Matcher rm = rexp.matcher(line);
 			if (rm.matches()){
 				HashMap<IRI,String> vals = new HashMap<IRI,String>();
@@ -107,9 +109,17 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 				    labelKey.put(tempGuy.hashCode(), new Label(seenEvents.get(eid), true));
 				}
 				logme.debug(String.format("Added labelKey for instance %s (hash value %d)",tempGuy.getID(),tempGuy.hashCode()));
+			} else {
+				logme.warn(String.format("Line %s in label file %s could not be matched to regular expression /%s/.", 
+						line, labelFileIRI, regexPattern));
 			}
 		}
 		r.close();
+		logme.info(String.format("Read %d lines from label File %s, containing %d events identified for %d instances.", 
+											lineCount,
+											labelFileIRI.toString(),
+											seenEvents.keySet().size(),
+											labelKey.keySet().size()));
 	}
 
 	@Override
@@ -117,7 +127,7 @@ public class KIDSNativeLibpcapTruthFile2 extends AbstractDatasetLabel implements
 	 * IP ID is: <PID><DIP><SIP>
 	 */
 	public Label getLabel(DataInstance dve) {
-		logme.debug(String.format("Setting label for %s...",dve.getID()));
+		logme.debug(String.format("Setting label for %s (hashcode %s)...",dve.getID(), dve.hashCode()));
 		if (labelKey.containsKey(dve.hashCode())){ //Integer.parseInt(dve.getID()))){
 			dve.setLabel(labelKey.get(dve.hashCode()));
 			logme.debug(String.format("Found hashkey for code: %s",dve.hashCode()));

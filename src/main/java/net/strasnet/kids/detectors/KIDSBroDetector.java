@@ -37,8 +37,8 @@ import net.strasnet.kids.measurement.test.KIDSTestSingleSignal;
 import net.strasnet.kids.measurement.test.TestOracleFactory;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 
@@ -244,15 +244,15 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 		Set<OWLNamedIndividual> dSets = localO.getDatasetsForEvent(EventIRI);
 		
 		// In this case, we want to ensure we get the libpcap dataset:
-		Map<IRI, List<OWLNamedIndividual>> dsetViewMap = new HashMap<IRI, List<OWLNamedIndividual>>();
+		Map<IRI, List<IRI>> dsetViewMap = new HashMap<IRI, List<IRI>>();
 		for (OWLNamedIndividual dSet : dSets){
-			List<OWLNamedIndividual> tViews = localO.getAvailableViews(dSet.getIRI(), EventIRI);
+			List<IRI> tViews = localO.getAvailableViews(dSet.getIRI(), EventIRI);
 			dsetViewMap.put(dSet.getIRI(), tViews);
 
 			// Pull out the libpcap view:
 			NativeLibPCAPView nlpv = new NativeLibPCAPView();
-			OWLNamedIndividual ourView = dsetViewMap.get(dSet.getIRI()).iterator().next();
-			nlpv.setIRI(ourView.getIRI());
+			IRI ourView = dsetViewMap.get(dSet.getIRI()).iterator().next();
+			nlpv.setIRI(ourView);
 		//localO.getLabelForViewAndEvent(ourView, EventIRI);
 		//List<IRI> lList = new LinkedList<IRI>();
 		//OWLNamedIndividual kl = localO.getLabelImplementation(localO.getLabelForViewAndEvent(ourView, EventIRI));
@@ -313,7 +313,7 @@ public class KIDSBroDetector extends KIDSAbstractDetector implements KIDSDetecto
 								} else {
 									// We need a feature according to the view that we don't support
 									// in this detector:
-									throw new UnimplementedIdentifyingFeatureException(String.format("Identifying Feature %s not currently supported by KIDSBroDetector",identFeature.toString()));
+									throw new UnimplementedIdentifyingFeatureException("Identifying Feature not currently supported by KIDSBroDetector",identFeature.toString());
 								}
 							}
 

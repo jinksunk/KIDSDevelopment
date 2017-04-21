@@ -6,6 +6,8 @@
  * 
  * Determine the CID value for the signal in the data set.
  * 
+ * TODO: Probably needs to be re-written / replaced with something that uses the correlation datasets.
+ * 
  */
 package net.strasnet.kids.measurement.test;
 
@@ -35,6 +37,7 @@ import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException
 import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
 import net.strasnet.kids.measurement.KIDSUnEvaluableSignalException;
+import net.strasnet.kids.measurement.ViewLabelDataset;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 import net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation;
 import static org.junit.Assert.assertTrue;
@@ -49,13 +52,14 @@ public class testKIDSEIDMeasure {
 	private static final String testKB = "file:///Users/chrisstrasburg/Documents/academic-research/projects/SignalBasedOntologies/ontologies/testOntologies/testKIDSEIDMeasure-1.owl";
 	private static final String OntologyLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	private static final IRI testEventIRI = IRI.create("http://solomon.cs.iastate.edu/ontologies/KIDS.owl#smurfAttackEvent");
-	private KIDSLibpcapDataset testSet1 = null;
+	private ViewLabelDataset testSet1 = null;
 	private List<OWLNamedIndividual> testSignals;
 
 	private KIDSMeasurementOracle myGuy = null;
 	
 	@Before
 	public void setup() {
+		/*
 		testSignals = new LinkedList<OWLNamedIndividual>();
 		
 		if (testSet1 == null){
@@ -88,7 +92,7 @@ public class testKIDSEIDMeasure {
 				System.exit(1);
 			}
 			//testSet1 = new KIDSLibpcapDataset();
-		}
+		} */
 	}
 	
 	/**
@@ -100,6 +104,7 @@ public class testKIDSEIDMeasure {
 		
 		// Get the entropy of the dataSet:
 		// p(c=0)
+		/*
 		System.out.println("EID \t CID \t Signal");
 		for (int i = 0; i < testSignals.size(); i++){
 			IRI testSignal1 = testSignals.get(i).getIRI();
@@ -120,6 +125,7 @@ public class testKIDSEIDMeasure {
 				e.printStackTrace();
 			}
 		}
+		*/
 	}
 	
 	/**

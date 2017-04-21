@@ -34,7 +34,7 @@ public class KIDSSnortDetectorSyntax implements KIDSDetectorSyntax {
 	public void init(KIDSMeasurementOracle o) {
 		KIDSAddEventOracle k = new KIDSAddEventOracle();
 		try {
-			k.loadKIDS(o.getOurIRI(), o.getIRIMapperList());
+			k.loadKIDS(o.getABOXIRI(), o.getIRIMapperList());
 			sGen.setOracle(k);
 		} catch (Exception e) {
 			e.printStackTrace();

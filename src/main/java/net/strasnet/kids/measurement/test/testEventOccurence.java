@@ -23,7 +23,6 @@ import static org.junit.Assert.assertFalse;
  */
 public class testEventOccurence {
 
-	private KIDSLibpcapDataset testSet1;
 	private static final int testSet1InstanceCount = 20;
 	private static final IRI testOccurenceIRI = IRI.create("#testEvent");
 	
@@ -35,9 +34,9 @@ public class testEventOccurence {
 	 */
 	@Test
 	public void testGetID(){
-		EventOccurrence t1 = new EventOccurrence(testOccurenceIRI);
+		EventOccurrence t1 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
 		assertTrue(t1.getID() == 0);
-		assertTrue(EventOccurrence.currentEventID == 1);
+		assertTrue(EventOccurrence.numberOfEvents == 1);
 	}
 
 	/**
@@ -45,8 +44,8 @@ public class testEventOccurence {
 	 */
 	@Test
 	public void testEquals(){
-		EventOccurrence t1 = new EventOccurrence(testOccurenceIRI);
-		EventOccurrence t2 = new EventOccurrence(testOccurenceIRI);
+		EventOccurrence t1 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
+		EventOccurrence t2 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
 		assertFalse(t1.equals(t2));
 		assertTrue(t2.equals(t2));
 	}
@@ -56,8 +55,8 @@ public class testEventOccurence {
 	 */
 	@Test
 	public void testCompareTo(){
-		EventOccurrence t1 = new EventOccurrence(testOccurenceIRI);
-		EventOccurrence t2 = new EventOccurrence(testOccurenceIRI);
+		EventOccurrence t1 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
+		EventOccurrence t2 = EventOccurrence.getEventOccurrence(testOccurenceIRI, 1);
 		assertTrue(t1.compareTo(t2) == -1);
 		assertTrue(t1.compareTo(t1) == 0);
 		assertTrue(t2.compareTo(t1) == 1);

@@ -15,7 +15,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
@@ -35,7 +35,7 @@ import net.strasnet.kids.measurement.datasetlabels.DatasetLabel;
  */
 public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInstance>{
 	
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(CorrelatedViewLabelDataset.class.getName());
 	private Map<Dataset, DatasetLabel> constituentDatasets;
 	private CorrelationFunction ourCombiner;
 	private Set<CorrelationDataInstance> ourDataInstances;
@@ -379,6 +379,7 @@ public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInsta
 		}
 	}
 	
+	//TODO: Move this test code to either a unit test suite or standalone test code.
 	public static void main (String[] args) throws KIDSOntologyDatatypeValuesException, KIDSOntologyObjectValuesException, NumberFormatException, InstantiationException, IllegalAccessException, ClassNotFoundException, IOException, IncompatibleCorrelationValueException, KIDSUnEvaluableSignalException{
 		//String testPropFile = "file:///Users/cstras/Documents/academic-research/papers/2013-MeasurementPaper/experiments/CorrelatedDataSetTest1/fullExperiment2.prop";
 		// Read in the properties file
@@ -429,10 +430,8 @@ public class CorrelatedViewLabelDataset implements Iterable<CorrelationDataInsta
             m.add(new SimpleIRIMapper(IRI.create(cVals.get("TBoxIRI")), 
             						  IRI.create(cVals.get("TBoxFile"))));
 			myGuy.loadKIDS(IRI.create(cVals.get("ABoxIRI")), m);
-		} catch (IOException e) {
-			e.printStackTrace();
-			System.exit(1);
 		} catch (Exception e){
+			//TODO: Tighten up the exceptions here, and produce log output rather than stderr
 			System.err.println(e);
 			e.printStackTrace();
 			System.exit(1);

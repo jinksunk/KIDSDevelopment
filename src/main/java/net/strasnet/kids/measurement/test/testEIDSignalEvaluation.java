@@ -8,6 +8,8 @@
  * 
  * Determine the CID value for the signal in the data set.
  * 
+ *TODO: *Deprecated* - this whole thing should probably be removed and re-written
+ * 
  */
 package net.strasnet.kids.measurement.test;
 
@@ -31,6 +33,7 @@ import net.strasnet.kids.measurement.EventOccurrence;
 import net.strasnet.kids.measurement.KIDSMeasurementIncompatibleContextException;
 import net.strasnet.kids.measurement.KIDSMeasurementInstanceUnsupportedFeatureException;
 import net.strasnet.kids.measurement.KIDSMeasurementOracle;
+import net.strasnet.kids.measurement.ViewLabelDataset;
 import net.strasnet.kids.signalRepresentations.KIDSRepresentationInvalidRepresentationValueException;
 import net.strasnet.kids.signalRepresentations.KIDSSignalByteMatchRepresentation;
 import static org.junit.Assert.assertTrue;
@@ -38,6 +41,8 @@ import static org.junit.Assert.assertFalse;
 
 /**
  * @author chrisstrasburg
+ * 
+ * This needs to be completely revamped to use the new dataset structure.
  *
  */
 public class testEIDSignalEvaluation {
@@ -47,11 +52,12 @@ public class testEIDSignalEvaluation {
 	private List<Dataset> datasets = null;
 	private static final IRI testSignal1IRI = IRI.create("#IPProtocolNumberSignal_1");
 	private static final IRI testEventIRI = IRI.create("#smurfAttackEvent");
-	private KIDSLibpcapDataset testSet1 = null;
+	private ViewLabelDataset testSet1 = null;
 	private OWLNamedIndividual testSignal1 = null;
 
 	@Before
 	public void setup() {
+		/*
 		if (testSet1 == null){
 			try {
 				KIDSMeasurementOracle myGuy = new KIDSMeasurementOracle();
@@ -75,7 +81,7 @@ public class testEIDSignalEvaluation {
 				System.exit(1);
 			}
 			//testSet1 = new KIDSLibpcapDataset();
-		}
+		} */
 	}
 	
 	/**
@@ -86,6 +92,7 @@ public class testEIDSignalEvaluation {
 		
 		// Get the entropy of the dataSet:
 		// p(c=0)
+		/*
 		int nTot = testSet1.numInstances();
 		int[] nPosAry = testSet1.numPositiveInstances();
 		int nPos = 0;
@@ -105,7 +112,7 @@ public class testEIDSignalEvaluation {
 		int nNegPos = 0;
 		int nNegNeg = 0;
 		
-		Iterator<DataInstance> i = testSet1.getIterator();
+		Iterator<DataInstance> i = testSet1.getIterator(); 
 		while (i.hasNext()){
 			DataInstance cur = i.next();
 			try {
@@ -173,6 +180,7 @@ public class testEIDSignalEvaluation {
 		
 		// Get the resultant entropy of the positive and negative signal results:
 		assertTrue(CID >= 0 && CID <= 1);
+		*/
 	}
 	
 	/**

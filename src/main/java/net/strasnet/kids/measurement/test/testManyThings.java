@@ -38,6 +38,8 @@ import org.semanticweb.owlapi.util.SimpleIRIMapper;
 public class testManyThings {
 	/**
 	 * A general class to test various aspects of the KIDS framework.  Tests are turned on and off by comments in the main() method.
+	 * 
+	 * TODO: Deprecated - probably can be deleted.
 	 */
 	public HashMap<String,String> configFileValues;
 	public KIDSMeasurementOracle kmo = new KIDSMeasurementOracle();
@@ -113,10 +115,10 @@ public class testManyThings {
 
 		// Setup the dataset
 		IRI datasetIRI = IRI.create("http://www.semantiknit.com/ontologies/2014/03/29/CodeRedExperiment3.owl#CodeRedEvalSYSLOGDataset1");
-		String datasetLocation = kmo.getDatasetLocation(kmo.getOwlDataFactory().getOWLNamedIndividual(datasetIRI));
+		String datasetLocation = kmo.getDatasetLocation(datasetIRI);
 		
 		// Setup the view - Don't need this?
-		List<OWLNamedIndividual> dvs = kmo.getAvailableViews(datasetIRI, IRI.create(configFileValues.get("EventIRI")));
+		List<IRI> dvs = kmo.getAvailableViews(datasetIRI, IRI.create(configFileValues.get("EventIRI")));
 		String ourDVimp = kmo.getViewImplementation(dvs.get(0));
 		DatasetView ourDV = KIDSDatasetFactory.getViewGenerator(ourDVimp);
 		//evtv.generateView(datasetLocation, kmo, identifyingFeatures);
@@ -149,11 +151,11 @@ public class testManyThings {
 		CorrelatedViewLabelDataset cvd = new CorrelatedViewLabelDataset(ourCFList.iterator().next(), dsets);
 
 		// Verify the number of instances resulting in the correlated data set
-		int numInstances = cvd.numInstances();
+		int numInstances = cvd.numRawInstances();
 
 		// Verify the number of events and event instances resulting in the correlated data set
 		int numEvents = cvd.numEventOccurrences();
-		int[] numEventInstances = cvd.numPositiveInstances();
+		int[] numEventInstances = cvd.numPositiveRawInstances();
 	}
 
 	/**

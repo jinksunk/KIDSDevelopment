@@ -14,8 +14,8 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.core.Logger;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 import org.semanticweb.owlapi.model.IRI;
 
 public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
@@ -25,7 +25,7 @@ public class SourceIPAddressCorrelationFunction implements CorrelationFunction {
 	 */
 	public static final String kidsTbox = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 	public static final IRI relatedResource = IRI.create(kidsTbox + "#IPv4SourceAddressSignalDomain");
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(SourceIPAddressCorrelationFunction.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(SourceIPAddressCorrelationFunction.class.getName());
 	
 	/**
 	 * 

@@ -21,8 +21,8 @@ import java.util.regex.*;
 //import org.mindswap.pellet.owlapi.PelletReasonerFactory;
 import net.strasnet.kids.KIDSAxiom;
 import net.strasnet.kids.KIDSOracle;
-import net.strasnet.kids.datasources.snortRulesLexer;
-import net.strasnet.kids.datasources.snortRulesParser;
+//import net.strasnet.kids.datasources.snortRulesLexer;
+//import net.strasnet.kids.datasources.snortRulesParser;
 
 import org.antlr.runtime.ANTLRStringStream;
 import org.antlr.runtime.CharStream;
@@ -137,7 +137,7 @@ public class SnortRuleMiner {
 			System.exit(1);
 		}
 		// Load our Lexer:
-		snortRulesLexer lexer = new snortRulesLexer();
+		//snortRulesLexer lexer = new snortRulesLexer();
 				
 		// Parse the given Snort rules file:
 		String snortRuleString;
@@ -157,33 +157,33 @@ public class SnortRuleMiner {
 			parser.body();
 			System.out.println("Body: OK!"); */
 			while ((snortRuleString = srulesReader.readLine()) != null){
-				lexer = new snortRulesLexer(new ANTLRStringStream(snortRuleString));
+		//		lexer = new snortRulesLexer(new ANTLRStringStream(snortRuleString));
 				
 				// Load our parser:
-				CommonTokenStream rulesStream = new CommonTokenStream(lexer);
-				snortRulesParser parser = new snortRulesParser(rulesStream);
-				KIDSSnortSignature ipc = parser.rule(ko.getOntology(), IRI.create(defaultPrefix), ko.getOwlDataFactory(), ko.getReasoner());
+		//		CommonTokenStream rulesStream = new CommonTokenStream(lexer);
+		//		snortRulesParser parser = new snortRulesParser(rulesStream);
+		//		KIDSSnortSignature ipc = parser.rule(ko.getOntology(), IRI.create(defaultPrefix), ko.getOwlDataFactory(), ko.getReasoner());
 				
-				Collection<AddAxiom> toAdd = ipc.getAddAxioms();
+		//		Collection<AddAxiom> toAdd = ipc.getAddAxioms();
 				
 				// Add the signals, etc...
-				Iterator<AddAxiom> toAddI = toAdd.iterator();
+		//		Iterator<AddAxiom> toAddI = toAdd.iterator();
 				
 				// Count the number of rules (with signals) processed:
 				nonEmptyRulesCount++;
-				while (toAddI.hasNext()){
+		//		while (toAddI.hasNext()){
 					    // Count the number of axioms added:
-						AddAxiom a = toAddI.next();
-						ko.getOntologyManager().addAxiom(ko.getOntology(), a.getAxiom());
+		//				AddAxiom a = toAddI.next();
+		//				ko.getOntologyManager().addAxiom(ko.getOntology(), a.getAxiom());
 						//System.out.println(a);
-				}
+		//		}
 			}
 			ko.getOntologyManager().saveOntology(ko.getOntology(), new FileOutputStream(onto_w));
 		} catch (IOException e) {
 			e.printStackTrace();
 			System.exit(1);
-		} catch (RecognitionException e) {
-			e.printStackTrace();
+		//} catch (RecognitionException e) {
+			//e.printStackTrace();
 		} catch (OWLOntologyStorageException e) {
 			e.printStackTrace();
 		}

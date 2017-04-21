@@ -136,7 +136,7 @@ public class KIDSAddEventOracle extends KIDSOracle {
 			OWLNamedIndividual sd, KIDSCanonicalRepresentation scr) {
 
 		// Get the property isProducedBy for the signal:
-		OWLObjectProperty producedBy = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + evtSignalRelation));
+		OWLObjectProperty producedBy = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + eventSignalRelation));
 		
 		// Get the object property hasCanonicalRepresentation
 		OWLObjectProperty hasRep = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + signalRepRelation));
@@ -167,25 +167,25 @@ public class KIDSAddEventOracle extends KIDSOracle {
 		OWLNamedIndividual sigIndividual = odf.getOWLNamedIndividual(IRI.create(ourClass.getIRI().toString() + "_" + scr.getNameForm()));
 		
 		// Add the signal to the event:
-		List<OWLOntologyChange> ocl = manager.addAxiom(o, odf.getOWLClassAssertionAxiom(ourClass, sigIndividual));
+		manager.addAxiom(o, odf.getOWLClassAssertionAxiom(ourClass, sigIndividual));
 		
 		// Add relationship between signal and representation:
-		ocl.addAll(manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(hasRep, sigIndividual, ourRep)));
+		manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(hasRep, sigIndividual, ourRep));
 		
 		// Add value of signal
-		ocl.addAll(manager.addAxiom(o, odf.getOWLDataPropertyAssertionAxiom(odf.getOWLDataProperty(IRI.create(ourIRI.toString() + signalValueDataProp)), sigIndividual, odf.getOWLLiteral(scr.getCanonicalForm()))));
+		manager.addAxiom(o, odf.getOWLDataPropertyAssertionAxiom(odf.getOWLDataProperty(IRI.create(ourIRI.toString() + signalValueDataProp)), sigIndividual, odf.getOWLLiteral(scr.getCanonicalForm())));
 		
 		// Add signal to event
-		ocl.addAll(manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(producedBy, sigIndividual, odf.getOWLNamedIndividual(IRI.create(ourIRI.toString() + currentEventIRI)))));
+		manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(producedBy, sigIndividual, odf.getOWLNamedIndividual(IRI.create(ourIRI.toString() + currentEventIRI))));
 		
 		// Add signal to the signal domain
-		ocl.addAll(manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + signalDomainObjProp)), sigIndividual, sd)));
+		manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + signalDomainObjProp)), sigIndividual, sd));
 		
 		// Add equivalent class definition:
-		ocl.addAll(manager.addAxiom(o, eqClass));
+		manager.addAxiom(o, eqClass);
 		
 		// Finally, apply changes:
-		manager.applyChanges(ocl);
+		//manager.applyChanges(ocl);
 	}
 
 	/**
@@ -200,20 +200,20 @@ public class KIDSAddEventOracle extends KIDSOracle {
 		OWLObjectProperty fcop = odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + featureContextObjProp));
 		
 		// Add the feature as a member of its class:
-		List<OWLOntologyChange> ocl = manager.addAxiom(o, odf.getOWLClassAssertionAxiom(fClass, feature));
+		manager.addAxiom(o, odf.getOWLClassAssertionAxiom(fClass, feature));
 
 		// Add the object property assertions:
 		for (int i = 0; i < selectedContexts.size(); i++){
-			ocl.addAll(manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(fcop, feature, selectedContexts.get(i))));
+			manager.addAxiom(o, odf.getOWLObjectPropertyAssertionAxiom(fcop, feature, selectedContexts.get(i)));
 		}
 		
-		manager.applyChanges(ocl);
+		//manager.applyChanges(ocl);
 	}
 
 	public void addContextToKB(OWLNamedIndividual owlNamedIndividual,
 			OWLClass selectedContextClass) {
 		OWLClassAssertionAxiom toAdd = odf.getOWLClassAssertionAxiom(selectedContextClass, owlNamedIndividual);
-		manager.applyChanges(manager.addAxiom(o, toAdd));
+		manager.addAxiom(o, toAdd);
 	}
 
 	public List<OWLNamedIndividual> getSignalDomainContexts() {
@@ -346,7 +346,7 @@ public class KIDSAddEventOracle extends KIDSOracle {
 		r.getInstances(
 				odf.getOWLObjectIntersectionOf(
 						odf.getOWLObjectHasValue(
-								odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + KIDSOracle.evtSignalRelation)), 
+								odf.getOWLObjectProperty(IRI.create(ourIRI.toString() + KIDSOracle.eventSignalRelation)), 
 								event
 							),
 						odf.getOWLObjectHasValue(

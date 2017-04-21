@@ -10,7 +10,7 @@ import net.strasnet.kids.measurement.DataInstance;
 import net.strasnet.kids.measurement.Label;
 import net.strasnet.kids.measurement.test.KIDSSignalSelectionInterface;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implements DataInstance {
@@ -20,12 +20,14 @@ public class KIDSNativeLibpcapDataInstance extends AbstractDataInstance implemen
 	static {
 		myIDs.add(IRI.create(featureIRI + "PacketID"));
 		//myIDs.add(IRI.create(featureIRI + "instanceTimestamp"));
+		//TODO: Why is the above commented out? - because Snort was not able to deal with producing timestamps
+		//      in the required format.
 		myIDs.add(IRI.create(featureIRI + "IPv4SourceAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "IPv4DestinationAddressSignalDomain"));
 		myIDs.add(IRI.create(featureIRI + "ObservationOrder"));
 	};
 
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(KIDSSignalSelectionInterface.class.getName());
 	
 	public KIDSNativeLibpcapDataInstance (HashMap<IRI, String> resourceValues) throws UnimplementedIdentifyingFeatureException{
 		super(resourceValues, KIDSNativeLibpcapDataInstance.myIDs);

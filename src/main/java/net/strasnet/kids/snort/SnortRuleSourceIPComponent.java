@@ -15,7 +15,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 public class SnortRuleSourceIPComponent extends SnortRuleIPComponent {
 
 	public SnortRuleSourceIPComponent(KIDSAddEventOracle ko, Set<IRI> currentSignalSet) throws KIDSOntologyDatatypeValuesException {
-		super(ko, KIDSOracle.TBOXIRI + "#IPSourceAddress_IPRangeSet",  currentSignalSet);
+		super(ko, ko.getTBOXIRI() + "#IPSourceAddress_IPRangeSet",  currentSignalSet);
 	}
 
 }

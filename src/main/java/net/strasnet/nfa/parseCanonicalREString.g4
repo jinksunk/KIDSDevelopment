@@ -10,15 +10,14 @@ options {
 }
 
 @header {
-  package net.strasnet.nfa;
   import java.util.LinkedList;
   import java.util.Iterator;
   import java.util.HashMap;
   }
   
-@lexer::header {
-  package net.strasnet.nfa;
-}
+//@lexer::header {
+  //package net.strasnet.nfa;
+//}
 
 @members {
   ThompsonNFA resultNFA;  
@@ -29,7 +28,7 @@ options {
 //   * a signature
 //   * an IP context, including all features
 nfa returns [ThompsonNFA result]
-  @init { result = new ThompsonNFA(); }
+  @init { ThompsonNFA result = new ThompsonNFA(); }
   : line[result]+
   ;
   
@@ -46,14 +45,17 @@ lineContent[ThompsonNFA result]
   ;
 
 startDeclaration [ThompsonNFA t] returns [Node n]
+  @init {Node n;}
   : START LINEDELIM nodeid {n = t.getNodeByID($nodeid.i);}
   ;
 
 finalDeclaration [ThompsonNFA t] returns [Node n]
+  @init {Node n;}
   : FINAL LINEDELIM nodeid {n = t.getNodeByID($nodeid.i);}
   ;
 
 edgetype returns [int etype]
+  @init {int etype;}
   : EPSILON {etype = Label.EPSILON;}
   | LITERAL {etype = Label.LITERAL;}
   | DOTLABEL {etype = Label.DOT;}
@@ -74,17 +76,20 @@ edge [ThompsonNFA t]
   ;
   
 nodeid returns [int i]
+  @init {int i;}
   : DIGIT {i = Integer.parseInt($DIGIT.text);}
   | INTEGER {i = Integer.parseInt($INTEGER.text);}
   ;
 
 edgevalue returns [String v]
+  @init {String v;}
   : EPSILON {v = Label.classes.get(Label.EPSILON);}
   | DOT {v = Label.classes.get(Label.DOT);}
   | validchars {v = $validchars.s;}
   ;
   
 validchars returns [String s]
+  @init {String s;}
   : DIGIT {s = $DIGIT.text;}
   | ESCAPEDCHARS {s = $ESCAPEDCHARS.text;}
   | LETTER {s = $LETTER.text;}

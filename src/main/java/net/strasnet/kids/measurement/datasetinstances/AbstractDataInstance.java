@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.logging.log4j.LogManager;
+import org.apache.log4j.LogManager;
 import org.semanticweb.owlapi.model.IRI;
 
 import net.strasnet.kids.detectors.UnimplementedIdentifyingFeatureException;
@@ -20,15 +20,17 @@ import net.strasnet.kids.measurement.Label;
  * @author cstras
  * 
  * TODO: Implement equals, comparison, and hash value methods here
+ * TODO: Add logging and comments.
  *
  */
 public class AbstractDataInstance implements DataInstance {
-	public static final org.apache.logging.log4j.Logger logme = LogManager.getLogger(AbstractDataInstance.class.getName());
+	public static final org.apache.log4j.Logger logme = LogManager.getLogger(AbstractDataInstance.class.getName());
 	protected static String featureIRI = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl#";
 	protected Label myLabel = null;
 	private List<IRI> identifiers = new LinkedList<IRI>();
 	protected String myID;
 	protected Map<IRI,String> myResources = null;
+	//TODO: Logging!
 	
 	public AbstractDataInstance(Map<IRI, String> rMap, List<IRI> myIDs) throws UnimplementedIdentifyingFeatureException{
 		identifiers = myIDs;
@@ -61,7 +63,7 @@ public class AbstractDataInstance implements DataInstance {
 		StringBuilder idbuild = new StringBuilder();
 		for (IRI fVal : this.identifiers){
 			if(! this.myResources.containsKey(fVal)){
-				throw new UnimplementedIdentifyingFeatureException("Missing identifying feature " + fVal);
+				throw new UnimplementedIdentifyingFeatureException("Missing identifying feature", fVal.toString());
 			}
 			idbuild.append(fVal + "=" + this.myResources.get(fVal));
 		}

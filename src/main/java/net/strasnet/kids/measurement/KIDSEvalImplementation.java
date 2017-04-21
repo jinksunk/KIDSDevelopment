@@ -65,8 +65,8 @@ public class KIDSEvalImplementation implements KIDSEval {
 		
 		// Get the signals which can be evaluated for this event (given the datasets and event itself)
 		Set<IRI> signals = myGuy.getSignalsForDatasetAndEvent(
-				IRI.create(myGuy.getOurIRI() + testDatasetIRI.toString()),
-				IRI.create(myGuy.getOurIRI() + testEventIRI.toString())
+				IRI.create(myGuy.getABOXIRI() + testDatasetIRI.toString()),
+				IRI.create(myGuy.getABOXIRI() + testEventIRI.toString())
 			);
 		
 		// Get the set of detector implementations which can monitor the dataset view, see the signal representation
