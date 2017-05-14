@@ -37,6 +37,9 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
     </Declaration>
     <Declaration>
+        <NamedIndividual IRI="#windowsEventLogAnalysisRuleSyntax"/>
+    </Declaration>
+    <Declaration>
         <Class IRI="#TCPFlags_SingleBitmaskNonZero"/>
     </Declaration>
     <Declaration>
@@ -1600,10 +1603,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#SnortRule"/>
-        <ObjectSomeValuesFrom>
+        <ObjectHasValue>
             <ObjectProperty IRI="#hasSyntax"/>
-            <Class IRI="#SnortRuleSyntax"/>
-        </ObjectSomeValuesFrom>
+            <NamedIndividual IRI="#snortRuleSyntax3"/>
+        </ObjectHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#SnortRule"/>
@@ -1782,10 +1785,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#WindowsLogAnalysis"/>
-        <ObjectSomeValuesFrom>
+        <ObjectHasValue>
             <ObjectProperty IRI="#hasSyntax"/>
-            <Class IRI="#WindowsEventLogAnalysisRuleSyntax"/>
-        </ObjectSomeValuesFrom>
+            <NamedIndividual IRI="#windowsEventLogAnalysisRuleSyntax"/>
+        </ObjectHasValue>
     </EquivalentClasses>
     <EquivalentClasses>
         <Class IRI="#WindowsLogAnalysis"/>
@@ -2436,6 +2439,27 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Detector"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#LibPcapFilterDefinition"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#IPPacketDataRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LibPcapFilterDefinition"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#IPPacketProtocolRepresentation1_LIBPCAPDatasetNativeViewManifestation"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LibPcapFilterDefinition"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#LibPcap_IPPacketView"/>
         <Class IRI="#PacketView"/>
     </SubClassOf>
@@ -3033,6 +3057,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#Detector"/>
     </SubClassOf>
     <SubClassOf>
+        <Class IRI="#WindowsLogAnalysis"/>
+        <ObjectHasValue>
+            <ObjectProperty IRI="#canSeeManifestation"/>
+            <NamedIndividual IRI="#HTTPGetParameterRepresentation1_IISEventLogDatasetTextViewManifestation"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <SubClassOf>
         <Class IRI="#WormAttackMaliciousActivityEvent"/>
         <Class IRI="#AutomatedAttackMaliciousActivityEvent"/>
     </SubClassOf>
@@ -3336,6 +3367,10 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <Class IRI="#SignalManifestation"/>
         <NamedIndividual IRI="#uniqueSourceIPAddressCount_PCPFixedTimePeriodView1Manifestation"/>
     </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#WindowsEventLogAnalysisRuleSyntax"/>
+        <NamedIndividual IRI="#windowsEventLogAnalysisRuleSyntax"/>
+    </ClassAssertion>
     <SameIndividual>
         <NamedIndividual IRI="#IPPacket"/>
         <NamedIndividual IRI="#ipPacketSignalDomainContext"/>
@@ -3579,6 +3614,11 @@ This is the &quot;master&quot; version; the definition of the classes and relati
         <DataProperty IRI="#hasSyntaxProductionImplementation"/>
         <NamedIndividual IRI="#broEventDetectionSyntax"/>
         <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.detectorsyntaxproducers.BroEventDetectorSyntax</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="#hasCorrelationRelationImplementation"/>
+        <NamedIndividual IRI="#instancesWithinOneMinute"/>
+        <Literal datatypeIRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#PlainLiteral">net.strasnet.kids.measurement.correlationfunctions.OneMinuteWindowCorrelationFunction</Literal>
     </DataPropertyAssertion>
     <DataPropertyAssertion>
         <DataProperty IRI="#hasCorrelationRelationImplementation"/>
@@ -4478,6 +4518,13 @@ This is the &quot;master&quot; version; the definition of the classes and relati
             <ObjectProperty IRI="#isRepresentationOfSignalDomain"/>
         </ObjectPropertyChain>
         <ObjectProperty IRI="#providesResource"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectPropertyChain>
+            <ObjectProperty IRI="#canMonitor"/>
+            <ObjectProperty IRI="#providesViewOf"/>
+        </ObjectPropertyChain>
+        <ObjectProperty IRI="#canMonitorDataset"/>
     </SubObjectPropertyOf>
     <SubObjectPropertyOf>
         <ObjectPropertyChain>

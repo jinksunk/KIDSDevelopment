@@ -45,7 +45,6 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	/** TODO: Use a logger rather than Stderr. */
 	/** TODO: Move these to a properties file. */
 	/** Define all the static values for properties etc... These should all probably be in a properties file */
-	public static final String kidsTBOXLocation = "http://solomon.cs.iastate.edu/ontologies/KIDS.owl";
 
 	/**********************************/
 	/** Ontology Interaction Methods **/
@@ -368,17 +367,17 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 	 * @return The constraint individual associated with the signal
 	 * @throws KIDSOntologyObjectValuesException When the ontology contains ill-defined values, e.g. more than one constraint for a signal.
 	 */
-	public OWLNamedIndividual getSignalConstraint(
-			OWLNamedIndividual signal) throws KIDSOntologyObjectValuesException {
+	public IRI getSignalConstraint(
+			IRI mySig) throws KIDSOntologyObjectValuesException {
 		Set<OWLNamedIndividual> results = r.getObjectPropertyValues(
-					signal, 
+					odf.getOWLNamedIndividual(mySig), 
 					odf.getOWLObjectProperty(KIDSMeasurementOracle.signalConstraintSignalRelation)).getFlattened();
 		if (results.size() > 1){
-			throw new KIDSOntologyObjectValuesException("Too many values for property " + signalConstraintSignalRelation + " on individual " + signal);
+			throw new KIDSOntologyObjectValuesException("Too many values for property " + signalConstraintSignalRelation + " on individual " + mySig);
 		} else if (results.size() == 0){
-			throw new KIDSOntologyObjectValuesException("No values for property " + signalConstraintSignalRelation + " on individual " + signal);
+			throw new KIDSOntologyObjectValuesException("No values for property " + signalConstraintSignalRelation + " on individual " + mySig);
 		}
-		return results.iterator().next();
+		return results.iterator().next().getIRI();
 	}
 
 	/**
@@ -819,47 +818,6 @@ public class KIDSMeasurementOracle extends KIDSOracle {
 		} 
 
 		return oaSet.iterator().next().getLiteral();
-	}
-
-	/**
-	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
-	 * return the signal domain individual.
-	 * 
-	 * @param mySig
-	 * @return the signal domain individual
-	 * @throws KIDSOntologyObjectValuesException
-	 */
-	public IRI getSignalDomain(IRI mySig) throws KIDSOntologyObjectValuesException {
-		OWLNamedIndividual s = odf.getOWLNamedIndividual(mySig);
-		OWLNamedIndividual d = this.getSignalDomain(s);
-		return d.getIRI();
-	}
-
-	/**
-	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
-	 * return the signal value individual.
-	 * 
-	 * @param mySig
-	 * @return the signal value individual
-	 * @throws KIDSOntologyObjectValuesException
-	 */
-	public String getSignalValue(IRI mySig) throws KIDSOntologyDatatypeValuesException {
-		OWLNamedIndividual s = odf.getOWLNamedIndividual(mySig);
-		String v = this.getSignalValue(s);
-		return v;
-	}
-
-	/**
-	 * Convenience method to work w/ IRIs rather than Named Individuals.  Given a signal, 
-	 * return the signal constraint.
-	 * 
-	 * @param mySig
-	 * @return The signal constraint individual
-	 * @throws KIDSOntologyObjectValuesException
-	 */
-	public IRI getSignalConstraint(IRI mySig) throws KIDSOntologyObjectValuesException {
-		OWLNamedIndividual c = odf.getOWLNamedIndividual(mySig);
-		return this.getSignalConstraint(c).getIRI();
 	}
 
 	/**

@@ -78,6 +78,9 @@ import javax.swing.JDialog;
 
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.io.IOException;
+import java.net.URISyntaxException;
+
 import javax.swing.JPopupMenu;
 
 public class ABOXBuilder {
@@ -179,6 +182,12 @@ public class ABOXBuilder {
 				} catch (OWLOntologyStorageException e1) {
 					controller.logappendError("Uh-oh - an exception occurred when writing the ontology: " + e1.getMessage());
 					logme.error("Could not write ontology: ", e1);
+				} catch (URISyntaxException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				} catch (IOException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
 				}
 				processMessageQueue();
 			}
@@ -199,7 +208,7 @@ public class ABOXBuilder {
 								getStarted.getABOXLocationTextField(),
 								getStarted.getABOXIRI());
 					model.setState(ABOXBuilderGUIState.ABOXLoaded);
-				} catch (OWLOntologyCreationException e1) {
+				} catch (OWLOntologyCreationException | URISyntaxException | IOException e1) {
 					controller.logappend(new KIDSGUIAlertError("Uh-oh - an exception occurred when loading the ontology: " + e1.getMessage()));
 				}
 				processMessageQueue();

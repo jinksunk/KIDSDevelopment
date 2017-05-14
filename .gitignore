@@ -37,3 +37,4 @@ weka.jar
 *.jar
 *.war
 *.ear
+/target/

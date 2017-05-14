@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.w3.org/2002/07/owl#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#">
+    <Prefix name="" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="KIDS" IRI="http://solomon.cs.iastate.edu/ontologies/KIDS.owl#"/>
+    <Prefix name="abox" IRI="http://www.semantiknit.com/ontologies/kids-abox-test.owl#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>http://solomon.cs.iastate.edu/ontologies/KIDS.owl</Import>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:t1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:s1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:dv1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:tp1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:count10"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+    </Declaration>
+    <SubClassOf>
+        <Class abbreviatedIRI="KIDS:IPSourceAddress_UniqueSourceIPAddressCountThreshold"/>
+        <ObjectHasValue>
+            <ObjectProperty abbreviatedIRI="KIDS:isExpressibleInSyntax"/>
+            <NamedIndividual abbreviatedIRI="KIDS:snortRuleSyntax3"/>
+        </ObjectHasValue>
+    </SubClassOf>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:IntegerValue"/>
+        <NamedIndividual abbreviatedIRI="abox:count10"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:LibPCAPDataset"/>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:DatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:DatasetView"/>
+        <NamedIndividual abbreviatedIRI="abox:dv1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:IPSourceAddress_UniqueSourceIPAddressCountThreshold"/>
+        <NamedIndividual abbreviatedIRI="abox:s1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:Detector"/>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:SnortRule"/>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:Event"/>
+        <NamedIndividual abbreviatedIRI="abox:t1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:MaliciousActivityEvent"/>
+        <NamedIndividual abbreviatedIRI="abox:t1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="KIDS:TimePeriod"/>
+        <NamedIndividual abbreviatedIRI="abox:tp1"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:isLabelForEvent"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+        <NamedIndividual abbreviatedIRI="abox:t1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:bringsIntoExistence"/>
+        <NamedIndividual abbreviatedIRI="abox:dv1"/>
+        <NamedIndividual abbreviatedIRI="KIDS:SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:hasDatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="abox:dv1"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:providesViewOf"/>
+        <NamedIndividual abbreviatedIRI="abox:dv1"/>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:hasSignalValue"/>
+        <NamedIndividual abbreviatedIRI="abox:s1"/>
+        <NamedIndividual abbreviatedIRI="abox:count10"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:isEvaluableWithDataset"/>
+        <NamedIndividual abbreviatedIRI="abox:s1"/>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:canSeeManifestation"/>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+        <NamedIndividual abbreviatedIRI="KIDS:SourceIPAddressRepresentation1_CodeRedEvalPCAPDataset1ViewManifestation"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:isProducerOf"/>
+        <NamedIndividual abbreviatedIRI="abox:t1"/>
+        <NamedIndividual abbreviatedIRI="abox:s1"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty abbreviatedIRI="KIDS:coincidesWithDatasetLabel"/>
+        <NamedIndividual abbreviatedIRI="abox:tp1"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:hasValue"/>
+        <NamedIndividual abbreviatedIRI="abox:count10"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">10</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:datasetLocation"/>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/home/cstras/git/InfosecDatasetCreationTools/resources/sdsample.pcap</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:datasetParserImplementation"/>
+        <NamedIndividual abbreviatedIRI="abox:ds1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">net.strasnet.kids.measurement.datasetinstances.KIDSNativeLibpcapDataInstance</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:hasLabelDataLocation"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/home/cstras/git/InfosecDatasetCreationTools/resources/attacktmp.pcap-labels</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:hasLabelFunction"/>
+        <NamedIndividual abbreviatedIRI="abox:dsl1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">net.strasnet.kids.measurement.datasetlabels.KIDSNativeLibpcapTruthFile2</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:detectorExecutionCommand"/>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">/usr/sbin/snort</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty abbreviatedIRI="KIDS:hasImplementationClass"/>
+        <NamedIndividual abbreviatedIRI="abox:snort1"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">net.strasnet.kids.detectors.KIDSSnortDetector</Literal>
+    </DataPropertyAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.6.20160910-2108) https://github.com/owlcs/owlapi -->
+

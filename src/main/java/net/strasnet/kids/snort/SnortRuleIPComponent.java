@@ -55,8 +55,7 @@ public class SnortRuleIPComponent extends AbstractSnortRuleComponent {
 		// For now, we're going to assume we get at most one:
 		//TODO: Update to use datatype property "canonical signal value"
 		while (i.hasNext()){
-			OWLNamedIndividual signal = ko.getOwlDataFactory().getOWLNamedIndividual(i.next());
-			String sigVal = ko.getSignalValue(signal);
+			String sigVal = ko.getSignalValue(i.next());
 			setSnortRepresentation(sigVal);
 			/*
 			OWLDataProperty signalValue = myF.getOWLDataProperty(KIDSOracle.signalValueDataProp);

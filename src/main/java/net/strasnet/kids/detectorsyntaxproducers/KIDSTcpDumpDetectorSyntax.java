@@ -243,11 +243,11 @@ public class KIDSTcpDumpDetectorSyntax implements KIDSDetectorSyntax {
 				continue;
 			}
 			// Look up the class for each signal in the set
-			IRI sigDomain = myGuy.getSignalDomain(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();
-			IRI sigConstraint = myGuy.getSignalConstraint(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal)).getIRI();
+			IRI sigDomain = myGuy.getSignalDomain(mySignal);
+			IRI sigConstraint = myGuy.getSignalConstraint(mySignal);
 			
 			// Class gives us feature and constraint, now get the value of the signal
-			String sVal = myGuy.getSignalValue(myGuy.getOwlDataFactory().getOWLNamedIndividual(mySignal));
+			String sVal = myGuy.getSignalValue(mySignal);
 			
 			// Finally, add the syntax string for the feature / value.
 			if (!validSignalClassMap.containsKey(sigDomain)){

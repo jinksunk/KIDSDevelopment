@@ -9,8 +9,10 @@ import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.EventObject;
 import java.util.HashMap;
@@ -252,8 +254,6 @@ public class ABOXBuilderController {
 	protected List<SimpleIRIMapper> init(String TBOXLocation, IRI TBIRI, 
 						String ABOXLocation, IRI ABIRI) throws OWLOntologyCreationException{
 		
-		// Create a new oracle
-		o = new KIDSGUIOracle();
 		List<SimpleIRIMapper> m = new LinkedList<SimpleIRIMapper>();
 		
 		logme.debug(String.format("Adding mapping [%s] -> [%s]", TBIRI.toString(), TBOXLocation));
@@ -271,14 +271,20 @@ public class ABOXBuilderController {
 	 * @return true if the initialization was successful, false if something went wrong
 	 * @throws OWLOntologyCreationException - If the ontology could not be created / loaded for some reason.
 	 * @throws OWLOntologyStorageException 
+	 * @throws IOException 
+	 * @throws URISyntaxException 
 	 */
 	public boolean initNew(String TBOXLocation, String TBOXIRI, 
-						String ABOXLocation, String ABOXIRI) throws OWLOntologyCreationException, OWLOntologyStorageException{
+						String ABOXLocation, String ABOXIRI) throws OWLOntologyCreationException, OWLOntologyStorageException, URISyntaxException, IOException{
+		// Create a new oracle
+		o = new KIDSGUIOracle();
+
 		// Ensure the IRIs are valid:
 		IRI TBIRI = IRI.create(TBOXIRI);
 		IRI ABIRI = IRI.create(ABOXIRI);
-
-		List<SimpleIRIMapper> m = init(TBOXLocation, TBIRI, ABOXLocation, ABIRI);
+		
+		List<SimpleIRIMapper> m = init(o.getValidFileURI(new File(TBOXLocation)).toString(), TBIRI, 
+				                       o.getValidFileURI(new File(ABOXLocation)).toString(), ABIRI);
 
 		o.createKIDS(ABIRI, TBIRI, m);
 		
@@ -296,14 +302,21 @@ public class ABOXBuilderController {
 	 * @param ABOXIRI The IRI of the ABOX we will create
 	 * @return true if the initialization was successful, false if something went wrong
 	 * @throws OWLOntologyCreationException - If the ontology could not be created / loaded for some reason.
+	 * @throws IOException 
+	 * @throws URISyntaxException 
 	 */
 	public boolean initExisting(String TBOXLocation, String TBOXIRI, 
-						String ABOXLocation, String ABOXIRI) throws OWLOntologyCreationException{
+						String ABOXLocation, String ABOXIRI) throws OWLOntologyCreationException, URISyntaxException, IOException{
+		// Create a new oracle
+		o = new KIDSGUIOracle();
+
 		// Ensure the IRIs are valid:
 		IRI TBIRI = IRI.create(TBOXIRI);
 		IRI ABIRI = IRI.create(ABOXIRI);
 		
-		List<SimpleIRIMapper> m = init(TBOXLocation, TBIRI, ABOXLocation, ABIRI);
+		List<SimpleIRIMapper> m = init(o.getValidFileURI(new File(TBOXLocation)).toString(), TBIRI, 
+				                       o.getValidFileURI(new File(ABOXLocation)).toString(), ABIRI);
+
 
 		// Create a new oracle
 		o.loadKIDS(ABIRI, m);

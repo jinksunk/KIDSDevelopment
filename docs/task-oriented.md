@@ -116,7 +116,7 @@ The ontology updates required include:
 Support for a new dataset label type
 ------------------
 ** Java Code **
-The java code that needs to be updated / modified includes:
+The java code that needs to be updated / modified includes: 
 
 ** Ontology Updates **
 The ontology updates required include:
